@@ -1,16 +1,21 @@
 import styled from '@emotion/styled';
 import { useState } from 'react';
 
-import Header from '../header/header.tsx';
+import Header from '../../components/header/header.tsx';
+import { useLogin } from './hooks/use-login.ts';
 
 const PageContainer = styled.div`
-  padding-top: 5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: start;
 `;
 
 const FormContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
   width: 600px;
   border: 1px solid #ddd;
   padding: 1rem;
@@ -40,22 +45,11 @@ const ErrorMessage = styled.p`
 function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [errorMessages, setErrorMessages] = useState<string[]>([]);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { login, isLoading, errorApiMessages: errorMessages } = useLogin({ email, password });
 
-  const handleLogin = () => {
-    // TODO call backend
-
-    const response = {
-      statusCode: 400,
-      message: ['email must be an email', 'password should not be empty'],
-      error: 'Bad Request',
-    };
-
-    if (response.statusCode === 400 && response.message) {
-      setErrorMessages(response.message);
-    } else {
-      setErrorMessages([]);
-    }
+  const handleLogin = async () => {
+    await login();
   };
 
   return (
@@ -71,7 +65,7 @@ function LoginPage() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <Button onClick={handleLogin} disabled={email === '' || password === ''}>
+          <Button onClick={handleLogin} disabled={email === '' || password === '' || isLoading}>
             Login
           </Button>
           {errorMessages.map((error, index) => (
