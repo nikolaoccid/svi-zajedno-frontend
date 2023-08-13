@@ -1,5 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Alegreya+Sans:wght@100;300;400;500;700&family=Exo+2:wght@400;500;600;700&display=swap');
+
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Alegreya Sans', sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -32,7 +34,14 @@ body {
 }
 
 h1 {
-  font-size: 3.2em;
+  font-family: 'Exo 2', sans-serif;
+  font-size: 2em;
+  line-height: 1.1;
+}
+
+h2 {
+  font-family: 'Exo 2', sans-serif;
+  font-size: 1.5em;
   line-height: 1.1;
 }
 

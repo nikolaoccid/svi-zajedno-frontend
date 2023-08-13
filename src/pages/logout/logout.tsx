@@ -7,10 +7,12 @@ import { clearToken } from '../../api/api.ts';
 export function Logout() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+
   useAsync(async () => {
     clearToken();
     await queryClient.invalidateQueries();
     navigate('/');
   }, []);
+
   return <h1>Logout</h1>;
 }

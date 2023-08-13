@@ -33,7 +33,6 @@ const NavLink = styled(Link)`
 
 function Header() {
   const { data: user } = useAuthenticatedUser();
-  const momo = 'aa';
   return (
     <HeaderContainer>
       <Logo>Svi zajedno</Logo>

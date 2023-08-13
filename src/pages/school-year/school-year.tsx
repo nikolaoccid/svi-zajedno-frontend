@@ -3,41 +3,70 @@ import { useState } from 'react';
 import { useAsync } from 'react-async-hook';
 import { useNavigate } from 'react-router-dom';
 
-import { api } from '../../api';
+import { SchoolYear } from '../../api/codegen';
+import { generateSchoolYears } from '../../utils/generate-school-years.ts';
+import { Button, Input, PageContainer, Select } from '../common-styles/common-styles.ts';
 import { useFetchSchoolYear } from './hooks/use-fetch-school-year.ts';
 
-const Container = styled.div`
+const CenterContent = styled.div`
   display: flex;
   flex-direction: column;
-  background-color: pink;
-  flex: 1;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
 `;
+
 export function SchoolYear() {
   const navigate = useNavigate();
-  const { result: schoolYears } = useFetchSchoolYear();
+  // const { result: schoolYears } = useFetchSchoolYear();
+  let schoolYears = [];
   const [selectedYear, setSelectedYear] = useState('');
-  useAsync(async () => {
-    try {
-      await api.getAuthenticatedUser();
-    } catch (e) {
-      console.error('Could not authenticate user');
-      navigate('/login');
-    }
-  }, []);
-  console.log(selectedYear);
+  const handleClick = () => {
+    navigate(`/${selectedYear}/dashboard`);
+  };
+  const handleCreateClick = () => {
+    console.log('handleCreateClick');
+  };
+  if (!schoolYears || schoolYears.length === 0) {
+    schoolYears = generateSchoolYears(schoolYears);
+    return (
+      <PageContainer>
+        <CenterContent>
+          <h2>Create a school year</h2>
+          <Select onChange={(e) => setSelectedYear(e.target.value)}>
+            <option disabled selected>
+              Choose one
+            </option>
+            {schoolYears?.map((schoolYear) => (
+              <option key={schoolYear} value={schoolYear}>
+                {schoolYear} / {schoolYear + 1}
+              </option>
+            ))}
+          </Select>
+          <Button onClick={handleCreateClick}>Create</Button>
+        </CenterContent>
+      </PageContainer>
+    );
+  }
   return (
-    <Container>
-      <h1>School year</h1>
-      <select onChange={(e) => setSelectedYear(e.target.value)}>
-        <option disabled selected>
-          Choose one
-        </option>
-        {schoolYears?.map((schoolYear) => (
-          <option key={schoolYear.startYear} value={schoolYear.startYear}>
-            {schoolYear.startYear} / {schoolYear.endYear}
+    <PageContainer>
+      <CenterContent>
+        <h2>Choose a school year</h2>
+        <Select onChange={(e) => setSelectedYear(e.target.value)}>
+          <option disabled selected>
+            Choose one
           </option>
-        ))}
-      </select>
-    </Container>
+          {schoolYears.length > 0 &&
+            schoolYears?.map((schoolYear: SchoolYear) => (
+              <option key={schoolYear.startYear} value={schoolYear.startYear}>
+                {schoolYear.startYear} / {schoolYear.endYear}
+              </option>
+            ))}
+        </Select>
+        <Button onClick={handleClick} disabled={!selectedYear}>
+          Confirm
+        </Button>
+      </CenterContent>
+    </PageContainer>
   );
 }
