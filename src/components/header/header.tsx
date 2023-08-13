@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { Link } from 'react-router-dom';
 import { BounceLoader } from 'react-spinners';
 
 import { useAuthenticatedUser } from '../../hooks/use-authenticated-user.ts';
