@@ -1,11 +1,12 @@
 import styled from '@emotion/styled';
 import { useState } from 'react';
 
-import { useLogin } from './hooks/use-login.ts';
+import heroLoginImage from '/hero-login.jpeg';
 
+import { useLogin } from './hooks/use-login.ts';
 const PageContainer = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: start;
 `;
@@ -13,13 +14,12 @@ const PageContainer = styled.div`
 const FormContainer = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
-  width: 600px;
-  border: 1px solid #ddd;
+  width: 50%;
+  height: 92vh;
   padding: 1rem;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  gap: 30px;
 `;
 
 const Input = styled.input`
@@ -40,11 +40,18 @@ const ErrorMessage = styled.p`
   color: red;
   margin-top: 0.5rem;
 `;
+const LoginHero = styled.div`
+  width: 50%;
+  background-image: url(${heroLoginImage});
+  height: 97vh;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+`;
 
 function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { login, isLoading, errorApiMessages: errorMessages } = useLogin({ email, password });
 
   const handleLogin = async () => {
@@ -54,15 +61,18 @@ function LoginPage() {
   return (
     <>
       <PageContainer>
+        <LoginHero />
         <FormContainer>
-          <h2>Login to Your Account</h2>
-          <Input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
-          <Input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
+          <h1>Login to Your Account</h1>
+          <div>
+            <Input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
+            <Input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
           <Button onClick={handleLogin} disabled={email === '' || password === '' || isLoading}>
             Login
           </Button>

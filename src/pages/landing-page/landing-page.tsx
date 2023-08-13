@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import hero from '/hero.jpeg';
 import logo from '/logo.svg';
 
+import { useAuthenticatedUser } from '../../hooks/use-authenticated-user.ts';
+
 const LandingPageContainer = styled.div`
   width: 100vw;
   height: 100vh;
@@ -53,6 +55,8 @@ const CenterContent = styled.div`
   justify-content: center;
 `;
 function LandingPage() {
+  const { data: user } = useAuthenticatedUser();
+
   return (
     <LandingPageContainer>
       <Overlay>
@@ -60,7 +64,7 @@ function LandingPage() {
         <Heading>Program Svi zajedno</Heading>
         <SubHeading>Besplatno uključi svoje dijete u vanškolske aktivnosti</SubHeading>
         <CenterContent>
-          <CTALink to="/login">Login</CTALink>
+          <CTALink to={user ? '/school-year' : '/login'}>{user ? 'Dashboard' : 'Login'}</CTALink>
         </CenterContent>
       </Overlay>
     </LandingPageContainer>
