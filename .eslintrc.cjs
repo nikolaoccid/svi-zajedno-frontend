@@ -15,5 +15,6 @@ module.exports = {
     'simple-import-sort/imports': 'error',
     'simple-import-sort/exports': 'error',
     'react/display-name': 'off',
+    '@typescript-eslint/no-unused-vars': 'warn'
   },
 };

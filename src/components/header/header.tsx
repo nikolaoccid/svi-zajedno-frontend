@@ -4,18 +4,15 @@ import { Link } from 'react-router-dom';
 import { useAuthenticatedUser } from '../../hooks/use-authenticated-user.ts';
 
 const HeaderContainer = styled.header`
-  position: fixed;
-  top: 0;
-  left: 0;
   width: 100%;
-  max-width: 100vw; /* Limit the width to the viewport width */
+  max-width: 100vw;
   background-color: #e8e8e8;
   color: black;
   padding: 1rem;
   display: flex;
   align-items: center;
   justify-content: space-around;
-  z-index: 1000; /* Ensure header is on top of content */
+  z-index: 1000;
 `;
 
 const Logo = styled.h1`
@@ -36,6 +33,7 @@ const NavLink = styled(Link)`
 
 function Header() {
   const { data: user } = useAuthenticatedUser();
+  const momo = 'aa';
   return (
     <HeaderContainer>
       <Logo>Svi zajedno</Logo>

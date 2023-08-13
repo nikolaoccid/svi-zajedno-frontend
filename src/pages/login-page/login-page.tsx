@@ -1,7 +1,6 @@
 import styled from '@emotion/styled';
 import { useState } from 'react';
 
-import Header from '../../components/header/header.tsx';
 import { useLogin } from './hooks/use-login.ts';
 
 const PageContainer = styled.div`
@@ -54,7 +53,6 @@ function LoginPage() {
 
   return (
     <>
-      <Header />
       <PageContainer>
         <FormContainer>
           <h2>Login to Your Account</h2>
