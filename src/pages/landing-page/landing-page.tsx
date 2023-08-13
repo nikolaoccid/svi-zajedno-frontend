@@ -13,7 +13,6 @@ const LandingPageContainer = styled.div`
   background-position: 50% 50%;
   background-image: url(${hero});
   background-size: cover;
-  font-family: 'Montserrat', sans-serif;
 `;
 
 const Heading = styled.h1`

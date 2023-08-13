@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { Link } from 'react-router-dom';
 
 export const PageContainer = styled.div`
   display: flex;
@@ -6,7 +7,7 @@ export const PageContainer = styled.div`
   align-items: center;
   flex: 1;
   gap: 20px;
-  padding: 4em;
+  padding: 1em;
 `;
 
 export const Select = styled.select`
@@ -57,4 +58,13 @@ export const AlignRight = styled.div`
   display: flex;
   width: 100%;
   justify-content: flex-end;
+`;
+
+export const NavLink = styled(Link)`
+  color: black;
+  text-decoration: none;
+  margin-left: 1rem;
+  &:hover {
+    text-decoration: underline;
+  }
 `;

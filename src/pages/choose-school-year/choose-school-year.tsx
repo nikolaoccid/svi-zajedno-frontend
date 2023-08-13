@@ -11,11 +11,11 @@ import {
   SecondaryButton,
   Select,
 } from '../common-styles/common-styles.ts';
-import { useFetchSchoolYear } from './hooks/use-fetch-school-year.ts';
+import { useSchoolYears } from './hooks/use-fetch-school-years.ts';
 
 export function ChooseSchoolYear() {
   const navigate = useNavigate();
-  const { result: schoolYears, loading } = useFetchSchoolYear();
+  const { data: schoolYears, isLoading } = useSchoolYears();
   const [selectedYear, setSelectedYear] = useState('');
   const handleClick = () => {
     navigate(`/${selectedYear}/dashboard`);
@@ -23,7 +23,7 @@ export function ChooseSchoolYear() {
 
   const goToCreateSchoolYear = () => navigate('/create-school-year');
 
-  if (loading) {
+  if (isLoading) {
     return (
       <PageContainer>
         <CenterContent>

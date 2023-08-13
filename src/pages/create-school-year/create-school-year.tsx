@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { GridLoader } from 'react-spinners';
 
 import { generateSchoolYears } from '../../utils/generate-school-years.ts';
-import { useFetchSchoolYear } from '../choose-school-year/hooks/use-fetch-school-year.ts';
+import { useSchoolYears } from '../choose-school-year/hooks/use-fetch-school-years.ts';
 import { Button, CenterContent, PageContainer, Select } from '../common-styles/common-styles.ts';
 import { useCreateSchoolYear } from './hooks/use-create-school-year.ts';
 
@@ -12,7 +12,7 @@ const ErrorMessage = styled.p`
   margin-top: 0.5rem;
 `;
 export const CreateSchoolYear = () => {
-  const { result: schoolYears } = useFetchSchoolYear();
+  const { data: schoolYears, isLoading: schoolYearLoading } = useSchoolYears();
   const [selectedYear, setSelectedYear] = useState('');
   const generatedSchoolYears = generateSchoolYears(schoolYears?.map((schoolYear) => schoolYear.startYear));
   const { createSchoolYear, isLoading, errorMessages } = useCreateSchoolYear();
@@ -20,7 +20,7 @@ export const CreateSchoolYear = () => {
   const handleClick = () => {
     createSchoolYear(parseInt(selectedYear));
   };
-  if (isLoading) {
+  if (isLoading || schoolYearLoading) {
     return (
       <PageContainer>
         <CenterContent>

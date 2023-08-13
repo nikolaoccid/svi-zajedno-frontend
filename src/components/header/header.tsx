@@ -1,8 +1,9 @@
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
+import { BounceLoader } from 'react-spinners';
 
 import { useAuthenticatedUser } from '../../hooks/use-authenticated-user.ts';
+import { CenterContent, NavLink, PageContainer } from '../../pages/common-styles/common-styles.ts';
 
 const HeaderContainer = styled.header`
   width: 100%;
@@ -23,17 +24,18 @@ const Logo = styled.h1`
 
 const Nav = styled.nav``;
 
-const NavLink = styled(Link)`
-  color: black;
-  text-decoration: none;
-  margin-left: 1rem;
-  &:hover {
-    text-decoration: underline;
-  }
-`;
-
 function Header() {
-  const { data: user } = useAuthenticatedUser();
+  const { data: user, isLoading: isLoadingUser } = useAuthenticatedUser();
+
+  if (isLoadingUser) {
+    return (
+      <PageContainer>
+        <CenterContent>
+          <BounceLoader color="#2196f3" />
+        </CenterContent>
+      </PageContainer>
+    );
+  }
   return (
     <HeaderContainer>
       <Logo>Svi zajedno</Logo>
@@ -41,7 +43,6 @@ function Header() {
         <NavLink to="/">Home</NavLink>
         {user ? <NavLink to="/logout">Logout</NavLink> : <NavLink to="/login">Login</NavLink>}
       </Nav>
-      <ToastContainer />
     </HeaderContainer>
   );
 }

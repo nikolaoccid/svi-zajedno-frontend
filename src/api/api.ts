@@ -42,6 +42,10 @@ export function createSchoolYear(startYear: number) {
   return getData(schoolYearApi.schoolYearControllerCreate({ startYear, endYear }));
 }
 
+export function fetchSchoolYear(startYear: string) {
+  return getData(schoolYearApi.schoolYearControllerFindOneByStartYear(startYear));
+}
+
 export function login(loginDto: LoginDto) {
   return getData(authApi.authControllerLoginJwt(loginDto));
 }
