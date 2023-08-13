@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
+import { ClockLoader } from 'react-spinners';
 
 import { SchoolYear } from '../../api/codegen';
 import {
@@ -23,7 +24,13 @@ export function ChooseSchoolYear() {
   const goToCreateSchoolYear = () => navigate('/create-school-year');
 
   if (loading) {
-    return null;
+    return (
+      <PageContainer>
+        <CenterContent>
+          <ClockLoader color="#2196f3" />
+        </CenterContent>
+      </PageContainer>
+    );
   }
 
   if (!schoolYears || schoolYears?.length === 0) {

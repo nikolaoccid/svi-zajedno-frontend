@@ -37,6 +37,11 @@ export async function getAllSchoolYears() {
   return getData(schoolYearApi.schoolYearControllerFindAll());
 }
 
+export function createSchoolYear(startYear: number) {
+  const endYear = startYear + 1;
+  return getData(schoolYearApi.schoolYearControllerCreate({ startYear, endYear }));
+}
+
 export function login(loginDto: LoginDto) {
   return getData(authApi.authControllerLoginJwt(loginDto));
 }

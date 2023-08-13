@@ -1,7 +1,9 @@
 import { ReactNode } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
+import { ClimbingBoxLoader } from 'react-spinners';
 
 import { useAuthenticatedUser } from '../../hooks/use-authenticated-user.ts';
+import { CenterContent, PageContainer } from '../../pages/common-styles/common-styles.ts';
 interface RouteGuardProps {
   children: ReactNode;
   publicRoutes: string[];
@@ -11,7 +13,13 @@ export function RouteGuard({ children, publicRoutes, redirectTo }: RouteGuardPro
   const { data: user, isLoading } = useAuthenticatedUser();
   const { pathname } = useLocation();
   if (isLoading) {
-    return null;
+    return (
+      <PageContainer>
+        <CenterContent>
+          <ClimbingBoxLoader color="#2196f3" />
+        </CenterContent>
+      </PageContainer>
+    );
   }
   if (publicRoutes.includes(pathname)) {
     return children;

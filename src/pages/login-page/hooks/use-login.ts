@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { api } from '../../../api';
 import { persistToken } from '../../../api/api.ts';
 import { LoginDto } from '../../../api/codegen';
+import { toastSuccess } from '../../../utils/toast.ts';
 
 export function useLogin({ email, password }: LoginDto) {
   const queryClient = useQueryClient();
@@ -18,6 +19,7 @@ export function useLogin({ email, password }: LoginDto) {
       const { token } = await api.login({ email, password });
       persistToken(token);
       await queryClient.invalidateQueries();
+      toastSuccess('Successfully logged in.');
       navigate('/school-year');
     } catch (e) {
       console.error(e);

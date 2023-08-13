@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 
 import { useAuthenticatedUser } from '../../hooks/use-authenticated-user.ts';
 
@@ -40,6 +41,7 @@ function Header() {
         <NavLink to="/">Home</NavLink>
         {user ? <NavLink to="/logout">Logout</NavLink> : <NavLink to="/login">Login</NavLink>}
       </Nav>
+      <ToastContainer />
     </HeaderContainer>
   );
 }
