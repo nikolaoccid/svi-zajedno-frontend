@@ -37,9 +37,7 @@ export function ChooseSchoolYear() {
         </AlignRight>
         <h2>Choose a school year</h2>
         <Select onChange={(e) => setSelectedYear(e.target.value)}>
-          <option disabled selected>
-            Choose one
-          </option>
+          <option value="">Choose one</option>
           {schoolYears?.map((schoolYear: SchoolYear) => (
             <option key={schoolYear.startYear} value={schoolYear.startYear}>
               {schoolYear.startYear} / {schoolYear.endYear}

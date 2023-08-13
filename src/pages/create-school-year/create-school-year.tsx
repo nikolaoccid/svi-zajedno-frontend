@@ -18,7 +18,7 @@ export const CreateSchoolYear = () => {
       <CenterContent>
         <h2>Create a school year</h2>
         <Select onChange={(e) => setSelectedYear(e.target.value)}>
-          <option disabled selected>
+          <option selected value="">
             Choose one
           </option>
           {generatedSchoolYears?.map((schoolYear) => (
