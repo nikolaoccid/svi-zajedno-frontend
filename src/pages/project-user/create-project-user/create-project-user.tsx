@@ -1,8 +1,10 @@
 import styled from '@emotion/styled';
 import { useFormik } from 'formik';
+import { CircleLoader } from 'react-spinners';
 import * as Yup from 'yup';
 
 import { CenterContent, PageContainer } from '../../common-styles/common-styles.ts';
+import { useCreateProjectUser } from './hooks/use-create-project-user.ts';
 
 const FormField = styled.div`
   display: flex;
@@ -21,21 +23,21 @@ const FormError = styled.div`
   color: #e74c3c;
   font-weight: 500;
 `;
+const validationSchema = Yup.object({
+  oib: Yup.string().required('OIB je obavezan').length(11, 'OIB mora imati točno 11 znakova'),
+  guardianName: Yup.string().required('Ime skrbnika je obavezno'),
+  guardianSurname: Yup.string().required('Prezime skrbnika je obavezno'),
+  childName: Yup.string().required('Ime djeteta je obavezno'),
+  childSurname: Yup.string().required('Prezime djeteta je obavezno'),
+  dateOfBirth: Yup.string().required('Datum rođenja je obavezan'),
+  address: Yup.string().required('Adresa je obavezna'),
+  city: Yup.string().required('Grad je obavezan'),
+  school: Yup.string().notRequired(), // Optional field
+  mobilePhone: Yup.string().required('Broj mobitela je obavezan'),
+  email: Yup.string().email('Neispravna email adresa').required('Email je obavezan'),
+});
 export const CreateProjectUser = () => {
-  const validationSchema = Yup.object({
-    oib: Yup.string().required('OIB je obavezan').length(11, 'OIB mora imati točno 11 znakova'),
-    guardianName: Yup.string().required('Ime skrbnika je obavezno'),
-    guardianSurname: Yup.string().required('Prezime skrbnika je obavezno'),
-    childName: Yup.string().required('Ime djeteta je obavezno'),
-    childSurname: Yup.string().required('Prezime djeteta je obavezno'),
-    dateOfBirth: Yup.string().required('Datum rođenja je obavezan'),
-    address: Yup.string().required('Adresa je obavezna'),
-    city: Yup.string().required('Grad je obavezan'),
-    school: Yup.string().notRequired(), // Optional field
-    mobilePhone: Yup.string().required('Broj mobitela je obavezan'),
-    email: Yup.string().email('Neispravna email adresa').required('Email je obavezan'),
-  });
-
+  const { createUser, errorApiMessages, isLoading } = useCreateProjectUser();
   const formik = useFormik({
     initialValues: {
       oib: '',
@@ -51,15 +53,29 @@ export const CreateProjectUser = () => {
       email: '',
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
-      console.log('Forma poslana:', values);
+    onSubmit: (formData) => {
+      createUser(formData);
     },
   });
 
+  if (isLoading) {
+    return (
+      <PageContainer>
+        <CenterContent>
+          <CircleLoader color="#2196f3" />
+        </CenterContent>
+      </PageContainer>
+    );
+  }
   return (
     <PageContainer>
       <CenterContent>
         <h1>Kreiraj novog korisnika</h1>
+
+        <FormField>
+          {errorApiMessages && errorApiMessages.map((err) => <FormError key={err}>{err}</FormError>)}
+        </FormField>
+
         <Form onSubmit={formik.handleSubmit}>
           <FormField>
             <label htmlFor="guardianName">Ime skrbnika</label>

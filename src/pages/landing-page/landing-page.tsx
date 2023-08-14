@@ -63,7 +63,7 @@ function LandingPage() {
         <Heading>Program Svi zajedno</Heading>
         <SubHeading>Besplatno uključi svoje dijete u vanškolske aktivnosti</SubHeading>
         <CenterContent>
-          <CTALink to={user ? '/school-year' : '/login'}>{user ? 'Dashboard' : 'Login'}</CTALink>
+          <CTALink to={user ? '/school-year' : '/login'}>{user ? 'Admin portal' : 'Login'}</CTALink>
         </CenterContent>
       </Overlay>
     </LandingPageContainer>
