@@ -3,8 +3,8 @@ import { useState } from 'react';
 import { useAsyncCallback } from 'react-async-hook';
 import { useNavigate } from 'react-router-dom';
 
-import { api } from '../../../api';
-import { toastError, toastSuccess } from '../../../utils/toast.ts';
+import { api } from '../../../../api';
+import { toastError, toastSuccess } from '../../../../utils/toast.ts';
 
 export function useCreateSchoolYear() {
   const navigate = useNavigate();

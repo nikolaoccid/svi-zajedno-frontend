@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { ClockLoader } from 'react-spinners';
 
-import { SchoolYear } from '../../api/codegen';
+import { SchoolYear } from '../../../api/codegen';
 import {
   AlignRight,
   Button,
@@ -10,7 +10,7 @@ import {
   PageContainer,
   SecondaryButton,
   Select,
-} from '../common-styles/common-styles.ts';
+} from '../../common-styles/common-styles.ts';
 import { useSchoolYears } from './hooks/use-fetch-school-years.ts';
 
 export function ChooseSchoolYear() {

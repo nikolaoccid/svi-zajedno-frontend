@@ -2,9 +2,9 @@ import styled from '@emotion/styled';
 import { useState } from 'react';
 import { GridLoader } from 'react-spinners';
 
-import { generateSchoolYears } from '../../utils/generate-school-years.ts';
+import { generateSchoolYears } from '../../../utils/generate-school-years.ts';
+import { Button, CenterContent, PageContainer, Select } from '../../common-styles/common-styles.ts';
 import { useSchoolYears } from '../choose-school-year/hooks/use-fetch-school-years.ts';
-import { Button, CenterContent, PageContainer, Select } from '../common-styles/common-styles.ts';
 import { useCreateSchoolYear } from './hooks/use-create-school-year.ts';
 
 const ErrorMessage = styled.p`

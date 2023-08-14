@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { api } from '../../../api';
-import { sortArrayAscending } from '../../../utils/sort-array-ascending.ts';
+import { api } from '../../../../api';
+import { sortArrayAscending } from '../../../../utils/sort-array-ascending.ts';
 
 export function useSchoolYears() {
   return useQuery({
