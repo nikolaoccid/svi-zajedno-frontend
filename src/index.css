@@ -5,7 +5,7 @@
   line-height: 1.5;
   font-weight: 400;
 
-  color-scheme: light dark;
+  color-scheme: light;
   color: rgba(0, 0, 0, 0.87);
   background-color: white;
 
@@ -64,7 +64,18 @@ button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
-
+input {
+  font-family: 'Alegreya Sans', sans-serif;
+  line-height: 1.5;
+  font-weight: 500;
+  font-size: 1em;
+  padding: 8px 15px;
+}
+label{
+  font-family: 'Alegreya Sans', sans-serif;
+  line-height: 1.5;
+  font-weight: 500;
+}
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;

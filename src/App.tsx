@@ -10,7 +10,7 @@ import { DashboardPage } from './pages/dashboard-page/dashboard-page.tsx';
 import LandingPage from './pages/landing-page/landing-page.tsx';
 import LoginPage from './pages/login-page/login-page.tsx';
 import { Logout } from './pages/logout/logout.tsx';
-import { CreateProjectUser } from './pages/project-user/create-project-user/create-project-user.tsx';
+import CreateProjectUser from './pages/project-user/create-project-user/create-project-user.tsx';
 import { ChooseSchoolYear } from './pages/school-year/choose-school-year/choose-school-year.tsx';
 import { CreateSchoolYear } from './pages/school-year/create-school-year/create-school-year.tsx';
 
@@ -32,7 +32,7 @@ function App() {
             <Route path="/:startYear/dashboard" element={<DashboardPage />} />
 
             {/*Project user*/}
-            <Route path="/user" element={<CreateProjectUser />} />
+            <Route path="/:startYear/user" element={<CreateProjectUser />} />
 
             <Route path="/login" element={<LoginPage />} />
             <Route path="/logout" element={<Logout />} />
