@@ -7,6 +7,7 @@ import {
   LoginDto,
   ProjectUserApi,
   SchoolYearApi,
+  UpdateProjectUserDto,
   UsersApi,
 } from './codegen';
 
@@ -64,4 +65,11 @@ export function getAuthenticatedUser() {
 
 export function createProjectUser(user: CreateProjectUserDto) {
   return getData(projectUserApi.projectUserControllerCreate(user));
+}
+export function getProjectUserById(userId: string) {
+  return getData(projectUserApi.projectUserControllerFindOne(userId));
+}
+
+export function updateProjectUser(userId: string, user: UpdateProjectUserDto) {
+  return getData(projectUserApi.projectUserControllerUpdate(userId, user));
 }

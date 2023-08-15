@@ -1,10 +1,14 @@
 import styled from '@emotion/styled';
 import { useFormik } from 'formik';
+import { useParams } from 'react-router-dom';
 import { CircleLoader } from 'react-spinners';
 import * as Yup from 'yup';
 
+import { toastError, toastSuccess } from '../../../utils/toast.ts';
 import { CenterContent, PageContainer } from '../../common-styles/common-styles.ts';
 import { useCreateProjectUser } from './hooks/use-create-project-user.ts';
+import { useGetProjectUser } from './hooks/use-get-project-user.ts';
+import { useUpdateProjectUserMutation } from './hooks/use-update-project-user-mutation.ts';
 
 const FormField = styled.div`
   display: flex;
@@ -36,26 +40,43 @@ const validationSchema = Yup.object({
   mobilePhone: Yup.string().required('Broj mobitela je obavezan'),
   email: Yup.string().email('Neispravna email adresa').required('Email je obavezan'),
 });
-export const CreateProjectUser = () => {
+//This component creates and updates project user
+export const ManageProjectUserView = () => {
+  const { userId } = useParams();
+  const { data: projectUser } = useGetProjectUser(userId);
+  const { mutateAsync: updateProjectUser } = useUpdateProjectUserMutation();
+
   const { createUser, errorApiMessages, isLoading } = useCreateProjectUser();
   const formik = useFormik({
     initialValues: {
-      oib: '',
-      guardianName: '',
-      guardianSurname: '',
-      childName: '',
-      childSurname: '',
-      dateOfBirth: '',
-      address: '',
-      city: '',
-      school: '',
-      mobilePhone: '',
-      email: '',
+      id: projectUser?.id ?? 0,
+      oib: projectUser?.oib ?? '',
+      guardianName: projectUser?.guardianName ?? '',
+      guardianSurname: projectUser?.guardianSurname ?? '',
+      childName: projectUser?.childName ?? '',
+      childSurname: projectUser?.childSurname ?? '',
+      dateOfBirth: projectUser?.dateOfBirth ?? '',
+      address: projectUser?.address ?? '',
+      city: projectUser?.city ?? '',
+      school: projectUser?.school ?? '',
+      mobilePhone: projectUser?.mobilePhone ?? '',
+      email: projectUser?.email ?? '',
     },
     validationSchema: validationSchema,
-    onSubmit: (formData) => {
-      createUser(formData);
+    onSubmit: async (formData) => {
+      if (userId && projectUser && projectUser.oib) {
+        console.log('updatedUser formdata', formData);
+        try {
+          await updateProjectUser({ userId, user: formData });
+          toastSuccess('Korisnik azuriran');
+        } catch (e) {
+          toastError('Korisnik nije azuriran, pokusajte ponovno');
+        }
+      } else {
+        createUser(formData);
+      }
     },
+    enableReinitialize: true,
   });
 
   if (isLoading) {
@@ -70,7 +91,7 @@ export const CreateProjectUser = () => {
   return (
     <PageContainer>
       <CenterContent>
-        <h1>Kreiraj novog korisnika</h1>
+        <h1>{projectUser ? 'Uredi korisnika' : 'Kreiraj novog korisnika'}</h1>
 
         <FormField>
           {errorApiMessages && errorApiMessages.map((err) => <FormError key={err}>{err}</FormError>)}
@@ -168,4 +189,4 @@ export const CreateProjectUser = () => {
   );
 };
 
-export default CreateProjectUser;
+export default ManageProjectUserView;
