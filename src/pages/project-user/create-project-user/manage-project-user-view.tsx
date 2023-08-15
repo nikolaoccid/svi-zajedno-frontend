@@ -65,7 +65,6 @@ export const ManageProjectUserView = () => {
     validationSchema: validationSchema,
     onSubmit: async (formData) => {
       if (userId && projectUser && projectUser.oib) {
-        console.log('updatedUser formdata', formData);
         try {
           await updateProjectUser({ userId, user: formData });
           toastSuccess('Korisnik azuriran');
