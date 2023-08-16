@@ -105,7 +105,7 @@ export const ManageProjectUserView = () => {
         <Form onSubmit={formik.handleSubmit}>
           <FormField>
             <label htmlFor="guardianName">Ime skrbnika</label>
-            <input type="text" id="guardianName" name="guardianName" {...formik.getFieldProps('guardianName')} />
+            <input type="text" id="guardianName" {...formik.getFieldProps('guardianName')} />
             {formik.touched.guardianName && formik.errors.guardianName ? (
               <FormError>{formik.errors.guardianName}</FormError>
             ) : null}
@@ -113,25 +113,20 @@ export const ManageProjectUserView = () => {
 
           <FormField>
             <label htmlFor="guardianSurname">Prezime skrbnika</label>
-            <input
-              type="text"
-              id="guardianSurname"
-              name="guardianSurname"
-              {...formik.getFieldProps('guardianSurname')}
-            />
+            <input type="text" id="guardianSurname" {...formik.getFieldProps('guardianSurname')} />
             {formik.touched.guardianSurname && formik.errors.guardianSurname ? (
               <FormError>{formik.errors.guardianSurname}</FormError>
             ) : null}
           </FormField>
           <FormField>
             <label htmlFor="oib">OIB djeteta</label>
-            <input type="text" id="oib" name="oib" {...formik.getFieldProps('oib')} />
+            <input type="text" id="oib" {...formik.getFieldProps('oib')} />
             {formik.touched.oib && formik.errors.oib ? <FormError>{formik.errors.oib}</FormError> : null}
           </FormField>
 
           <FormField>
             <label htmlFor="childName">Ime djeteta</label>
-            <input type="text" id="childName" name="childName" {...formik.getFieldProps('childName')} />
+            <input type="text" id="childName" {...formik.getFieldProps('childName')} />
             {formik.touched.childName && formik.errors.childName ? (
               <FormError>{formik.errors.childName}</FormError>
             ) : null}
@@ -139,7 +134,7 @@ export const ManageProjectUserView = () => {
 
           <FormField>
             <label htmlFor="childSurname">Prezime djeteta</label>
-            <input type="text" id="childSurname" name="childSurname" {...formik.getFieldProps('childSurname')} />
+            <input type="text" id="childSurname" {...formik.getFieldProps('childSurname')} />
             {formik.touched.childSurname && formik.errors.childSurname ? (
               <FormError>{formik.errors.childSurname}</FormError>
             ) : null}
@@ -147,7 +142,7 @@ export const ManageProjectUserView = () => {
 
           <FormField>
             <label htmlFor="dateOfBirth">Datum rođenja</label>
-            <input type="text" id="dateOfBirth" name="dateOfBirth" {...formik.getFieldProps('dateOfBirth')} />
+            <input type="text" id="dateOfBirth" {...formik.getFieldProps('dateOfBirth')} />
             {formik.touched.dateOfBirth && formik.errors.dateOfBirth ? (
               <FormError>{formik.errors.dateOfBirth}</FormError>
             ) : null}
@@ -155,7 +150,7 @@ export const ManageProjectUserView = () => {
 
           <FormField>
             <label htmlFor="mobilePhone">Broj mobitela</label>
-            <input type="text" id="mobilePhone" name="mobilePhone" {...formik.getFieldProps('mobilePhone')} />
+            <input type="text" id="mobilePhone" {...formik.getFieldProps('mobilePhone')} />
             {formik.touched.mobilePhone && formik.errors.mobilePhone ? (
               <FormError>{formik.errors.mobilePhone}</FormError>
             ) : null}
@@ -163,25 +158,25 @@ export const ManageProjectUserView = () => {
 
           <FormField>
             <label htmlFor="email">Email</label>
-            <input type="email" id="email" name="email" {...formik.getFieldProps('email')} />
+            <input type="email" id="email" {...formik.getFieldProps('email')} />
             {formik.touched.email && formik.errors.email ? <FormError>{formik.errors.email}</FormError> : null}
           </FormField>
 
           <FormField>
             <label htmlFor="address">Adresa</label>
-            <input type="text" id="address" name="address" {...formik.getFieldProps('address')} />
+            <input type="text" id="address" {...formik.getFieldProps('address')} />
             {formik.touched.address && formik.errors.address ? <FormError>{formik.errors.address}</FormError> : null}
           </FormField>
 
           <FormField>
             <label htmlFor="city">Grad</label>
-            <input type="text" id="city" name="city" {...formik.getFieldProps('city')} />
+            <input type="text" id="city" {...formik.getFieldProps('city')} />
             {formik.touched.city && formik.errors.city ? <FormError>{formik.errors.city}</FormError> : null}
           </FormField>
 
           <FormField>
             <label htmlFor="school">Škola</label>
-            <input type="text" id="school" name="school" {...formik.getFieldProps('school')} />
+            <input type="text" id="school" {...formik.getFieldProps('school')} />
             {formik.touched.school && formik.errors.school ? <FormError>{formik.errors.school}</FormError> : null}
           </FormField>
 

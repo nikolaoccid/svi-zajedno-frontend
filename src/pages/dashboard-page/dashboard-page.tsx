@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { BounceLoader } from 'react-spinners';
 
+import categoryImage from '/category.png';
 import projectAssociateImage from '/project-associate.png';
 import projectUserImage from '/project-users.png';
 import schoolYearImage from '/school-year.png';
@@ -14,18 +15,19 @@ import { useSelectedSchoolYear } from './hooks/use-fetch-school-year.ts';
 const Menu = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 50px;
+  gap: 40px;
 `;
 const MenuRow = styled.div`
   display: flex;
   justify-content: space-around;
-  gap: 70px;
+  gap: 80px;
   flex-direction: row;
 `;
 const MenuItem = styled.div`
   display: flex;
   flex-direction: row;
   gap: 20px;
+  width: 50%;
   padding: 20px;
   border-radius: 4px;
   border: 2px solid lightgray;
@@ -36,7 +38,7 @@ const MenuContent = styled.div`
   flex-direction: column;
 `;
 const MenuImage = styled.img`
-  width: 40%;
+  width: 150px;
 `;
 export const DashboardNavLink = styled(Link)`
   color: black;
@@ -103,7 +105,7 @@ export function DashboardPage() {
               </MenuContent>
             </MenuItem>
             <MenuItem>
-              <MenuImage src={schoolYearImage} />
+              <MenuImage src={categoryImage} />
               <MenuContent>
                 <h2>KATEGORIJE</h2>
                 <NavLink to={`${schoolYear}/users`}>Sve kategorije</NavLink>
