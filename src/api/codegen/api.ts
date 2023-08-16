@@ -2900,7 +2900,7 @@ export const ProjectUserApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async projectUserControllerCreate(createProjectUserDto: CreateProjectUserDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+        async projectUserControllerCreate(createProjectUserDto: CreateProjectUserDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ProjectUser>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.projectUserControllerCreate(createProjectUserDto, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -2960,7 +2960,7 @@ export const ProjectUserApiFactory = function (configuration?: Configuration, ba
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        projectUserControllerCreate(createProjectUserDto: CreateProjectUserDto, options?: any): AxiosPromise<object> {
+        projectUserControllerCreate(createProjectUserDto: CreateProjectUserDto, options?: any): AxiosPromise<ProjectUser> {
             return localVarFp.projectUserControllerCreate(createProjectUserDto, options).then((request) => request(axios, basePath));
         },
         /**

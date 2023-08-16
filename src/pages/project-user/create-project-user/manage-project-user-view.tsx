@@ -1,14 +1,14 @@
 import styled from '@emotion/styled';
 import { useFormik } from 'formik';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { CircleLoader } from 'react-spinners';
 import * as Yup from 'yup';
 
+import { api } from '../../../api';
 import { toastError, toastSuccess } from '../../../utils/toast.ts';
 import { CenterContent, PageContainer } from '../../common-styles/common-styles.ts';
-import { useCreateProjectUser } from './hooks/use-create-project-user.ts';
+import { useSchoolYear, useSchoolYearFromParams } from '../../dashboard-page/hooks/use-fetch-school-year.ts';
 import { useGetProjectUser } from './hooks/use-get-project-user.ts';
-import { useUpdateProjectUserMutation } from './hooks/use-update-project-user-mutation.ts';
 
 const FormField = styled.div`
   display: flex;
@@ -42,11 +42,12 @@ const validationSchema = Yup.object({
 });
 //This component creates and updates project user
 export const ManageProjectUserView = () => {
+  const navigate = useNavigate();
   const { userId } = useParams();
+  const schoolYearFromParams = useSchoolYearFromParams();
   const { data: projectUser } = useGetProjectUser(userId);
-  const { mutateAsync: updateProjectUser } = useUpdateProjectUserMutation();
+  const { data: currentSchoolYear } = useSchoolYear(schoolYearFromParams);
 
-  const { createUser, errorApiMessages, isLoading } = useCreateProjectUser();
   const formik = useFormik({
     initialValues: {
       id: projectUser?.id ?? 0,
@@ -66,19 +67,28 @@ export const ManageProjectUserView = () => {
     onSubmit: async (formData) => {
       if (userId && projectUser && projectUser.oib) {
         try {
-          await updateProjectUser({ userId, user: formData });
+          await api.updateProjectUser(userId, formData);
           toastSuccess('Korisnik azuriran');
         } catch (e) {
           toastError('Korisnik nije azuriran, pokusajte ponovno');
         }
       } else {
-        createUser(formData);
+        try {
+          const user = await api.createProjectUser(formData);
+          console.log('create form user', user);
+          console.log('create form schoolyear', currentSchoolYear);
+          user && currentSchoolYear && (await api.createProjetUserOnSchoolYear(user.id, currentSchoolYear[0].id));
+          toastSuccess('Korisnik kreiran');
+          navigate(`/${schoolYearFromParams}/dashboard`);
+        } catch (e) {
+          toastError('Korisnik nije kreiran, pokusajte ponovno');
+        }
       }
     },
     enableReinitialize: true,
   });
 
-  if (isLoading) {
+  if (formik.isSubmitting) {
     return (
       <PageContainer>
         <CenterContent>
@@ -91,10 +101,6 @@ export const ManageProjectUserView = () => {
     <PageContainer>
       <CenterContent>
         <h1>{projectUser ? 'Uredi korisnika' : 'Kreiraj novog korisnika'}</h1>
-
-        <FormField>
-          {errorApiMessages && errorApiMessages.map((err) => <FormError key={err}>{err}</FormError>)}
-        </FormField>
 
         <Form onSubmit={formik.handleSubmit}>
           <FormField>

@@ -7,6 +7,7 @@ import {
   LoginDto,
   ProjectUserApi,
   SchoolYearApi,
+  StudentOnSchoolYearApi,
   UpdateProjectUserDto,
   UsersApi,
 } from './codegen';
@@ -25,6 +26,7 @@ const schoolYearApi = new SchoolYearApi(configuration);
 const authApi = new AuthApi(configuration);
 const usersApi = new UsersApi(configuration);
 const projectUserApi = new ProjectUserApi(configuration);
+const studentOnSchoolYear = new StudentOnSchoolYearApi(configuration);
 
 export function persistToken(token: string) {
   localStorage.setItem('token', token);
@@ -72,4 +74,8 @@ export function getProjectUserById(userId: string) {
 
 export function updateProjectUser(userId: string, user: UpdateProjectUserDto) {
   return getData(projectUserApi.projectUserControllerUpdate(userId, user));
+}
+
+export function createProjetUserOnSchoolYear(userId: number, schoolYearId: number) {
+  return getData(studentOnSchoolYear.studentOnSchoolYearControllerCreate({ schoolYearId, userId, status: 'active' }));
 }

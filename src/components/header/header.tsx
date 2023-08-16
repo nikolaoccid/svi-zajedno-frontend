@@ -21,7 +21,10 @@ const Logo = styled.h1`
   margin: 0;
 `;
 
-const Nav = styled.nav``;
+const Nav = styled.nav`
+  display: flex;
+  align-items: center;
+`;
 
 function Header() {
   const { data: user, isLoading: isLoadingUser } = useAuthenticatedUser();
