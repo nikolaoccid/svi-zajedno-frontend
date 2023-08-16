@@ -5,6 +5,7 @@ import { BounceLoader } from 'react-spinners';
 
 import projectAssociateImage from '/project-associate.png';
 import projectUserImage from '/project-users.png';
+import schoolYearImage from '/school-year.png';
 
 import { toastInfo } from '../../utils/toast.ts';
 import { AlignRight, CenterContent, NavLink, PageContainer } from '../common-styles/common-styles.ts';
@@ -12,8 +13,14 @@ import { useSelectedSchoolYear } from './hooks/use-fetch-school-year.ts';
 
 const Menu = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  gap: 50px;
+`;
+const MenuRow = styled.div`
+  display: flex;
+  justify-content: space-around;
   gap: 70px;
+  flex-direction: row;
 `;
 const MenuItem = styled.div`
   display: flex;
@@ -29,7 +36,7 @@ const MenuContent = styled.div`
   flex-direction: column;
 `;
 const MenuImage = styled.img`
-  width: 144px;
+  width: 40%;
 `;
 export const DashboardNavLink = styled(Link)`
   color: black;
@@ -68,22 +75,42 @@ export function DashboardPage() {
         </AlignRight>
         <h1>Dashboard page</h1>
         <Menu>
-          <MenuItem>
-            <MenuImage src={projectUserImage} />
-            <MenuContent>
-              <h2>KORISNICI</h2>
-              <DashboardNavLink to={`${schoolYear}/users`}>Svi korisnici</DashboardNavLink>
-              <DashboardNavLink to={`${schoolYear}/user`}>Kreiraj novog korisnika</DashboardNavLink>
-            </MenuContent>
-          </MenuItem>
-          <MenuItem>
-            <MenuImage src={projectAssociateImage} />
-            <MenuContent>
-              <h2>SURADNICI</h2>
-              <NavLink to={`${schoolYear}/users`}>Svi suradnici</NavLink>
-              <NavLink to={`${schoolYear}/user`}>Kreiraj novog suradnika</NavLink>
-            </MenuContent>
-          </MenuItem>
+          <MenuRow>
+            <MenuItem>
+              <MenuImage src={projectUserImage} />
+              <MenuContent>
+                <h2>KORISNICI</h2>
+                <DashboardNavLink to={`${schoolYear}/users`}>Svi korisnici</DashboardNavLink>
+                <DashboardNavLink to={`${schoolYear}/user`}>Kreiraj novog korisnika</DashboardNavLink>
+              </MenuContent>
+            </MenuItem>
+            <MenuItem>
+              <MenuImage src={projectAssociateImage} />
+              <MenuContent>
+                <h2>SURADNICI</h2>
+                <NavLink to={`${schoolYear}/users`}>Svi suradnici</NavLink>
+                <NavLink to={`${schoolYear}/user`}>Kreiraj novog suradnika</NavLink>
+              </MenuContent>
+            </MenuItem>
+          </MenuRow>
+          <MenuRow>
+            <MenuItem>
+              <MenuImage src={schoolYearImage} />
+              <MenuContent>
+                <h2>ŠKOLSKA GODINA</h2>
+                <NavLink to={`${schoolYear}/users`}>Sve školske godine</NavLink>
+                <NavLink to={`${schoolYear}/user`}>Kreiraj novu skolsku godinu</NavLink>
+              </MenuContent>
+            </MenuItem>
+            <MenuItem>
+              <MenuImage src={schoolYearImage} />
+              <MenuContent>
+                <h2>KATEGORIJE</h2>
+                <NavLink to={`${schoolYear}/users`}>Sve kategorije</NavLink>
+                <NavLink to={`${schoolYear}/user`}>Kreiraj novu kategoriju</NavLink>
+              </MenuContent>
+            </MenuItem>
+          </MenuRow>
         </Menu>
       </CenterContent>
     </PageContainer>
