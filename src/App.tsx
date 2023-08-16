@@ -10,6 +10,7 @@ import { DashboardPage } from './pages/dashboard-page/dashboard-page.tsx';
 import LandingPage from './pages/landing-page/landing-page.tsx';
 import LoginPage from './pages/login-page/login-page.tsx';
 import { Logout } from './pages/logout/logout.tsx';
+import { ManageProjectAssociate } from './pages/project-associate/manage-project-associate/manage-project-associate.tsx';
 import ManageProjectUserView from './pages/project-user/create-project-user/manage-project-user-view.tsx';
 import { ChooseSchoolYear } from './pages/school-year/choose-school-year/choose-school-year.tsx';
 import { CreateSchoolYear } from './pages/school-year/create-school-year/create-school-year.tsx';
@@ -34,6 +35,10 @@ function App() {
             {/*Project user*/}
             <Route path="/:startYear/user" element={<ManageProjectUserView />} />
             <Route path="/:startYear/user/:userId" element={<ManageProjectUserView />} />
+
+            {/*Project associate*/}
+            <Route path="/:startYear/project-associate" element={<ManageProjectAssociate />} />
+            <Route path="/:startYear/project-associate/:projectAssociateId" element={<ManageProjectAssociate />} />
 
             <Route path="/login" element={<LoginPage />} />
             <Route path="/logout" element={<Logout />} />

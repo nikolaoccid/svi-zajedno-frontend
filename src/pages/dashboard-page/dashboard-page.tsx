@@ -49,7 +49,6 @@ export const DashboardNavLink = styled(Link)`
 `;
 export function DashboardPage() {
   const { data: schoolYear, isLoading: isLoadingSchoolYear, error } = useSelectedSchoolYear();
-
   useEffect(() => {
     if (error) {
       toastInfo('Could not fetch year');
@@ -82,16 +81,18 @@ export function DashboardPage() {
               <MenuImage src={projectUserImage} />
               <MenuContent>
                 <h2>KORISNICI</h2>
-                <DashboardNavLink to={`${schoolYear}/users`}>Svi korisnici</DashboardNavLink>
-                <DashboardNavLink to={`${schoolYear}/user`}>Kreiraj novog korisnika</DashboardNavLink>
+                <DashboardNavLink to={`${schoolYear && schoolYear[0].startYear}/users`}>Svi korisnici</DashboardNavLink>
+                <DashboardNavLink to={`${schoolYear && schoolYear[0].startYear}/user`}>
+                  Kreiraj novog korisnika
+                </DashboardNavLink>
               </MenuContent>
             </MenuItem>
             <MenuItem>
               <MenuImage src={projectAssociateImage} />
               <MenuContent>
                 <h2>SURADNICI</h2>
-                <NavLink to={`${schoolYear}/users`}>Svi suradnici</NavLink>
-                <NavLink to={`${schoolYear}/user`}>Kreiraj novog suradnika</NavLink>
+                <NavLink to={`${schoolYear && schoolYear[0].startYear}/users`}>Svi suradnici</NavLink>
+                <NavLink to={`${schoolYear && schoolYear[0].startYear}/user`}>Kreiraj novog suradnika</NavLink>
               </MenuContent>
             </MenuItem>
           </MenuRow>
@@ -100,16 +101,16 @@ export function DashboardPage() {
               <MenuImage src={schoolYearImage} />
               <MenuContent>
                 <h2>ŠKOLSKA GODINA</h2>
-                <NavLink to={`${schoolYear}/users`}>Sve školske godine</NavLink>
-                <NavLink to={`${schoolYear}/user`}>Kreiraj novu skolsku godinu</NavLink>
+                <NavLink to={`${schoolYear && schoolYear[0].startYear}/users`}>Sve školske godine</NavLink>
+                <NavLink to={`${schoolYear && schoolYear[0].startYear}/user`}>Kreiraj novu skolsku godinu</NavLink>
               </MenuContent>
             </MenuItem>
             <MenuItem>
               <MenuImage src={categoryImage} />
               <MenuContent>
                 <h2>KATEGORIJE</h2>
-                <NavLink to={`${schoolYear}/users`}>Sve kategorije</NavLink>
-                <NavLink to={`${schoolYear}/user`}>Kreiraj novu kategoriju</NavLink>
+                <NavLink to={`${schoolYear && schoolYear[0].startYear}/users`}>Sve kategorije</NavLink>
+                <NavLink to={`${schoolYear && schoolYear[0].startYear}/user`}>Kreiraj novu kategoriju</NavLink>
               </MenuContent>
             </MenuItem>
           </MenuRow>
