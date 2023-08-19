@@ -2,12 +2,16 @@ import { AxiosResponse } from 'axios';
 
 import {
   AuthApi,
+  CategoryApi,
   Configuration,
+  CreateProjectAssociateDto,
   CreateProjectUserDto,
   LoginDto,
+  ProjectAssociateApi,
   ProjectUserApi,
   SchoolYearApi,
   StudentOnSchoolYearApi,
+  UpdateProjectAssociateDto,
   UpdateProjectUserDto,
   UsersApi,
 } from './codegen';
@@ -27,6 +31,8 @@ const authApi = new AuthApi(configuration);
 const usersApi = new UsersApi(configuration);
 const projectUserApi = new ProjectUserApi(configuration);
 const studentOnSchoolYear = new StudentOnSchoolYearApi(configuration);
+const projectAssociate = new ProjectAssociateApi(configuration);
+const categories = new CategoryApi(configuration);
 
 export function persistToken(token: string) {
   localStorage.setItem('token', token);
@@ -78,4 +84,20 @@ export function updateProjectUser(userId: string, user: UpdateProjectUserDto) {
 
 export function createProjetUserOnSchoolYear(userId: number, schoolYearId: number) {
   return getData(studentOnSchoolYear.studentOnSchoolYearControllerCreate({ schoolYearId, userId, status: 'active' }));
+}
+
+export function getProjectAssociateById(userId: string) {
+  return getData(projectAssociate.projectAssociateControllerFindOne(userId));
+}
+
+export function getCategories() {
+  return getData(categories.categoryControllerFindAll());
+}
+
+export function createProjectAssociate(associate: CreateProjectAssociateDto) {
+  return getData(projectAssociate.projectAssociateControllerCreate(associate));
+}
+
+export function updateProjectAssociate(associateId: number, associate: UpdateProjectAssociateDto) {
+  return getData(projectAssociate.projectAssociateControllerUpdate(associateId.toString(), associate));
 }

@@ -31,6 +31,13 @@ const MenuItem = styled.div`
   padding: 20px;
   border-radius: 4px;
   border: 2px solid lightgray;
+
+  &:hover {
+    box-shadow:
+      rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset,
+      rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+      rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+  }
 `;
 const MenuContent = styled.div`
   display: flex;
@@ -38,7 +45,12 @@ const MenuContent = styled.div`
   flex-direction: column;
 `;
 const MenuImage = styled.img`
-  width: 150px;
+  height: 160px;
+`;
+const ImageContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 export const DashboardNavLink = styled(Link)`
   color: black;
@@ -78,39 +90,51 @@ export function DashboardPage() {
         <Menu>
           <MenuRow>
             <MenuItem>
-              <MenuImage src={projectUserImage} />
+              <ImageContainer>
+                <MenuImage src={projectUserImage} />
+              </ImageContainer>
               <MenuContent>
                 <h2>KORISNICI</h2>
-                <DashboardNavLink to={`${schoolYear && schoolYear[0].startYear}/users`}>Svi korisnici</DashboardNavLink>
-                <DashboardNavLink to={`${schoolYear && schoolYear[0].startYear}/user`}>
+                <DashboardNavLink to={`/${schoolYear && schoolYear[0].startYear}/users`}>
+                  Svi korisnici
+                </DashboardNavLink>
+                <DashboardNavLink to={`/${schoolYear && schoolYear[0].startYear}/user`}>
                   Kreiraj novog korisnika
                 </DashboardNavLink>
               </MenuContent>
             </MenuItem>
             <MenuItem>
-              <MenuImage src={projectAssociateImage} />
+              <ImageContainer>
+                <MenuImage src={projectAssociateImage} />
+              </ImageContainer>
               <MenuContent>
                 <h2>SURADNICI</h2>
-                <NavLink to={`${schoolYear && schoolYear[0].startYear}/users`}>Svi suradnici</NavLink>
-                <NavLink to={`${schoolYear && schoolYear[0].startYear}/user`}>Kreiraj novog suradnika</NavLink>
+                <NavLink to={`/${schoolYear && schoolYear[0].startYear}/project-associates`}>Svi suradnici</NavLink>
+                <NavLink to={`/${schoolYear && schoolYear[0].startYear}/project-associate`}>
+                  Kreiraj novog suradnika
+                </NavLink>
               </MenuContent>
             </MenuItem>
           </MenuRow>
           <MenuRow>
             <MenuItem>
-              <MenuImage src={schoolYearImage} />
+              <ImageContainer>
+                <MenuImage src={schoolYearImage} />
+              </ImageContainer>
               <MenuContent>
                 <h2>ŠKOLSKA GODINA</h2>
-                <NavLink to={`${schoolYear && schoolYear[0].startYear}/users`}>Sve školske godine</NavLink>
-                <NavLink to={`${schoolYear && schoolYear[0].startYear}/user`}>Kreiraj novu skolsku godinu</NavLink>
+                <NavLink to={`/${schoolYear && schoolYear[0].startYear}/users`}>Sve školske godine</NavLink>
+                <NavLink to={`/${schoolYear && schoolYear[0].startYear}/user`}>Kreiraj novu skolsku godinu</NavLink>
               </MenuContent>
             </MenuItem>
             <MenuItem>
-              <MenuImage src={categoryImage} />
+              <ImageContainer>
+                <MenuImage src={categoryImage} />
+              </ImageContainer>
               <MenuContent>
                 <h2>KATEGORIJE</h2>
-                <NavLink to={`${schoolYear && schoolYear[0].startYear}/users`}>Sve kategorije</NavLink>
-                <NavLink to={`${schoolYear && schoolYear[0].startYear}/user`}>Kreiraj novu kategoriju</NavLink>
+                <NavLink to={`/${schoolYear && schoolYear[0].startYear}/users`}>Sve kategorije</NavLink>
+                <NavLink to={`/${schoolYear && schoolYear[0].startYear}/user`}>Kreiraj novu kategoriju</NavLink>
               </MenuContent>
             </MenuItem>
           </MenuRow>

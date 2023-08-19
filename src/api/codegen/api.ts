@@ -2523,7 +2523,7 @@ export const ProjectAssociateApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async projectAssociateControllerCreate(createProjectAssociateDto: CreateProjectAssociateDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+        async projectAssociateControllerCreate(createProjectAssociateDto: CreateProjectAssociateDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ProjectAssociate>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.projectAssociateControllerCreate(createProjectAssociateDto, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -2583,7 +2583,7 @@ export const ProjectAssociateApiFactory = function (configuration?: Configuratio
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        projectAssociateControllerCreate(createProjectAssociateDto: CreateProjectAssociateDto, options?: any): AxiosPromise<object> {
+        projectAssociateControllerCreate(createProjectAssociateDto: CreateProjectAssociateDto, options?: any): AxiosPromise<ProjectAssociate> {
             return localVarFp.projectAssociateControllerCreate(createProjectAssociateDto, options).then((request) => request(axios, basePath));
         },
         /**

@@ -64,7 +64,7 @@ button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
-input {
+input, select {
   font-family: 'Alegreya Sans', sans-serif;
   line-height: 1.5;
   font-weight: 500;
