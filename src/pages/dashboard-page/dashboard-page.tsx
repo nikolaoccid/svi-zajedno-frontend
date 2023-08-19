@@ -145,8 +145,8 @@ export function DashboardPage() {
               </ImageContainer>
               <MenuContent>
                 <h2>AKTIVNOSTI</h2>
-                <NavLink to={`/${schoolYear && schoolYear[0].startYear}/users`}>Sve aktivnosti</NavLink>
-                <NavLink to={`/create-school-year`}>Kreiraj novu aktivnost</NavLink>
+                <NavLink to={`/activities`}>Sve aktivnosti</NavLink>
+                <NavLink to={`/activity`}>Kreiraj novu aktivnost</NavLink>
               </MenuContent>
             </MenuItem>
           </MenuRow>
