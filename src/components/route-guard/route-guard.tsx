@@ -10,7 +10,7 @@ interface RouteGuardProps {
   redirectTo: string;
 }
 export function RouteGuard({ children, publicRoutes, redirectTo }: RouteGuardProps) {
-  const { data: user, isLoading } = useAuthenticatedUser();
+  const { data: user, isLoading, error } = useAuthenticatedUser();
   const { pathname } = useLocation();
   if (isLoading) {
     return (
@@ -24,7 +24,7 @@ export function RouteGuard({ children, publicRoutes, redirectTo }: RouteGuardPro
   if (publicRoutes.includes(pathname)) {
     return children;
   }
-  if (!user) {
+  if (!user || error) {
     return <Navigate to={redirectTo} />;
   }
 

@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { useQueryClient } from '@tanstack/react-query';
 import { useFormik } from 'formik';
 import { useNavigate, useParams } from 'react-router-dom';
 import { CircleLoader } from 'react-spinners';
@@ -42,6 +43,7 @@ const validationSchema = Yup.object({
 });
 //This component creates and updates project user
 export const ManageProjectUserView = () => {
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { userId } = useParams();
   const schoolYearFromParams = useSchoolYearFromParams();
@@ -68,6 +70,7 @@ export const ManageProjectUserView = () => {
       if (userId && projectUser && projectUser.oib) {
         try {
           await api.updateProjectUser(userId, formData);
+          await queryClient.invalidateQueries({ queryKey: ['getProjectUserById'] });
           toastSuccess('Korisnik azuriran');
         } catch (e) {
           toastError('Korisnik nije azuriran, pokusajte ponovno');
@@ -75,8 +78,6 @@ export const ManageProjectUserView = () => {
       } else {
         try {
           const user = await api.createProjectUser(formData);
-          console.log('create form user', user);
-          console.log('create form schoolyear', currentSchoolYear);
           user && currentSchoolYear && (await api.createProjetUserOnSchoolYear(user.id, currentSchoolYear[0].id));
           toastSuccess('Korisnik kreiran');
           navigate(`/${schoolYearFromParams}/dashboard`);

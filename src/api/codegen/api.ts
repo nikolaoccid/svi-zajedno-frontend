@@ -1789,7 +1789,7 @@ export const CategoryApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async categoryControllerCreate(categoryDto: CategoryDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+        async categoryControllerCreate(categoryDto: CategoryDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Category>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.categoryControllerCreate(categoryDto, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -1849,7 +1849,7 @@ export const CategoryApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        categoryControllerCreate(categoryDto: CategoryDto, options?: any): AxiosPromise<object> {
+        categoryControllerCreate(categoryDto: CategoryDto, options?: any): AxiosPromise<Category> {
             return localVarFp.categoryControllerCreate(categoryDto, options).then((request) => request(axios, basePath));
         },
         /**

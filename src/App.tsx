@@ -6,6 +6,8 @@ import { ToastContainer } from 'react-toastify';
 
 import Header from './components/header/header.tsx';
 import { RouteGuard } from './components/route-guard/route-guard.tsx';
+import { ManageActivity } from './pages/activity/manage-activity/manage-activity.tsx';
+import ManageCategory from './pages/category/manage-category/manage-category.tsx';
 import { DashboardPage } from './pages/dashboard-page/dashboard-page.tsx';
 import LandingPage from './pages/landing-page/landing-page.tsx';
 import LoginPage from './pages/login-page/login-page.tsx';
@@ -22,7 +24,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
-        <RouteGuard publicRoutes={publicRoutes} redirectTo="/login">
+        <RouteGuard publicRoutes={publicRoutes} redirectTo="/logout">
           <Header />
           <Routes>
             <Route path="/" element={<LandingPage />} />
@@ -39,6 +41,14 @@ function App() {
             {/*Project associate*/}
             <Route path="/:startYear/project-associate" element={<ManageProjectAssociate />} />
             <Route path="/:startYear/project-associate/:projectAssociateId" element={<ManageProjectAssociate />} />
+
+            {/*Category*/}
+            <Route path="/category/" element={<ManageCategory />} />
+            <Route path="/category/:categoryId" element={<ManageCategory />} />
+
+            {/*Activity*/}
+            <Route path="/activity" element={<ManageActivity />} />
+            <Route path="/activity/:activityId" element={<ManageActivity />} />
 
             <Route path="/login" element={<LoginPage />} />
             <Route path="/logout" element={<Logout />} />

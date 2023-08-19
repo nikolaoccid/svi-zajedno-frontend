@@ -3,6 +3,7 @@ import { AxiosResponse } from 'axios';
 import {
   AuthApi,
   CategoryApi,
+  CategoryDto,
   Configuration,
   CreateProjectAssociateDto,
   CreateProjectUserDto,
@@ -92,6 +93,18 @@ export function getProjectAssociateById(userId: string) {
 
 export function getCategories() {
   return getData(categories.categoryControllerFindAll());
+}
+
+export function getCategory(categoryId: string) {
+  return getData(categories.categoryControllerFindOne(categoryId));
+}
+
+export function createCategory(categoryDto: CategoryDto) {
+  return getData(categories.categoryControllerCreate(categoryDto));
+}
+
+export function updateCategory(id: string, category) {
+  return getData(categories.categoryControllerUpdate(id, category));
 }
 
 export function createProjectAssociate(associate: CreateProjectAssociateDto) {

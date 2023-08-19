@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { useQueryClient } from '@tanstack/react-query';
 import { ErrorMessage, Field, FormikProvider, useFormik } from 'formik';
 import { useNavigate, useParams } from 'react-router-dom';
 import { CircleLoader } from 'react-spinners';
@@ -40,6 +41,7 @@ const validationSchema = Yup.object().shape({
 
 //This component creates and updates project associate
 export const ManageProjectAssociate = () => {
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { projectAssociateId } = useParams();
   const schoolYearFromParams = useSchoolYearFromParams();
@@ -65,6 +67,7 @@ export const ManageProjectAssociate = () => {
       if (projectAssociateId && projectAssociate) {
         try {
           await api.updateProjectAssociate(projectAssociate.id, formAssociate);
+          await queryClient.invalidateQueries({ queryKey: ['getProjectAssociateById'] });
           toastSuccess('Suradnik uspjesno azuriran.');
           navigate(`/${schoolYearFromParams}/dashboard`);
         } catch (e) {

@@ -124,7 +124,7 @@ export function DashboardPage() {
               <MenuContent>
                 <h2>ŠKOLSKA GODINA</h2>
                 <NavLink to={`/${schoolYear && schoolYear[0].startYear}/users`}>Sve školske godine</NavLink>
-                <NavLink to={`/${schoolYear && schoolYear[0].startYear}/user`}>Kreiraj novu skolsku godinu</NavLink>
+                <NavLink to={`/create-school-year`}>Kreiraj novu skolsku godinu</NavLink>
               </MenuContent>
             </MenuItem>
             <MenuItem>
@@ -134,7 +134,19 @@ export function DashboardPage() {
               <MenuContent>
                 <h2>KATEGORIJE</h2>
                 <NavLink to={`/${schoolYear && schoolYear[0].startYear}/users`}>Sve kategorije</NavLink>
-                <NavLink to={`/${schoolYear && schoolYear[0].startYear}/user`}>Kreiraj novu kategoriju</NavLink>
+                <NavLink to={`/category`}>Kreiraj novu kategoriju</NavLink>
+              </MenuContent>
+            </MenuItem>
+          </MenuRow>
+          <MenuRow>
+            <MenuItem>
+              <ImageContainer>
+                <MenuImage src={schoolYearImage} />
+              </ImageContainer>
+              <MenuContent>
+                <h2>AKTIVNOSTI</h2>
+                <NavLink to={`/${schoolYear && schoolYear[0].startYear}/users`}>Sve aktivnosti</NavLink>
+                <NavLink to={`/create-school-year`}>Kreiraj novu aktivnost</NavLink>
               </MenuContent>
             </MenuItem>
           </MenuRow>
