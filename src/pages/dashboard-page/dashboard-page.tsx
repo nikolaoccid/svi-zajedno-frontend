@@ -30,7 +30,7 @@ const MenuItem = styled.div`
   width: 50%;
   padding: 20px;
   border-radius: 4px;
-  border: 2px solid lightgray;
+  border: 2px solid #4c4c4c;
 
   &:hover {
     box-shadow:
