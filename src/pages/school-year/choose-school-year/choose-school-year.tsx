@@ -18,7 +18,7 @@ export function ChooseSchoolYear() {
   const { data: schoolYears, isLoading } = useSchoolYears();
   const [selectedYear, setSelectedYear] = useState('');
   const handleClick = () => {
-    navigate(`/${selectedYear}/dashboard`);
+    navigate(`/${selectedYear}`);
   };
 
   const goToCreateSchoolYear = () => navigate('/school-year/new');

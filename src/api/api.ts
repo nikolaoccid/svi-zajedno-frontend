@@ -68,13 +68,19 @@ export function fetchSchoolYear(startYear: string) {
 export function login(loginDto: LoginDto) {
   return getData(authApi.authControllerLoginJwt(loginDto));
 }
+
 export function getAuthenticatedUser() {
   return getData(usersApi.usersControllerMe());
+}
+
+export function getProjectUsers(page: number) {
+  return getData(projectUserApi.projectUserControllerFindAll(10, page));
 }
 
 export function createProjectUser(user: CreateProjectUserDto) {
   return getData(projectUserApi.projectUserControllerCreate(user));
 }
+
 export function getProjectUserById(userId: string) {
   return getData(projectUserApi.projectUserControllerFindOne(userId));
 }
@@ -89,14 +95,6 @@ export function getProjectUserByQuery(query: string) {
 
 export function createProjetUserOnSchoolYear(userId: number, schoolYearId: number) {
   return getData(studentOnSchoolYear.studentOnSchoolYearControllerCreate({ schoolYearId, userId, status: 'active' }));
-}
-
-export function getProjectAssociateById(userId: string) {
-  return getData(projectAssociate.projectAssociateControllerFindOne(userId));
-}
-
-export function getProjectAssociateByQuery(query: string): Promise<any> {
-  return getData(projectAssociate.projectAssociateControllerFindAll(undefined, undefined, query));
 }
 
 export function getCategories() {
@@ -121,4 +119,12 @@ export function createProjectAssociate(associate: CreateProjectAssociateDto) {
 
 export function updateProjectAssociate(associateId: number, associate: UpdateProjectAssociateDto) {
   return getData(projectAssociate.projectAssociateControllerUpdate(associateId.toString(), associate));
+}
+
+export function getProjectAssociateById(userId: string) {
+  return getData(projectAssociate.projectAssociateControllerFindOne(userId));
+}
+
+export function getProjectAssociateByQuery(query: string) {
+  return getData(projectAssociate.projectAssociateControllerFindAll(undefined, undefined, query));
 }

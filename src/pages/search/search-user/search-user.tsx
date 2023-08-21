@@ -1,11 +1,11 @@
 import styled from '@emotion/styled';
 import { useFormik } from 'formik';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { PacmanLoader } from 'react-spinners';
 import * as Yup from 'yup';
 
 import { api } from '../../../api';
-import ProjectAssociateTable from '../../../components/project-associate-table/project-asociate-tabel.tsx';
 import { CenterContent, PageContainer } from '../../common-styles/common-styles.ts';
 
 const validationSchema = Yup.object().shape({
@@ -33,8 +33,20 @@ const FormContent = styled.div`
   flex-direction: row;
   gap: 15px;
 `;
+const Item = styled.div`
+  display: flex;
+  gap: 25px;
+`;
+const TableLink = styled(Link)`
+  color: black;
+  text-decoration: none;
+  &:hover {
+    color: #e74c3c;
+    text-decoration: underline;
+  }
+`;
 export function SearchUser(): JSX.Element {
-  const [projectUser, setProjectUser] = useState({});
+  const [projectUser, setProjectUser] = useState<any>([]);
   const [fetched, setFetched] = useState(false);
   const formik = useFormik({
     initialValues: {
@@ -43,13 +55,9 @@ export function SearchUser(): JSX.Element {
     validationSchema: validationSchema,
     onSubmit: async (formCategory) => {
       console.log(formCategory);
-      const res = await api.getProjectAssociateByQuery(formCategory.search);
-      if (res) {
-        setProjectUser(res);
-        setFetched(true);
-      }
-
-      console.log(res);
+      const res = await api.getProjectUserByQuery(formCategory.search);
+      setProjectUser(res);
+      setFetched(true);
     },
     enableReinitialize: false,
   });
@@ -77,7 +85,16 @@ export function SearchUser(): JSX.Element {
             {formik.touched.search && formik.errors.search ? <FormError>{formik.errors.search}</FormError> : null}
           </FormField>
         </Form>
-        {fetched && <ProjectAssociateTable data={projectUser} goTo="/" />}
+        {fetched && projectUser.length === 0 && <FormError>Nema rezultata za vas upit</FormError>}
+        {fetched &&
+          projectUser &&
+          projectUser.map((item) => (
+            <TableLink to="/" key={item.id}>
+              <Item>
+                {item?.childName} {item?.childSurname}
+              </Item>
+            </TableLink>
+          ))}
       </CenterContent>
     </PageContainer>
   );

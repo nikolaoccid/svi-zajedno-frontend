@@ -1,11 +1,11 @@
 import styled from '@emotion/styled';
 import { useFormik } from 'formik';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { BeatLoader } from 'react-spinners';
 import * as Yup from 'yup';
 
 import { api } from '../../../api';
-import ProjectAssociateTable from '../../../components/project-associate-table/project-asociate-tabel.tsx';
 import { CenterContent, PageContainer } from '../../common-styles/common-styles.ts';
 
 const validationSchema = Yup.object().shape({
@@ -33,8 +33,20 @@ const FormContent = styled.div`
   flex-direction: row;
   gap: 15px;
 `;
+const Item = styled.div`
+  display: flex;
+  gap: 25px;
+`;
+const TableLink = styled(Link)`
+  color: black;
+  text-decoration: none;
+  &:hover {
+    color: #e74c3c;
+    text-decoration: underline;
+  }
+`;
 export function SearchAssociate(): JSX.Element {
-  const [projectAssociates, setProjectAssociates] = useState({});
+  const [projectAssociates, setProjectAssociates] = useState<any>([]);
   const [fetched, setFetched] = useState(false);
   const formik = useFormik({
     initialValues: {
@@ -44,10 +56,9 @@ export function SearchAssociate(): JSX.Element {
     onSubmit: async (formCategory) => {
       console.log(formCategory);
       const res = await api.getProjectAssociateByQuery(formCategory.search);
-      if (res) {
-        setProjectAssociates(res);
-        setFetched(true);
-      }
+
+      setProjectAssociates(res);
+      setFetched(true);
 
       console.log(res);
     },
@@ -77,7 +88,14 @@ export function SearchAssociate(): JSX.Element {
             {formik.touched.search && formik.errors.search ? <FormError>{formik.errors.search}</FormError> : null}
           </FormField>
         </Form>
-        {fetched && <ProjectAssociateTable data={projectAssociates} goTo="/" />}
+        {fetched && projectAssociates.length === 0 && <FormError>Nema rezultata za vas upit</FormError>}
+        {fetched &&
+          projectAssociates &&
+          projectAssociates.map((item) => (
+            <TableLink to="/" key={item.id}>
+              <Item>{item.clubName}</Item>
+            </TableLink>
+          ))}
       </CenterContent>
     </PageContainer>
   );

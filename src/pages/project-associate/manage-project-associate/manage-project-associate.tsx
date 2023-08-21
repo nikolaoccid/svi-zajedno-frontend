@@ -69,7 +69,7 @@ export const ManageProjectAssociate = () => {
           await api.updateProjectAssociate(projectAssociate.id, formAssociate);
           await queryClient.invalidateQueries({ queryKey: ['getProjectAssociateById'] });
           toastSuccess('Suradnik uspjesno azuriran.');
-          navigate(`/${schoolYearFromParams}/dashboard`);
+          navigate(`/${schoolYearFromParams}`);
         } catch (e) {
           toastError('Dogodila se pogreska, suradnik nije azuriran');
         }
@@ -77,7 +77,7 @@ export const ManageProjectAssociate = () => {
         try {
           await api.createProjectAssociate(formAssociate);
           toastSuccess('Suradnik uspjesno kreiran.');
-          navigate(`/${schoolYearFromParams}/dashboard`);
+          navigate(`/${schoolYearFromParams}`);
         } catch (e) {
           toastError('Dogodila se pogreska, suradnik nije kreiran.');
         }

@@ -77,16 +77,3 @@ label{
   line-height: 1.5;
   font-weight: 500;
 }
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: white;
-    background-color: #0271ce;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
-}
