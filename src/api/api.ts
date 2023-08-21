@@ -83,12 +83,20 @@ export function updateProjectUser(userId: string, user: UpdateProjectUserDto) {
   return getData(projectUserApi.projectUserControllerUpdate(userId, user));
 }
 
+export function getProjectUserByQuery(query: string) {
+  return getData(projectUserApi.projectUserControllerFindAll(undefined, undefined, query));
+}
+
 export function createProjetUserOnSchoolYear(userId: number, schoolYearId: number) {
   return getData(studentOnSchoolYear.studentOnSchoolYearControllerCreate({ schoolYearId, userId, status: 'active' }));
 }
 
 export function getProjectAssociateById(userId: string) {
   return getData(projectAssociate.projectAssociateControllerFindOne(userId));
+}
+
+export function getProjectAssociateByQuery(query: string): Promise<any> {
+  return getData(projectAssociate.projectAssociateControllerFindAll(undefined, undefined, query));
 }
 
 export function getCategories() {

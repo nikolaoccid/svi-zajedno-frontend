@@ -16,6 +16,8 @@ import { ManageProjectAssociate } from './pages/project-associate/manage-project
 import ManageProjectUserView from './pages/project-user/create-project-user/manage-project-user-view.tsx';
 import { ChooseSchoolYear } from './pages/school-year/choose-school-year/choose-school-year.tsx';
 import { CreateSchoolYear } from './pages/school-year/create-school-year/create-school-year.tsx';
+import { SearchAssociate } from './pages/search/search-associate/search-associate.tsx';
+import { SearchUser } from './pages/search/search-user/search-user.tsx';
 
 const publicRoutes = ['/', '/login', '/logout'];
 
@@ -31,24 +33,26 @@ function App() {
 
             {/*School year paths*/}
             <Route path="/school-year" element={<ChooseSchoolYear />} />
-            <Route path="/create-school-year" element={<CreateSchoolYear />} />
+            <Route path="/school-year/new" element={<CreateSchoolYear />} />
             <Route path="/:startYear/dashboard" element={<DashboardPage />} />
 
             {/*Project user*/}
-            <Route path="/:startYear/user" element={<ManageProjectUserView />} />
-            <Route path="/:startYear/user/:userId" element={<ManageProjectUserView />} />
+            <Route path="/:startYear/user/new" element={<ManageProjectUserView />} />
+            <Route path="/:startYear/user/:userId/edit" element={<ManageProjectUserView />} />
+            <Route path="/:startYear/user/search" element={<SearchUser />} />
 
             {/*Project associate*/}
-            <Route path="/:startYear/project-associate" element={<ManageProjectAssociate />} />
-            <Route path="/:startYear/project-associate/:projectAssociateId" element={<ManageProjectAssociate />} />
+            <Route path="/:startYear/project-associate/new" element={<ManageProjectAssociate />} />
+            <Route path="/:startYear/project-associate/:projectAssociateId/edit" element={<ManageProjectAssociate />} />
+            <Route path=":startYear/project-associate/search" element={<SearchAssociate />} />
 
             {/*Category*/}
-            <Route path="/category/" element={<ManageCategory />} />
-            <Route path="/category/:categoryId" element={<ManageCategory />} />
+            <Route path="/category/new" element={<ManageCategory />} />
+            <Route path="/category/:categoryId/edit" element={<ManageCategory />} />
 
             {/*Activity*/}
-            <Route path="/activity" element={<ManageActivity />} />
-            <Route path="/activity/:activityId" element={<ManageActivity />} />
+            <Route path="/activity/new" element={<ManageActivity />} />
+            <Route path="/activity/:activityId/edit" element={<ManageActivity />} />
 
             <Route path="/login" element={<LoginPage />} />
             <Route path="/logout" element={<Logout />} />

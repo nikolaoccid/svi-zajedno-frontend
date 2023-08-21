@@ -21,7 +21,7 @@ export function ChooseSchoolYear() {
     navigate(`/${selectedYear}/dashboard`);
   };
 
-  const goToCreateSchoolYear = () => navigate('/create-school-year');
+  const goToCreateSchoolYear = () => navigate('/school-year/new');
 
   if (isLoading) {
     return (
@@ -34,7 +34,7 @@ export function ChooseSchoolYear() {
   }
 
   if (!schoolYears || schoolYears?.length === 0) {
-    return <Navigate to="/create-school-year" />;
+    return <Navigate to="/school-year/new" />;
   }
   return (
     <PageContainer>
