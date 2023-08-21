@@ -117,6 +117,10 @@ export function createProjectAssociate(associate: CreateProjectAssociateDto) {
   return getData(projectAssociate.projectAssociateControllerCreate(associate));
 }
 
+export function getProjectAssociates(page: number) {
+  return getData(projectAssociate.projectAssociateControllerFindAll(undefined, page));
+}
+
 export function updateProjectAssociate(associateId: number, associate: UpdateProjectAssociateDto) {
   return getData(projectAssociate.projectAssociateControllerUpdate(associateId.toString(), associate));
 }

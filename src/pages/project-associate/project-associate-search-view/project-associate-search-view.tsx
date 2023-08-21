@@ -1,13 +1,13 @@
 import styled from '@emotion/styled';
 import { ErrorMessage, useFormik } from 'formik';
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import { ClockLoader } from 'react-spinners';
 import * as Yup from 'yup';
 
 import { api } from '../../../api';
 import { CenterContent, PageContainer } from '../../common-styles/common-styles';
-import { useProjectUsers } from '../user-view/hooks/use-project-users.ts';
+import { useGetCategories } from '../manage-project-associate/hooks/use-get-categories.ts';
+import { useProjectAssociates } from './hooks/use-project-associates.ts';
 
 const validationSchema = Yup.object().shape({
   search: Yup.string().required('Unos je obavezan'),
@@ -60,32 +60,28 @@ const FormContent = styled.div`
   flex-direction: row;
   gap: 15px;
 `;
-
-const Item = styled.div`
-  display: flex;
-  gap: 25px;
-`;
-
-const TableLink = styled(Link)`
-  color: black;
-  text-decoration: none;
-  &:hover {
-    color: #e74c3c;
-    text-decoration: underline;
-  }
-`;
 const Pagination = styled.div`
   padding-top: 20px;
 `;
 
-const UserSearchView = () => {
+const ProjectAssociateView = () => {
   const itemsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(1);
-  const { data: users, isLoading, isError } = useProjectUsers(currentPage);
+  const { data: associates, isLoading, isError } = useProjectAssociates(currentPage);
+  const { data: categories } = useGetCategories();
 
-  const [projectUser] = useState([]);
-  const [fetched, setFetched] = useState(false);
   const [queryResults, setQueryResults] = useState<any>([]);
+  const [categoryMap, setCategoryMap] = useState({});
+
+  useEffect(() => {
+    if (categories) {
+      const map = categories.reduce((acc, category) => {
+        acc[category.id] = category.categoryName;
+        return acc;
+      }, {});
+      setCategoryMap(map);
+    }
+  }, [categories]);
 
   const formik = useFormik({
     initialValues: {
@@ -93,24 +89,23 @@ const UserSearchView = () => {
     },
     validationSchema: validationSchema,
     onSubmit: async (formCategory) => {
-      const res = await api.getProjectUserByQuery(formCategory.search);
+      const res = await api.getProjectAssociateByQuery(formCategory.search);
       setQueryResults(res);
-      setFetched(true);
     },
     enableReinitialize: false,
   });
 
-  const totalPages = ((users as any)?.meta?.totalPages ?? 1) as number;
+  const totalPages = ((associates as any)?.meta?.totalPages ?? 1) as number;
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const visibleUsers = (users as any)?.items?.slice(startIndex, startIndex + itemsPerPage) || [];
+  const visibleAssociates = (associates as any)?.items?.slice(startIndex, startIndex + itemsPerPage) || [];
 
   return (
     <PageContainer>
       <CenterContent>
-        <h1>Korisnici</h1>
+        <h1>Project Associates</h1>
         <Form onSubmit={formik.handleSubmit}>
           <FormField>
-            <label htmlFor="search">Pronadi korisnika</label>
+            <label htmlFor="search">Search Project Associates</label>
             <FormContent>
               <input type="text" id="search" {...formik.getFieldProps('search')} />
               <button type="submit">&#x1F50E;</button>
@@ -118,36 +113,32 @@ const UserSearchView = () => {
             {formik.touched.search && formik.errors.search && <FormError>{formik.errors.search}</FormError>}
           </FormField>
         </Form>
-        {fetched && queryResults.length > 0 ? (
+        {queryResults.length > 0 ? (
           <TableWrapper>
             <StyledTable>
               <thead>
                 <tr>
-                  <th>Guardian</th>
-                  <th>Child</th>
-                  <th>Date of Birth</th>
-                  <th>Address</th>
-                  <th>School</th>
-                  <th>Mobile Phone</th>
+                  <th>Club Name</th>
                   <th>Email</th>
+                  <th>Mobile Phone</th>
+                  <th>Contact Person</th>
+                  <th>Address</th>
+                  <th>City</th>
+                  <th>Status</th>
+                  <th>Category</th>
                 </tr>
               </thead>
               <tbody>
-                {queryResults.map((user, index) => (
-                  <ColoredTableRow key={user.id} isEven={index % 2 === 0}>
-                    <td>
-                      {user.guardianName} {user.guardianSurname}
-                    </td>
-                    <td>
-                      {user.childName} {user.childSurname}
-                    </td>
-                    <td>{user.dateOfBirth}</td>
-                    <td>
-                      {user.address}, {user.city}
-                    </td>
-                    <td>{user.school}</td>
-                    <td>{user.mobilePhone}</td>
-                    <td>{user.email}</td>
+                {queryResults.map((associate, index) => (
+                  <ColoredTableRow key={associate.id} isEven={index % 2 === 0}>
+                    <td>{associate.clubName}</td>
+                    <td>{associate.email}</td>
+                    <td>{associate.mobilePhone}</td>
+                    <td>{associate.contactPerson}</td>
+                    <td>{associate.address}</td>
+                    <td>{associate.city}</td>
+                    <td>{associate.projectAssociateStatus}</td>
+                    <td>{categoryMap[associate.categoryId]}</td>
                   </ColoredTableRow>
                 ))}
               </tbody>
@@ -158,31 +149,27 @@ const UserSearchView = () => {
             <StyledTable>
               <thead>
                 <tr>
-                  <th>Guardian</th>
-                  <th>Child</th>
-                  <th>Date of Birth</th>
-                  <th>Address</th>
-                  <th>School</th>
-                  <th>Mobile Phone</th>
+                  <th>Club Name</th>
                   <th>Email</th>
+                  <th>Mobile Phone</th>
+                  <th>Contact Person</th>
+                  <th>Address</th>
+                  <th>City</th>
+                  <th>Status</th>
+                  <th>Category</th>
                 </tr>
               </thead>
               <tbody>
-                {visibleUsers.map((user, index) => (
-                  <ColoredTableRow key={user.id} isEven={index % 2 === 0}>
-                    <td>
-                      {user.guardianName} {user.guardianSurname}
-                    </td>
-                    <td>
-                      {user.childName} {user.childSurname}
-                    </td>
-                    <td>{user.dateOfBirth}</td>
-                    <td>
-                      {user.address}, {user.city}
-                    </td>
-                    <td>{user.school}</td>
-                    <td>{user.mobilePhone}</td>
-                    <td>{user.email}</td>
+                {visibleAssociates.map((associate, index) => (
+                  <ColoredTableRow key={associate.id} isEven={index % 2 === 0}>
+                    <td>{associate.clubName}</td>
+                    <td>{associate.email}</td>
+                    <td>{associate.mobilePhone}</td>
+                    <td>{associate.contactPerson}</td>
+                    <td>{associate.address}</td>
+                    <td>{associate.city}</td>
+                    <td>{associate.projectAssociateStatus}</td>
+                    <td>{categoryMap[associate.categoryId]}</td>
                   </ColoredTableRow>
                 ))}
               </tbody>
@@ -204,23 +191,10 @@ const UserSearchView = () => {
         )}
         {isLoading ? <ClockLoader color="#2196f3" /> : null}
         {isError ? <ErrorMessage>Error loading data.</ErrorMessage> : null}
-        {fetched && queryResults.length === 0 && projectUser.length === 0 && (
-          <FormError>Nema rezultata za vas upit</FormError>
-        )}
-        {fetched && projectUser.length > 0 && (
-          <FormContent>
-            {projectUser.map((item) => (
-              <TableLink to="/" key={(item as any)?.id}>
-                <Item>
-                  {(item as any)?.childName} {(item as any)?.childSurname}
-                </Item>
-              </TableLink>
-            ))}
-          </FormContent>
-        )}
+        {queryResults.length === 0 && visibleAssociates.length === 0 && <FormError>No results found.</FormError>}
       </CenterContent>
     </PageContainer>
   );
 };
 
-export default UserSearchView;
+export default ProjectAssociateView;
