@@ -77,6 +77,10 @@ export function getProjectUsers(page: number) {
   return getData(projectUserApi.projectUserControllerFindAll(10, page));
 }
 
+export function getProjectUser(id: string) {
+  return getData(projectUserApi.projectUserControllerFindOne(id));
+}
+
 export function createProjectUser(user: CreateProjectUserDto) {
   return getData(projectUserApi.projectUserControllerCreate(user));
 }

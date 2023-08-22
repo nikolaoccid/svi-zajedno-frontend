@@ -14,8 +14,10 @@ import LoginPage from './pages/login-page/login-page.tsx';
 import { Logout } from './pages/logout/logout.tsx';
 import { ManageProjectAssociate } from './pages/project-associate/manage-project-associate/manage-project-associate.tsx';
 import ProjectAssociateSearchView from './pages/project-associate/project-associate-search-view/project-associate-search-view.tsx';
+import ProjectAssociateView from './pages/project-associate/project-associate-view/project-associate-view.tsx';
 import ManageProjectUserView from './pages/project-user/create-project-user/manage-project-user-view.tsx';
 import UserSearchView from './pages/project-user/user-search-view/user-search-view.tsx';
+import UserView from './pages/project-user/user-view/user-view.tsx';
 import { ChooseSchoolYear } from './pages/school-year/choose-school-year/choose-school-year.tsx';
 import { CreateSchoolYear } from './pages/school-year/create-school-year/create-school-year.tsx';
 import { SearchAssociate } from './pages/search/search-associate/search-associate.tsx';
@@ -41,14 +43,16 @@ function App() {
             {/*Project user*/}
             <Route path="/:startYear/user/new" element={<ManageProjectUserView />} />
             <Route path="/:startYear/user/:userId/edit" element={<ManageProjectUserView />} />
+            <Route path="/:startYear/user/:userId" element={<UserView />} />
             <Route path="/:startYear/user/search" element={<SearchUser />} />
-            <Route path="/:startYear/user/" element={<UserSearchView />} />
+            <Route path="/:startYear/users/" element={<UserSearchView />} />
 
             {/*Project associate*/}
             <Route path="/:startYear/project-associate/new" element={<ManageProjectAssociate />} />
             <Route path="/:startYear/project-associate/:projectAssociateId/edit" element={<ManageProjectAssociate />} />
+            <Route path="/:startYear/project-associate/:projectAssociateId" element={<ProjectAssociateView />} />
             <Route path=":startYear/project-associate/search" element={<SearchAssociate />} />
-            <Route path=":startYear/project-associate" element={<ProjectAssociateSearchView />} />
+            <Route path=":startYear/project-associates" element={<ProjectAssociateSearchView />} />
 
             {/*Category*/}
             <Route path="/category/new" element={<ManageCategory />} />

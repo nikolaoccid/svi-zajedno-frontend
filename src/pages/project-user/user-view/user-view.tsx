@@ -1,107 +1,100 @@
 import styled from '@emotion/styled';
-import { ErrorMessage } from 'formik';
-import { useState } from 'react';
-import { ClockLoader } from 'react-spinners';
+import { useNavigate, useParams } from 'react-router-dom';
+import { PuffLoader } from 'react-spinners';
 
 import { CenterContent, PageContainer } from '../../common-styles/common-styles.ts';
-import { useProjectUsers } from './hooks/use-project-users';
+import { useProjectUser } from './hooks/use-project-user.ts';
 
-const TableWrapper = styled.div`
-  margin-top: 20px;
+const ProfileContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
 `;
 
-const StyledTable = styled.table`
-  width: 100%;
-  border-collapse: collapse;
-  th,
-  td {
-    padding: 10px;
-    border: 1px solid #ddd;
-    text-align: left;
-  }
-  th {
-    background-color: #f2f2f2;
-  }
-`;
-const Pagination = styled.div`
-  padding-top: 20px;
+const ProfileHeader = styled.h2`
+  margin-bottom: 10px;
 `;
 
-const ColoredTableRow = styled.tr<{ isEven: boolean }>`
-  background-color: ${(props) => (props.isEven ? '#f39e21' : 'transparent')};
+const ProfileItem = styled.div`
+  display: flex;
+  align-items: center;
+  margin: 5px 0;
+`;
+
+const Label = styled.span`
+  font-weight: bold;
+  margin-right: 10px;
+`;
+
+const Value = styled.span`
+  font-weight: normal;
 `;
 
 const UserView = () => {
-  const itemsPerPage = 10; // Assuming each page should display 10 items
-  const [currentPage, setCurrentPage] = useState(1);
-  const { data: users, isLoading, isError } = useProjectUsers(currentPage);
+  const navigate = useNavigate();
+  const { userId, startYear } = useParams();
+  const { data: projectUser, isLoading, isError } = useProjectUser(userId);
 
-  const totalPages = (users as any).meta.totalPages ?? 1;
+  if (isError || !userId || typeof parseInt(userId) !== 'number') {
+    navigate(`/${startYear}/users`);
+  }
 
-  const handlePaginationClick = (newPage) => {
-    setCurrentPage(newPage);
-  };
-
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const visibleUsers = (users as any).items.slice(startIndex, startIndex + itemsPerPage) || [];
-
+  if (isLoading) {
+    return (
+      <PageContainer>
+        <CenterContent>
+          <PuffLoader color="#2196f3" />
+        </CenterContent>
+      </PageContainer>
+    );
+  }
   return (
-    <PageContainer>
-      <CenterContent>
-        <h1>Korisnici</h1>
-        {isLoading ? (
-          <ClockLoader color="#2196f3" />
-        ) : isError ? (
-          <ErrorMessage>Error loading data.</ErrorMessage>
-        ) : (
-          <TableWrapper>
-            <StyledTable>
-              <thead>
-                <tr>
-                  <th>Guardian</th>
-                  <th>Child</th>
-                  <th>Date of Birth</th>
-                  <th>Address</th>
-                  <th>School</th>
-                  <th>Mobile Phone</th>
-                  <th>Email</th>
-                </tr>
-              </thead>
-              <tbody>
-                {visibleUsers.map((user, index) => (
-                  <ColoredTableRow key={user.id} isEven={index % 2 === 0}>
-                    <td>
-                      {user.guardianName} {user.guardianSurname}
-                    </td>
-                    <td>
-                      {user.childName} {user.childSurname}
-                    </td>
-                    <td>{user.dateOfBirth}</td>
-                    <td>
-                      {user.address}, {user.city}
-                    </td>
-                    <td>{user.school}</td>
-                    <td>{user.mobilePhone}</td>
-                    <td>{user.email}</td>
-                  </ColoredTableRow>
-                ))}
-              </tbody>
-            </StyledTable>
-            <Pagination>
-              {Array.from({ length: totalPages }, (_, index) => (
-                <button
-                  key={index + 1}
-                  onClick={() => handlePaginationClick(index + 1)}
-                  disabled={currentPage === index + 1}
-                >
-                  {index + 1}
-                </button>
-              ))}
-            </Pagination>
-          </TableWrapper>
-        )}
-      </CenterContent>
-    </PageContainer>
+    projectUser !== undefined && (
+      <ProfileContainer>
+        <ProfileHeader>User Profile</ProfileHeader>
+        <ProfileItem>
+          <Label>Guardian Name:</Label>
+          <Value>{projectUser.guardianName}</Value>
+        </ProfileItem>
+        <ProfileItem>
+          <Label>Guardian Surname:</Label>
+          <Value>{projectUser.guardianSurname}</Value>
+        </ProfileItem>
+        <ProfileItem>
+          <Label>Child Name:</Label>
+          <Value>{projectUser.childName}</Value>
+        </ProfileItem>
+        <ProfileItem>
+          <Label>Child Surname:</Label>
+          <Value>{projectUser.childSurname}</Value>
+        </ProfileItem>
+        <ProfileItem>
+          <Label>Date of Birth:</Label>
+          <Value>{projectUser.dateOfBirth}</Value>
+        </ProfileItem>
+        <ProfileItem>
+          <Label>Address:</Label>
+          <Value>{projectUser.address}</Value>
+        </ProfileItem>
+        <ProfileItem>
+          <Label>City:</Label>
+          <Value>{projectUser.city}</Value>
+        </ProfileItem>
+        <ProfileItem>
+          <Label>School:</Label>
+          <Value>{projectUser.school}</Value>
+        </ProfileItem>
+        <ProfileItem>
+          <Label>Mobile Phone:</Label>
+          <Value>{projectUser.mobilePhone}</Value>
+        </ProfileItem>
+        <ProfileItem>
+          <Label>Email:</Label>
+          <Value>{projectUser.email}</Value>
+        </ProfileItem>
+      </ProfileContainer>
+    )
   );
 };
 

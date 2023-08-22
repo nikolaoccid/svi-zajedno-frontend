@@ -109,7 +109,7 @@ export function DashboardPage() {
               </ImageContainer>
               <MenuContent>
                 <h2>SURADNICI</h2>
-                <NavLink to={`/${schoolYear && schoolYear[0].startYear}/project-associate`}>Svi suradnici</NavLink>
+                <NavLink to={`/${schoolYear && schoolYear[0].startYear}/project-associates`}>Svi suradnici</NavLink>
                 <NavLink to={`/${schoolYear && schoolYear[0].startYear}/project-associate/new`}>
                   Kreiraj novog suradnika
                 </NavLink>
