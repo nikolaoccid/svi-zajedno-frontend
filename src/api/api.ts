@@ -6,6 +6,7 @@ import {
   CategoryApi,
   CategoryDto,
   Configuration,
+  CreateActivityDto,
   CreateProjectAssociateDto,
   CreateProjectUserDto,
   LoginDto,
@@ -13,6 +14,7 @@ import {
   ProjectUserApi,
   SchoolYearApi,
   StudentOnSchoolYearApi,
+  UpdateActivityDto,
   UpdateProjectAssociateDto,
   UpdateProjectUserDto,
   UsersApi,
@@ -141,4 +143,12 @@ export function getProjectAssociateByQuery(query: string) {
 
 export function getActivity(activityId: string) {
   return getData(activities.activityControllerFindOne(activityId));
+}
+
+export function updateActivity(activityId: string, activity: UpdateActivityDto) {
+  return getData(activities.activityControllerUpdate(activityId, activity));
+}
+
+export function createActivity(activity: CreateActivityDto) {
+  return getData(activities.activityControllerCreate(activity));
 }

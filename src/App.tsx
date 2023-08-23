@@ -56,7 +56,10 @@ function App() {
 
             {/*Activity*/}
             <Route path="/:startYear/project-associate/:projectAssociateId/activity/new" element={<ManageActivity />} />
-            <Route path="/activity/:activityId/edit" element={<ManageActivity />} />
+            <Route
+              path="/:startYear/project-associate/:projectAssociateId/activity/:activityId/edit"
+              element={<ManageActivity />}
+            />
 
             {/*Category*/}
             <Route path="/category/new" element={<ManageCategory />} />

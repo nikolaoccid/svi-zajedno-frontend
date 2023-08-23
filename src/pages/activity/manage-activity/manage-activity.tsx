@@ -1,43 +1,52 @@
 //TODO implement
-import { ErrorMessage, Field, Form, FormikProvider, useFormik } from 'formik';
+import { ErrorMessage, Field, FormikProvider, useFormik } from 'formik';
 import { useParams } from 'react-router-dom';
 import { RiseLoader } from 'react-spinners';
 import * as Yup from 'yup';
 
-import { CenterContent, FormError, FormField, PageContainer } from '../../common-styles/common-styles.ts';
-import { useSchoolYear } from '../../dashboard-page/hooks/use-fetch-school-year.ts';
+import { api } from '../../../api';
+import { toastError, toastSuccess } from '../../../utils/toast.ts';
+import { CenterContent, Form, FormError, FormField, PageContainer } from '../../common-styles/common-styles.ts';
 import { useGetProjectAssociate } from '../../project-associate/manage-project-associate/hooks/use-get-project-associate.ts';
 import { useActivity } from './hooks/use-activity.ts';
 
 const validationSchema = Yup.object({
   activityName: Yup.string().required('Ime aktivnosti je obavezno'),
-  price: Yup.string().required('Cijena je obavezna, ako je besplatno staviti 0'),
+  activityPrice: Yup.number().required('Cijena je obavezna, ako je besplatno staviti 0'),
 });
 
 export function ManageActivity() {
-  const { startYear, projectAssociateId, activityId } = useParams();
-  const startYearNumber = startYear ? parseInt(startYear) : undefined;
-  const { data: schoolYear, isLoading: isLoadingSchoolYear } = useSchoolYear(startYearNumber);
+  const { projectAssociateId, activityId } = useParams();
   const { data: activity } = useActivity(activityId);
   const { data: projectAssociate, isLoading: isLoadingProjectAssociate } = useGetProjectAssociate(projectAssociateId);
-  console.log('schoolYear', schoolYear, 'projectAssociate', projectAssociate, 'activity', activity);
+  // console.log('schoolYear', schoolYear, 'projectAssociate', projectAssociate, 'activity', activity);
 
   const formik = useFormik({
     initialValues: {
       id: activity?.id ?? 0,
       activityName: activity?.activityName ?? '',
       activityPrice: activity?.activityPrice ?? 0,
-      projectAssociateId: projectAssociate?.id,
+      projectAssociateId: projectAssociate?.id ?? 0,
       activityStatus: activity?.activityStatus ?? 'active',
     },
     validationSchema: validationSchema,
     onSubmit: async (activityFormData) => {
       console.log('actityFormData', activityFormData);
+      try {
+        if (activity?.id) {
+          await api.updateActivity(activity.id.toString(), activityFormData);
+          toastSuccess('Aktivnost uspjesno azurirana.');
+        }
+        await api.createActivity(activityFormData);
+        toastSuccess('Aktivnost uspjesno kreirana.');
+      } catch (e) {
+        toastError('Dogodila se pogreska');
+      }
     },
     enableReinitialize: true,
   });
 
-  if (formik.isSubmitting || isLoadingProjectAssociate || isLoadingSchoolYear) {
+  if (formik.isSubmitting || isLoadingProjectAssociate) {
     return (
       <PageContainer>
         <CenterContent>
@@ -63,7 +72,7 @@ export function ManageActivity() {
             </FormField>
             <FormField>
               <label htmlFor="activityPrice">Cijena za aktivnost (u EUR)</label>
-              <input type="text" id="activityPrice" {...formik.getFieldProps('activityPrice')} />
+              <input type="number" id="activityPrice" {...formik.getFieldProps('activityPrice')} />
               {formik.touched.activityPrice && formik.errors.activityPrice ? (
                 <FormError>{formik.errors.activityPrice}</FormError>
               ) : null}
