@@ -54,13 +54,13 @@ function App() {
             <Route path=":startYear/project-associate/search" element={<SearchAssociate />} />
             <Route path=":startYear/project-associates" element={<ProjectAssociateSearchView />} />
 
+            {/*Activity*/}
+            <Route path="/:startYear/project-associate/:projectAssociateId/activity/new" element={<ManageActivity />} />
+            <Route path="/activity/:activityId/edit" element={<ManageActivity />} />
+
             {/*Category*/}
             <Route path="/category/new" element={<ManageCategory />} />
             <Route path="/category/:categoryId/edit" element={<ManageCategory />} />
-
-            {/*Activity*/}
-            <Route path="/activity/new" element={<ManageActivity />} />
-            <Route path="/activity/:activityId/edit" element={<ManageActivity />} />
 
             <Route path="/login" element={<LoginPage />} />
             <Route path="/logout" element={<Logout />} />

@@ -1,4 +1,3 @@
-import styled from '@emotion/styled';
 import { useQueryClient } from '@tanstack/react-query';
 import { ErrorMessage, Field, FormikProvider, useFormik } from 'formik';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -7,28 +6,10 @@ import * as Yup from 'yup';
 
 import { api } from '../../../api';
 import { toastError, toastSuccess } from '../../../utils/toast.ts';
-import { CenterContent, PageContainer } from '../../common-styles/common-styles.ts';
+import { CenterContent, Form, FormError, FormField, PageContainer } from '../../common-styles/common-styles.ts';
 import { useSchoolYearFromParams } from '../../dashboard-page/hooks/use-fetch-school-year.ts';
 import { useGetCategories } from './hooks/use-get-categories.ts';
 import { useGetProjectAssociate } from './hooks/use-get-project-associate.ts';
-
-const FormField = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  gap: 10px;
-`;
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  gap: 45px;
-  width: 100%;
-`;
-
-const FormError = styled.div`
-  color: #e74c3c;
-  font-weight: 500;
-`;
 
 const validationSchema = Yup.object().shape({
   clubName: Yup.string().required('Ime kluba je obavezno'),

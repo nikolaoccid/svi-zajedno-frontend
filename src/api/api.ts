@@ -1,6 +1,7 @@
 import { AxiosResponse } from 'axios';
 
 import {
+  ActivityApi,
   AuthApi,
   CategoryApi,
   CategoryDto,
@@ -34,6 +35,7 @@ const projectUserApi = new ProjectUserApi(configuration);
 const studentOnSchoolYear = new StudentOnSchoolYearApi(configuration);
 const projectAssociate = new ProjectAssociateApi(configuration);
 const categories = new CategoryApi(configuration);
+const activities = new ActivityApi(configuration);
 
 export function persistToken(token: string) {
   localStorage.setItem('token', token);
@@ -135,4 +137,8 @@ export function getProjectAssociateById(userId: string) {
 
 export function getProjectAssociateByQuery(query: string) {
   return getData(projectAssociate.projectAssociateControllerFindAll(undefined, undefined, query));
+}
+
+export function getActivity(activityId: string) {
+  return getData(activities.activityControllerFindOne(activityId));
 }

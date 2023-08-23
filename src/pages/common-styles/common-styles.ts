@@ -51,7 +51,7 @@ export const CenterContent = styled.div`
   justify-content: center;
   align-items: center;
   gap: 30px;
-  width: 900px;
+  min-width: 600px;
 `;
 
 export const AlignRight = styled.div`
@@ -67,4 +67,22 @@ export const NavLink = styled(Link)`
   &:hover {
     text-decoration: underline;
   }
+`;
+
+export const FormField = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 10px;
+`;
+export const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 45px;
+  width: 90%;
+`;
+
+export const FormError = styled.div`
+  color: #e74c3c;
+  font-weight: 500;
 `;
