@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { useNavigate, useParams } from 'react-router-dom';
 import { PuffLoader } from 'react-spinners';
 
-import { CenterContent, PageContainer } from '../../common-styles/common-styles.ts';
+import { CenterContent, PageContainer, ProfileSubmenu, SecondaryButton } from '../../common-styles/common-styles.ts';
 import { useProjectUser } from './hooks/use-project-user.ts';
 
 const ProfileContainer = styled.div`
@@ -53,6 +53,10 @@ const UserView = () => {
     projectUser !== undefined && (
       <ProfileContainer>
         <ProfileHeader>User Profile</ProfileHeader>
+        <ProfileSubmenu>
+          <SecondaryButton onClick={() => console.log('button clicked')}>Upisi na skolsku godinu</SecondaryButton>
+          <SecondaryButton onClick={() => console.log('button clicked')}>Upisi na aktivnost</SecondaryButton>
+        </ProfileSubmenu>
         <ProfileItem>
           <Label>Guardian Name:</Label>
           <Value>{projectUser.guardianName}</Value>

@@ -86,3 +86,9 @@ export const FormError = styled.div`
   color: #e74c3c;
   font-weight: 500;
 `;
+
+export const ProfileSubmenu = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+`;

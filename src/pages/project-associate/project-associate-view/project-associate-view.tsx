@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { PropagateLoader } from 'react-spinners';
 
 import { useGetCategory } from '../../category/manage-category/hooks/use-get-category.ts';
-import { CenterContent, PageContainer, SecondaryButton } from '../../common-styles/common-styles';
+import { CenterContent, PageContainer, ProfileSubmenu, SecondaryButton } from '../../common-styles/common-styles';
 import { useGetProjectAssociate } from '../manage-project-associate/hooks/use-get-project-associate.ts';
 
 const ProfileContainer = styled.div`
@@ -16,8 +16,6 @@ const ProfileContainer = styled.div`
 const ProfileHeader = styled.h2`
   margin-bottom: 10px;
 `;
-
-const ProfileSubmenu = styled.div``;
 
 const ProfileItem = styled.div`
   display: flex;
