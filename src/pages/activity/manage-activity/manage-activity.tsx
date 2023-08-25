@@ -7,6 +7,7 @@ import * as Yup from 'yup';
 import { api } from '../../../api';
 import { toastError, toastSuccess } from '../../../utils/toast.ts';
 import { CenterContent, Form, FormError, FormField, PageContainer } from '../../common-styles/common-styles.ts';
+import { useSchoolYear } from '../../dashboard-page/hooks/use-fetch-school-year.ts';
 import { useGetProjectAssociate } from '../../project-associate/manage-project-associate/hooks/use-get-project-associate.ts';
 import { useActivity } from './hooks/use-activity.ts';
 
@@ -16,8 +17,10 @@ const validationSchema = Yup.object({
 });
 
 export function ManageActivity() {
-  const { projectAssociateId, activityId } = useParams();
+  const { projectAssociateId, activityId, startYear } = useParams();
+  const startYearInt = startYear ? parseInt(startYear) : 0;
   const { data: activity } = useActivity(activityId);
+  const { data: schoolYear } = useSchoolYear(startYearInt);
   const { data: projectAssociate, isLoading: isLoadingProjectAssociate } = useGetProjectAssociate(projectAssociateId);
   // console.log('schoolYear', schoolYear, 'projectAssociate', projectAssociate, 'activity', activity);
 
@@ -28,6 +31,7 @@ export function ManageActivity() {
       activityPrice: activity?.activityPrice ?? 0,
       projectAssociateId: projectAssociate?.id ?? 0,
       activityStatus: activity?.activityStatus ?? 'active',
+      schoolYearId: schoolYear ? schoolYear[0].id : 0,
     },
     validationSchema: validationSchema,
     onSubmit: async (activityFormData) => {

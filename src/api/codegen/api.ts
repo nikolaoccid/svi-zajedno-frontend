@@ -71,6 +71,18 @@ export interface Activity {
      * @memberof Activity
      */
     'studentOnActivity': Array<StudentOnActivity>;
+    /**
+     * 
+     * @type {SchoolYear}
+     * @memberof Activity
+     */
+    'schoolYear': SchoolYear;
+    /**
+     * 
+     * @type {number}
+     * @memberof Activity
+     */
+    'schoolYearId': number;
 }
 
 export const ActivityActivityStatusEnum = {
@@ -149,6 +161,12 @@ export interface CreateActivityDto {
      * @memberof CreateActivityDto
      */
     'projectAssociateId': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateActivityDto
+     */
+    'schoolYearId': number;
 }
 
 export const CreateActivityDtoActivityStatusEnum = {
@@ -296,6 +314,40 @@ export interface CreateProjectUserDto {
      */
     'email': string;
 }
+/**
+ * 
+ * @export
+ * @interface CreateStudentOnActivityDto
+ */
+export interface CreateStudentOnActivityDto {
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateStudentOnActivityDto
+     */
+    'activityId': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateStudentOnActivityDto
+     */
+    'studentOnSchoolYearId': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateStudentOnActivityDto
+     */
+    'activityStatus': CreateStudentOnActivityDtoActivityStatusEnum;
+}
+
+export const CreateStudentOnActivityDtoActivityStatusEnum = {
+    Active: 'active',
+    Inactive: 'inactive',
+    Pending: 'pending'
+} as const;
+
+export type CreateStudentOnActivityDtoActivityStatusEnum = typeof CreateStudentOnActivityDtoActivityStatusEnum[keyof typeof CreateStudentOnActivityDtoActivityStatusEnum];
+
 /**
  * 
  * @export
@@ -578,6 +630,12 @@ export interface SchoolYear {
      * @memberof SchoolYear
      */
     'studentOnSchoolYear': Array<StudentOnSchoolYear>;
+    /**
+     * 
+     * @type {Array<Activity>}
+     * @memberof SchoolYear
+     */
+    'activity': Array<Activity>;
 }
 /**
  * 
@@ -622,6 +680,12 @@ export interface StudentOnActivity {
      * @memberof StudentOnActivity
      */
     'studentOnSchoolYear': StudentOnSchoolYear;
+    /**
+     * 
+     * @type {number}
+     * @memberof StudentOnActivity
+     */
+    'studentOnSchoolYearId': number;
     /**
      * 
      * @type {Activity}
@@ -738,6 +802,12 @@ export interface UpdateActivityDto {
      * @memberof UpdateActivityDto
      */
     'projectAssociateId'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof UpdateActivityDto
+     */
+    'schoolYearId'?: number;
 }
 
 export const UpdateActivityDtoActivityStatusEnum = {
@@ -897,6 +967,46 @@ export interface UpdateProjectUserDto {
      */
     'email': string;
 }
+/**
+ * 
+ * @export
+ * @interface UpdateStudentOnActivityDto
+ */
+export interface UpdateStudentOnActivityDto {
+    /**
+     * 
+     * @type {number}
+     * @memberof UpdateStudentOnActivityDto
+     */
+    'id': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof UpdateStudentOnActivityDto
+     */
+    'activityId'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof UpdateStudentOnActivityDto
+     */
+    'studentOnSchoolYearId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateStudentOnActivityDto
+     */
+    'activityStatus'?: UpdateStudentOnActivityDtoActivityStatusEnum;
+}
+
+export const UpdateStudentOnActivityDtoActivityStatusEnum = {
+    Active: 'active',
+    Inactive: 'inactive',
+    Pending: 'pending'
+} as const;
+
+export type UpdateStudentOnActivityDtoActivityStatusEnum = typeof UpdateStudentOnActivityDtoActivityStatusEnum[keyof typeof UpdateStudentOnActivityDtoActivityStatusEnum];
+
 /**
  * 
  * @export
@@ -1188,7 +1298,7 @@ export const ActivityApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async activityControllerCreate(createActivityDto: CreateActivityDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+        async activityControllerCreate(createActivityDto: CreateActivityDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Activity>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.activityControllerCreate(createActivityDto, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -1248,7 +1358,7 @@ export const ActivityApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        activityControllerCreate(createActivityDto: CreateActivityDto, options?: any): AxiosPromise<object> {
+        activityControllerCreate(createActivityDto: CreateActivityDto, options?: any): AxiosPromise<Activity> {
             return localVarFp.activityControllerCreate(createActivityDto, options).then((request) => request(axios, basePath));
         },
         /**
@@ -1951,363 +2061,6 @@ export class CategoryApi extends BaseAPI {
      */
     public categoryControllerUpdate(id: string, categoryDto: CategoryDto, options?: AxiosRequestConfig) {
         return CategoryApiFp(this.configuration).categoryControllerUpdate(id, categoryDto, options).then((request) => request(this.axios, this.basePath));
-    }
-}
-
-
-/**
- * DefaultApi - axios parameter creator
- * @export
- */
-export const DefaultApiAxiosParamCreator = function (configuration?: Configuration) {
-    return {
-        /**
-         * 
-         * @param {object} body 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        studentOnActivityControllerCreate: async (body: object, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'body' is not null or undefined
-            assertParamExists('studentOnActivityControllerCreate', 'body', body)
-            const localVarPath = `/student-on-activity`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        studentOnActivityControllerFindAll: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/student-on-activity`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {string} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        studentOnActivityControllerFindOne: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('studentOnActivityControllerFindOne', 'id', id)
-            const localVarPath = `/student-on-activity/{id}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {string} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        studentOnActivityControllerRemove: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('studentOnActivityControllerRemove', 'id', id)
-            const localVarPath = `/student-on-activity/{id}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {string} id 
-         * @param {object} body 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        studentOnActivityControllerUpdate: async (id: string, body: object, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('studentOnActivityControllerUpdate', 'id', id)
-            // verify required parameter 'body' is not null or undefined
-            assertParamExists('studentOnActivityControllerUpdate', 'body', body)
-            const localVarPath = `/student-on-activity/{id}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-    }
-};
-
-/**
- * DefaultApi - functional programming interface
- * @export
- */
-export const DefaultApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = DefaultApiAxiosParamCreator(configuration)
-    return {
-        /**
-         * 
-         * @param {object} body 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async studentOnActivityControllerCreate(body: object, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.studentOnActivityControllerCreate(body, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async studentOnActivityControllerFindAll(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.studentOnActivityControllerFindAll(options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
-         * @param {string} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async studentOnActivityControllerFindOne(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.studentOnActivityControllerFindOne(id, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
-         * @param {string} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async studentOnActivityControllerRemove(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.studentOnActivityControllerRemove(id, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
-         * @param {string} id 
-         * @param {object} body 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async studentOnActivityControllerUpdate(id: string, body: object, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.studentOnActivityControllerUpdate(id, body, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-    }
-};
-
-/**
- * DefaultApi - factory interface
- * @export
- */
-export const DefaultApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = DefaultApiFp(configuration)
-    return {
-        /**
-         * 
-         * @param {object} body 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        studentOnActivityControllerCreate(body: object, options?: any): AxiosPromise<string> {
-            return localVarFp.studentOnActivityControllerCreate(body, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        studentOnActivityControllerFindAll(options?: any): AxiosPromise<string> {
-            return localVarFp.studentOnActivityControllerFindAll(options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {string} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        studentOnActivityControllerFindOne(id: string, options?: any): AxiosPromise<string> {
-            return localVarFp.studentOnActivityControllerFindOne(id, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {string} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        studentOnActivityControllerRemove(id: string, options?: any): AxiosPromise<string> {
-            return localVarFp.studentOnActivityControllerRemove(id, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {string} id 
-         * @param {object} body 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        studentOnActivityControllerUpdate(id: string, body: object, options?: any): AxiosPromise<string> {
-            return localVarFp.studentOnActivityControllerUpdate(id, body, options).then((request) => request(axios, basePath));
-        },
-    };
-};
-
-/**
- * DefaultApi - object-oriented interface
- * @export
- * @class DefaultApi
- * @extends {BaseAPI}
- */
-export class DefaultApi extends BaseAPI {
-    /**
-     * 
-     * @param {object} body 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof DefaultApi
-     */
-    public studentOnActivityControllerCreate(body: object, options?: AxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).studentOnActivityControllerCreate(body, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof DefaultApi
-     */
-    public studentOnActivityControllerFindAll(options?: AxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).studentOnActivityControllerFindAll(options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {string} id 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof DefaultApi
-     */
-    public studentOnActivityControllerFindOne(id: string, options?: AxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).studentOnActivityControllerFindOne(id, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {string} id 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof DefaultApi
-     */
-    public studentOnActivityControllerRemove(id: string, options?: AxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).studentOnActivityControllerRemove(id, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {string} id 
-     * @param {object} body 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof DefaultApi
-     */
-    public studentOnActivityControllerUpdate(id: string, body: object, options?: AxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).studentOnActivityControllerUpdate(id, body, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -3554,6 +3307,383 @@ export class SchoolYearApi extends BaseAPI {
      */
     public schoolYearControllerUpdate(id: string, schoolYearDto: SchoolYearDto, options?: AxiosRequestConfig) {
         return SchoolYearApiFp(this.configuration).schoolYearControllerUpdate(id, schoolYearDto, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+/**
+ * StudentOnActivityApi - axios parameter creator
+ * @export
+ */
+export const StudentOnActivityApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {CreateStudentOnActivityDto} createStudentOnActivityDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        studentOnActivityControllerCreate: async (createStudentOnActivityDto: CreateStudentOnActivityDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'createStudentOnActivityDto' is not null or undefined
+            assertParamExists('studentOnActivityControllerCreate', 'createStudentOnActivityDto', createStudentOnActivityDto)
+            const localVarPath = `/student-on-activity`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(createStudentOnActivityDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        studentOnActivityControllerFindAll: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/student-on-activity`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        studentOnActivityControllerFindOne: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('studentOnActivityControllerFindOne', 'id', id)
+            const localVarPath = `/student-on-activity/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        studentOnActivityControllerRemove: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('studentOnActivityControllerRemove', 'id', id)
+            const localVarPath = `/student-on-activity/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {UpdateStudentOnActivityDto} updateStudentOnActivityDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        studentOnActivityControllerUpdate: async (id: string, updateStudentOnActivityDto: UpdateStudentOnActivityDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('studentOnActivityControllerUpdate', 'id', id)
+            // verify required parameter 'updateStudentOnActivityDto' is not null or undefined
+            assertParamExists('studentOnActivityControllerUpdate', 'updateStudentOnActivityDto', updateStudentOnActivityDto)
+            const localVarPath = `/student-on-activity/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(updateStudentOnActivityDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * StudentOnActivityApi - functional programming interface
+ * @export
+ */
+export const StudentOnActivityApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = StudentOnActivityApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {CreateStudentOnActivityDto} createStudentOnActivityDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async studentOnActivityControllerCreate(createStudentOnActivityDto: CreateStudentOnActivityDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.studentOnActivityControllerCreate(createStudentOnActivityDto, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async studentOnActivityControllerFindAll(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<StudentOnActivity>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.studentOnActivityControllerFindAll(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async studentOnActivityControllerFindOne(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<StudentOnActivity>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.studentOnActivityControllerFindOne(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async studentOnActivityControllerRemove(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<StudentOnActivity>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.studentOnActivityControllerRemove(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {UpdateStudentOnActivityDto} updateStudentOnActivityDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async studentOnActivityControllerUpdate(id: string, updateStudentOnActivityDto: UpdateStudentOnActivityDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<StudentOnActivity>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.studentOnActivityControllerUpdate(id, updateStudentOnActivityDto, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * StudentOnActivityApi - factory interface
+ * @export
+ */
+export const StudentOnActivityApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = StudentOnActivityApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {CreateStudentOnActivityDto} createStudentOnActivityDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        studentOnActivityControllerCreate(createStudentOnActivityDto: CreateStudentOnActivityDto, options?: any): AxiosPromise<object> {
+            return localVarFp.studentOnActivityControllerCreate(createStudentOnActivityDto, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        studentOnActivityControllerFindAll(options?: any): AxiosPromise<Array<StudentOnActivity>> {
+            return localVarFp.studentOnActivityControllerFindAll(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        studentOnActivityControllerFindOne(id: string, options?: any): AxiosPromise<StudentOnActivity> {
+            return localVarFp.studentOnActivityControllerFindOne(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        studentOnActivityControllerRemove(id: string, options?: any): AxiosPromise<StudentOnActivity> {
+            return localVarFp.studentOnActivityControllerRemove(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {UpdateStudentOnActivityDto} updateStudentOnActivityDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        studentOnActivityControllerUpdate(id: string, updateStudentOnActivityDto: UpdateStudentOnActivityDto, options?: any): AxiosPromise<StudentOnActivity> {
+            return localVarFp.studentOnActivityControllerUpdate(id, updateStudentOnActivityDto, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * StudentOnActivityApi - object-oriented interface
+ * @export
+ * @class StudentOnActivityApi
+ * @extends {BaseAPI}
+ */
+export class StudentOnActivityApi extends BaseAPI {
+    /**
+     * 
+     * @param {CreateStudentOnActivityDto} createStudentOnActivityDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof StudentOnActivityApi
+     */
+    public studentOnActivityControllerCreate(createStudentOnActivityDto: CreateStudentOnActivityDto, options?: AxiosRequestConfig) {
+        return StudentOnActivityApiFp(this.configuration).studentOnActivityControllerCreate(createStudentOnActivityDto, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof StudentOnActivityApi
+     */
+    public studentOnActivityControllerFindAll(options?: AxiosRequestConfig) {
+        return StudentOnActivityApiFp(this.configuration).studentOnActivityControllerFindAll(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof StudentOnActivityApi
+     */
+    public studentOnActivityControllerFindOne(id: string, options?: AxiosRequestConfig) {
+        return StudentOnActivityApiFp(this.configuration).studentOnActivityControllerFindOne(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof StudentOnActivityApi
+     */
+    public studentOnActivityControllerRemove(id: string, options?: AxiosRequestConfig) {
+        return StudentOnActivityApiFp(this.configuration).studentOnActivityControllerRemove(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} id 
+     * @param {UpdateStudentOnActivityDto} updateStudentOnActivityDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof StudentOnActivityApi
+     */
+    public studentOnActivityControllerUpdate(id: string, updateStudentOnActivityDto: UpdateStudentOnActivityDto, options?: AxiosRequestConfig) {
+        return StudentOnActivityApiFp(this.configuration).studentOnActivityControllerUpdate(id, updateStudentOnActivityDto, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
