@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { ErrorMessage, useFormik } from 'formik';
 import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { ClockLoader } from 'react-spinners';
 import * as Yup from 'yup';
 
@@ -33,6 +34,10 @@ const StyledTable = styled.table`
 
 const ColoredTableRow = styled.tr<{ isEven: boolean }>`
   background-color: ${(props) => (props.isEven ? '#f39e21' : 'transparent')};
+  &:hover {
+    cursor: pointer;
+    border: solid 2px black;
+  }
 `;
 
 const FormField = styled.div`
@@ -65,6 +70,8 @@ const Pagination = styled.div`
 `;
 
 const ProjectAssociateView = () => {
+  const navigate = useNavigate();
+  const { startYear } = useParams();
   const itemsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(1);
   const { data: associates, isLoading, isError } = useProjectAssociates(currentPage);
@@ -130,7 +137,11 @@ const ProjectAssociateView = () => {
               </thead>
               <tbody>
                 {queryResults.map((associate, index) => (
-                  <ColoredTableRow key={associate.id} isEven={index % 2 === 0}>
+                  <ColoredTableRow
+                    key={associate.id}
+                    isEven={index % 2 === 0}
+                    onClick={() => navigate(`/${startYear}/project-associates/${associate.id}`)}
+                  >
                     <td>{associate.clubName}</td>
                     <td>{associate.email}</td>
                     <td>{associate.mobilePhone}</td>
@@ -161,7 +172,11 @@ const ProjectAssociateView = () => {
               </thead>
               <tbody>
                 {visibleAssociates.map((associate, index) => (
-                  <ColoredTableRow key={associate.id} isEven={index % 2 === 0}>
+                  <ColoredTableRow
+                    key={associate.id}
+                    isEven={index % 2 === 0}
+                    onClick={() => navigate(`/${startYear}/project-associate/${associate.id}`)}
+                  >
                     <td>{associate.clubName}</td>
                     <td>{associate.email}</td>
                     <td>{associate.mobilePhone}</td>

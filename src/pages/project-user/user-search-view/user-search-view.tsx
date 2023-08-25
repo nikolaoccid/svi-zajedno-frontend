@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { ErrorMessage, useFormik } from 'formik';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { ClockLoader } from 'react-spinners';
 import * as Yup from 'yup';
 
@@ -33,6 +33,10 @@ const StyledTable = styled.table`
 
 const ColoredTableRow = styled.tr<{ isEven: boolean }>`
   background-color: ${(props) => (props.isEven ? '#f39e21' : 'transparent')};
+  &:hover {
+    cursor: pointer;
+    border: solid 2px black;
+  }
 `;
 
 const FormField = styled.div`
@@ -79,6 +83,8 @@ const Pagination = styled.div`
 `;
 
 const UserSearchView = () => {
+  const { startYear } = useParams();
+  const navigate = useNavigate();
   const itemsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(1);
   const { data: users, isLoading, isError } = useProjectUsers(currentPage);
@@ -134,7 +140,7 @@ const UserSearchView = () => {
               </thead>
               <tbody>
                 {queryResults.map((user, index) => (
-                  <ColoredTableRow key={user.id} isEven={index % 2 === 0}>
+                  <ColoredTableRow isEven={index % 2 === 0} onClick={() => navigate(`/${startYear}/user/${user.id}`)}>
                     <td>
                       {user.guardianName} {user.guardianSurname}
                     </td>
@@ -169,7 +175,11 @@ const UserSearchView = () => {
               </thead>
               <tbody>
                 {visibleUsers.map((user, index) => (
-                  <ColoredTableRow key={user.id} isEven={index % 2 === 0}>
+                  <ColoredTableRow
+                    key={user.id}
+                    isEven={index % 2 === 0}
+                    onClick={() => navigate(`/${startYear}/user/${user.id}`)}
+                  >
                     <td>
                       {user.guardianName} {user.guardianSurname}
                     </td>

@@ -38,6 +38,8 @@ function App() {
             {/*School year paths*/}
             <Route path="/school-year" element={<ChooseSchoolYear />} />
             <Route path="/school-year/new" element={<CreateSchoolYear />} />
+
+            {/*Dashboard*/}
             <Route path="/:startYear" element={<DashboardPage />} />
 
             {/*Project user*/}

@@ -1,6 +1,6 @@
 //TODO implement
 import { ErrorMessage, Field, FormikProvider, useFormik } from 'formik';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { RiseLoader } from 'react-spinners';
 import * as Yup from 'yup';
 
@@ -17,6 +17,7 @@ const validationSchema = Yup.object({
 });
 
 export function ManageActivity() {
+  const navigate = useNavigate();
   const { projectAssociateId, activityId, startYear } = useParams();
   const startYearInt = startYear ? parseInt(startYear) : 0;
   const { data: activity } = useActivity(activityId);
@@ -40,9 +41,11 @@ export function ManageActivity() {
         if (activity?.id) {
           await api.updateActivity(activity.id.toString(), activityFormData);
           toastSuccess('Aktivnost uspjesno azurirana.');
+          navigate(-1);
         }
         await api.createActivity(activityFormData);
         toastSuccess('Aktivnost uspjesno kreirana.');
+        navigate(-1);
       } catch (e) {
         toastError('Dogodila se pogreska');
       }

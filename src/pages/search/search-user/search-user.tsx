@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { useFormik } from 'formik';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { PacmanLoader } from 'react-spinners';
 import * as Yup from 'yup';
 
@@ -46,6 +46,7 @@ const TableLink = styled(Link)`
   }
 `;
 export function SearchUser(): JSX.Element {
+  const { startYear } = useParams();
   const [projectUser, setProjectUser] = useState<any>([]);
   const [fetched, setFetched] = useState(false);
   const formik = useFormik({
@@ -89,7 +90,7 @@ export function SearchUser(): JSX.Element {
         {fetched &&
           projectUser &&
           projectUser.map((item) => (
-            <TableLink to="/" key={item.id}>
+            <TableLink to={`/${startYear}/user/${item.id}`} key={item.id}>
               <Item>
                 {item?.childName} {item?.childSurname}
               </Item>
