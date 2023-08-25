@@ -35,7 +35,7 @@ const ColoredTableRow = styled.tr<{ isEven: boolean }>`
   background-color: ${(props) => (props.isEven ? '#f39e21' : 'transparent')};
   &:hover {
     cursor: pointer;
-    border: solid 2px black;
+    background-color: #2196f3;
   }
 `;
 
