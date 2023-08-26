@@ -31,7 +31,7 @@ export const Button = styled.button`
   font-family: 'Alegreya Sans', sans-serif;
   text-transform: uppercase;
   border-radius: 4px;
-  padding: 20px 35px;
+  padding: 20px 30px;
   color: white;
 `;
 
@@ -89,6 +89,7 @@ export const FormError = styled.div`
 
 export const ProfileSubmenu = styled.div`
   display: flex;
+  justify-content: space-around;
   flex-direction: row;
   gap: 20px;
 `;

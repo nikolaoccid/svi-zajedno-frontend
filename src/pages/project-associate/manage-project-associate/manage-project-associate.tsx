@@ -50,7 +50,7 @@ export const ManageProjectAssociate = () => {
           await api.updateProjectAssociate(projectAssociate.id, formAssociate);
           await queryClient.invalidateQueries({ queryKey: ['getProjectAssociateById'] });
           toastSuccess('Suradnik uspjesno azuriran.');
-          navigate(`/${schoolYearFromParams}`);
+          navigate(-1);
         } catch (e) {
           toastError('Dogodila se pogreska, suradnik nije azuriran');
         }

@@ -104,6 +104,9 @@ export function getProjectUserByQuery(query: string) {
 export function createProjetUserOnSchoolYear(userId: number, schoolYearId: number) {
   return getData(studentOnSchoolYear.studentOnSchoolYearControllerCreate({ schoolYearId, userId, status: 'active' }));
 }
+export function getProjetUserOnSchoolYear(userId: number, schoolYearId: number) {
+  return getData(studentOnSchoolYear.studentOnSchoolYearControllerFindAll(schoolYearId, userId));
+}
 
 export function getCategories() {
   return getData(categories.categoryControllerFindAll());

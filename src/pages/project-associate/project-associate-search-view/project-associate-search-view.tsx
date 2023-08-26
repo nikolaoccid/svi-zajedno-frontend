@@ -6,6 +6,7 @@ import { ClockLoader } from 'react-spinners';
 import * as Yup from 'yup';
 
 import { api } from '../../../api';
+import { Status } from '../../../components/status/status.tsx';
 import { CenterContent, PageContainer } from '../../common-styles/common-styles';
 import { useGetCategories } from '../manage-project-associate/hooks/use-get-categories.ts';
 import { useProjectAssociates } from './hooks/use-project-associates.ts';
@@ -168,7 +169,9 @@ const ProjectAssociateSearchView = () => {
                   <td>{(associate as any).contactPerson}</td>
                   <td>{(associate as any).address}</td>
                   <td>{(associate as any).city}</td>
-                  <td>{(associate as any).projectAssociateStatus}</td>
+                  <td>
+                    <Status status={(associate as any).projectAssociateStatus} />
+                  </td>
                   <td>{categoryMap[(associate as any).categoryId]}</td>
                 </ColoredTableRow>
               ))}

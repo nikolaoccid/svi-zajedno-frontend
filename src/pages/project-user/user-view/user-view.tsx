@@ -3,6 +3,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { PuffLoader } from 'react-spinners';
 
 import { CenterContent, PageContainer, ProfileSubmenu, SecondaryButton } from '../../common-styles/common-styles.ts';
+import { useSchoolYear } from '../../dashboard-page/hooks/use-fetch-school-year.ts';
+import { useStudentOnSchoolYear } from '../../student-on-school-year/hooks/get-student-on-school-year.ts';
 import { useProjectUser } from './hooks/use-project-user.ts';
 
 const ProfileContainer = styled.div`
@@ -34,13 +36,25 @@ const Value = styled.span`
 const UserView = () => {
   const navigate = useNavigate();
   const { userId, startYear } = useParams();
+  const { data: schoolYear, isLoading: isLoadingSchoolYear } = useSchoolYear(startYear ? parseInt(startYear) : 0);
+  const schoolYearId = (schoolYear && schoolYear[0].id) ?? 0;
   const { data: projectUser, isLoading, isError } = useProjectUser(userId);
 
+  const { data: studentOnSchoolYear } = useStudentOnSchoolYear(schoolYearId, projectUser?.id);
+
+  const handleEnrollment = () => {
+    console.log('handleEnrollment');
+    console.log(studentOnSchoolYear);
+  };
+  const handleUnenrollment = () => {
+    console.log('handleUnenrollment');
+    console.log(studentOnSchoolYear);
+  };
   if (isError || !userId || typeof parseInt(userId) !== 'number') {
     navigate(`/${startYear}/users`);
   }
 
-  if (isLoading) {
+  if (isLoading || isLoadingSchoolYear) {
     return (
       <PageContainer>
         <CenterContent>
@@ -52,9 +66,15 @@ const UserView = () => {
   return (
     projectUser !== undefined && (
       <ProfileContainer>
-        <ProfileHeader>User Profile</ProfileHeader>
+        <ProfileHeader>
+          {projectUser.childName} {projectUser.childSurname}
+        </ProfileHeader>
         <ProfileSubmenu>
-          <SecondaryButton onClick={() => console.log('button clicked')}>Upisi na skolsku godinu</SecondaryButton>
+          {studentOnSchoolYear?.length === 0 ? (
+            <SecondaryButton onClick={handleEnrollment}>Upisi na skolsku godinu</SecondaryButton>
+          ) : (
+            <SecondaryButton onClick={handleUnenrollment}>Ispisi sa skolske godine</SecondaryButton>
+          )}
           <SecondaryButton onClick={() => console.log('button clicked')}>Upisi na aktivnost</SecondaryButton>
         </ProfileSubmenu>
         <ProfileItem>
@@ -64,14 +84,6 @@ const UserView = () => {
         <ProfileItem>
           <Label>Guardian Surname:</Label>
           <Value>{projectUser.guardianSurname}</Value>
-        </ProfileItem>
-        <ProfileItem>
-          <Label>Child Name:</Label>
-          <Value>{projectUser.childName}</Value>
-        </ProfileItem>
-        <ProfileItem>
-          <Label>Child Surname:</Label>
-          <Value>{projectUser.childSurname}</Value>
         </ProfileItem>
         <ProfileItem>
           <Label>Date of Birth:</Label>

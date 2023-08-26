@@ -70,7 +70,7 @@ function App() {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/logout" element={<Logout />} />
           </Routes>
-          <ToastContainer limit={1} />
+          <ToastContainer />
         </RouteGuard>
       </BrowserRouter>
     </QueryClientProvider>

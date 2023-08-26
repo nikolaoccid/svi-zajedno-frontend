@@ -38,14 +38,15 @@ export function ManageActivity() {
     onSubmit: async (activityFormData) => {
       console.log('actityFormData', activityFormData);
       try {
-        if (activity?.id) {
+        if (activity && activity.id) {
           await api.updateActivity(activity.id.toString(), activityFormData);
           toastSuccess('Aktivnost uspjesno azurirana.');
-          navigate(-1);
+          navigate(`/${startYear}/project-associate/${projectAssociateId}`);
+        } else {
+          await api.createActivity(activityFormData);
+          toastSuccess('Aktivnost uspjesno kreirana.');
+          navigate(`/${startYear}/project-associate/${projectAssociateId}`);
         }
-        await api.createActivity(activityFormData);
-        toastSuccess('Aktivnost uspjesno kreirana.');
-        navigate(-1);
       } catch (e) {
         toastError('Dogodila se pogreska');
       }

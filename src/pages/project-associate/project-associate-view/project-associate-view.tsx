@@ -3,8 +3,13 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { PropagateLoader } from 'react-spinners';
 
 import { Status } from '../../../components/status/status.tsx';
-import { useGetCategory } from '../../category/manage-category/hooks/use-get-category.ts';
-import { CenterContent, PageContainer, ProfileSubmenu, SecondaryButton } from '../../common-styles/common-styles';
+import {
+  Button,
+  CenterContent,
+  PageContainer,
+  ProfileSubmenu,
+  SecondaryButton,
+} from '../../common-styles/common-styles';
 import { useSchoolYear } from '../../dashboard-page/hooks/use-fetch-school-year.ts';
 import { useGetProjectAssociate } from '../manage-project-associate/hooks/use-get-project-associate.ts';
 
@@ -56,14 +61,15 @@ const Row = styled.div`
   display: flex;
   flex-direction: row;
 `;
+
 const Center = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   width: 100%;
 `;
 const Right = styled.div`
   display: flex;
-  align-items: flex-end;
+  align-items: center;
 `;
 const Table = styled.table`
   width: 100%;
@@ -84,7 +90,6 @@ const ProjectAssociateView = () => {
   const { projectAssociateId, startYear } = useParams();
   const { data: schoolYear } = useSchoolYear(parseInt(startYear ?? '0'));
   const { data: projectAssociate, isLoading, isError } = useGetProjectAssociate(projectAssociateId);
-  const { data: category } = useGetCategory(projectAssociate?.categoryId?.toString());
 
   if (isError || !projectAssociateId || typeof parseInt(projectAssociateId) !== 'number') {
     navigate(`${startYear}/project-associates`);
@@ -105,24 +110,26 @@ const ProjectAssociateView = () => {
   const filteredActivities = projectAssociate?.activity?.filter(
     (activity) => activity.schoolYearId === (schoolYear ? schoolYear[0]?.id : 0),
   );
-  console.log('projectAssociate', projectAssociate);
-  console.log('projectAssociate filtered act', filteredActivities);
+  console.log(projectAssociate);
   return (
     projectAssociate !== undefined && (
       <ProfileContainer>
         <HeaderSection>
           <Center>
-            <ProfileHeader>{projectAssociate.clubName}</ProfileHeader>
+            <ProfileHeader>
+              {projectAssociate.category?.categoryName} - {projectAssociate.clubName}
+            </ProfileHeader>
           </Center>
           <Right>
             <Status status={projectAssociate.projectAssociateStatus} />
           </Right>
         </HeaderSection>
         <ProfileSubmenu>
-          <SecondaryButton
-            onClick={() => navigate(`/${startYear}/project-associate/${projectAssociateId}/activity/new`)}
-          >
+          <Button onClick={() => navigate(`/${startYear}/project-associate/${projectAssociateId}/activity/new`)}>
             Dodaj aktivnost
+          </Button>
+          <SecondaryButton onClick={() => navigate(`/${startYear}/project-associate/${projectAssociateId}/edit`)}>
+            Uredi suradnika
           </SecondaryButton>
         </ProfileSubmenu>
         <Content>
@@ -148,14 +155,6 @@ const ProjectAssociateView = () => {
                 <Label>City:</Label>
                 <Value>{projectAssociate.city}</Value>
               </ProfileItem>
-              <ProfileItem>
-                <Label>Status:</Label>
-                <Value>{projectAssociate.projectAssociateStatus}</Value>
-              </ProfileItem>
-              <ProfileItem>
-                <Label>Category:</Label>
-                <Value>{category?.categoryName}</Value>
-              </ProfileItem>
             </Section>
           </Row>
           <Row>
@@ -176,8 +175,20 @@ const ProjectAssociateView = () => {
                       <tr key={activity.id}>
                         <td>{activity.activityName}</td>
                         <td>{activity.activityPrice}EUR</td>
-                        <td>{activity.activityStatus}</td>
-                        <td>AKCIJE</td>
+                        <td>
+                          <Status status={activity.activityStatus} />
+                        </td>
+                        <td>
+                          <SecondaryButton
+                            onClick={() =>
+                              navigate(
+                                `/${startYear}/project-associate/${projectAssociateId}/activity/${activity.id}/edit`,
+                              )
+                            }
+                          >
+                            Uredi
+                          </SecondaryButton>
+                        </td>
                       </tr>
                     ))}
                   </tbody>
