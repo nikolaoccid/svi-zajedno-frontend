@@ -2,8 +2,10 @@ import styled from '@emotion/styled';
 import { useNavigate, useParams } from 'react-router-dom';
 import { PropagateLoader } from 'react-spinners';
 
+import { Status } from '../../../components/status/status.tsx';
 import { useGetCategory } from '../../category/manage-category/hooks/use-get-category.ts';
 import { CenterContent, PageContainer, ProfileSubmenu, SecondaryButton } from '../../common-styles/common-styles';
+import { useSchoolYear } from '../../dashboard-page/hooks/use-fetch-school-year.ts';
 import { useGetProjectAssociate } from '../manage-project-associate/hooks/use-get-project-associate.ts';
 
 const ProfileContainer = styled.div`
@@ -13,8 +15,15 @@ const ProfileContainer = styled.div`
   padding: 20px;
 `;
 
-const ProfileHeader = styled.h2`
+const ProfileHeader = styled.h1`
   margin-bottom: 10px;
+`;
+
+const HeaderSection = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
 `;
 
 const ProfileItem = styled.div`
@@ -31,10 +40,49 @@ const Label = styled.span`
 const Value = styled.span`
   font-weight: normal;
 `;
+const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  width: 100%;
+`;
+const Section = styled.div`
+  width: 50%;
+`;
+const FullWidthSection = styled.div`
+  width: 100%;
+`;
+const Row = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+const Center = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+`;
+const Right = styled.div`
+  display: flex;
+  align-items: flex-end;
+`;
+const Table = styled.table`
+  width: 100%;
+  border-collapse: collapse;
+  th,
+  td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+  }
+  th {
+    background-color: #f2f2f2;
+  }
+`;
 
 const ProjectAssociateView = () => {
   const navigate = useNavigate();
   const { projectAssociateId, startYear } = useParams();
+  const { data: schoolYear } = useSchoolYear(parseInt(startYear ?? '0'));
   const { data: projectAssociate, isLoading, isError } = useGetProjectAssociate(projectAssociateId);
   const { data: category } = useGetCategory(projectAssociate?.categoryId?.toString());
 
@@ -52,10 +100,24 @@ const ProjectAssociateView = () => {
     );
   }
 
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  const filteredActivities = projectAssociate?.activity?.filter(
+    (activity) => activity.schoolYearId === (schoolYear ? schoolYear[0]?.id : 0),
+  );
+  console.log('projectAssociate', projectAssociate);
+  console.log('projectAssociate filtered act', filteredActivities);
   return (
     projectAssociate !== undefined && (
       <ProfileContainer>
-        <ProfileHeader>Project Associate Profile</ProfileHeader>
+        <HeaderSection>
+          <Center>
+            <ProfileHeader>{projectAssociate.clubName}</ProfileHeader>
+          </Center>
+          <Right>
+            <Status status={projectAssociate.projectAssociateStatus} />
+          </Right>
+        </HeaderSection>
         <ProfileSubmenu>
           <SecondaryButton
             onClick={() => navigate(`/${startYear}/project-associate/${projectAssociateId}/activity/new`)}
@@ -63,38 +125,69 @@ const ProjectAssociateView = () => {
             Dodaj aktivnost
           </SecondaryButton>
         </ProfileSubmenu>
-        <ProfileItem>
-          <Label>Club Name:</Label>
-          <Value>{projectAssociate.clubName}</Value>
-        </ProfileItem>
-        <ProfileItem>
-          <Label>Email:</Label>
-          <Value>{projectAssociate.email}</Value>
-        </ProfileItem>
-        <ProfileItem>
-          <Label>Mobile Phone:</Label>
-          <Value>{projectAssociate.mobilePhone}</Value>
-        </ProfileItem>
-        <ProfileItem>
-          <Label>Contact Person:</Label>
-          <Value>{projectAssociate.contactPerson}</Value>
-        </ProfileItem>
-        <ProfileItem>
-          <Label>Address:</Label>
-          <Value>{projectAssociate.address}</Value>
-        </ProfileItem>
-        <ProfileItem>
-          <Label>City:</Label>
-          <Value>{projectAssociate.city}</Value>
-        </ProfileItem>
-        <ProfileItem>
-          <Label>Status:</Label>
-          <Value>{projectAssociate.projectAssociateStatus}</Value>
-        </ProfileItem>
-        <ProfileItem>
-          <Label>Category:</Label>
-          <Value>{category?.categoryName}</Value>
-        </ProfileItem>
+        <Content>
+          <Row>
+            <Section>
+              <ProfileItem>
+                <Label>Email:</Label>
+                <Value>{projectAssociate.email}</Value>
+              </ProfileItem>
+              <ProfileItem>
+                <Label>Mobile Phone:</Label>
+                <Value>{projectAssociate.mobilePhone}</Value>
+              </ProfileItem>
+              <ProfileItem>
+                <Label>Contact Person:</Label>
+                <Value>{projectAssociate.contactPerson}</Value>
+              </ProfileItem>
+              <ProfileItem>
+                <Label>Address:</Label>
+                <Value>{projectAssociate.address}</Value>
+              </ProfileItem>
+              <ProfileItem>
+                <Label>City:</Label>
+                <Value>{projectAssociate.city}</Value>
+              </ProfileItem>
+              <ProfileItem>
+                <Label>Status:</Label>
+                <Value>{projectAssociate.projectAssociateStatus}</Value>
+              </ProfileItem>
+              <ProfileItem>
+                <Label>Category:</Label>
+                <Value>{category?.categoryName}</Value>
+              </ProfileItem>
+            </Section>
+          </Row>
+          <Row>
+            <FullWidthSection>
+              <h2>Aktivnosti</h2>
+              {filteredActivities !== undefined && filteredActivities?.length > 0 ? (
+                <Table>
+                  <thead>
+                    <tr>
+                      <th>Aktivnost</th>
+                      <th>Cijena</th>
+                      <th>Status</th>
+                      <th>Akcije</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {filteredActivities.map((activity) => (
+                      <tr key={activity.id}>
+                        <td>{activity.activityName}</td>
+                        <td>{activity.activityPrice}EUR</td>
+                        <td>{activity.activityStatus}</td>
+                        <td>AKCIJE</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
+              ) : (
+                <p>Suradnik nema aktivnosti u ovoj skolskoj godini.</p>
+              )}
+            </FullWidthSection>
+          </Row>
+        </Content>
       </ProfileContainer>
     )
   );
