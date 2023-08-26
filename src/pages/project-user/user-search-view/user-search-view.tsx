@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { ErrorMessage, useFormik } from 'formik';
-import { useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { ClockLoader } from 'react-spinners';
 import * as Yup from 'yup';
 
@@ -65,19 +65,6 @@ const FormContent = styled.div`
   gap: 15px;
 `;
 
-const Item = styled.div`
-  display: flex;
-  gap: 25px;
-`;
-
-const TableLink = styled(Link)`
-  color: black;
-  text-decoration: none;
-  &:hover {
-    color: #e74c3c;
-    text-decoration: underline;
-  }
-`;
 const Pagination = styled.div`
   padding-top: 20px;
 `;
@@ -85,13 +72,12 @@ const Pagination = styled.div`
 const UserSearchView = () => {
   const { startYear } = useParams();
   const navigate = useNavigate();
-  const itemsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(1);
-  const { data: users, isLoading, isError } = useProjectUsers(currentPage);
+  const { loading: isLoading, error: isError, execute: getProjectUsersPage } = useProjectUsers(currentPage);
 
-  const [projectUser] = useState([]);
   const [fetched, setFetched] = useState(false);
   const [queryResults, setQueryResults] = useState<any>([]);
+  const [totalPages, setTotalPages] = useState<number>(1);
 
   const formik = useFormik({
     initialValues: {
@@ -102,13 +88,20 @@ const UserSearchView = () => {
       const res = await api.getProjectUserByQuery(formCategory.search);
       setQueryResults(res);
       setFetched(true);
+      setTotalPages(1);
     },
     enableReinitialize: false,
   });
 
-  const totalPages = ((users as any)?.meta?.totalPages ?? 1) as number;
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const visibleUsers = (users as any)?.items?.slice(startIndex, startIndex + itemsPerPage) || [];
+  useEffect(() => {
+    const getData = async () => {
+      const response = await getProjectUsersPage();
+      setQueryResults((response as any).items);
+      setTotalPages((response as any).meta.totalPages);
+      setFetched(true);
+    };
+    getData();
+  }, [currentPage, getProjectUsersPage]);
 
   return (
     <PageContainer>
@@ -124,7 +117,7 @@ const UserSearchView = () => {
             {formik.touched.search && formik.errors.search && <FormError>{formik.errors.search}</FormError>}
           </FormField>
         </Form>
-        {fetched && queryResults.length > 0 ? (
+        {fetched ? (
           <TableWrapper>
             <StyledTable>
               <thead>
@@ -140,56 +133,15 @@ const UserSearchView = () => {
               </thead>
               <tbody>
                 {queryResults.map((user, index) => (
-                  <ColoredTableRow isEven={index % 2 === 0} onClick={() => navigate(`/${startYear}/user/${user.id}`)}>
-                    <td>
-                      {user.guardianName} {user.guardianSurname}
-                    </td>
-                    <td>
-                      {user.childName} {user.childSurname}
-                    </td>
-                    <td>{user.dateOfBirth}</td>
-                    <td>
-                      {user.address}, {user.city}
-                    </td>
-                    <td>{user.school}</td>
-                    <td>{user.mobilePhone}</td>
-                    <td>{user.email}</td>
-                  </ColoredTableRow>
-                ))}
-              </tbody>
-            </StyledTable>
-          </TableWrapper>
-        ) : (
-          <TableWrapper>
-            <StyledTable>
-              <thead>
-                <tr>
-                  <th>Guardian</th>
-                  <th>Child</th>
-                  <th>Date of Birth</th>
-                  <th>Address</th>
-                  <th>School</th>
-                  <th>Mobile Phone</th>
-                  <th>Email</th>
-                </tr>
-              </thead>
-              <tbody>
-                {visibleUsers.map((user, index) => (
                   <ColoredTableRow
                     key={user.id}
                     isEven={index % 2 === 0}
                     onClick={() => navigate(`/${startYear}/user/${user.id}`)}
                   >
-                    <td>
-                      {user.guardianName} {user.guardianSurname}
-                    </td>
-                    <td>
-                      {user.childName} {user.childSurname}
-                    </td>
+                    <td>{user.guardianName}</td>
+                    <td>{user.childName}</td>
                     <td>{user.dateOfBirth}</td>
-                    <td>
-                      {user.address}, {user.city}
-                    </td>
+                    <td>{user.address}</td>
                     <td>{user.school}</td>
                     <td>{user.mobilePhone}</td>
                     <td>{user.email}</td>
@@ -211,23 +163,12 @@ const UserSearchView = () => {
               </Pagination>
             )}
           </TableWrapper>
+        ) : (
+          <div>Loading...</div>
         )}
         {isLoading ? <ClockLoader color="#2196f3" /> : null}
         {isError ? <ErrorMessage>Error loading data.</ErrorMessage> : null}
-        {fetched && queryResults.length === 0 && projectUser.length === 0 && (
-          <FormError>Nema rezultata za vas upit</FormError>
-        )}
-        {fetched && projectUser.length > 0 && (
-          <FormContent>
-            {projectUser.map((item) => (
-              <TableLink to="/" key={(item as any)?.id}>
-                <Item>
-                  {(item as any)?.childName} {(item as any)?.childSurname}
-                </Item>
-              </TableLink>
-            ))}
-          </FormContent>
-        )}
+        {fetched && queryResults.length === 0 && <FormError>Nema rezultata za vaš upit</FormError>}
       </CenterContent>
     </PageContainer>
   );
