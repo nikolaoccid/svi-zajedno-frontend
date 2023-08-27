@@ -45,7 +45,7 @@ const Label = styled.span`
 const Value = styled.span`
   font-weight: normal;
 `;
-const Content = styled.div`
+export const Content = styled.div`
   display: flex;
   flex-direction: column;
   gap: 50px;
@@ -54,11 +54,12 @@ const Content = styled.div`
 const Section = styled.div`
   width: 50%;
 `;
-const FullWidthSection = styled.div`
+export const FullWidthSection = styled.div`
   width: 100%;
 `;
-const Row = styled.div`
+export const Row = styled.div`
   display: flex;
+  width: 100%;
   flex-direction: row;
 `;
 
@@ -71,7 +72,7 @@ const Right = styled.div`
   display: flex;
   align-items: center;
 `;
-const Table = styled.table`
+export const Table = styled.table`
   width: 100%;
   border-collapse: collapse;
   th,

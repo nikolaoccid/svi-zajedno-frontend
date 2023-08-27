@@ -175,3 +175,6 @@ export function createActivity(activity: CreateActivityDto) {
 export function createStudentOnActivity(createStudentOnActivity: CreateStudentOnActivityDto) {
   return getData(studentOnActivity.studentOnActivityControllerCreate(createStudentOnActivity));
 }
+export function getStudentOnActivity(studentOnSchoolYearId) {
+  return getData(studentOnActivity.studentOnActivityControllerFindAll(studentOnSchoolYearId));
+}

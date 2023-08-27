@@ -2,11 +2,19 @@ import styled from '@emotion/styled';
 import { useNavigate, useParams } from 'react-router-dom';
 import { PuffLoader } from 'react-spinners';
 
+import { Status } from '../../../components/status/status.tsx';
 import { CenterContent, PageContainer, ProfileSubmenu, SecondaryButton } from '../../common-styles/common-styles.ts';
 import { useSchoolYear } from '../../dashboard-page/hooks/use-fetch-school-year.ts';
+import {
+  Content,
+  FullWidthSection,
+  Row,
+  Table,
+} from '../../project-associate/project-associate-view/project-associate-view.tsx';
 import { useStudentOnSchoolYear } from '../../student-on-school-year/hooks/get-student-on-school-year.ts';
 import { useCreateStudentOnSchoolYear } from './hooks/use-create-student-on-school-year.ts';
 import { useProjectUser } from './hooks/use-project-user.ts';
+import { useStudentOnActivities } from './hooks/use-student-on-activities.ts';
 import { useUpdateStudentOnSchoolYear } from './hooks/use-update-student-on-school-year.ts';
 
 const ProfileContainer = styled.div`
@@ -51,6 +59,9 @@ const UserView = () => {
     studentOnSchoolYearId,
     studentOnSchoolYear && studentOnSchoolYear.length > 0 ? studentOnSchoolYear[0] : undefined,
   );
+  const { data: studentOnActivities, isLoading: isLoadingStudentOnActivities } = useStudentOnActivities(
+    studentOnSchoolYear ? studentOnSchoolYear[0]?.id : 0,
+  );
   console.log(studentOnSchoolYear);
 
   const handleEnrollment = () => {
@@ -76,7 +87,13 @@ const UserView = () => {
     navigate(`/${startYear}/users`);
   }
 
-  if (isLoading || isLoadingSchoolYear || isLoadingCreateStudentOnSchoolYear || isLoadingUpdateStudentOnSchoolYear) {
+  if (
+    isLoading ||
+    isLoadingSchoolYear ||
+    isLoadingCreateStudentOnSchoolYear ||
+    isLoadingUpdateStudentOnSchoolYear ||
+    isLoadingStudentOnActivities
+  ) {
     return (
       <PageContainer>
         <CenterContent>
@@ -85,6 +102,7 @@ const UserView = () => {
       </PageContainer>
     );
   }
+  console.log('studentOnActivities', studentOnActivities);
   return (
     projectUser !== undefined && (
       <ProfileContainer>
@@ -110,38 +128,78 @@ const UserView = () => {
             Upisi na aktivnost
           </SecondaryButton>
         </ProfileSubmenu>
-        <ProfileItem>
-          <Label>Guardian Name:</Label>
-          <Value>{projectUser.guardianName}</Value>
-        </ProfileItem>
-        <ProfileItem>
-          <Label>Guardian Surname:</Label>
-          <Value>{projectUser.guardianSurname}</Value>
-        </ProfileItem>
-        <ProfileItem>
-          <Label>Date of Birth:</Label>
-          <Value>{projectUser.dateOfBirth}</Value>
-        </ProfileItem>
-        <ProfileItem>
-          <Label>Address:</Label>
-          <Value>{projectUser.address}</Value>
-        </ProfileItem>
-        <ProfileItem>
-          <Label>City:</Label>
-          <Value>{projectUser.city}</Value>
-        </ProfileItem>
-        <ProfileItem>
-          <Label>School:</Label>
-          <Value>{projectUser.school}</Value>
-        </ProfileItem>
-        <ProfileItem>
-          <Label>Mobile Phone:</Label>
-          <Value>{projectUser.mobilePhone}</Value>
-        </ProfileItem>
-        <ProfileItem>
-          <Label>Email:</Label>
-          <Value>{projectUser.email}</Value>
-        </ProfileItem>
+        <Row>
+          <Content>
+            <ProfileItem>
+              <Label>Guardian Name:</Label>
+              <Value>{projectUser.guardianName}</Value>
+            </ProfileItem>
+            <ProfileItem>
+              <Label>Guardian Surname:</Label>
+              <Value>{projectUser.guardianSurname}</Value>
+            </ProfileItem>
+            <ProfileItem>
+              <Label>Date of Birth:</Label>
+              <Value>{projectUser.dateOfBirth}</Value>
+            </ProfileItem>
+            <ProfileItem>
+              <Label>Address:</Label>
+              <Value>{projectUser.address}</Value>
+            </ProfileItem>
+            <ProfileItem>
+              <Label>City:</Label>
+              <Value>{projectUser.city}</Value>
+            </ProfileItem>
+            <ProfileItem>
+              <Label>School:</Label>
+              <Value>{projectUser.school}</Value>
+            </ProfileItem>
+            <ProfileItem>
+              <Label>Mobile Phone:</Label>
+              <Value>{projectUser.mobilePhone}</Value>
+            </ProfileItem>
+            <ProfileItem>
+              <Label>Email:</Label>
+              <Value>{projectUser.email}</Value>
+            </ProfileItem>
+          </Content>
+        </Row>
+        <Row>
+          <FullWidthSection>
+            <h2>Aktivnosti</h2>
+            {studentOnActivities !== undefined || studentOnActivities !== null ? (
+              <Table>
+                <thead>
+                  <tr>
+                    <th>Aktivnost</th>
+                    <th>Klub</th>
+                    <th>Status</th>
+                    <th>Akcije</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {studentOnActivities &&
+                    studentOnActivities.map((activity) => (
+                      <tr key={activity.id}>
+                        <td>{activity?.activity?.activityName}</td>
+                        <td>{activity?.activity?.projectAssociate?.clubName}</td>
+                        <td>
+                          <Status status={activity?.activityStatus} />
+                        </td>
+                        <td>
+                          <SecondaryButton onClick={() => console.log('click!')}>Uredi</SecondaryButton>
+                        </td>
+                      </tr>
+                    ))}
+                </tbody>
+              </Table>
+            ) : (
+              <tr>
+                <td>Korisnik nema aktivnosti u ovoj skolskoj godini.</td>
+              </tr>
+            )}
+          </FullWidthSection>
+        </Row>
       </ProfileContainer>
     )
   );

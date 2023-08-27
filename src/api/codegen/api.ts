@@ -3382,10 +3382,11 @@ export const StudentOnActivityApiAxiosParamCreator = function (configuration?: C
         },
         /**
          * 
+         * @param {number} [studentOnSchoolYearId] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        studentOnActivityControllerFindAll: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        studentOnActivityControllerFindAll: async (studentOnSchoolYearId?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/student-on-activity`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -3401,6 +3402,10 @@ export const StudentOnActivityApiAxiosParamCreator = function (configuration?: C
             // authentication bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (studentOnSchoolYearId !== undefined) {
+                localVarQueryParameter['studentOnSchoolYearId'] = studentOnSchoolYearId;
+            }
 
 
     
@@ -3552,11 +3557,12 @@ export const StudentOnActivityApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @param {number} [studentOnSchoolYearId] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async studentOnActivityControllerFindAll(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<StudentOnActivity>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.studentOnActivityControllerFindAll(options);
+        async studentOnActivityControllerFindAll(studentOnSchoolYearId?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<StudentOnActivity>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.studentOnActivityControllerFindAll(studentOnSchoolYearId, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -3611,11 +3617,12 @@ export const StudentOnActivityApiFactory = function (configuration?: Configurati
         },
         /**
          * 
+         * @param {number} [studentOnSchoolYearId] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        studentOnActivityControllerFindAll(options?: any): AxiosPromise<Array<StudentOnActivity>> {
-            return localVarFp.studentOnActivityControllerFindAll(options).then((request) => request(axios, basePath));
+        studentOnActivityControllerFindAll(studentOnSchoolYearId?: number, options?: any): AxiosPromise<Array<StudentOnActivity>> {
+            return localVarFp.studentOnActivityControllerFindAll(studentOnSchoolYearId, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -3668,12 +3675,13 @@ export class StudentOnActivityApi extends BaseAPI {
 
     /**
      * 
+     * @param {number} [studentOnSchoolYearId] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof StudentOnActivityApi
      */
-    public studentOnActivityControllerFindAll(options?: AxiosRequestConfig) {
-        return StudentOnActivityApiFp(this.configuration).studentOnActivityControllerFindAll(options).then((request) => request(this.axios, this.basePath));
+    public studentOnActivityControllerFindAll(studentOnSchoolYearId?: number, options?: AxiosRequestConfig) {
+        return StudentOnActivityApiFp(this.configuration).studentOnActivityControllerFindAll(studentOnSchoolYearId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
