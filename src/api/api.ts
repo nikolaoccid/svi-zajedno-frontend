@@ -1,6 +1,7 @@
 import { AxiosResponse } from 'axios';
 
 import {
+  ActivityActivityStatusEnum,
   ActivityApi,
   AuthApi,
   CategoryApi,
@@ -110,6 +111,14 @@ export function getProjetUserOnSchoolYear(userId: number, schoolYearId: number) 
 }
 export function updateProjetUserOnSchoolYear(id: string, updateStudentOnSchoolYear: UpdateStudentOnSchoolYearDto) {
   return getData(studentOnSchoolYear.studentOnSchoolYearControllerUpdate(id, updateStudentOnSchoolYear));
+}
+
+export function getActivities(
+  query: string | undefined,
+  activityStatus: ActivityActivityStatusEnum | undefined,
+  schoolYearId: number | undefined,
+) {
+  return getData(activities.activityControllerFindAll(activityStatus, query, schoolYearId));
 }
 
 export function getCategories() {

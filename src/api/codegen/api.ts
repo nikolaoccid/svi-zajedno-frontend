@@ -1134,11 +1134,13 @@ export const ActivityApiAxiosParamCreator = function (configuration?: Configurat
         },
         /**
          * 
+         * @param {'active' | 'inactive' | 'pending'} [activityStatus] 
+         * @param {string} [query] 
          * @param {number} [schoolYearId] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        activityControllerFindAll: async (schoolYearId?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        activityControllerFindAll: async (activityStatus?: 'active' | 'inactive' | 'pending', query?: string, schoolYearId?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/activity`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1154,6 +1156,14 @@ export const ActivityApiAxiosParamCreator = function (configuration?: Configurat
             // authentication bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (activityStatus !== undefined) {
+                localVarQueryParameter['activityStatus'] = activityStatus;
+            }
+
+            if (query !== undefined) {
+                localVarQueryParameter['query'] = query;
+            }
 
             if (schoolYearId !== undefined) {
                 localVarQueryParameter['schoolYearId'] = schoolYearId;
@@ -1309,12 +1319,14 @@ export const ActivityApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @param {'active' | 'inactive' | 'pending'} [activityStatus] 
+         * @param {string} [query] 
          * @param {number} [schoolYearId] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async activityControllerFindAll(schoolYearId?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Activity>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.activityControllerFindAll(schoolYearId, options);
+        async activityControllerFindAll(activityStatus?: 'active' | 'inactive' | 'pending', query?: string, schoolYearId?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Activity>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.activityControllerFindAll(activityStatus, query, schoolYearId, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -1369,12 +1381,14 @@ export const ActivityApiFactory = function (configuration?: Configuration, baseP
         },
         /**
          * 
+         * @param {'active' | 'inactive' | 'pending'} [activityStatus] 
+         * @param {string} [query] 
          * @param {number} [schoolYearId] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        activityControllerFindAll(schoolYearId?: number, options?: any): AxiosPromise<Array<Activity>> {
-            return localVarFp.activityControllerFindAll(schoolYearId, options).then((request) => request(axios, basePath));
+        activityControllerFindAll(activityStatus?: 'active' | 'inactive' | 'pending', query?: string, schoolYearId?: number, options?: any): AxiosPromise<Array<Activity>> {
+            return localVarFp.activityControllerFindAll(activityStatus, query, schoolYearId, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -1427,13 +1441,15 @@ export class ActivityApi extends BaseAPI {
 
     /**
      * 
+     * @param {'active' | 'inactive' | 'pending'} [activityStatus] 
+     * @param {string} [query] 
      * @param {number} [schoolYearId] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ActivityApi
      */
-    public activityControllerFindAll(schoolYearId?: number, options?: AxiosRequestConfig) {
-        return ActivityApiFp(this.configuration).activityControllerFindAll(schoolYearId, options).then((request) => request(this.axios, this.basePath));
+    public activityControllerFindAll(activityStatus?: 'active' | 'inactive' | 'pending', query?: string, schoolYearId?: number, options?: AxiosRequestConfig) {
+        return ActivityApiFp(this.configuration).activityControllerFindAll(activityStatus, query, schoolYearId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

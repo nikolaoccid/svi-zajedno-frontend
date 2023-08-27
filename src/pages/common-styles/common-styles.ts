@@ -26,7 +26,7 @@ export const Input = styled.input`
 
 export const Button = styled.button`
   background-color: #2196f3;
-  width: 100%;
+  //width: 100%;
   font-weight: 800;
   font-family: 'Alegreya Sans', sans-serif;
   text-transform: uppercase;
