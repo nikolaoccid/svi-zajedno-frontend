@@ -86,7 +86,6 @@ export const ManageStudentOnActivity = () => {
     },
   });
   const handleActivityClick = async (item) => {
-    console.log('handleActivityClick', item);
     await createStudentOnActivity({
       activityId: item.id,
       activityStatus: 'active',
@@ -134,7 +133,7 @@ export const ManageStudentOnActivity = () => {
               </tr>
             </thead>
             <tbody>
-              {activities ? (
+              {activities && activities?.length !== 0 ? (
                 activities.map((item, index) => (
                   <ColoredTableRow key={item.id} isEven={index % 2 === 0} onClick={() => handleActivityClick(item)}>
                     <TableCell>{item.projectAssociate.clubName}</TableCell>
