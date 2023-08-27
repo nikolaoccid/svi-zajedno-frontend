@@ -33,6 +33,9 @@ export const Button = styled.button`
   border-radius: 4px;
   padding: 20px 30px;
   color: white;
+  &:disabled {
+    background-color: lightgray;
+  }
 `;
 
 export const SecondaryButton = styled.button`

@@ -20,6 +20,7 @@ import {
   UpdateActivityDto,
   UpdateProjectAssociateDto,
   UpdateProjectUserDto,
+  UpdateStudentOnActivityDto,
   UpdateStudentOnSchoolYearDto,
   UsersApi,
 } from './codegen';
@@ -177,4 +178,10 @@ export function createStudentOnActivity(createStudentOnActivity: CreateStudentOn
 }
 export function getStudentOnActivity(studentOnSchoolYearId) {
   return getData(studentOnActivity.studentOnActivityControllerFindAll(studentOnSchoolYearId));
+}
+export function updateStudentOnActivity(studentOnActivityId: string, student: UpdateStudentOnActivityDto) {
+  console.log('updateStudentOnActivity api.ts', student);
+  const res = getData(studentOnActivity.studentOnActivityControllerUpdate(studentOnActivityId, student));
+  console.log(res);
+  return res;
 }

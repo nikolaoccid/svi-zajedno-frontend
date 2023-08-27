@@ -1,12 +1,15 @@
 import styled from '@emotion/styled';
+import { useQueryClient } from '@tanstack/react-query';
 import { useNavigate, useParams } from 'react-router-dom';
 import { PuffLoader } from 'react-spinners';
 
+import { api } from '../../../api';
+import { ActivityActivityStatusEnum } from '../../../api/codegen';
 import { Status } from '../../../components/status/status.tsx';
+import { toastError, toastSuccess } from '../../../utils/toast.ts';
 import { CenterContent, PageContainer, ProfileSubmenu, SecondaryButton } from '../../common-styles/common-styles.ts';
 import { useSchoolYear } from '../../dashboard-page/hooks/use-fetch-school-year.ts';
 import {
-  Content,
   FullWidthSection,
   Row,
   Table,
@@ -42,8 +45,15 @@ const Label = styled.span`
 const Value = styled.span`
   font-weight: normal;
 `;
+export const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+`;
 
 const UserView = () => {
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { userId, startYear } = useParams();
   const { data: schoolYear, isLoading: isLoadingSchoolYear } = useSchoolYear(startYear ? parseInt(startYear) : 0);
@@ -62,7 +72,6 @@ const UserView = () => {
   const { data: studentOnActivities, isLoading: isLoadingStudentOnActivities } = useStudentOnActivities(
     studentOnSchoolYear ? studentOnSchoolYear[0]?.id : 0,
   );
-  console.log(studentOnSchoolYear);
 
   const handleEnrollment = () => {
     if (studentOnSchoolYear?.length === 0) {
@@ -80,6 +89,38 @@ const UserView = () => {
     if (enrollment && enrollment.status === 'active') {
       enrollment.status = 'inactive';
       updateStudentOnSchoolYear();
+    }
+  };
+  const disenrollActivity = async (activity) => {
+    try {
+      console.log(activity);
+      activity.activityStatus = ActivityActivityStatusEnum.Inactive;
+      await api.updateStudentOnActivity(activity.id.toString(), {
+        id: activity.id,
+        activityStatus: 'inactive',
+        studentOnSchoolYearId: activity.studentOnSchoolYearId,
+      });
+      await queryClient.invalidateQueries(['getStudentOnActivities']);
+      toastSuccess('Uspjesno ispisan s aktivnosti');
+    } catch (e) {
+      toastError('Neuspjesno ispisivanje s aktivnosti');
+      console.log(e);
+    }
+  };
+  const enrollActivity = async (activity) => {
+    try {
+      console.log(activity);
+      activity.activityStatus = ActivityActivityStatusEnum.Inactive;
+      await api.updateStudentOnActivity(activity.id.toString(), {
+        id: activity.id,
+        activityStatus: 'active',
+        studentOnSchoolYearId: activity.studentOnSchoolYearId,
+      });
+      await queryClient.invalidateQueries(['getStudentOnActivities']);
+      toastSuccess('Uspjesno upisan na aktivnost');
+    } catch (e) {
+      toastError('Neuspjesno upisivanje na aktivnost');
+      console.log(e);
     }
   };
 
@@ -102,7 +143,6 @@ const UserView = () => {
       </PageContainer>
     );
   }
-  console.log('studentOnActivities', studentOnActivities);
   return (
     projectUser !== undefined && (
       <ProfileContainer>
@@ -167,12 +207,13 @@ const UserView = () => {
         <Row>
           <FullWidthSection>
             <h2>Aktivnosti</h2>
-            {studentOnActivities !== undefined || studentOnActivities !== null ? (
+            {studentOnActivities !== undefined ? (
               <Table>
                 <thead>
                   <tr>
                     <th>Aktivnost</th>
                     <th>Klub</th>
+                    <th>Cijena</th>
                     <th>Status</th>
                     <th>Akcije</th>
                   </tr>
@@ -183,11 +224,27 @@ const UserView = () => {
                       <tr key={activity.id}>
                         <td>{activity?.activity?.activityName}</td>
                         <td>{activity?.activity?.projectAssociate?.clubName}</td>
+                        <td>{activity?.activity?.activityPrice} EUR</td>
                         <td>
                           <Status status={activity?.activityStatus} />
                         </td>
                         <td>
-                          <SecondaryButton onClick={() => console.log('click!')}>Uredi</SecondaryButton>
+                          {activity.activityStatus === 'active' && (
+                            <SecondaryButton
+                              onClick={() => disenrollActivity(activity)}
+                              disabled={studentOnSchoolYear ? studentOnSchoolYear[0]?.status === 'inactive' : false}
+                            >
+                              Ispisi
+                            </SecondaryButton>
+                          )}
+                          {activity.activityStatus === 'inactive' && (
+                            <SecondaryButton
+                              onClick={() => enrollActivity(activity)}
+                              disabled={studentOnSchoolYear ? studentOnSchoolYear[0]?.status === 'inactive' : false}
+                            >
+                              Upisi
+                            </SecondaryButton>
+                          )}
                         </td>
                       </tr>
                     ))}

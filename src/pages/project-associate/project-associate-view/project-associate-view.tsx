@@ -126,7 +126,10 @@ const ProjectAssociateView = () => {
           </Right>
         </HeaderSection>
         <ProfileSubmenu>
-          <Button onClick={() => navigate(`/${startYear}/project-associate/${projectAssociateId}/activity/new`)}>
+          <Button
+            onClick={() => navigate(`/${startYear}/project-associate/${projectAssociateId}/activity/new`)}
+            disabled={projectAssociate.projectAssociateStatus === 'inactive'}
+          >
             Dodaj aktivnost
           </Button>
           <SecondaryButton onClick={() => navigate(`/${startYear}/project-associate/${projectAssociateId}/edit`)}>
@@ -186,6 +189,7 @@ const ProjectAssociateView = () => {
                                 `/${startYear}/project-associate/${projectAssociateId}/activity/${activity.id}/edit`,
                               )
                             }
+                            disabled={projectAssociate.projectAssociateStatus === 'inactive'}
                           >
                             Uredi
                           </SecondaryButton>
