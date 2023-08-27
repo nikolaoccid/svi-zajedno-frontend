@@ -7,6 +7,7 @@ import * as Yup from 'yup';
 
 import { api } from '../../../api';
 import { CenterContent, PageContainer } from '../../common-styles/common-styles';
+import { ColoredTableRow } from '../../project-associate/project-associate-search-view/project-associate-search-view.tsx';
 import { useProjectUsers } from '../user-view/hooks/use-project-users.ts';
 
 const validationSchema = Yup.object().shape({
@@ -28,14 +29,6 @@ const StyledTable = styled.table`
   }
   th {
     background-color: #f2f2f2;
-  }
-`;
-
-const ColoredTableRow = styled.tr<{ isEven: boolean }>`
-  background-color: ${(props) => (props.isEven ? '#f39e21' : 'transparent')};
-  &:hover {
-    cursor: pointer;
-    background-color: #2196f3;
   }
 `;
 

@@ -54,8 +54,6 @@ const UserView = () => {
   console.log(studentOnSchoolYear);
 
   const handleEnrollment = () => {
-    console.log('handleEnrollment');
-
     if (studentOnSchoolYear?.length === 0) {
       createStudentOnSchoolYear();
     }
@@ -67,7 +65,6 @@ const UserView = () => {
   };
 
   const handleUnenrollment = () => {
-    console.log('handleUnenrollment');
     const enrollment = studentOnSchoolYear?.[0];
     if (enrollment && enrollment.status === 'active') {
       enrollment.status = 'inactive';

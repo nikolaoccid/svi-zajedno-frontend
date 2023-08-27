@@ -10,10 +10,12 @@ import {
   CreateActivityDto,
   CreateProjectAssociateDto,
   CreateProjectUserDto,
+  CreateStudentOnActivityDto,
   LoginDto,
   ProjectAssociateApi,
   ProjectUserApi,
   SchoolYearApi,
+  StudentOnActivityApi,
   StudentOnSchoolYearApi,
   UpdateActivityDto,
   UpdateProjectAssociateDto,
@@ -40,6 +42,7 @@ const studentOnSchoolYear = new StudentOnSchoolYearApi(configuration);
 const projectAssociate = new ProjectAssociateApi(configuration);
 const categories = new CategoryApi(configuration);
 const activities = new ActivityApi(configuration);
+const studentOnActivity = new StudentOnActivityApi(configuration);
 
 export function persistToken(token: string) {
   localStorage.setItem('token', token);
@@ -167,4 +170,8 @@ export function updateActivity(activityId: string, activity: UpdateActivityDto) 
 
 export function createActivity(activity: CreateActivityDto) {
   return getData(activities.activityControllerCreate(activity));
+}
+
+export function createStudentOnActivity(createStudentOnActivity: CreateStudentOnActivityDto) {
+  return getData(studentOnActivity.studentOnActivityControllerCreate(createStudentOnActivity));
 }
