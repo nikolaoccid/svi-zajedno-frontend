@@ -17,6 +17,7 @@ import {
   UpdateActivityDto,
   UpdateProjectAssociateDto,
   UpdateProjectUserDto,
+  UpdateStudentOnSchoolYearDto,
   UsersApi,
 } from './codegen';
 
@@ -106,6 +107,9 @@ export function createProjetUserOnSchoolYear(userId: number, schoolYearId: numbe
 }
 export function getProjetUserOnSchoolYear(userId: number, schoolYearId: number) {
   return getData(studentOnSchoolYear.studentOnSchoolYearControllerFindAll(schoolYearId, userId));
+}
+export function updateProjetUserOnSchoolYear(id: string, updateStudentOnSchoolYear: UpdateStudentOnSchoolYearDto) {
+  return getData(studentOnSchoolYear.studentOnSchoolYearControllerUpdate(id, updateStudentOnSchoolYear));
 }
 
 export function getCategories() {

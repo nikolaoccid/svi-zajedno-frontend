@@ -5,7 +5,9 @@ import { PuffLoader } from 'react-spinners';
 import { CenterContent, PageContainer, ProfileSubmenu, SecondaryButton } from '../../common-styles/common-styles.ts';
 import { useSchoolYear } from '../../dashboard-page/hooks/use-fetch-school-year.ts';
 import { useStudentOnSchoolYear } from '../../student-on-school-year/hooks/get-student-on-school-year.ts';
+import { useCreateStudentOnSchoolYear } from './hooks/use-create-student-on-school-year.ts';
 import { useProjectUser } from './hooks/use-project-user.ts';
+import { useUpdateStudentOnSchoolYear } from './hooks/use-update-student-on-school-year.ts';
 
 const ProfileContainer = styled.div`
   display: flex;
@@ -39,22 +41,45 @@ const UserView = () => {
   const { data: schoolYear, isLoading: isLoadingSchoolYear } = useSchoolYear(startYear ? parseInt(startYear) : 0);
   const schoolYearId = (schoolYear && schoolYear[0].id) ?? 0;
   const { data: projectUser, isLoading, isError } = useProjectUser(userId);
-
   const { data: studentOnSchoolYear } = useStudentOnSchoolYear(schoolYearId, projectUser?.id);
+  const { isLoading: isLoadingCreateStudentOnSchoolYear, createStudentOnSchoolYear } = useCreateStudentOnSchoolYear(
+    projectUser?.id ?? 0,
+    schoolYearId,
+  );
+  const studentOnSchoolYearId = (studentOnSchoolYear && studentOnSchoolYear[0]?.id?.toString()) ?? '0';
+  const { updateStudentOnSchoolYear, isLoading: isLoadingUpdateStudentOnSchoolYear } = useUpdateStudentOnSchoolYear(
+    studentOnSchoolYearId,
+    studentOnSchoolYear && studentOnSchoolYear.length > 0 ? studentOnSchoolYear[0] : undefined,
+  );
 
   const handleEnrollment = () => {
     console.log('handleEnrollment');
-    console.log(studentOnSchoolYear);
+
+    if (studentOnSchoolYear?.length === 0) {
+      createStudentOnSchoolYear();
+    }
+    const enrollment = studentOnSchoolYear?.[0];
+    if (enrollment && enrollment.status === 'inactive') {
+      enrollment.status = 'active';
+      updateStudentOnSchoolYear();
+    }
   };
+
   const handleUnenrollment = () => {
     console.log('handleUnenrollment');
-    console.log(studentOnSchoolYear);
+    const enrollment = studentOnSchoolYear?.[0];
+    if (enrollment && enrollment.status === 'active') {
+      enrollment.status = 'inactive';
+      updateStudentOnSchoolYear();
+    }
   };
+
+  console.log('studentOnSchoolYear', studentOnSchoolYear);
   if (isError || !userId || typeof parseInt(userId) !== 'number') {
     navigate(`/${startYear}/users`);
   }
 
-  if (isLoading || isLoadingSchoolYear) {
+  if (isLoading || isLoadingSchoolYear || isLoadingCreateStudentOnSchoolYear || isLoadingUpdateStudentOnSchoolYear) {
     return (
       <PageContainer>
         <CenterContent>
@@ -70,12 +95,21 @@ const UserView = () => {
           {projectUser.childName} {projectUser.childSurname}
         </ProfileHeader>
         <ProfileSubmenu>
-          {studentOnSchoolYear?.length === 0 ? (
+          {studentOnSchoolYear?.length === 0 ||
+          (studentOnSchoolYear && studentOnSchoolYear[0].status === 'inactive') ? (
             <SecondaryButton onClick={handleEnrollment}>Upisi na skolsku godinu</SecondaryButton>
           ) : (
             <SecondaryButton onClick={handleUnenrollment}>Ispisi sa skolske godine</SecondaryButton>
           )}
-          <SecondaryButton onClick={() => console.log('button clicked')}>Upisi na aktivnost</SecondaryButton>
+          <SecondaryButton
+            onClick={() => console.log('button clicked')}
+            disabled={
+              studentOnSchoolYear?.length === 0 ||
+              (studentOnSchoolYear && studentOnSchoolYear[0]?.status === 'inactive')
+            }
+          >
+            Upisi na aktivnost
+          </SecondaryButton>
         </ProfileSubmenu>
         <ProfileItem>
           <Label>Guardian Name:</Label>
