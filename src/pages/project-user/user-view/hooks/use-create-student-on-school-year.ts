@@ -10,7 +10,12 @@ export function useCreateStudentOnSchoolYear(userId: number, schoolYearId: numbe
   const { loading: isLoading, execute: createStudentOnSchoolYear } = useAsyncCallback(async () => {
     try {
       await api.createProjetUserOnSchoolYear(userId, schoolYearId);
-      await queryClient.invalidateQueries(['getStudentOnSchoolYear', 'getProjectUserById']);
+      await queryClient.invalidateQueries([
+        'getStudentOnSchoolYear',
+        'getProjectUserById',
+        'getProjectUser',
+        'getStudentOnSchoolYear',
+      ]);
       toastSuccess('Uspjesno upisan na skolsku godinu.');
     } catch (e) {
       toastError('Korisnik nije upisan na skolsku godinu');

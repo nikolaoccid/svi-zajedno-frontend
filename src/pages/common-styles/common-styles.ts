@@ -43,6 +43,9 @@ export const SecondaryButton = styled.button`
   border-radius: 4px;
   padding: 20px 35px;
   color: white;
+  &:disabled {
+    background-color: lightgray;
+  }
 `;
 
 export const CenterContent = styled.div`

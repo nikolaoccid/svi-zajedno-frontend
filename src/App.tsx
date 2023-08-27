@@ -16,6 +16,7 @@ import { ManageProjectAssociate } from './pages/project-associate/manage-project
 import ProjectAssociateSearchView from './pages/project-associate/project-associate-search-view/project-associate-search-view.tsx';
 import ProjectAssociateView from './pages/project-associate/project-associate-view/project-associate-view.tsx';
 import ManageProjectUserView from './pages/project-user/create-project-user/manage-project-user-view.tsx';
+import { ManageStudentOnActivity } from './pages/project-user/manage-student-on-activity/manage-student-on-activity.tsx';
 import UserSearchView from './pages/project-user/user-search-view/user-search-view.tsx';
 import UserView from './pages/project-user/user-view/user-view.tsx';
 import { ChooseSchoolYear } from './pages/school-year/choose-school-year/choose-school-year.tsx';
@@ -46,6 +47,8 @@ function App() {
             <Route path="/:startYear/user/new" element={<ManageProjectUserView />} />
             <Route path="/:startYear/user/:userId/edit" element={<ManageProjectUserView />} />
             <Route path="/:startYear/user/:userId" element={<UserView />} />
+            <Route path="/:startYear/user/:userId/activity/new" element={<ManageStudentOnActivity />} />
+            <Route path="/:startYear/user/:userId/activity/:activityId/edit" element={<ManageStudentOnActivity />} />
             <Route path="/:startYear/user/search" element={<SearchUser />} />
             <Route path="/:startYear/users/" element={<UserSearchView />} />
 

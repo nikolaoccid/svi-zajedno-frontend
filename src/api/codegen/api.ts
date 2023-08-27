@@ -1134,10 +1134,11 @@ export const ActivityApiAxiosParamCreator = function (configuration?: Configurat
         },
         /**
          * 
+         * @param {number} [schoolYearId] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        activityControllerFindAll: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        activityControllerFindAll: async (schoolYearId?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/activity`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1153,6 +1154,10 @@ export const ActivityApiAxiosParamCreator = function (configuration?: Configurat
             // authentication bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (schoolYearId !== undefined) {
+                localVarQueryParameter['schoolYearId'] = schoolYearId;
+            }
 
 
     
@@ -1304,11 +1309,12 @@ export const ActivityApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @param {number} [schoolYearId] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async activityControllerFindAll(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Activity>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.activityControllerFindAll(options);
+        async activityControllerFindAll(schoolYearId?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Activity>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.activityControllerFindAll(schoolYearId, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -1363,11 +1369,12 @@ export const ActivityApiFactory = function (configuration?: Configuration, baseP
         },
         /**
          * 
+         * @param {number} [schoolYearId] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        activityControllerFindAll(options?: any): AxiosPromise<Array<Activity>> {
-            return localVarFp.activityControllerFindAll(options).then((request) => request(axios, basePath));
+        activityControllerFindAll(schoolYearId?: number, options?: any): AxiosPromise<Array<Activity>> {
+            return localVarFp.activityControllerFindAll(schoolYearId, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -1420,12 +1427,13 @@ export class ActivityApi extends BaseAPI {
 
     /**
      * 
+     * @param {number} [schoolYearId] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ActivityApi
      */
-    public activityControllerFindAll(options?: AxiosRequestConfig) {
-        return ActivityApiFp(this.configuration).activityControllerFindAll(options).then((request) => request(this.axios, this.basePath));
+    public activityControllerFindAll(schoolYearId?: number, options?: AxiosRequestConfig) {
+        return ActivityApiFp(this.configuration).activityControllerFindAll(schoolYearId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

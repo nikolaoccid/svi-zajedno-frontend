@@ -10,7 +10,7 @@ export function useUpdateStudentOnSchoolYear(studentOnSchoolYearId: string, stud
   const { loading: isLoading, execute: updateStudentOnSchoolYear } = useAsyncCallback(async () => {
     try {
       await api.updateProjetUserOnSchoolYear(studentOnSchoolYearId, studentOnSchoolYear);
-      await queryClient.invalidateQueries(['getStudentOnSchoolYear', 'getProjectUserById']);
+      await queryClient.invalidateQueries(['getStudentOnSchoolYear', 'getProjectUserById', 'getProjectUser']);
       toastSuccess('Uspjesno azuriran korisnik na skolskoj godini.');
     } catch (e) {
       toastError('Korisnik nije azuriran na skolsku godinu');

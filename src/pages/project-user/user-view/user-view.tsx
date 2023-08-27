@@ -51,6 +51,7 @@ const UserView = () => {
     studentOnSchoolYearId,
     studentOnSchoolYear && studentOnSchoolYear.length > 0 ? studentOnSchoolYear[0] : undefined,
   );
+  console.log(studentOnSchoolYear);
 
   const handleEnrollment = () => {
     console.log('handleEnrollment');
@@ -74,7 +75,6 @@ const UserView = () => {
     }
   };
 
-  console.log('studentOnSchoolYear', studentOnSchoolYear);
   if (isError || !userId || typeof parseInt(userId) !== 'number') {
     navigate(`/${startYear}/users`);
   }
@@ -102,7 +102,9 @@ const UserView = () => {
             <SecondaryButton onClick={handleUnenrollment}>Ispisi sa skolske godine</SecondaryButton>
           )}
           <SecondaryButton
-            onClick={() => console.log('button clicked')}
+            onClick={() =>
+              navigate(`/${schoolYear ? schoolYear[0].startYear : 0}/user/${projectUser?.id}/activity/new`)
+            }
             disabled={
               studentOnSchoolYear?.length === 0 ||
               (studentOnSchoolYear && studentOnSchoolYear[0]?.status === 'inactive')
