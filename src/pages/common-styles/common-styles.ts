@@ -24,6 +24,12 @@ export const Input = styled.input`
   padding: 15px 20px;
 `;
 
+export const AlignLeft = styled.div`
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: flex-start;
+`;
 export const Button = styled.button`
   background-color: #2196f3;
   //width: 100%;
@@ -95,7 +101,9 @@ export const FormError = styled.div`
 
 export const ProfileSubmenu = styled.div`
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   flex-direction: row;
-  gap: 20px;
+  align-items: center;
+  gap: 30px;
+  width: 100%;
 `;

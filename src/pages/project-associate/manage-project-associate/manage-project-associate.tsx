@@ -43,8 +43,6 @@ export const ManageProjectAssociate = () => {
     },
     validationSchema: validationSchema,
     onSubmit: async (formAssociate) => {
-      console.log('schoolYearFromParams', schoolYearFromParams);
-      console.log('formData', formAssociate);
       if (projectAssociateId && projectAssociate) {
         try {
           await api.updateProjectAssociate(projectAssociate.id, formAssociate);

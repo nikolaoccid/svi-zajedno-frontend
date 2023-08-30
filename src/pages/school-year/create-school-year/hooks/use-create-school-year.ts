@@ -14,7 +14,7 @@ export function useCreateSchoolYear() {
     try {
       const { startYear: apiStartYear, endYear: apiEndYear } = await api.createSchoolYear(startYear);
       toastSuccess(`Successfully created school year ${apiStartYear}/${apiEndYear}`);
-      navigate(`/${apiStartYear}/dashboard`);
+      navigate(`/${apiStartYear}`);
     } catch (e) {
       toastError('Could not create school year');
       console.error(e);

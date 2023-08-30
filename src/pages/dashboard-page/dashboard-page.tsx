@@ -8,8 +8,9 @@ import projectAssociateImage from '/project-associate.png';
 import projectUserImage from '/project-users.png';
 import schoolYearImage from '/school-year.png';
 
+import { BackButton } from '../../components/back-button/back-button.tsx';
 import { toastInfo } from '../../utils/toast.ts';
-import { AlignRight, CenterContent, NavLink, PageContainer } from '../common-styles/common-styles.ts';
+import { CenterContent, NavLink, PageContainer, ProfileSubmenu } from '../common-styles/common-styles.ts';
 import { useSelectedSchoolYear } from './hooks/use-fetch-school-year.ts';
 
 const Menu = styled.div`
@@ -59,6 +60,12 @@ export const DashboardNavLink = styled(Link)`
     text-decoration: underline;
   }
 `;
+const Column = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+`;
 export function DashboardPage() {
   const { data: schoolYear, isLoading: isLoadingSchoolYear, error } = useSelectedSchoolYear();
   useEffect(() => {
@@ -79,14 +86,20 @@ export function DashboardPage() {
   return (
     <PageContainer>
       <CenterContent>
-        <AlignRight>
+        <ProfileSubmenu>
+          <BackButton />
+
           {schoolYear && (
-            <DashboardNavLink to="/school-year">
-              School year: {schoolYear[0].startYear}/{schoolYear[0].endYear}
-            </DashboardNavLink>
+            <Column>
+              <DashboardNavLink to={`/${schoolYear[0].startYear}`}>
+                Skolska godina: {schoolYear[0].startYear}/{schoolYear[0].endYear}
+              </DashboardNavLink>
+
+              <DashboardNavLink to="/school-year">PROMIJENI SKOLSKU GODINU</DashboardNavLink>
+            </Column>
           )}
-        </AlignRight>
-        <h1>Dashboard page</h1>
+        </ProfileSubmenu>
+        <h1>Administrativni panel</h1>
         <Menu>
           <MenuRow>
             <MenuItem>

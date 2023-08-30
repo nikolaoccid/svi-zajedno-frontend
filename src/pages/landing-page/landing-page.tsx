@@ -2,7 +2,6 @@ import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
 
 import hero from '/hero.jpeg';
-import logo from '/logo.svg';
 
 import { useAuthenticatedUser } from '../../hooks/use-authenticated-user.ts';
 
@@ -25,13 +24,6 @@ const SubHeading = styled.h2`
   color: white;
   text-align: center;
 `;
-const LogoImage = styled.img`
-  display: block;
-  margin-top: 90px;
-  margin-left: auto;
-  margin-right: auto;
-  width: 180px;
-`;
 const CTALink = styled(Link)`
   background-color: #2196f3;
   font-weight: 800;
@@ -46,7 +38,14 @@ const Overlay = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.25);
+  //background: rgba(0, 0, 0, 0.25);
+`;
+const Center = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
 `;
 const CenterContent = styled.div`
   display: flex;
@@ -59,12 +58,13 @@ function LandingPage() {
   return (
     <LandingPageContainer>
       <Overlay>
-        <LogoImage src={logo} />
-        <Heading>Program Svi zajedno</Heading>
-        <SubHeading>Besplatno uključi svoje dijete u vanškolske aktivnosti</SubHeading>
-        <CenterContent>
-          <CTALink to={user ? '/school-year' : '/login'}>{user ? 'Admin portal' : 'Login'}</CTALink>
-        </CenterContent>
+        <Center>
+          <Heading>Platforma Activity Tracker</Heading>
+          <SubHeading>Učinkovito pratite i upravljajte aktivnostima svojih korisnika</SubHeading>
+          <CenterContent>
+            <CTALink to={user ? '/school-year' : '/login'}>{user ? 'Admin portal' : 'Login'}</CTALink>
+          </CenterContent>
+        </Center>
       </Overlay>
     </LandingPageContainer>
   );

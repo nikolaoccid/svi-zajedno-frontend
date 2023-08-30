@@ -63,7 +63,7 @@ function LoginPage() {
       <PageContainer>
         <LoginHero />
         <FormContainer>
-          <h1>Login to Your Account</h1>
+          <h1>Prijavi se u svoj racun</h1>
           <div>
             <Input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
             <Input

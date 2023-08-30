@@ -111,7 +111,7 @@ const ProjectAssociateView = () => {
   const filteredActivities = projectAssociate?.activity?.filter(
     (activity) => activity.schoolYearId === (schoolYear ? schoolYear[0]?.id : 0),
   );
-  console.log(projectAssociate);
+
   return (
     projectAssociate !== undefined && (
       <ProfileContainer>

@@ -3,11 +3,12 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import { ClockLoader } from 'react-spinners';
 
 import { SchoolYear } from '../../../api/codegen';
+import { BackButton } from '../../../components/back-button/back-button.tsx';
 import {
-  AlignRight,
   Button,
   CenterContent,
   PageContainer,
+  ProfileSubmenu,
   SecondaryButton,
   Select,
 } from '../../common-styles/common-styles.ts';
@@ -39,12 +40,13 @@ export function ChooseSchoolYear() {
   return (
     <PageContainer>
       <CenterContent>
-        <AlignRight>
-          <SecondaryButton onClick={goToCreateSchoolYear}>Create a school year</SecondaryButton>
-        </AlignRight>
-        <h2>Choose a school year</h2>
+        <ProfileSubmenu>
+          <BackButton />
+          <SecondaryButton onClick={goToCreateSchoolYear}>Kreiraj skolsku godinu</SecondaryButton>
+        </ProfileSubmenu>
+        <h2>Odaberi skolsku godinu</h2>
         <Select onChange={(e) => setSelectedYear(e.target.value)}>
-          <option value="">Choose one</option>
+          <option value="">Odaberi</option>
           {schoolYears?.map((schoolYear: SchoolYear) => (
             <option key={schoolYear.startYear} value={schoolYear.startYear}>
               {schoolYear.startYear} / {schoolYear.endYear}
@@ -52,7 +54,7 @@ export function ChooseSchoolYear() {
           ))}
         </Select>
         <Button onClick={handleClick} disabled={!selectedYear}>
-          Confirm
+          Potvrdi
         </Button>
       </CenterContent>
     </PageContainer>

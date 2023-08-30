@@ -40,7 +40,7 @@ function Header() {
   }
   return (
     <HeaderContainer>
-      <Logo>Svi zajedno</Logo>
+      <Logo>Activity Tracker</Logo>
       <Nav>
         <NavLink to="/">Home</NavLink>
         {user ? <NavLink to="/logout">Logout</NavLink> : <NavLink to="/login">Login</NavLink>}
