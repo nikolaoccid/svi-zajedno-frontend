@@ -258,6 +258,24 @@ export interface CreateProjectUserDto {
      * @type {string}
      * @memberof CreateProjectUserDto
      */
+    'gender': CreateProjectUserDtoGenderEnum;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateProjectUserDto
+     */
+    'sourceSystem': CreateProjectUserDtoSourceSystemEnum;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateProjectUserDto
+     */
+    'protectionType': CreateProjectUserDtoProtectionTypeEnum;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateProjectUserDto
+     */
     'guardianName': string;
     /**
      * 
@@ -314,6 +332,27 @@ export interface CreateProjectUserDto {
      */
     'email': string;
 }
+
+export const CreateProjectUserDtoGenderEnum = {
+    Male: 'male',
+    Female: 'female'
+} as const;
+
+export type CreateProjectUserDtoGenderEnum = typeof CreateProjectUserDtoGenderEnum[keyof typeof CreateProjectUserDtoGenderEnum];
+export const CreateProjectUserDtoSourceSystemEnum = {
+    Czss: 'czss',
+    Obiteljskicentar: 'obiteljskicentar'
+} as const;
+
+export type CreateProjectUserDtoSourceSystemEnum = typeof CreateProjectUserDtoSourceSystemEnum[keyof typeof CreateProjectUserDtoSourceSystemEnum];
+export const CreateProjectUserDtoProtectionTypeEnum = {
+    Zmn: 'zmn',
+    Preporuka: 'preporuka',
+    Udomiteljstvo: 'udomiteljstvo'
+} as const;
+
+export type CreateProjectUserDtoProtectionTypeEnum = typeof CreateProjectUserDtoProtectionTypeEnum[keyof typeof CreateProjectUserDtoProtectionTypeEnum];
+
 /**
  * 
  * @export
@@ -538,6 +577,24 @@ export interface ProjectUser {
      * @type {string}
      * @memberof ProjectUser
      */
+    'gender': ProjectUserGenderEnum;
+    /**
+     * 
+     * @type {string}
+     * @memberof ProjectUser
+     */
+    'sourceSystem': ProjectUserSourceSystemEnum;
+    /**
+     * 
+     * @type {string}
+     * @memberof ProjectUser
+     */
+    'protectionType': ProjectUserProtectionTypeEnum;
+    /**
+     * 
+     * @type {string}
+     * @memberof ProjectUser
+     */
     'guardianName': string;
     /**
      * 
@@ -600,6 +657,27 @@ export interface ProjectUser {
      */
     'studentOnSchoolYear': Array<StudentOnSchoolYear>;
 }
+
+export const ProjectUserGenderEnum = {
+    Male: 'male',
+    Female: 'female'
+} as const;
+
+export type ProjectUserGenderEnum = typeof ProjectUserGenderEnum[keyof typeof ProjectUserGenderEnum];
+export const ProjectUserSourceSystemEnum = {
+    Czss: 'czss',
+    Obiteljskicentar: 'obiteljskicentar'
+} as const;
+
+export type ProjectUserSourceSystemEnum = typeof ProjectUserSourceSystemEnum[keyof typeof ProjectUserSourceSystemEnum];
+export const ProjectUserProtectionTypeEnum = {
+    Zmn: 'zmn',
+    Preporuka: 'preporuka',
+    Udomiteljstvo: 'udomiteljstvo'
+} as const;
+
+export type ProjectUserProtectionTypeEnum = typeof ProjectUserProtectionTypeEnum[keyof typeof ProjectUserProtectionTypeEnum];
+
 /**
  * 
  * @export
@@ -966,7 +1044,46 @@ export interface UpdateProjectUserDto {
      * @memberof UpdateProjectUserDto
      */
     'email': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateProjectUserDto
+     */
+    'gender'?: UpdateProjectUserDtoGenderEnum;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateProjectUserDto
+     */
+    'sourceSystem'?: UpdateProjectUserDtoSourceSystemEnum;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateProjectUserDto
+     */
+    'protectionType'?: UpdateProjectUserDtoProtectionTypeEnum;
 }
+
+export const UpdateProjectUserDtoGenderEnum = {
+    Male: 'male',
+    Female: 'female'
+} as const;
+
+export type UpdateProjectUserDtoGenderEnum = typeof UpdateProjectUserDtoGenderEnum[keyof typeof UpdateProjectUserDtoGenderEnum];
+export const UpdateProjectUserDtoSourceSystemEnum = {
+    Czss: 'czss',
+    Obiteljskicentar: 'obiteljskicentar'
+} as const;
+
+export type UpdateProjectUserDtoSourceSystemEnum = typeof UpdateProjectUserDtoSourceSystemEnum[keyof typeof UpdateProjectUserDtoSourceSystemEnum];
+export const UpdateProjectUserDtoProtectionTypeEnum = {
+    Zmn: 'zmn',
+    Preporuka: 'preporuka',
+    Udomiteljstvo: 'udomiteljstvo'
+} as const;
+
+export type UpdateProjectUserDtoProtectionTypeEnum = typeof UpdateProjectUserDtoProtectionTypeEnum[keyof typeof UpdateProjectUserDtoProtectionTypeEnum];
+
 /**
  * 
  * @export
