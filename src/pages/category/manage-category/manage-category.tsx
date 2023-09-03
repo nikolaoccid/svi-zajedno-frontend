@@ -6,6 +6,7 @@ import { CircleLoader } from 'react-spinners';
 import * as Yup from 'yup';
 
 import { api } from '../../../api';
+import { Submenu } from '../../../components/submenu/submenu.tsx';
 import { toastError, toastSuccess } from '../../../utils/toast.ts';
 import { CenterContent, PageContainer } from '../../common-styles/common-styles.ts';
 import { useGetCategory } from './hooks/use-get-category.ts';
@@ -82,6 +83,7 @@ function ManageCategory() {
   return (
     <PageContainer>
       <CenterContent>
+        <Submenu />
         <h1>{category !== undefined ? 'Uredi kategoriju' : 'Kreiraj novu kategoriju'}</h1>
 
         <Form onSubmit={formik.handleSubmit}>

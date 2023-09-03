@@ -3,9 +3,10 @@ import { useQuery } from '@tanstack/react-query';
 import { api } from '../../../../api';
 import { toastError } from '../../../../utils/toast.ts';
 
-export const useStudentOnActivities = (studentOnSchoolYearId) => {
+export const useStudentOnActivities = (studentOnSchoolYearId: number | undefined) => {
   return useQuery({
-    queryKey: ['getStudentOnActivities'],
+    queryKey: ['getStudentOnActivities', studentOnSchoolYearId],
+    enabled: studentOnSchoolYearId !== undefined,
     queryFn: async () => {
       try {
         return await api.getStudentOnActivity(studentOnSchoolYearId);

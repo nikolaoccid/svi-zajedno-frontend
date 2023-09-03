@@ -36,10 +36,10 @@ export const CreateSchoolYear = () => {
         <AlignLeft>
           <BackButton />
         </AlignLeft>
-        <h2>Create a school year</h2>
+        <h2>Kreiraj skolsku godinu</h2>
         <Select onChange={(e) => setSelectedYear(e.target.value)}>
           <option selected value="">
-            Choose one
+            Odaberite jedno
           </option>
           {generatedSchoolYears?.map((schoolYear) => (
             <option key={schoolYear} value={schoolYear}>
@@ -48,7 +48,7 @@ export const CreateSchoolYear = () => {
           ))}
         </Select>
         <Button onClick={handleClick} disabled={selectedYear === ''}>
-          Create
+          Potvrdi
         </Button>
         {errorMessages.map((error, index) => (
           <ErrorMessage key={index}>{error}</ErrorMessage>

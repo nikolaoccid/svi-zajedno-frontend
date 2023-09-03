@@ -180,8 +180,5 @@ export function getStudentOnActivity(studentOnSchoolYearId) {
   return getData(studentOnActivity.studentOnActivityControllerFindAll(studentOnSchoolYearId));
 }
 export function updateStudentOnActivity(studentOnActivityId: string, student: UpdateStudentOnActivityDto) {
-  console.log('updateStudentOnActivity api.ts', student);
-  const res = getData(studentOnActivity.studentOnActivityControllerUpdate(studentOnActivityId, student));
-  console.log(res);
-  return res;
+  return getData(studentOnActivity.studentOnActivityControllerUpdate(studentOnActivityId, student));
 }

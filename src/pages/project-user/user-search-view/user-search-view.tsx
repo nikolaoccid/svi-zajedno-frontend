@@ -6,6 +6,7 @@ import { ClockLoader } from 'react-spinners';
 import * as Yup from 'yup';
 
 import { api } from '../../../api';
+import { Submenu } from '../../../components/submenu/submenu.tsx';
 import { CenterContent, PageContainer } from '../../common-styles/common-styles';
 import { ColoredTableRow } from '../../project-associate/project-associate-search-view/project-associate-search-view.tsx';
 import { useProjectUsers } from '../user-view/hooks/use-project-users.ts';
@@ -16,6 +17,7 @@ const validationSchema = Yup.object().shape({
 
 const TableWrapper = styled.div`
   margin-top: 20px;
+  width: 100%;
 `;
 
 const StyledTable = styled.table`
@@ -59,6 +61,9 @@ const FormContent = styled.div`
 `;
 
 const Pagination = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
   padding-top: 20px;
 `;
 
@@ -99,6 +104,7 @@ const UserSearchView = () => {
   return (
     <PageContainer>
       <CenterContent>
+        <Submenu />
         <h1>Korisnici</h1>
         <Form onSubmit={formik.handleSubmit}>
           <FormField>
@@ -115,13 +121,9 @@ const UserSearchView = () => {
             <StyledTable>
               <thead>
                 <tr>
-                  <th>Guardian</th>
-                  <th>Child</th>
-                  <th>Date of Birth</th>
-                  <th>Address</th>
-                  <th>School</th>
-                  <th>Mobile Phone</th>
-                  <th>Email</th>
+                  <th>Skrbnik</th>
+                  <th>Dijete</th>
+                  <th>Datum rodenja</th>
                 </tr>
               </thead>
               <tbody>
@@ -131,13 +133,13 @@ const UserSearchView = () => {
                     isEven={index % 2 === 0}
                     onClick={() => navigate(`/${startYear}/user/${user.id}`)}
                   >
-                    <td>{user.guardianName}</td>
-                    <td>{user.childName}</td>
+                    <td>
+                      {user.guardianName} {user.guardianSurname}
+                    </td>
+                    <td>
+                      {user.childName} {user.childSurname}
+                    </td>
                     <td>{user.dateOfBirth}</td>
-                    <td>{user.address}</td>
-                    <td>{user.school}</td>
-                    <td>{user.mobilePhone}</td>
-                    <td>{user.email}</td>
                   </ColoredTableRow>
                 ))}
               </tbody>

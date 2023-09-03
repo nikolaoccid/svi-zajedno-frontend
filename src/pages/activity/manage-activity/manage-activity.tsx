@@ -5,6 +5,7 @@ import { RiseLoader } from 'react-spinners';
 import * as Yup from 'yup';
 
 import { api } from '../../../api';
+import { Submenu } from '../../../components/submenu/submenu.tsx';
 import { toastError, toastSuccess } from '../../../utils/toast.ts';
 import { CenterContent, Form, FormError, FormField, PageContainer } from '../../common-styles/common-styles.ts';
 import { useSchoolYear } from '../../dashboard-page/hooks/use-fetch-school-year.ts';
@@ -67,6 +68,7 @@ export function ManageActivity() {
   return (
     <PageContainer>
       <CenterContent>
+        <Submenu />
         <h1>{activity !== null ? 'Uredi aktivnosti' : 'Kreiraj novu aktivnost'}</h1>
 
         <FormikProvider value={formik}>

@@ -1,11 +1,12 @@
 import styled from '@emotion/styled';
 import { useQueryClient } from '@tanstack/react-query';
+import { useAsync } from 'react-async-hook';
 import { useNavigate, useParams } from 'react-router-dom';
 import { PuffLoader } from 'react-spinners';
 
 import { api } from '../../../api';
-import { ActivityActivityStatusEnum } from '../../../api/codegen';
 import { Status } from '../../../components/status/status.tsx';
+import { Submenu } from '../../../components/submenu/submenu.tsx';
 import { toastError, toastSuccess } from '../../../utils/toast.ts';
 import { CenterContent, PageContainer, ProfileSubmenu, SecondaryButton } from '../../common-styles/common-styles.ts';
 import { useSchoolYear } from '../../dashboard-page/hooks/use-fetch-school-year.ts';
@@ -28,7 +29,7 @@ const ProfileContainer = styled.div`
 `;
 
 const ProfileHeader = styled.h2`
-  margin-bottom: 10px;
+  //margin-bottom: 10px;
 `;
 
 const ProfileItem = styled.div`
@@ -64,37 +65,32 @@ const UserView = () => {
     projectUser?.id ?? 0,
     schoolYearId,
   );
-  const studentOnSchoolYearId = (studentOnSchoolYear && studentOnSchoolYear[0]?.id?.toString()) ?? '0';
-  const { updateStudentOnSchoolYear, isLoading: isLoadingUpdateStudentOnSchoolYear } = useUpdateStudentOnSchoolYear(
-    studentOnSchoolYearId,
-    studentOnSchoolYear && studentOnSchoolYear.length > 0 ? studentOnSchoolYear[0] : undefined,
+  const { updateStudentOnSchoolYear, isLoading: isLoadingUpdateStudentOnSchoolYear } = useUpdateStudentOnSchoolYear();
+  const { data: studentOnActivities } = useStudentOnActivities(
+    studentOnSchoolYear?.length === 1 ? studentOnSchoolYear[0]?.id : undefined,
   );
-  const { data: studentOnActivities, isLoading: isLoadingStudentOnActivities } = useStudentOnActivities(
-    studentOnSchoolYear ? studentOnSchoolYear[0]?.id : 0,
-  );
+  // console.log('studentOnSchoolYear', studentOnSchoolYear);
+  // console.log('studentOnActivities', studentOnActivities);
 
-  const handleEnrollment = () => {
+  const handleEnrollment = async () => {
     if (studentOnSchoolYear?.length === 0) {
-      createStudentOnSchoolYear();
+      await createStudentOnSchoolYear();
     }
     const enrollment = studentOnSchoolYear?.[0];
+    console.log('enrollment', enrollment);
     if (enrollment && enrollment.status === 'inactive') {
-      enrollment.status = 'active';
-      updateStudentOnSchoolYear();
+      await updateStudentOnSchoolYear(enrollment.id.toString(), { ...enrollment, status: 'active' });
     }
   };
 
-  const handleUnenrollment = () => {
+  const handleUnenrollment = async () => {
     const enrollment = studentOnSchoolYear?.[0];
     if (enrollment && enrollment.status === 'active') {
-      enrollment.status = 'inactive';
-      updateStudentOnSchoolYear();
+      await updateStudentOnSchoolYear(enrollment.id.toString(), { ...enrollment, status: 'inactive' });
     }
   };
   const disenrollActivity = async (activity) => {
     try {
-      console.log(activity);
-      activity.activityStatus = ActivityActivityStatusEnum.Inactive;
       await api.updateStudentOnActivity(activity.id.toString(), {
         id: activity.id,
         activityStatus: 'inactive',
@@ -109,8 +105,6 @@ const UserView = () => {
   };
   const enrollActivity = async (activity) => {
     try {
-      console.log(activity);
-      activity.activityStatus = ActivityActivityStatusEnum.Inactive;
       await api.updateStudentOnActivity(activity.id.toString(), {
         id: activity.id,
         activityStatus: 'active',
@@ -123,18 +117,21 @@ const UserView = () => {
       console.log(e);
     }
   };
+  useAsync(async () => {
+    await queryClient.invalidateQueries(['getStudentOnActivities']);
+  }, []);
 
   if (isError || !userId || typeof parseInt(userId) !== 'number') {
     navigate(`/${startYear}/users`);
   }
 
-  if (
-    isLoading ||
-    isLoadingSchoolYear ||
-    isLoadingCreateStudentOnSchoolYear ||
-    isLoadingUpdateStudentOnSchoolYear ||
-    isLoadingStudentOnActivities
-  ) {
+  const isEnrolled = !(
+    studentOnSchoolYear?.length === 0 ||
+    (studentOnSchoolYear && studentOnSchoolYear[0].status === 'inactive')
+  );
+  console.log('isEnrolled', isEnrolled, studentOnSchoolYear);
+
+  if (isLoading || isLoadingSchoolYear || isLoadingCreateStudentOnSchoolYear || isLoadingUpdateStudentOnSchoolYear) {
     return (
       <PageContainer>
         <CenterContent>
@@ -145,119 +142,122 @@ const UserView = () => {
   }
   return (
     projectUser !== undefined && (
-      <ProfileContainer>
-        <ProfileHeader>
-          {projectUser.childName} {projectUser.childSurname}
-        </ProfileHeader>
-        <ProfileSubmenu>
-          {studentOnSchoolYear?.length === 0 ||
-          (studentOnSchoolYear && studentOnSchoolYear[0].status === 'inactive') ? (
-            <SecondaryButton onClick={handleEnrollment}>Upisi na skolsku godinu</SecondaryButton>
-          ) : (
-            <SecondaryButton onClick={handleUnenrollment}>Ispisi sa skolske godine</SecondaryButton>
-          )}
-          <SecondaryButton
-            onClick={() =>
-              navigate(`/${schoolYear ? schoolYear[0].startYear : 0}/user/${projectUser?.id}/activity/new`)
-            }
-            disabled={
-              studentOnSchoolYear?.length === 0 ||
-              (studentOnSchoolYear && studentOnSchoolYear[0]?.status === 'inactive')
-            }
-          >
-            Upisi na aktivnost
-          </SecondaryButton>
-        </ProfileSubmenu>
-        <Row>
-          <Content>
-            <ProfileItem>
-              <Label>Guardian Name:</Label>
-              <Value>{projectUser.guardianName}</Value>
-            </ProfileItem>
-            <ProfileItem>
-              <Label>Guardian Surname:</Label>
-              <Value>{projectUser.guardianSurname}</Value>
-            </ProfileItem>
-            <ProfileItem>
-              <Label>Date of Birth:</Label>
-              <Value>{projectUser.dateOfBirth}</Value>
-            </ProfileItem>
-            <ProfileItem>
-              <Label>Address:</Label>
-              <Value>{projectUser.address}</Value>
-            </ProfileItem>
-            <ProfileItem>
-              <Label>City:</Label>
-              <Value>{projectUser.city}</Value>
-            </ProfileItem>
-            <ProfileItem>
-              <Label>School:</Label>
-              <Value>{projectUser.school}</Value>
-            </ProfileItem>
-            <ProfileItem>
-              <Label>Mobile Phone:</Label>
-              <Value>{projectUser.mobilePhone}</Value>
-            </ProfileItem>
-            <ProfileItem>
-              <Label>Email:</Label>
-              <Value>{projectUser.email}</Value>
-            </ProfileItem>
-          </Content>
-        </Row>
-        <Row>
-          <FullWidthSection>
-            <h2>Aktivnosti</h2>
-            {studentOnActivities !== undefined ? (
-              <Table>
-                <thead>
-                  <tr>
-                    <th>Aktivnost</th>
-                    <th>Klub</th>
-                    <th>Cijena</th>
-                    <th>Status</th>
-                    <th>Akcije</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {studentOnActivities &&
-                    studentOnActivities.map((activity) => (
-                      <tr key={activity.id}>
-                        <td>{activity?.activity?.activityName}</td>
-                        <td>{activity?.activity?.projectAssociate?.clubName}</td>
-                        <td>{activity?.activity?.activityPrice} EUR</td>
-                        <td>
-                          <Status status={activity?.activityStatus} />
-                        </td>
-                        <td>
-                          {activity.activityStatus === 'active' && (
-                            <SecondaryButton
-                              onClick={() => disenrollActivity(activity)}
-                              disabled={studentOnSchoolYear ? studentOnSchoolYear[0]?.status === 'inactive' : false}
-                            >
-                              Ispisi
-                            </SecondaryButton>
-                          )}
-                          {activity.activityStatus === 'inactive' && (
-                            <SecondaryButton
-                              onClick={() => enrollActivity(activity)}
-                              disabled={studentOnSchoolYear ? studentOnSchoolYear[0]?.status === 'inactive' : false}
-                            >
-                              Upisi
-                            </SecondaryButton>
-                          )}
-                        </td>
+      <PageContainer>
+        <CenterContent>
+          <Submenu />
+          <ProfileContainer>
+            <ProfileHeader>
+              {projectUser.childName} {projectUser.childSurname}
+            </ProfileHeader>
+            <ProfileSubmenu>
+              {studentOnSchoolYear?.length === 0 ||
+              (studentOnSchoolYear && studentOnSchoolYear[0].status === 'inactive') ? (
+                <SecondaryButton onClick={handleEnrollment}>Upisi na skolsku godinu</SecondaryButton>
+              ) : (
+                <SecondaryButton onClick={handleUnenrollment}>Ispisi sa skolske godine</SecondaryButton>
+              )}
+              <SecondaryButton
+                onClick={() =>
+                  navigate(`/${schoolYear ? schoolYear[0].startYear : 0}/user/${projectUser?.id}/activity/new`)
+                }
+                disabled={
+                  studentOnSchoolYear?.length === 0 ||
+                  (studentOnSchoolYear && studentOnSchoolYear[0]?.status === 'inactive')
+                }
+              >
+                Upisi na aktivnost
+              </SecondaryButton>
+            </ProfileSubmenu>
+            <Row>
+              <Content>
+                <ProfileItem>
+                  <Label>Guardian Name:</Label>
+                  <Value>{projectUser.guardianName}</Value>
+                </ProfileItem>
+                <ProfileItem>
+                  <Label>Guardian Surname:</Label>
+                  <Value>{projectUser.guardianSurname}</Value>
+                </ProfileItem>
+                <ProfileItem>
+                  <Label>Date of Birth:</Label>
+                  <Value>{projectUser.dateOfBirth}</Value>
+                </ProfileItem>
+                <ProfileItem>
+                  <Label>Address:</Label>
+                  <Value>{projectUser.address}</Value>
+                </ProfileItem>
+                <ProfileItem>
+                  <Label>City:</Label>
+                  <Value>{projectUser.city}</Value>
+                </ProfileItem>
+                <ProfileItem>
+                  <Label>School:</Label>
+                  <Value>{projectUser.school}</Value>
+                </ProfileItem>
+                <ProfileItem>
+                  <Label>Mobile Phone:</Label>
+                  <Value>{projectUser.mobilePhone}</Value>
+                </ProfileItem>
+                <ProfileItem>
+                  <Label>Email:</Label>
+                  <Value>{projectUser.email}</Value>
+                </ProfileItem>
+              </Content>
+            </Row>
+            <Row>
+              <FullWidthSection>
+                <h2>Aktivnosti</h2>
+                {studentOnActivities !== undefined ? (
+                  <Table>
+                    <thead>
+                      <tr>
+                        <th>Aktivnost</th>
+                        <th>Klub</th>
+                        <th>Cijena</th>
+                        <th>Status</th>
+                        <th>Akcije</th>
                       </tr>
-                    ))}
-                </tbody>
-              </Table>
-            ) : (
-              <tr>
-                <td>Korisnik nema aktivnosti u ovoj skolskoj godini.</td>
-              </tr>
-            )}
-          </FullWidthSection>
-        </Row>
-      </ProfileContainer>
+                    </thead>
+                    <tbody>
+                      {studentOnActivities &&
+                        studentOnActivities.map((activity) => (
+                          <tr key={activity.id}>
+                            <td>{activity?.activity?.activityName}</td>
+                            <td>{activity?.activity?.projectAssociate?.clubName}</td>
+                            <td>{activity?.activity?.activityPrice} EUR</td>
+                            <td>
+                              <Status status={activity?.activityStatus} />
+                            </td>
+                            <td>
+                              {activity.activityStatus === 'active' && (
+                                <SecondaryButton
+                                  onClick={() => disenrollActivity(activity)}
+                                  disabled={studentOnSchoolYear ? studentOnSchoolYear[0]?.status === 'inactive' : false}
+                                >
+                                  Ispisi
+                                </SecondaryButton>
+                              )}
+                              {activity.activityStatus === 'inactive' && (
+                                <SecondaryButton
+                                  onClick={() => enrollActivity(activity)}
+                                  disabled={studentOnSchoolYear ? studentOnSchoolYear[0]?.status === 'inactive' : false}
+                                >
+                                  Upisi
+                                </SecondaryButton>
+                              )}
+                            </td>
+                          </tr>
+                        ))}
+                    </tbody>
+                  </Table>
+                ) : (
+                  <div>Korisnik nema aktivnosti u ovoj skolskoj godini.</div>
+                )}
+              </FullWidthSection>
+            </Row>
+          </ProfileContainer>
+        </CenterContent>
+      </PageContainer>
     )
   );
 };

@@ -7,6 +7,7 @@ import * as Yup from 'yup';
 
 import { api } from '../../../api';
 import { Status } from '../../../components/status/status.tsx';
+import { Submenu } from '../../../components/submenu/submenu.tsx';
 import { CenterContent, PageContainer } from '../../common-styles/common-styles';
 import { useGetCategories } from '../manage-project-associate/hooks/use-get-categories.ts';
 import { useProjectAssociates } from './hooks/use-project-associates.ts';
@@ -131,6 +132,7 @@ const ProjectAssociateSearchView = () => {
   return (
     <PageContainer>
       <CenterContent>
+        <Submenu />
         <h1>Project Associates</h1>
         <Form onSubmit={formik.handleSubmit}>
           <FormField>

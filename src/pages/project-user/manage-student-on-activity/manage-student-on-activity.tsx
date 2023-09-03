@@ -86,11 +86,14 @@ export const ManageStudentOnActivity = () => {
     },
   });
   const handleActivityClick = async (item) => {
-    await createStudentOnActivity({
+    console.log('item', item);
+    console.log('studentOnSchoolYear', studentOnSchoolYear);
+    const res = await createStudentOnActivity({
       activityId: item.id,
       activityStatus: 'active',
       studentOnSchoolYearId: studentOnSchoolYear ? studentOnSchoolYear[0]?.id : 0,
     });
+    console.log('createStudentOnActivity res', res);
   };
 
   if (

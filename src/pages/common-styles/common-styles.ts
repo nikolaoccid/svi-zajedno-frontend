@@ -62,8 +62,8 @@ export const CenterContent = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  min-width: 800px;
   gap: 30px;
-  min-width: 600px;
 `;
 
 export const AlignRight = styled.div`
