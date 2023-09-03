@@ -51,7 +51,8 @@ function ManageCategory() {
       if (categoryId && category) {
         try {
           await api.updateCategory(category.id.toString(), formCategory);
-          await queryClient.invalidateQueries({ queryKey: ['getCategories', 'getCategory'] });
+          await queryClient.invalidateQueries(['getCategories']);
+          await queryClient.invalidateQueries(['getCategory']);
           toastSuccess('Kategorija uspjesno azurirana.');
           navigate(-1);
         } catch (e) {
@@ -60,7 +61,8 @@ function ManageCategory() {
       } else {
         try {
           await api.createCategory(formCategory);
-          await queryClient.invalidateQueries({ queryKey: ['getCategories', 'getCategory'] });
+          await queryClient.invalidateQueries(['getCategories']);
+          await queryClient.invalidateQueries(['getCategory']);
           toastSuccess('Kategorija uspjesno kreirana.');
           navigate(-1);
         } catch (e) {

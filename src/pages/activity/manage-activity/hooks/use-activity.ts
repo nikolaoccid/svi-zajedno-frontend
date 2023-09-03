@@ -4,7 +4,7 @@ import { api } from '../../../../api';
 
 export function useActivity(activityId: string | undefined) {
   return useQuery({
-    queryKey: ['getActivity'],
+    queryKey: ['getActivity', activityId],
     queryFn: () => api.getActivity((activityId ?? 0).toString()),
     enabled: activityId !== undefined,
   });

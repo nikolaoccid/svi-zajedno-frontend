@@ -5,7 +5,7 @@ import { api } from '../../../api';
 
 export function useSchoolYear(startYear: number | undefined) {
   return useQuery({
-    queryKey: ['fetchSchoolYear'],
+    queryKey: ['fetchSchoolYear', startYear],
     queryFn: () => api.fetchSchoolYear((startYear ?? 0).toString()),
     enabled: startYear !== undefined,
   });
