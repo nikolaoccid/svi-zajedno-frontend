@@ -3558,7 +3558,7 @@ export const StatisticsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async statisticsControllerProjectUsersStatistics(schoolYearId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async statisticsControllerProjectUsersStatistics(schoolYearId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.statisticsControllerProjectUsersStatistics(schoolYearId, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -3587,7 +3587,7 @@ export const StatisticsApiFactory = function (configuration?: Configuration, bas
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        statisticsControllerProjectUsersStatistics(schoolYearId: string, options?: any): AxiosPromise<void> {
+        statisticsControllerProjectUsersStatistics(schoolYearId: string, options?: any): AxiosPromise<object> {
             return localVarFp.statisticsControllerProjectUsersStatistics(schoolYearId, options).then((request) => request(axios, basePath));
         },
     };
