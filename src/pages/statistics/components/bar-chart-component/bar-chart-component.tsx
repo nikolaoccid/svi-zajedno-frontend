@@ -1,7 +1,6 @@
 import { Bar, BarChart, CartesianGrid, Legend, Tooltip, XAxis, YAxis } from 'recharts';
 
 export const BarChartComponent = ({ data }) => {
-  console.log('BarChartComponent', data);
   return (
     <BarChart width={730} height={250} data={data}>
       <CartesianGrid strokeDasharray="3 3" />
