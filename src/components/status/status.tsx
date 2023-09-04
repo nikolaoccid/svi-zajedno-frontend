@@ -5,7 +5,7 @@ const Container = styled.div<{ status }>`
   align-items: center;
   justify-content: center;
   border-radius: 4px;
-  padding: 10px 20px;
+  padding: 3px 5px;
   background-color: ${(props) =>
     props.status === 'active' ? '#5cb85c' : props.status === 'pending' ? '#3e5c74' : '#d9534f'};
 `;

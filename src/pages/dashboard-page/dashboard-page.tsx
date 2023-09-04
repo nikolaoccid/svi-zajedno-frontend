@@ -7,6 +7,7 @@ import categoryImage from '/category.png';
 import projectAssociateImage from '/project-associate.png';
 import projectUserImage from '/project-users.png';
 import schoolYearImage from '/school-year.png';
+import statisticsImage from '/statistics.png';
 
 import { Submenu } from '../../components/submenu/submenu.tsx';
 import { toastInfo } from '../../utils/toast.ts';
@@ -142,12 +143,11 @@ export function DashboardPage() {
           <MenuRow>
             <MenuItem>
               <ImageContainer>
-                <MenuImage src={schoolYearImage} />
+                <MenuImage src={statisticsImage} />
               </ImageContainer>
               <MenuContent>
-                <h2>AKTIVNOSTI</h2>
-                <NavLink to={`/activity`}>Sve aktivnosti</NavLink>
-                <NavLink to={`/activity/new`}>Kreiraj novu aktivnost</NavLink>
+                <h2>STATISTIKA</h2>
+                <NavLink to={`/${schoolYear && schoolYear[0].startYear}/statistics`}>Statistika</NavLink>
               </MenuContent>
             </MenuItem>
           </MenuRow>

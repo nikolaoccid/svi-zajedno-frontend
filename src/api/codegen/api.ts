@@ -3453,6 +3453,178 @@ export class SchoolYearApi extends BaseAPI {
 
 
 /**
+ * StatisticsApi - axios parameter creator
+ * @export
+ */
+export const StatisticsApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {string} schoolYearId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        statisticsControllerProjectAssociateStatistics: async (schoolYearId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'schoolYearId' is not null or undefined
+            assertParamExists('statisticsControllerProjectAssociateStatistics', 'schoolYearId', schoolYearId)
+            const localVarPath = `/Statistics/project-associates/{schoolYearId}`
+                .replace(`{${"schoolYearId"}}`, encodeURIComponent(String(schoolYearId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} schoolYearId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        statisticsControllerProjectUsersStatistics: async (schoolYearId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'schoolYearId' is not null or undefined
+            assertParamExists('statisticsControllerProjectUsersStatistics', 'schoolYearId', schoolYearId)
+            const localVarPath = `/Statistics/project-users/{schoolYearId}`
+                .replace(`{${"schoolYearId"}}`, encodeURIComponent(String(schoolYearId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * StatisticsApi - functional programming interface
+ * @export
+ */
+export const StatisticsApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = StatisticsApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {string} schoolYearId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async statisticsControllerProjectAssociateStatistics(schoolYearId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<object>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.statisticsControllerProjectAssociateStatistics(schoolYearId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} schoolYearId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async statisticsControllerProjectUsersStatistics(schoolYearId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.statisticsControllerProjectUsersStatistics(schoolYearId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * StatisticsApi - factory interface
+ * @export
+ */
+export const StatisticsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = StatisticsApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {string} schoolYearId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        statisticsControllerProjectAssociateStatistics(schoolYearId: string, options?: any): AxiosPromise<Array<object>> {
+            return localVarFp.statisticsControllerProjectAssociateStatistics(schoolYearId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} schoolYearId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        statisticsControllerProjectUsersStatistics(schoolYearId: string, options?: any): AxiosPromise<void> {
+            return localVarFp.statisticsControllerProjectUsersStatistics(schoolYearId, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * StatisticsApi - object-oriented interface
+ * @export
+ * @class StatisticsApi
+ * @extends {BaseAPI}
+ */
+export class StatisticsApi extends BaseAPI {
+    /**
+     * 
+     * @param {string} schoolYearId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof StatisticsApi
+     */
+    public statisticsControllerProjectAssociateStatistics(schoolYearId: string, options?: AxiosRequestConfig) {
+        return StatisticsApiFp(this.configuration).statisticsControllerProjectAssociateStatistics(schoolYearId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} schoolYearId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof StatisticsApi
+     */
+    public statisticsControllerProjectUsersStatistics(schoolYearId: string, options?: AxiosRequestConfig) {
+        return StatisticsApiFp(this.configuration).statisticsControllerProjectUsersStatistics(schoolYearId, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+/**
  * StudentOnActivityApi - axios parameter creator
  * @export
  */

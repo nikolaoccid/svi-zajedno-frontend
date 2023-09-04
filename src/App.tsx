@@ -23,6 +23,7 @@ import { ChooseSchoolYear } from './pages/school-year/choose-school-year/choose-
 import { CreateSchoolYear } from './pages/school-year/create-school-year/create-school-year.tsx';
 import { SearchAssociate } from './pages/search/search-associate/search-associate.tsx';
 import { SearchUser } from './pages/search/search-user/search-user.tsx';
+import { Statistics } from './pages/statistics/statistics.tsx';
 
 const publicRoutes = ['/', '/login', '/logout'];
 
@@ -72,6 +73,9 @@ function App() {
 
             <Route path="/login" element={<LoginPage />} />
             <Route path="/logout" element={<Logout />} />
+
+            {/*Statistics*/}
+            <Route path="/:startYear/statistics" element={<Statistics />} />
           </Routes>
           <ToastContainer />
         </RouteGuard>

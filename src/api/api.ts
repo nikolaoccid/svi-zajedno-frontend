@@ -15,6 +15,7 @@ import {
   ProjectAssociateApi,
   ProjectUserApi,
   SchoolYearApi,
+  StatisticsApi,
   StudentOnActivityApi,
   StudentOnSchoolYearApi,
   UpdateActivityDto,
@@ -44,6 +45,7 @@ const projectAssociate = new ProjectAssociateApi(configuration);
 const categories = new CategoryApi(configuration);
 const activities = new ActivityApi(configuration);
 const studentOnActivity = new StudentOnActivityApi(configuration);
+const statistics = new StatisticsApi(configuration);
 
 export function persistToken(token: string) {
   localStorage.setItem('token', token);
@@ -181,4 +183,12 @@ export function getStudentOnActivity(studentOnSchoolYearId) {
 }
 export function updateStudentOnActivity(studentOnActivityId: string, student: UpdateStudentOnActivityDto) {
   return getData(studentOnActivity.studentOnActivityControllerUpdate(studentOnActivityId, student));
+}
+
+export function getAssociateStatistics(schoolYearId: string) {
+  return getData(statistics.statisticsControllerProjectAssociateStatistics(schoolYearId));
+}
+
+export function getProjectUserStatistics(schoolYearId: string) {
+  return getData(statistics.statisticsControllerProjectUsersStatistics(schoolYearId));
 }
