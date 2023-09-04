@@ -75,7 +75,6 @@ export const Table = styled.table`
   th,
   td {
     padding: 10px;
-    border: 1px solid #ddd;
     text-align: left;
   }
   th {
