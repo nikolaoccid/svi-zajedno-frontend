@@ -135,8 +135,8 @@ export function DashboardPage() {
               </ImageContainer>
               <MenuContent>
                 <h2>KATEGORIJE</h2>
-                <NavLink to={`/category`}>Sve kategorije</NavLink>
-                <NavLink to={`/category/new`}>Kreiraj novu kategoriju</NavLink>
+                <NavLink to={`/${schoolYear && schoolYear[0].startYear}/categories`}>Sve kategorije</NavLink>
+                <NavLink to={`/${schoolYear && schoolYear[0].startYear}/category/new`}>Kreiraj novu kategoriju</NavLink>
               </MenuContent>
             </MenuItem>
           </MenuRow>

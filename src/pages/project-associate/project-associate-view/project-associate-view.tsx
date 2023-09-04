@@ -14,13 +14,6 @@ import {
 import { useSchoolYear } from '../../dashboard-page/hooks/use-fetch-school-year.ts';
 import { useGetProjectAssociate } from '../manage-project-associate/hooks/use-get-project-associate.ts';
 
-const ProfileContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-`;
-
 const ProfileHeader = styled.h1`
   display: flex;
   justify-content: center;
@@ -118,102 +111,102 @@ const ProjectAssociateView = () => {
 
   return (
     projectAssociate !== undefined && (
-      <ProfileContainer>
-        <Submenu />
-        <HeaderSection>
-          <Center>
-            <ProfileHeader>
-              {projectAssociate.category?.categoryName} - {projectAssociate.clubName}
-            </ProfileHeader>
-          </Center>
-          <Right>
-            <Status status={projectAssociate.projectAssociateStatus} />
-          </Right>
-        </HeaderSection>
-        <PageContainer>
-          <CenterContent>
-            <ProfileSubmenu>
-              <Button
-                onClick={() => navigate(`/${startYear}/project-associate/${projectAssociateId}/activity/new`)}
-                disabled={projectAssociate.projectAssociateStatus === 'inactive'}
-              >
-                Dodaj aktivnost
-              </Button>
-              <SecondaryButton onClick={() => navigate(`/${startYear}/project-associate/${projectAssociateId}/edit`)}>
-                Uredi suradnika
-              </SecondaryButton>
-            </ProfileSubmenu>
-            <Content>
-              <Row>
-                <Section>
-                  <ProfileItem>
-                    <Label>Email:</Label>
-                    <Value>{projectAssociate.email}</Value>
-                  </ProfileItem>
-                  <ProfileItem>
-                    <Label>Mobile Phone:</Label>
-                    <Value>{projectAssociate.mobilePhone}</Value>
-                  </ProfileItem>
-                  <ProfileItem>
-                    <Label>Contact Person:</Label>
-                    <Value>{projectAssociate.contactPerson}</Value>
-                  </ProfileItem>
-                  <ProfileItem>
-                    <Label>Address:</Label>
-                    <Value>{projectAssociate.address}</Value>
-                  </ProfileItem>
-                  <ProfileItem>
-                    <Label>City:</Label>
-                    <Value>{projectAssociate.city}</Value>
-                  </ProfileItem>
-                </Section>
-              </Row>
-              <Row>
-                <FullWidthSection>
-                  <h2>Aktivnosti</h2>
-                  {filteredActivities !== undefined && filteredActivities?.length > 0 ? (
-                    <Table>
-                      <thead>
-                        <tr>
-                          <th>Aktivnost</th>
-                          <th>Cijena</th>
-                          <th>Status</th>
-                          <th>Akcije</th>
+      <PageContainer>
+        <CenterContent>
+          <Submenu />
+          <HeaderSection>
+            <Center>
+              <ProfileHeader>
+                {projectAssociate.category?.categoryName} - {projectAssociate.clubName}
+              </ProfileHeader>
+            </Center>
+            <Right>
+              <Status status={projectAssociate.projectAssociateStatus} />
+            </Right>
+          </HeaderSection>
+          {/*<PageContainer>*/}
+          {/*  <CenterContent>*/}
+          <ProfileSubmenu>
+            <Button
+              onClick={() => navigate(`/${startYear}/project-associate/${projectAssociateId}/activity/new`)}
+              disabled={projectAssociate.projectAssociateStatus === 'inactive'}
+            >
+              Dodaj aktivnost
+            </Button>
+            <SecondaryButton onClick={() => navigate(`/${startYear}/project-associate/${projectAssociateId}/edit`)}>
+              Uredi suradnika
+            </SecondaryButton>
+          </ProfileSubmenu>
+          <Content>
+            <Row>
+              <Section>
+                <ProfileItem>
+                  <Label>Email:</Label>
+                  <Value>{projectAssociate.email}</Value>
+                </ProfileItem>
+                <ProfileItem>
+                  <Label>Mobile Phone:</Label>
+                  <Value>{projectAssociate.mobilePhone}</Value>
+                </ProfileItem>
+                <ProfileItem>
+                  <Label>Contact Person:</Label>
+                  <Value>{projectAssociate.contactPerson}</Value>
+                </ProfileItem>
+                <ProfileItem>
+                  <Label>Address:</Label>
+                  <Value>{projectAssociate.address}</Value>
+                </ProfileItem>
+                <ProfileItem>
+                  <Label>City:</Label>
+                  <Value>{projectAssociate.city}</Value>
+                </ProfileItem>
+              </Section>
+            </Row>
+            <Row>
+              <FullWidthSection>
+                <h2>Aktivnosti</h2>
+                {filteredActivities !== undefined && filteredActivities?.length > 0 ? (
+                  <Table>
+                    <thead>
+                      <tr>
+                        <th>Aktivnost</th>
+                        <th>Cijena</th>
+                        <th>Status</th>
+                        <th>Akcije</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {filteredActivities.map((activity) => (
+                        <tr key={activity.id}>
+                          <td>{activity.activityName}</td>
+                          <td>{activity.activityPrice}EUR</td>
+                          <td>
+                            <Status status={activity.activityStatus} />
+                          </td>
+                          <td>
+                            <SecondaryButton
+                              onClick={() =>
+                                navigate(
+                                  `/${startYear}/project-associate/${projectAssociateId}/activity/${activity.id}/edit`,
+                                )
+                              }
+                              disabled={projectAssociate.projectAssociateStatus === 'inactive'}
+                            >
+                              Uredi
+                            </SecondaryButton>
+                          </td>
                         </tr>
-                      </thead>
-                      <tbody>
-                        {filteredActivities.map((activity) => (
-                          <tr key={activity.id}>
-                            <td>{activity.activityName}</td>
-                            <td>{activity.activityPrice}EUR</td>
-                            <td>
-                              <Status status={activity.activityStatus} />
-                            </td>
-                            <td>
-                              <SecondaryButton
-                                onClick={() =>
-                                  navigate(
-                                    `/${startYear}/project-associate/${projectAssociateId}/activity/${activity.id}/edit`,
-                                  )
-                                }
-                                disabled={projectAssociate.projectAssociateStatus === 'inactive'}
-                              >
-                                Uredi
-                              </SecondaryButton>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </Table>
-                  ) : (
-                    <p>Suradnik nema aktivnosti u ovoj skolskoj godini.</p>
-                  )}
-                </FullWidthSection>
-              </Row>
-            </Content>
-          </CenterContent>
-        </PageContainer>
-      </ProfileContainer>
+                      ))}
+                    </tbody>
+                  </Table>
+                ) : (
+                  <p>Suradnik nema aktivnosti u ovoj skolskoj godini.</p>
+                )}
+              </FullWidthSection>
+            </Row>
+          </Content>
+        </CenterContent>
+      </PageContainer>
     )
   );
 };

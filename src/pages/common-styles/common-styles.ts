@@ -63,7 +63,7 @@ export const CenterContent = styled.div`
   justify-content: center;
   align-items: center;
   min-width: 800px;
-  gap: 30px;
+  gap: 15px;
 `;
 
 export const AlignRight = styled.div`

@@ -8,7 +8,8 @@ import * as Yup from 'yup';
 import { api } from '../../../api';
 import { Status } from '../../../components/status/status.tsx';
 import { Submenu } from '../../../components/submenu/submenu.tsx';
-import { CenterContent, PageContainer } from '../../common-styles/common-styles';
+import { AlignRight, CenterContent, PageContainer, SecondaryButton } from '../../common-styles/common-styles';
+import { useSchoolYear } from '../../dashboard-page/hooks/use-fetch-school-year.ts';
 import { useGetCategories } from '../manage-project-associate/hooks/use-get-categories.ts';
 import { useProjectAssociates } from './hooks/use-project-associates.ts';
 
@@ -16,11 +17,11 @@ const validationSchema = Yup.object().shape({
   search: Yup.string().required('Unos je obavezan'),
 });
 
-const TableWrapper = styled.div`
+export const TableWrapper = styled.div`
   margin-top: 20px;
 `;
 
-const StyledTable = styled.table`
+export const StyledTable = styled.table`
   width: 100%;
   border-collapse: collapse;
   th,
@@ -75,6 +76,7 @@ const Pagination = styled.div`
 const ProjectAssociateSearchView = () => {
   const navigate = useNavigate();
   const { startYear } = useParams();
+  const { data: schoolYear } = useSchoolYear(startYear ? parseInt(startYear ?? '0') : 0);
   const itemsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(1);
   const { execute: getProjectAssociates, error: isError, loading: isLoading } = useProjectAssociates(currentPage);
@@ -133,7 +135,12 @@ const ProjectAssociateSearchView = () => {
     <PageContainer>
       <CenterContent>
         <Submenu />
-        <h1>Project Associates</h1>
+        <h1>Suradnici</h1>
+        <AlignRight>
+          <SecondaryButton onClick={() => navigate(`/${schoolYear && schoolYear[0].startYear}/project-associate/new`)}>
+            Kreiraj suradnika
+          </SecondaryButton>
+        </AlignRight>
         <Form onSubmit={formik.handleSubmit}>
           <FormField>
             <label htmlFor="search">Search Project Associates</label>

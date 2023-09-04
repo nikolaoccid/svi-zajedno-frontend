@@ -7,6 +7,7 @@ import { ToastContainer } from 'react-toastify';
 import Header from './components/header/header.tsx';
 import { RouteGuard } from './components/route-guard/route-guard.tsx';
 import { ManageActivity } from './pages/activity/manage-activity/manage-activity.tsx';
+import { CategoriesView } from './pages/category/categories-view/categories-view.tsx';
 import ManageCategory from './pages/category/manage-category/manage-category.tsx';
 import { DashboardPage } from './pages/dashboard-page/dashboard-page.tsx';
 import LandingPage from './pages/landing-page/landing-page.tsx';
@@ -68,8 +69,9 @@ function App() {
             />
 
             {/*Category*/}
-            <Route path="/category/new" element={<ManageCategory />} />
-            <Route path="/category/:categoryId/edit" element={<ManageCategory />} />
+            <Route path=":startYear/category/new" element={<ManageCategory />} />
+            <Route path=":startYear/categories" element={<CategoriesView />} />
+            <Route path=":startYear/category/:categoryId/edit" element={<ManageCategory />} />
 
             <Route path="/login" element={<LoginPage />} />
             <Route path="/logout" element={<Logout />} />
