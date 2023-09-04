@@ -6,6 +6,7 @@ import { useParams } from 'react-router-dom';
 import { PuffLoader } from 'react-spinners';
 import * as Yup from 'yup';
 
+import { Submenu } from '../../../components/submenu/submenu.tsx';
 import { Button, CenterContent, FormError, FormField, PageContainer } from '../../common-styles/common-styles.ts';
 import { useSchoolYear } from '../../dashboard-page/hooks/use-fetch-school-year.ts';
 import { ColoredTableRow } from '../../project-associate/project-associate-search-view/project-associate-search-view.tsx';
@@ -52,7 +53,7 @@ const validationSchema = Yup.object({
   query: Yup.string(),
 });
 export const ManageStudentOnActivity = () => {
-  const { startYear, userId, activityId } = useParams();
+  const { startYear, userId } = useParams();
   const startYearInt = parseInt(startYear ?? '0');
   const { data: schoolYear, isLoading: isLoadingSchoolYear } = useSchoolYear(startYearInt);
   const { data: projectUser, isLoading: isLoadingProjectUser } = useProjectUser(userId);
@@ -62,17 +63,17 @@ export const ManageStudentOnActivity = () => {
   );
   const { execute: createStudentOnActivity, loading: isLoadingCreateStudentOnActivity } = useCreateStudentOnActivity();
   const [query, setQuery] = useState<any>(undefined);
-  console.log(studentOnSchoolYear, activityId);
 
-  const {
-    getActivities,
-    activities,
-    isLoading: isLoadingActivities,
-  } = useActivities('active', schoolYear ? schoolYear[0]?.id : 0);
+  const { getActivities, activities, isLoading: isLoadingActivities } = useActivities();
 
   useAsync(async () => {
-    await getActivities(query);
-  }, []);
+    await getActivities(
+      query,
+      'active',
+      schoolYear ? schoolYear[0]?.id : 0,
+      studentOnSchoolYear ? studentOnSchoolYear[0]?.id : 0,
+    );
+  }, [schoolYear, projectUser, studentOnSchoolYear]);
 
   const formik = useFormik({
     initialValues: {
@@ -82,18 +83,20 @@ export const ManageStudentOnActivity = () => {
     onSubmit: async (form) => {
       const query = form.query === '' ? undefined : form.query;
       setQuery(query);
-      await getActivities(query);
+      await getActivities(
+        query,
+        'active',
+        schoolYear ? schoolYear[0]?.id : 0,
+        studentOnSchoolYear ? studentOnSchoolYear[0]?.id : 0,
+      );
     },
   });
   const handleActivityClick = async (item) => {
-    console.log('item', item);
-    console.log('studentOnSchoolYear', studentOnSchoolYear);
-    const res = await createStudentOnActivity({
+    await createStudentOnActivity({
       activityId: item.id,
       activityStatus: 'active',
       studentOnSchoolYearId: studentOnSchoolYear ? studentOnSchoolYear[0]?.id : 0,
     });
-    console.log('createStudentOnActivity res', res);
   };
 
   if (
@@ -114,6 +117,7 @@ export const ManageStudentOnActivity = () => {
   return (
     <PageContainer>
       <CenterContent>
+        <Submenu />
         <h1>Upisi korisnika na aktivnost</h1>
         <FormikProvider value={formik}>
           <Form onSubmit={formik.handleSubmit}>

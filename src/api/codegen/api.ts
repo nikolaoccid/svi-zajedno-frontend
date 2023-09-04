@@ -1253,11 +1253,12 @@ export const ActivityApiAxiosParamCreator = function (configuration?: Configurat
          * 
          * @param {'active' | 'inactive' | 'pending'} [activityStatus] 
          * @param {string} [query] 
+         * @param {number} [studentOnSchoolYearId] 
          * @param {number} [schoolYearId] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        activityControllerFindAll: async (activityStatus?: 'active' | 'inactive' | 'pending', query?: string, schoolYearId?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        activityControllerFindAll: async (activityStatus?: 'active' | 'inactive' | 'pending', query?: string, studentOnSchoolYearId?: number, schoolYearId?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/activity`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1280,6 +1281,10 @@ export const ActivityApiAxiosParamCreator = function (configuration?: Configurat
 
             if (query !== undefined) {
                 localVarQueryParameter['query'] = query;
+            }
+
+            if (studentOnSchoolYearId !== undefined) {
+                localVarQueryParameter['studentOnSchoolYearId'] = studentOnSchoolYearId;
             }
 
             if (schoolYearId !== undefined) {
@@ -1438,12 +1443,13 @@ export const ActivityApiFp = function(configuration?: Configuration) {
          * 
          * @param {'active' | 'inactive' | 'pending'} [activityStatus] 
          * @param {string} [query] 
+         * @param {number} [studentOnSchoolYearId] 
          * @param {number} [schoolYearId] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async activityControllerFindAll(activityStatus?: 'active' | 'inactive' | 'pending', query?: string, schoolYearId?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Activity>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.activityControllerFindAll(activityStatus, query, schoolYearId, options);
+        async activityControllerFindAll(activityStatus?: 'active' | 'inactive' | 'pending', query?: string, studentOnSchoolYearId?: number, schoolYearId?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Activity>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.activityControllerFindAll(activityStatus, query, studentOnSchoolYearId, schoolYearId, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -1500,12 +1506,13 @@ export const ActivityApiFactory = function (configuration?: Configuration, baseP
          * 
          * @param {'active' | 'inactive' | 'pending'} [activityStatus] 
          * @param {string} [query] 
+         * @param {number} [studentOnSchoolYearId] 
          * @param {number} [schoolYearId] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        activityControllerFindAll(activityStatus?: 'active' | 'inactive' | 'pending', query?: string, schoolYearId?: number, options?: any): AxiosPromise<Array<Activity>> {
-            return localVarFp.activityControllerFindAll(activityStatus, query, schoolYearId, options).then((request) => request(axios, basePath));
+        activityControllerFindAll(activityStatus?: 'active' | 'inactive' | 'pending', query?: string, studentOnSchoolYearId?: number, schoolYearId?: number, options?: any): AxiosPromise<Array<Activity>> {
+            return localVarFp.activityControllerFindAll(activityStatus, query, studentOnSchoolYearId, schoolYearId, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -1560,13 +1567,14 @@ export class ActivityApi extends BaseAPI {
      * 
      * @param {'active' | 'inactive' | 'pending'} [activityStatus] 
      * @param {string} [query] 
+     * @param {number} [studentOnSchoolYearId] 
      * @param {number} [schoolYearId] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ActivityApi
      */
-    public activityControllerFindAll(activityStatus?: 'active' | 'inactive' | 'pending', query?: string, schoolYearId?: number, options?: AxiosRequestConfig) {
-        return ActivityApiFp(this.configuration).activityControllerFindAll(activityStatus, query, schoolYearId, options).then((request) => request(this.axios, this.basePath));
+    public activityControllerFindAll(activityStatus?: 'active' | 'inactive' | 'pending', query?: string, studentOnSchoolYearId?: number, schoolYearId?: number, options?: AxiosRequestConfig) {
+        return ActivityApiFp(this.configuration).activityControllerFindAll(activityStatus, query, studentOnSchoolYearId, schoolYearId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -3558,7 +3566,7 @@ export const StatisticsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async statisticsControllerProjectUsersStatistics(schoolYearId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+        async statisticsControllerProjectUsersStatistics(schoolYearId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.statisticsControllerProjectUsersStatistics(schoolYearId, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -3587,7 +3595,7 @@ export const StatisticsApiFactory = function (configuration?: Configuration, bas
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        statisticsControllerProjectUsersStatistics(schoolYearId: string, options?: any): AxiosPromise<object> {
+        statisticsControllerProjectUsersStatistics(schoolYearId: string, options?: any): AxiosPromise<void> {
             return localVarFp.statisticsControllerProjectUsersStatistics(schoolYearId, options).then((request) => request(axios, basePath));
         },
     };

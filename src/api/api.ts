@@ -123,8 +123,9 @@ export function getActivities(
   query: string | undefined,
   activityStatus: ActivityActivityStatusEnum | undefined,
   schoolYearId: number | undefined,
+  studentOnSchoolYearId,
 ) {
-  return getData(activities.activityControllerFindAll(activityStatus, query, schoolYearId));
+  return getData(activities.activityControllerFindAll(activityStatus, query, studentOnSchoolYearId, schoolYearId));
 }
 
 export function getCategories() {
