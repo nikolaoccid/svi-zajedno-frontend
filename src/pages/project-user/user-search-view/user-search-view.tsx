@@ -91,6 +91,14 @@ const UserSearchView = () => {
     },
     enableReinitialize: false,
   });
+  const onFormReset = async () => {
+    formik.resetForm();
+
+    const response = await getProjectUsersPage();
+    setQueryResults((response as any).items);
+    setTotalPages((response as any).meta.totalPages);
+    setFetched(true);
+  };
 
   useEffect(() => {
     const getData = async () => {
@@ -118,6 +126,9 @@ const UserSearchView = () => {
             <FormContent>
               <input type="text" id="search" {...formik.getFieldProps('search')} />
               <button type="submit">&#x1F50E;</button>
+              <button type="reset" onClick={onFormReset}>
+                Ponisti
+              </button>
             </FormContent>
             {formik.touched.search && formik.errors.search && <FormError>{formik.errors.search}</FormError>}
           </FormField>

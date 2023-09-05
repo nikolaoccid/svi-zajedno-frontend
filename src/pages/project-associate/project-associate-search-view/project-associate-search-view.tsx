@@ -137,7 +137,7 @@ const ProjectAssociateSearchView = () => {
         <h1>Suradnici</h1>
         <AlignRight>
           <SecondaryButton onClick={() => navigate(`/${schoolYear && schoolYear[0].startYear}/project-associate/new`)}>
-            Kreiraj suradnika
+            Kreiraj novog suradnika
           </SecondaryButton>
         </AlignRight>
         <Form onSubmit={formik.handleSubmit}>
