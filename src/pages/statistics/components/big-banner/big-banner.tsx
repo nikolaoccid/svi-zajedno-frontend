@@ -13,7 +13,7 @@ const Container = styled.div`
 `;
 const Text = styled.div`
   font-size: 22px;
-  word-break: break-all
+  word-break: break-all;
   width: 70%;
 `;
 const Counter = styled.div`
