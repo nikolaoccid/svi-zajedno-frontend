@@ -6,6 +6,7 @@ import { CenterContent, PageContainer } from '../common-styles/common-styles.ts'
 import { useSchoolYear } from '../dashboard-page/hooks/use-fetch-school-year.ts';
 import { Row } from '../project-associate/project-associate-view/project-associate-view.tsx';
 import { BarChartComponent } from './components/bar-chart-component/bar-chart-component.tsx';
+import { BigBanner } from './components/big-banner/big-banner.tsx';
 import { PieChartComponent } from './components/pie-chart-component/pie-chart-component.tsx';
 import ResponsiveTableComponent from './components/responsive-table-component/responsive-table-component.tsx';
 import { SmallBanner } from './components/small-banner/small-banner.tsx';
@@ -35,6 +36,9 @@ export const Statistics = () => {
         <h1>
           Statistika korisnika {schoolYear ? schoolYear[0]?.startYear : ''} / {schoolYear ? schoolYear[0]?.endYear : ''}
         </h1>
+        {projectUserStatistics && (
+          <BigBanner text="Vrijednost projekta" count={projectUserStatistics?.totalProjectValue} euro={true} />
+        )}
 
         <RowCenteredWithGap>
           {projectUserStatistics && <SmallBanner text="Ukupno korisnika" count={projectUserStatistics?.totalUsers} />}
