@@ -87,7 +87,7 @@ export const ManageProjectUserView = () => {
           const user = await api.createProjectUser(formData);
           user && currentSchoolYear && (await api.createProjetUserOnSchoolYear(user.id, currentSchoolYear[0].id));
           toastSuccess('Korisnik kreiran');
-          navigate(`/${schoolYearFromParams}`);
+          navigate(-1);
         } catch (e) {
           toastError('Korisnik nije kreiran, pokusajte ponovno');
         }

@@ -8,7 +8,6 @@ import { api } from '../../../api';
 import { Submenu } from '../../../components/submenu/submenu.tsx';
 import { toastError, toastSuccess } from '../../../utils/toast.ts';
 import { CenterContent, Form, FormError, FormField, PageContainer } from '../../common-styles/common-styles.ts';
-import { useSchoolYearFromParams } from '../../dashboard-page/hooks/use-fetch-school-year.ts';
 import { useGetCategories } from './hooks/use-get-categories.ts';
 import { useGetProjectAssociate } from './hooks/use-get-project-associate.ts';
 
@@ -26,7 +25,6 @@ export const ManageProjectAssociate = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { projectAssociateId } = useParams();
-  const schoolYearFromParams = useSchoolYearFromParams();
   const { data: projectAssociate } = useGetProjectAssociate(projectAssociateId);
   const { data: categories } = useGetCategories();
 
@@ -57,7 +55,7 @@ export const ManageProjectAssociate = () => {
         try {
           await api.createProjectAssociate(formAssociate);
           toastSuccess('Suradnik uspjesno kreiran.');
-          navigate(`/${schoolYearFromParams}`);
+          navigate(-1);
         } catch (e) {
           toastError('Dogodila se pogreska, suradnik nije kreiran.');
         }
