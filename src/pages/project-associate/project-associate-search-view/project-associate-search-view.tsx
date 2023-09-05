@@ -116,20 +116,25 @@ const ProjectAssociateSearchView = () => {
   const visibleAssociates = (queryResults.length > 0 ? queryResults : projectAssociates) || [];
   const slicedAssociates = visibleAssociates.slice(startIndex, startIndex + itemsPerPage);
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const response = await getProjectAssociates();
-        setProjectAssociates((response as any).items || []);
-        setCurrentPage((response as any)?.meta?.currentPage);
-        setTotalPages((response as any)?.meta?.totalPages);
-        setQueryResults((response as any)?.items || []);
-      } catch (error) {
-        console.error('Error fetching project associates:', error);
-      }
+  async function fetchData() {
+    try {
+      const response = await getProjectAssociates();
+      setProjectAssociates((response as any).items || []);
+      setCurrentPage((response as any)?.meta?.currentPage);
+      setTotalPages((response as any)?.meta?.totalPages);
+      setQueryResults((response as any)?.items || []);
+    } catch (error) {
+      console.error('Error fetching project associates:', error);
     }
+  }
+
+  useEffect(() => {
     fetchData();
   }, [currentPage, getProjectAssociates]);
+  const handleFormReset = async () => {
+    formik.resetForm();
+    await fetchData();
+  };
   return (
     <PageContainer>
       <CenterContent>
@@ -146,6 +151,9 @@ const ProjectAssociateSearchView = () => {
             <FormContent>
               <input type="text" id="search" {...formik.getFieldProps('search')} />
               <button type="submit">&#x1F50E;</button>
+              <button type="reset" onClick={handleFormReset}>
+                Ponisti
+              </button>
             </FormContent>
             {formik.touched.search && formik.errors.search && <FormError>{formik.errors.search}</FormError>}
           </FormField>
