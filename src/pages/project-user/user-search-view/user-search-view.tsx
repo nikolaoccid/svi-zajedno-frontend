@@ -7,7 +7,8 @@ import * as Yup from 'yup';
 
 import { api } from '../../../api';
 import { Submenu } from '../../../components/submenu/submenu.tsx';
-import { CenterContent, PageContainer } from '../../common-styles/common-styles';
+import { AlignRight, CenterContent, PageContainer, SecondaryButton } from '../../common-styles/common-styles';
+import { useSchoolYear } from '../../dashboard-page/hooks/use-fetch-school-year.ts';
 import { ColoredTableRow } from '../../project-associate/project-associate-search-view/project-associate-search-view.tsx';
 import { useProjectUsers } from '../user-view/hooks/use-project-users.ts';
 
@@ -69,6 +70,7 @@ const Pagination = styled.div`
 const UserSearchView = () => {
   const { startYear } = useParams();
   const navigate = useNavigate();
+  const { data: schoolYear } = useSchoolYear(startYear ? parseInt(startYear ?? '0') : 0);
   const [currentPage, setCurrentPage] = useState(1);
   const { loading: isLoading, error: isError, execute: getProjectUsersPage } = useProjectUsers(currentPage);
 
@@ -105,6 +107,11 @@ const UserSearchView = () => {
       <CenterContent>
         <Submenu />
         <h1>Korisnici</h1>
+        <AlignRight>
+          <SecondaryButton onClick={() => navigate(`/${schoolYear ? schoolYear[0]?.startYear : 0}/user/new`)}>
+            Kreiraj novog korisnika
+          </SecondaryButton>
+        </AlignRight>
         <Form onSubmit={formik.handleSubmit}>
           <FormField>
             <label htmlFor="search">Pronadi korisnika</label>
