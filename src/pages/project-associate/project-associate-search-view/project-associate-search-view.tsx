@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { ErrorMessage, useFormik } from 'formik';
 import { useEffect, useState } from 'react';
+import { useAsyncCallback } from 'react-async-hook';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ClockLoader } from 'react-spinners';
 import * as Yup from 'yup';
@@ -116,7 +117,7 @@ const ProjectAssociateSearchView = () => {
   const visibleAssociates = (queryResults.length > 0 ? queryResults : projectAssociates) || [];
   const slicedAssociates = visibleAssociates.slice(startIndex, startIndex + itemsPerPage);
 
-  async function fetchData() {
+  const { execute: fetchData } = useAsyncCallback(async () => {
     try {
       const response = await getProjectAssociates();
       setProjectAssociates((response as any).items || []);
@@ -126,7 +127,7 @@ const ProjectAssociateSearchView = () => {
     } catch (error) {
       console.error('Error fetching project associates:', error);
     }
-  }
+  });
 
   useEffect(() => {
     fetchData();
