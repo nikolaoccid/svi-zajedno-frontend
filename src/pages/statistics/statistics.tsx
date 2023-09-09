@@ -87,7 +87,7 @@ export const Statistics = () => {
           />
         )}
 
-        <h2>Statistika suradnika po kategorijama</h2>
+        <h2>Statistika korisnika po aktivnostima</h2>
         {projectUserStatistics && (
           <BarChartComponent
             data={[

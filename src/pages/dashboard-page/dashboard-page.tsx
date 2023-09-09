@@ -88,7 +88,7 @@ export function DashboardPage() {
     <PageContainer>
       <CenterContent>
         <Submenu />
-        <h1>Administrativni panel</h1>
+        <h1>Nadzorna ploča</h1>
         <Menu>
           <MenuRow>
             <MenuItem>
