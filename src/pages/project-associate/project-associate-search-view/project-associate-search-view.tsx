@@ -130,7 +130,7 @@ const ProjectAssociateSearchView = () => {
 
   useEffect(() => {
     fetchData();
-  }, [currentPage, getProjectAssociates]);
+  }, [currentPage, getProjectAssociates, fetchData]);
   const handleFormReset = async () => {
     formik.resetForm();
     await fetchData();
