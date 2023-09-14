@@ -46,6 +46,8 @@ const ResponsiveTableComponent = ({ data }) => {
             <th>Broj suradnika u kategoriji</th>
             <th>Ukupno besplatnih aktivnosti</th>
             <th>Ukupno placenih aktivnosti</th>
+            <th>Ukupno korisnika na besplatnim aktivnostima</th>
+            <th>Ukupno korisnika na placenim aktivnostima</th>
           </tr>
         </TableHead>
         <tbody>
@@ -55,6 +57,8 @@ const ResponsiveTableComponent = ({ data }) => {
               <TableCell>{item.totalAssociatesPerCategory}</TableCell>
               <TableCell>{item.totalFreeActivities}</TableCell>
               <TableCell>{item.totalPaidActivities}</TableCell>
+              <TableCell>{item.usersAttendingFreeActivities}</TableCell>
+              <TableCell>{item.usersAttendingPaidActivities}</TableCell>
             </TableRow>
           ))}
         </tbody>

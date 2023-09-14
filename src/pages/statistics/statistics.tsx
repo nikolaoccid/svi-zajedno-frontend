@@ -37,7 +37,11 @@ export const Statistics = () => {
           Statistika korisnika {schoolYear ? schoolYear[0]?.startYear : ''} / {schoolYear ? schoolYear[0]?.endYear : ''}
         </h1>
         {projectUserStatistics && (
-          <BigBanner text="Vrijednost projekta" count={projectUserStatistics?.totalProjectValue} euro={true} />
+          <BigBanner
+            text="Procijenjena vrijednost projekta"
+            count={projectUserStatistics?.totalProjectValue}
+            euro={true}
+          />
         )}
 
         <RowCenteredWithGap>
