@@ -9,7 +9,7 @@
     "codegen": "cd src/api/codegen && openapi-generator-cli generate -i \"http://localhost:3001/-json\" -o . -g typescript-axios",
     "lint": "eslint '*/**/*.{js,ts,tsx}'",
     "preview": "vite preview",
-    "start": "vite preview --port 8080"
+    "start": "vite preview --port 80"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
