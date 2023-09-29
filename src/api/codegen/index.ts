@@ -1,8 +1,8 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
- * Svi zajedno backend
- * Backend application for Svi zajedno project
+ * Activity Tracker backend
+ * Backend application for Activity Tracker
  *
  * The version of the OpenAPI document: 1.0
  * 

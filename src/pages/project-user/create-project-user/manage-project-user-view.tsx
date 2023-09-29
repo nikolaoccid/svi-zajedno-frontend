@@ -43,7 +43,7 @@ const validationSchema = Yup.object({
   city: Yup.string().required('Grad je obavezan'),
   school: Yup.string().notRequired(), // Optional field
   mobilePhone: Yup.string().required('Broj mobitela je obavezan'),
-  email: Yup.string().email('Neispravna email adresa').required('Email je obavezan'),
+  email: Yup.string().email('Neispravna email adresa').notRequired(),
 });
 //This component creates and updates project user
 export const ManageProjectUserView = () => {
