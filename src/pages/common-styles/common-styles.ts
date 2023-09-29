@@ -30,9 +30,8 @@ export const AlignLeft = styled.div`
   align-items: center;
   justify-content: flex-start;
 `;
-export const Button = styled.button`
-  background-color: #2196f3;
-  //width: 100%;
+export const Button = styled.button<{ backgroundColor?: string }>`
+  background-color: ${(props) => props.backgroundColor ?? '#2196f3'};
   font-weight: 800;
   font-family: 'Alegreya Sans', sans-serif;
   text-transform: uppercase;

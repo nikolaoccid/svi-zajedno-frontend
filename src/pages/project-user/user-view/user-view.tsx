@@ -8,7 +8,13 @@ import { api } from '../../../api';
 import { Status } from '../../../components/status/status.tsx';
 import { Submenu } from '../../../components/submenu/submenu.tsx';
 import { toastError, toastSuccess } from '../../../utils/toast.ts';
-import { CenterContent, PageContainer, ProfileSubmenu, SecondaryButton } from '../../common-styles/common-styles.ts';
+import {
+  Button,
+  CenterContent,
+  PageContainer,
+  ProfileSubmenu,
+  SecondaryButton,
+} from '../../common-styles/common-styles.ts';
 import { useSchoolYear } from '../../dashboard-page/hooks/use-fetch-school-year.ts';
 import {
   FullWidthSection,
@@ -53,6 +59,11 @@ export const Content = styled.div`
   width: 100%;
 `;
 
+const TdWithGap = styled.td`
+  display: flex;
+  gap: 20px;
+`;
+
 const UserView = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
@@ -69,15 +80,12 @@ const UserView = () => {
   const { data: studentOnActivities } = useStudentOnActivities(
     studentOnSchoolYear?.length === 1 ? studentOnSchoolYear[0]?.id : undefined,
   );
-  // console.log('studentOnSchoolYear', studentOnSchoolYear);
-  // console.log('studentOnActivities', studentOnActivities);
 
   const handleEnrollment = async () => {
     if (studentOnSchoolYear?.length === 0) {
       await createStudentOnSchoolYear();
     }
     const enrollment = studentOnSchoolYear?.[0];
-    console.log('enrollment', enrollment);
     if (enrollment && enrollment.status === 'inactive') {
       await updateStudentOnSchoolYear(enrollment.id.toString(), { ...enrollment, status: 'active' });
     }
@@ -117,6 +125,17 @@ const UserView = () => {
       console.log(e);
     }
   };
+  const deleteActivityEnrollment = async (activity) => {
+    console.log('deleteActivityEnrollment', activity);
+    try {
+      await api.deleteStudentOnActivity(activity.id);
+      await queryClient.invalidateQueries(['getStudentOnActivities']);
+      toastSuccess('Uspjesno obrisan korisnik na aktivnosti');
+    } catch (e) {
+      toastError('Neuspjesno brisanje korisnika na aktivnost');
+      console.log(e);
+    }
+  };
   useAsync(async () => {
     await queryClient.invalidateQueries(['getStudentOnActivities']);
   }, []);
@@ -124,12 +143,6 @@ const UserView = () => {
   if (isError || !userId || typeof parseInt(userId) !== 'number') {
     navigate(`/${startYear}/users`);
   }
-
-  const isEnrolled = !(
-    studentOnSchoolYear?.length === 0 ||
-    (studentOnSchoolYear && studentOnSchoolYear[0].status === 'inactive')
-  );
-  console.log('isEnrolled', isEnrolled, studentOnSchoolYear);
 
   if (isLoading || isLoadingSchoolYear || isLoadingCreateStudentOnSchoolYear || isLoadingUpdateStudentOnSchoolYear) {
     return (
@@ -228,7 +241,7 @@ const UserView = () => {
                             <td>
                               <Status status={activity?.activityStatus} />
                             </td>
-                            <td>
+                            <TdWithGap>
                               {activity.activityStatus === 'active' && (
                                 <SecondaryButton
                                   onClick={() => disenrollActivity(activity)}
@@ -245,7 +258,14 @@ const UserView = () => {
                                   Upisi
                                 </SecondaryButton>
                               )}
-                            </td>
+                              <Button
+                                backgroundColor="#d9534f"
+                                onClick={() => deleteActivityEnrollment(activity)}
+                                disabled={studentOnSchoolYear ? studentOnSchoolYear[0]?.status === 'inactive' : false}
+                              >
+                                Izbrisi
+                              </Button>
+                            </TdWithGap>
                           </tr>
                         ))}
                     </tbody>

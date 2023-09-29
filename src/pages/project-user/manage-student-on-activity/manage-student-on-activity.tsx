@@ -135,8 +135,9 @@ export const ManageStudentOnActivity = () => {
           <Table>
             <thead>
               <tr>
-                <TableHeader>Club Name</TableHeader>
-                <TableHeader>Activity Name</TableHeader>
+                <TableHeader>Ime kluba</TableHeader>
+                <TableHeader>Aktivnost</TableHeader>
+                <TableHeader>Cijena(EUR)</TableHeader>
               </tr>
             </thead>
             <tbody>
@@ -145,6 +146,7 @@ export const ManageStudentOnActivity = () => {
                   <ColoredTableRow key={item.id} isEven={index % 2 === 0} onClick={() => handleActivityClick(item)}>
                     <TableCell>{item.projectAssociate.clubName}</TableCell>
                     <TableCell>{item.activityName}</TableCell>
+                    <TableCell>{item.activityPrice ? item.activityPrice + '€' : 'Besplatno'}</TableCell>
                   </ColoredTableRow>
                 ))
               ) : (

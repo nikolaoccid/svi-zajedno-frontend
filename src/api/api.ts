@@ -186,6 +186,10 @@ export function updateStudentOnActivity(studentOnActivityId: string, student: Up
   return getData(studentOnActivity.studentOnActivityControllerUpdate(studentOnActivityId, student));
 }
 
+export function deleteStudentOnActivity(studentOnActivityId: string) {
+  return getData(studentOnActivity.studentOnActivityControllerRemove(studentOnActivityId));
+}
+
 export function getAssociateStatistics(schoolYearId: string) {
   return getData(statistics.statisticsControllerProjectAssociateStatistics(schoolYearId));
 }
