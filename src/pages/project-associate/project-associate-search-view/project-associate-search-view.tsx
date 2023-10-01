@@ -179,9 +179,9 @@ const ProjectAssociateSearchView = () => {
                   isEven={index % 2 === 0}
                   onClick={() => navigate(`/${startYear}/project-associate/${(associate as any).id}`)}
                 >
-                  <b>
-                    <td>{(associate as any).clubName}</td>
-                  </b>
+                  <td>
+                    <b>{(associate as any).clubName}</b>
+                  </td>
                   <td>{categoryMap[(associate as any).categoryId]}</td>
                   <td>
                     <Status status={(associate as any).projectAssociateStatus} />

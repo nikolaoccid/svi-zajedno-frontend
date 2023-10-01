@@ -49,9 +49,9 @@ export const CategoriesView = () => {
             <tbody>
               {categories?.map((category, index) => (
                 <ColoredTableRow key={(category as any).id} isEven={index % 2 === 0}>
-                  <b>
-                    <td>{(category as any).categoryName}</td>
-                  </b>
+                  <td>
+                    <b>{(category as any).categoryName}</b>
+                  </td>
                   <td>
                     <AlignRight>
                       <Button

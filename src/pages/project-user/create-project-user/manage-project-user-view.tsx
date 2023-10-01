@@ -60,6 +60,7 @@ export const ManageProjectUserView = () => {
           await api.updateProjectUser(userId, formData);
           await queryClient.invalidateQueries({ queryKey: ['getProjectUserById'] });
           toastSuccess('Korisnik azuriran');
+          navigate(-1);
         } catch (e) {
           toastError('Korisnik nije azuriran, pokusajte ponovno');
         }
