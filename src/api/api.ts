@@ -1,5 +1,6 @@
 import { AxiosResponse } from 'axios';
 
+import { frontendFormattedDate } from '../utils/frontend-formatted-date.ts';
 import {
   ActivityActivityStatusEnum,
   ActivityApi,
@@ -109,8 +110,23 @@ export function getProjectUserByQuery(query: string) {
   return getData(projectUserApi.projectUserControllerFindAll(undefined, undefined, query));
 }
 
-export function createProjetUserOnSchoolYear(userId: number, schoolYearId: number) {
-  return getData(studentOnSchoolYear.studentOnSchoolYearControllerCreate({ schoolYearId, userId, status: 'active' }));
+export function createProjetUserOnSchoolYear(
+  userId: number,
+  schoolYearId: number,
+  protectionType,
+  sourceSystem,
+  dateOfEnrollment?,
+) {
+  return getData(
+    studentOnSchoolYear.studentOnSchoolYearControllerCreate({
+      schoolYearId,
+      userId,
+      status: 'active',
+      protectionType,
+      sourceSystem,
+      dateOfEnrollment: dateOfEnrollment ?? frontendFormattedDate(),
+    }),
+  );
 }
 export function getProjetUserOnSchoolYear(userId: number, schoolYearId: number) {
   return getData(studentOnSchoolYear.studentOnSchoolYearControllerFindAll(schoolYearId, userId));

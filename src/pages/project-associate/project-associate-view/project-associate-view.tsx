@@ -123,8 +123,6 @@ const ProjectAssociateView = () => {
               <Status status={projectAssociate.projectAssociateStatus} />
             </Right>
           </HeaderSection>
-          {/*<PageContainer>*/}
-          {/*  <CenterContent>*/}
           <ProfileSubmenu>
             <Button
               onClick={() => navigate(`/${startYear}/project-associate/${projectAssociateId}/activity/new`)}
@@ -144,19 +142,19 @@ const ProjectAssociateView = () => {
                   <Value>{projectAssociate.email}</Value>
                 </ProfileItem>
                 <ProfileItem>
-                  <Label>Mobile Phone:</Label>
+                  <Label>Mobitel:</Label>
                   <Value>{projectAssociate.mobilePhone}</Value>
                 </ProfileItem>
                 <ProfileItem>
-                  <Label>Contact Person:</Label>
+                  <Label>Kontakt osoba:</Label>
                   <Value>{projectAssociate.contactPerson}</Value>
                 </ProfileItem>
                 <ProfileItem>
-                  <Label>Address:</Label>
+                  <Label>Adresa:</Label>
                   <Value>{projectAssociate.address}</Value>
                 </ProfileItem>
                 <ProfileItem>
-                  <Label>City:</Label>
+                  <Label>Grad:</Label>
                   <Value>{projectAssociate.city}</Value>
                 </ProfileItem>
               </Section>
@@ -178,7 +176,7 @@ const ProjectAssociateView = () => {
                       {filteredActivities.map((activity) => (
                         <tr key={activity.id}>
                           <td>{activity.activityName}</td>
-                          <td>{activity.activityPrice}EUR</td>
+                          <td>{activity.activityPrice > 0 ? activity.activityPrice + 'EUR' : 'Besplatno'}</td>
                           <td>
                             <Status status={activity.activityStatus} />
                           </td>

@@ -264,18 +264,6 @@ export interface CreateProjectUserDto {
      * @type {string}
      * @memberof CreateProjectUserDto
      */
-    'sourceSystem': CreateProjectUserDtoSourceSystemEnum;
-    /**
-     * 
-     * @type {string}
-     * @memberof CreateProjectUserDto
-     */
-    'protectionType': CreateProjectUserDtoProtectionTypeEnum;
-    /**
-     * 
-     * @type {string}
-     * @memberof CreateProjectUserDto
-     */
     'guardianName': string;
     /**
      * 
@@ -339,19 +327,6 @@ export const CreateProjectUserDtoGenderEnum = {
 } as const;
 
 export type CreateProjectUserDtoGenderEnum = typeof CreateProjectUserDtoGenderEnum[keyof typeof CreateProjectUserDtoGenderEnum];
-export const CreateProjectUserDtoSourceSystemEnum = {
-    Czss: 'czss',
-    Obiteljskicentar: 'obiteljskicentar'
-} as const;
-
-export type CreateProjectUserDtoSourceSystemEnum = typeof CreateProjectUserDtoSourceSystemEnum[keyof typeof CreateProjectUserDtoSourceSystemEnum];
-export const CreateProjectUserDtoProtectionTypeEnum = {
-    Zmn: 'zmn',
-    Preporuka: 'preporuka',
-    Udomiteljstvo: 'udomiteljstvo'
-} as const;
-
-export type CreateProjectUserDtoProtectionTypeEnum = typeof CreateProjectUserDtoProtectionTypeEnum[keyof typeof CreateProjectUserDtoProtectionTypeEnum];
 
 /**
  * 
@@ -411,6 +386,24 @@ export interface CreateStudentOnSchoolYearDto {
      * @memberof CreateStudentOnSchoolYearDto
      */
     'status': CreateStudentOnSchoolYearDtoStatusEnum;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateStudentOnSchoolYearDto
+     */
+    'sourceSystem': CreateStudentOnSchoolYearDtoSourceSystemEnum;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateStudentOnSchoolYearDto
+     */
+    'protectionType': CreateStudentOnSchoolYearDtoProtectionTypeEnum;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateStudentOnSchoolYearDto
+     */
+    'dateOfEnrollment': string;
 }
 
 export const CreateStudentOnSchoolYearDtoStatusEnum = {
@@ -420,6 +413,19 @@ export const CreateStudentOnSchoolYearDtoStatusEnum = {
 } as const;
 
 export type CreateStudentOnSchoolYearDtoStatusEnum = typeof CreateStudentOnSchoolYearDtoStatusEnum[keyof typeof CreateStudentOnSchoolYearDtoStatusEnum];
+export const CreateStudentOnSchoolYearDtoSourceSystemEnum = {
+    Czss: 'czss',
+    Obiteljskicentar: 'obiteljskicentar'
+} as const;
+
+export type CreateStudentOnSchoolYearDtoSourceSystemEnum = typeof CreateStudentOnSchoolYearDtoSourceSystemEnum[keyof typeof CreateStudentOnSchoolYearDtoSourceSystemEnum];
+export const CreateStudentOnSchoolYearDtoProtectionTypeEnum = {
+    Zmn: 'zmn',
+    Preporuka: 'preporuka',
+    Udomiteljstvo: 'udomiteljstvo'
+} as const;
+
+export type CreateStudentOnSchoolYearDtoProtectionTypeEnum = typeof CreateStudentOnSchoolYearDtoProtectionTypeEnum[keyof typeof CreateStudentOnSchoolYearDtoProtectionTypeEnum];
 
 /**
  * 
@@ -583,18 +589,6 @@ export interface ProjectUser {
      * @type {string}
      * @memberof ProjectUser
      */
-    'sourceSystem': ProjectUserSourceSystemEnum;
-    /**
-     * 
-     * @type {string}
-     * @memberof ProjectUser
-     */
-    'protectionType': ProjectUserProtectionTypeEnum;
-    /**
-     * 
-     * @type {string}
-     * @memberof ProjectUser
-     */
     'guardianName': string;
     /**
      * 
@@ -664,19 +658,6 @@ export const ProjectUserGenderEnum = {
 } as const;
 
 export type ProjectUserGenderEnum = typeof ProjectUserGenderEnum[keyof typeof ProjectUserGenderEnum];
-export const ProjectUserSourceSystemEnum = {
-    Czss: 'czss',
-    Obiteljskicentar: 'obiteljskicentar'
-} as const;
-
-export type ProjectUserSourceSystemEnum = typeof ProjectUserSourceSystemEnum[keyof typeof ProjectUserSourceSystemEnum];
-export const ProjectUserProtectionTypeEnum = {
-    Zmn: 'zmn',
-    Preporuka: 'preporuka',
-    Udomiteljstvo: 'udomiteljstvo'
-} as const;
-
-export type ProjectUserProtectionTypeEnum = typeof ProjectUserProtectionTypeEnum[keyof typeof ProjectUserProtectionTypeEnum];
 
 /**
  * 
@@ -830,6 +811,24 @@ export interface StudentOnSchoolYear {
     'status': StudentOnSchoolYearStatusEnum;
     /**
      * 
+     * @type {string}
+     * @memberof StudentOnSchoolYear
+     */
+    'sourceSystem': StudentOnSchoolYearSourceSystemEnum;
+    /**
+     * 
+     * @type {string}
+     * @memberof StudentOnSchoolYear
+     */
+    'protectionType': StudentOnSchoolYearProtectionTypeEnum;
+    /**
+     * 
+     * @type {string}
+     * @memberof StudentOnSchoolYear
+     */
+    'dateOfEnrollment': string;
+    /**
+     * 
      * @type {Array<StudentOnActivity>}
      * @memberof StudentOnSchoolYear
      */
@@ -843,6 +842,19 @@ export const StudentOnSchoolYearStatusEnum = {
 } as const;
 
 export type StudentOnSchoolYearStatusEnum = typeof StudentOnSchoolYearStatusEnum[keyof typeof StudentOnSchoolYearStatusEnum];
+export const StudentOnSchoolYearSourceSystemEnum = {
+    Czss: 'czss',
+    Obiteljskicentar: 'obiteljskicentar'
+} as const;
+
+export type StudentOnSchoolYearSourceSystemEnum = typeof StudentOnSchoolYearSourceSystemEnum[keyof typeof StudentOnSchoolYearSourceSystemEnum];
+export const StudentOnSchoolYearProtectionTypeEnum = {
+    Zmn: 'zmn',
+    Preporuka: 'preporuka',
+    Udomiteljstvo: 'udomiteljstvo'
+} as const;
+
+export type StudentOnSchoolYearProtectionTypeEnum = typeof StudentOnSchoolYearProtectionTypeEnum[keyof typeof StudentOnSchoolYearProtectionTypeEnum];
 
 /**
  * 
@@ -1050,18 +1062,6 @@ export interface UpdateProjectUserDto {
      * @memberof UpdateProjectUserDto
      */
     'gender'?: UpdateProjectUserDtoGenderEnum;
-    /**
-     * 
-     * @type {string}
-     * @memberof UpdateProjectUserDto
-     */
-    'sourceSystem'?: UpdateProjectUserDtoSourceSystemEnum;
-    /**
-     * 
-     * @type {string}
-     * @memberof UpdateProjectUserDto
-     */
-    'protectionType'?: UpdateProjectUserDtoProtectionTypeEnum;
 }
 
 export const UpdateProjectUserDtoGenderEnum = {
@@ -1070,19 +1070,6 @@ export const UpdateProjectUserDtoGenderEnum = {
 } as const;
 
 export type UpdateProjectUserDtoGenderEnum = typeof UpdateProjectUserDtoGenderEnum[keyof typeof UpdateProjectUserDtoGenderEnum];
-export const UpdateProjectUserDtoSourceSystemEnum = {
-    Czss: 'czss',
-    Obiteljskicentar: 'obiteljskicentar'
-} as const;
-
-export type UpdateProjectUserDtoSourceSystemEnum = typeof UpdateProjectUserDtoSourceSystemEnum[keyof typeof UpdateProjectUserDtoSourceSystemEnum];
-export const UpdateProjectUserDtoProtectionTypeEnum = {
-    Zmn: 'zmn',
-    Preporuka: 'preporuka',
-    Udomiteljstvo: 'udomiteljstvo'
-} as const;
-
-export type UpdateProjectUserDtoProtectionTypeEnum = typeof UpdateProjectUserDtoProtectionTypeEnum[keyof typeof UpdateProjectUserDtoProtectionTypeEnum];
 
 /**
  * 
@@ -1154,6 +1141,24 @@ export interface UpdateStudentOnSchoolYearDto {
      * @memberof UpdateStudentOnSchoolYearDto
      */
     'status'?: UpdateStudentOnSchoolYearDtoStatusEnum;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateStudentOnSchoolYearDto
+     */
+    'sourceSystem'?: UpdateStudentOnSchoolYearDtoSourceSystemEnum;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateStudentOnSchoolYearDto
+     */
+    'protectionType'?: UpdateStudentOnSchoolYearDtoProtectionTypeEnum;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateStudentOnSchoolYearDto
+     */
+    'dateOfEnrollment'?: string;
 }
 
 export const UpdateStudentOnSchoolYearDtoStatusEnum = {
@@ -1163,6 +1168,19 @@ export const UpdateStudentOnSchoolYearDtoStatusEnum = {
 } as const;
 
 export type UpdateStudentOnSchoolYearDtoStatusEnum = typeof UpdateStudentOnSchoolYearDtoStatusEnum[keyof typeof UpdateStudentOnSchoolYearDtoStatusEnum];
+export const UpdateStudentOnSchoolYearDtoSourceSystemEnum = {
+    Czss: 'czss',
+    Obiteljskicentar: 'obiteljskicentar'
+} as const;
+
+export type UpdateStudentOnSchoolYearDtoSourceSystemEnum = typeof UpdateStudentOnSchoolYearDtoSourceSystemEnum[keyof typeof UpdateStudentOnSchoolYearDtoSourceSystemEnum];
+export const UpdateStudentOnSchoolYearDtoProtectionTypeEnum = {
+    Zmn: 'zmn',
+    Preporuka: 'preporuka',
+    Udomiteljstvo: 'udomiteljstvo'
+} as const;
+
+export type UpdateStudentOnSchoolYearDtoProtectionTypeEnum = typeof UpdateStudentOnSchoolYearDtoProtectionTypeEnum[keyof typeof UpdateStudentOnSchoolYearDtoProtectionTypeEnum];
 
 /**
  * 

@@ -106,3 +106,8 @@ export const ProfileSubmenu = styled.div`
   gap: 30px;
   width: 100%;
 `;
+export const HalfWidthDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+`;

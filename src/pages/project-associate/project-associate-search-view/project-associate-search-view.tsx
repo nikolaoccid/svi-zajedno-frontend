@@ -19,6 +19,7 @@ const validationSchema = Yup.object().shape({
 });
 
 export const TableWrapper = styled.div`
+  width: 100%;
   margin-top: 20px;
 `;
 
@@ -70,6 +71,9 @@ const FormContent = styled.div`
 `;
 
 const Pagination = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
   padding-top: 20px;
 `;
 
@@ -113,9 +117,8 @@ const ProjectAssociateSearchView = () => {
     enableReinitialize: false,
   });
 
-  const startIndex = (currentPage - 1) * itemsPerPage;
   const visibleAssociates = (queryResults.length > 0 ? queryResults : projectAssociates) || [];
-  const slicedAssociates = visibleAssociates.slice(startIndex, startIndex + itemsPerPage);
+  const slicedAssociates = visibleAssociates.slice(0, itemsPerPage);
 
   const { execute: fetchData } = useAsyncCallback(async () => {
     try {
@@ -135,6 +138,7 @@ const ProjectAssociateSearchView = () => {
   const handleFormReset = async () => {
     formik.resetForm();
     await fetchData();
+    setCurrentPage(1);
   };
   return (
     <PageContainer>
@@ -163,14 +167,9 @@ const ProjectAssociateSearchView = () => {
           <StyledTable>
             <thead>
               <tr>
-                <th>Club Name</th>
-                <th>Email</th>
-                <th>Mobile Phone</th>
-                <th>Contact Person</th>
-                <th>Address</th>
-                <th>City</th>
+                <th>Ime kluba</th>
+                <th>Kategorija</th>
                 <th>Status</th>
-                <th>Category</th>
               </tr>
             </thead>
             <tbody>
@@ -180,16 +179,13 @@ const ProjectAssociateSearchView = () => {
                   isEven={index % 2 === 0}
                   onClick={() => navigate(`/${startYear}/project-associate/${(associate as any).id}`)}
                 >
-                  <td>{(associate as any).clubName}</td>
-                  <td>{(associate as any).email}</td>
-                  <td>{(associate as any).mobilePhone}</td>
-                  <td>{(associate as any).contactPerson}</td>
-                  <td>{(associate as any).address}</td>
-                  <td>{(associate as any).city}</td>
+                  <b>
+                    <td>{(associate as any).clubName}</td>
+                  </b>
+                  <td>{categoryMap[(associate as any).categoryId]}</td>
                   <td>
                     <Status status={(associate as any).projectAssociateStatus} />
                   </td>
-                  <td>{categoryMap[(associate as any).categoryId]}</td>
                 </ColoredTableRow>
               ))}
             </tbody>

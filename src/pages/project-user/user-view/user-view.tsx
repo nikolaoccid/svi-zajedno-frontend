@@ -7,10 +7,12 @@ import { PuffLoader } from 'react-spinners';
 import { api } from '../../../api';
 import { Status } from '../../../components/status/status.tsx';
 import { Submenu } from '../../../components/submenu/submenu.tsx';
+import { croatianDateFormat } from '../../../utils/croatian-date-format.ts';
 import { toastError, toastSuccess } from '../../../utils/toast.ts';
 import {
   Button,
   CenterContent,
+  HalfWidthDiv,
   PageContainer,
   ProfileSubmenu,
   SecondaryButton,
@@ -22,7 +24,6 @@ import {
   Table,
 } from '../../project-associate/project-associate-view/project-associate-view.tsx';
 import { useStudentOnSchoolYear } from '../../student-on-school-year/hooks/get-student-on-school-year.ts';
-import { useCreateStudentOnSchoolYear } from './hooks/use-create-student-on-school-year.ts';
 import { useProjectUser } from './hooks/use-project-user.ts';
 import { useStudentOnActivities } from './hooks/use-student-on-activities.ts';
 import { useUpdateStudentOnSchoolYear } from './hooks/use-update-student-on-school-year.ts';
@@ -55,7 +56,6 @@ const Value = styled.span`
 export const Content = styled.div`
   display: flex;
   flex-direction: column;
-
   width: 100%;
 `;
 
@@ -72,23 +72,14 @@ const UserView = () => {
   const schoolYearId = (schoolYear && schoolYear[0].id) ?? 0;
   const { data: projectUser, isLoading, isError } = useProjectUser(userId);
   const { data: studentOnSchoolYear } = useStudentOnSchoolYear(schoolYearId, projectUser?.id);
-  const { isLoading: isLoadingCreateStudentOnSchoolYear, createStudentOnSchoolYear } = useCreateStudentOnSchoolYear(
-    projectUser?.id ?? 0,
-    schoolYearId,
-  );
+
   const { updateStudentOnSchoolYear, isLoading: isLoadingUpdateStudentOnSchoolYear } = useUpdateStudentOnSchoolYear();
   const { data: studentOnActivities } = useStudentOnActivities(
     studentOnSchoolYear?.length === 1 ? studentOnSchoolYear[0]?.id : undefined,
   );
 
-  const handleEnrollment = async () => {
-    if (studentOnSchoolYear?.length === 0) {
-      await createStudentOnSchoolYear();
-    }
-    const enrollment = studentOnSchoolYear?.[0];
-    if (enrollment && enrollment.status === 'inactive') {
-      await updateStudentOnSchoolYear(enrollment.id.toString(), { ...enrollment, status: 'active' });
-    }
+  const handleEnrollment = () => {
+    navigate(`/${schoolYear && schoolYear[0].startYear}/user/${projectUser?.id}/enroll`);
   };
 
   const handleUnenrollment = async () => {
@@ -144,7 +135,7 @@ const UserView = () => {
     navigate(`/${startYear}/users`);
   }
 
-  if (isLoading || isLoadingSchoolYear || isLoadingCreateStudentOnSchoolYear || isLoadingUpdateStudentOnSchoolYear) {
+  if (isLoading || isLoadingSchoolYear || isLoadingUpdateStudentOnSchoolYear) {
     return (
       <PageContainer>
         <CenterContent>
@@ -165,11 +156,20 @@ const UserView = () => {
             <ProfileSubmenu>
               {studentOnSchoolYear?.length === 0 ||
               (studentOnSchoolYear && studentOnSchoolYear[0].status === 'inactive') ? (
-                <SecondaryButton onClick={handleEnrollment}>Upisi na skolsku godinu</SecondaryButton>
+                <Button backgroundColor="#5cb85c" onClick={handleEnrollment}>
+                  Upisi na skolsku godinu
+                </Button>
               ) : (
-                <SecondaryButton onClick={handleUnenrollment}>Ispisi sa skolske godine</SecondaryButton>
+                <Button backgroundColor="#d9534f" onClick={handleUnenrollment}>
+                  Ispisi sa skolske godine
+                </Button>
               )}
               <SecondaryButton
+                onClick={() => navigate(`/${schoolYear ? schoolYear[0].startYear : 0}/user/${projectUser?.id}/edit`)}
+              >
+                Uredi korisnika
+              </SecondaryButton>
+              <Button
                 onClick={() =>
                   navigate(`/${schoolYear ? schoolYear[0].startYear : 0}/user/${projectUser?.id}/activity/new`)
                 }
@@ -179,43 +179,53 @@ const UserView = () => {
                 }
               >
                 Upisi na aktivnost
-              </SecondaryButton>
+              </Button>
             </ProfileSubmenu>
             <Row>
-              <Content>
+              <HalfWidthDiv>
                 <ProfileItem>
-                  <Label>Guardian Name:</Label>
+                  <Label>Ime skrbnika:</Label>
                   <Value>{projectUser.guardianName}</Value>
                 </ProfileItem>
                 <ProfileItem>
-                  <Label>Guardian Surname:</Label>
+                  <Label>Prezime skrbnika:</Label>
                   <Value>{projectUser.guardianSurname}</Value>
                 </ProfileItem>
                 <ProfileItem>
-                  <Label>Date of Birth:</Label>
+                  <Label>Datum rodenja:</Label>
                   <Value>{projectUser.dateOfBirth}</Value>
                 </ProfileItem>
                 <ProfileItem>
-                  <Label>Address:</Label>
+                  <Label>Adresa:</Label>
                   <Value>{projectUser.address}</Value>
                 </ProfileItem>
                 <ProfileItem>
-                  <Label>City:</Label>
+                  <Label>Grad:</Label>
                   <Value>{projectUser.city}</Value>
                 </ProfileItem>
+              </HalfWidthDiv>
+              <HalfWidthDiv>
                 <ProfileItem>
-                  <Label>School:</Label>
+                  <Label>Skola:</Label>
                   <Value>{projectUser.school}</Value>
                 </ProfileItem>
                 <ProfileItem>
-                  <Label>Mobile Phone:</Label>
+                  <Label>Mobitel:</Label>
                   <Value>{projectUser.mobilePhone}</Value>
                 </ProfileItem>
                 <ProfileItem>
                   <Label>Email:</Label>
                   <Value>{projectUser.email}</Value>
                 </ProfileItem>
-              </Content>
+                <ProfileItem>
+                  <Label>Datum upisa:</Label>
+                  <Value>
+                    {studentOnSchoolYear && studentOnSchoolYear[0].status === 'active'
+                      ? croatianDateFormat(studentOnSchoolYear[0].dateOfEnrollment)
+                      : 'Nije upisan'}
+                  </Value>
+                </ProfileItem>
+              </HalfWidthDiv>
             </Row>
             <Row>
               <FullWidthSection>
@@ -237,7 +247,11 @@ const UserView = () => {
                           <tr key={activity.id}>
                             <td>{activity?.activity?.activityName}</td>
                             <td>{activity?.activity?.projectAssociate?.clubName}</td>
-                            <td>{activity?.activity?.activityPrice} EUR</td>
+                            <td>
+                              {activity?.activity?.activityPrice > 0
+                                ? activity.activity.activityPrice + 'EUR'
+                                : 'Besplatno'}
+                            </td>
                             <td>
                               <Status status={activity?.activityStatus} />
                             </td>

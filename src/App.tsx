@@ -17,6 +17,7 @@ import { ManageProjectAssociate } from './pages/project-associate/manage-project
 import ProjectAssociateSearchView from './pages/project-associate/project-associate-search-view/project-associate-search-view.tsx';
 import ProjectAssociateView from './pages/project-associate/project-associate-view/project-associate-view.tsx';
 import ManageProjectUserView from './pages/project-user/create-project-user/manage-project-user-view.tsx';
+import { EnrollStudentOnSchoolYear } from './pages/project-user/enroll-student-on-school-year/enroll-student-on-school-year.tsx';
 import { ManageStudentOnActivity } from './pages/project-user/manage-student-on-activity/manage-student-on-activity.tsx';
 import UserSearchView from './pages/project-user/user-search-view/user-search-view.tsx';
 import UserView from './pages/project-user/user-view/user-view.tsx';
@@ -38,12 +39,15 @@ function App() {
           <Routes>
             <Route path="/" element={<LandingPage />} />
 
+            {/*Dashboard*/}
+            <Route path="/:startYear" element={<DashboardPage />} />
+
             {/*School year paths*/}
             <Route path="/school-year" element={<ChooseSchoolYear />} />
             <Route path="/school-year/new" element={<CreateSchoolYear />} />
 
-            {/*Dashboard*/}
-            <Route path="/:startYear" element={<DashboardPage />} />
+            {/*Student on school year */}
+            <Route path="/:startYear/user/:userId/enroll" element={<EnrollStudentOnSchoolYear />} />
 
             {/*Project user*/}
             <Route path="/:startYear/user/new" element={<ManageProjectUserView />} />

@@ -138,8 +138,8 @@ const UserSearchView = () => {
             <StyledTable>
               <thead>
                 <tr>
-                  <th>Skrbnik</th>
                   <th>Dijete</th>
+                  <th>Skrbnik</th>
                   <th>Datum rodenja</th>
                 </tr>
               </thead>
@@ -151,10 +151,12 @@ const UserSearchView = () => {
                     onClick={() => navigate(`/${startYear}/user/${user.id}`)}
                   >
                     <td>
-                      {user.guardianName} {user.guardianSurname}
+                      <b>
+                        {user.childName} {user.childSurname}
+                      </b>
                     </td>
                     <td>
-                      {user.childName} {user.childSurname}
+                      {user.guardianName} {user.guardianSurname}
                     </td>
                     <td>{user.dateOfBirth}</td>
                   </ColoredTableRow>

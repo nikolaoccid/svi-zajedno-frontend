@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { PulseLoader } from 'react-spinners';
 
 import { Submenu } from '../../../components/submenu/submenu.tsx';
-import { Button, CenterContent, PageContainer } from '../../common-styles/common-styles.ts';
+import { AlignRight, Button, CenterContent, PageContainer } from '../../common-styles/common-styles.ts';
 import { useSchoolYear } from '../../dashboard-page/hooks/use-fetch-school-year.ts';
 import { useGetCategories } from '../../project-associate/manage-project-associate/hooks/use-get-categories.ts';
 import {
@@ -33,6 +33,11 @@ export const CategoriesView = () => {
       <CenterContent>
         <Submenu />
         <h1>Kategorije</h1>
+        <AlignRight>
+          <Button backgroundColor="#f39e21" onClick={() => navigate(`/${startYear}/category/new`)}>
+            Dodaj kategoriju
+          </Button>
+        </AlignRight>
         <TableWrapper>
           <StyledTable>
             <thead>
@@ -44,15 +49,21 @@ export const CategoriesView = () => {
             <tbody>
               {categories?.map((category, index) => (
                 <ColoredTableRow key={(category as any).id} isEven={index % 2 === 0}>
-                  <td>{(category as any).categoryName}</td>
+                  <b>
+                    <td>{(category as any).categoryName}</td>
+                  </b>
                   <td>
-                    <Button
-                      onClick={() =>
-                        navigate(`/${schoolYear ? schoolYear[0]?.startYear : 0}/category/${(category as any).id}/edit`)
-                      }
-                    >
-                      Uredi
-                    </Button>
+                    <AlignRight>
+                      <Button
+                        onClick={() =>
+                          navigate(
+                            `/${schoolYear ? schoolYear[0]?.startYear : 0}/category/${(category as any).id}/edit`,
+                          )
+                        }
+                      >
+                        Uredi
+                      </Button>
+                    </AlignRight>
                   </td>
                 </ColoredTableRow>
               ))}

@@ -1,4 +1,3 @@
-import styled from '@emotion/styled';
 import { useQueryClient } from '@tanstack/react-query';
 import { ErrorMessage, Field, FormikProvider, useFormik } from 'formik';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -8,27 +7,9 @@ import * as Yup from 'yup';
 import { api } from '../../../api';
 import { Submenu } from '../../../components/submenu/submenu.tsx';
 import { toastError, toastSuccess } from '../../../utils/toast.ts';
-import { CenterContent, PageContainer } from '../../common-styles/common-styles.ts';
+import { CenterContent, Form, FormError, FormField, PageContainer } from '../../common-styles/common-styles.ts';
 import { useSchoolYear, useSchoolYearFromParams } from '../../dashboard-page/hooks/use-fetch-school-year.ts';
 import { useGetProjectUser } from './hooks/use-get-project-user.ts';
-
-const FormField = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  gap: 10px;
-`;
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  gap: 45px;
-  width: 100%;
-`;
-
-const FormError = styled.div`
-  color: #e74c3c;
-  font-weight: 500;
-`;
 const validationSchema = Yup.object({
   oib: Yup.string().required('OIB je obavezan').length(11, 'OIB mora imati točno 11 znakova'),
   gender: Yup.string().required('Spol mora biti odabran'),
@@ -59,8 +40,8 @@ export const ManageProjectUserView = () => {
       id: projectUser?.id ?? 0,
       oib: projectUser?.oib ?? '',
       gender: projectUser?.gender ?? 'male',
-      sourceSystem: projectUser?.sourceSystem ?? 'czss',
-      protectionType: projectUser?.protectionType ?? 'zmn',
+      sourceSystem: 'czss',
+      protectionType: 'zmn',
       guardianName: projectUser?.guardianName ?? '',
       guardianSurname: projectUser?.guardianSurname ?? '',
       childName: projectUser?.childName ?? '',
@@ -85,7 +66,14 @@ export const ManageProjectUserView = () => {
       } else {
         try {
           const user = await api.createProjectUser(formData);
-          user && currentSchoolYear && (await api.createProjetUserOnSchoolYear(user.id, currentSchoolYear[0].id));
+          user &&
+            currentSchoolYear &&
+            (await api.createProjetUserOnSchoolYear(
+              user.id,
+              currentSchoolYear[0].id,
+              formData.protectionType,
+              formData.sourceSystem,
+            ));
           toastSuccess('Korisnik kreiran');
           navigate(-1);
         } catch (e) {
