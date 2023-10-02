@@ -218,10 +218,18 @@ const UserView = () => {
                   <Value>{projectUser.email}</Value>
                 </ProfileItem>
                 <ProfileItem>
-                  <Label>Datum upisa:</Label>
+                  <Label>Datum upisa na skolsku godinu:</Label>
                   <Value>
                     {studentOnSchoolYear && studentOnSchoolYear[0].status === 'active'
                       ? croatianDateFormat(studentOnSchoolYear[0].dateOfEnrollment)
+                      : 'Nije upisan'}
+                  </Value>
+                </ProfileItem>
+                <ProfileItem>
+                  <Label>Osnova upisa</Label>
+                  <Value>
+                    {studentOnSchoolYear && studentOnSchoolYear[0].status === 'active'
+                      ? studentOnSchoolYear[0].sourceSystem.toUpperCase() + ', ' + studentOnSchoolYear[0].protectionType
                       : 'Nije upisan'}
                   </Value>
                 </ProfileItem>
