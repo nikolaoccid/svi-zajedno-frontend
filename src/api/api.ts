@@ -192,6 +192,10 @@ export function createActivity(activity: CreateActivityDto) {
   return getData(activities.activityControllerCreate(activity));
 }
 
+export function deleteActivity(id: string) {
+  return getData(activities.activityControllerRemove(id));
+}
+
 export function createStudentOnActivity(createStudentOnActivity: CreateStudentOnActivityDto) {
   return getData(studentOnActivity.studentOnActivityControllerCreate(createStudentOnActivity));
 }

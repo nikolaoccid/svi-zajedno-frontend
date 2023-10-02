@@ -59,8 +59,9 @@ export const Content = styled.div`
   width: 100%;
 `;
 
-const TdWithGap = styled.td`
+export const TdWithGap = styled.td`
   display: flex;
+  justify-content: center;
   gap: 20px;
 `;
 

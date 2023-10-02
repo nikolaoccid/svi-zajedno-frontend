@@ -1,9 +1,12 @@
 import styled from '@emotion/styled';
+import { useQueryClient } from '@tanstack/react-query';
 import { useNavigate, useParams } from 'react-router-dom';
 import { PropagateLoader } from 'react-spinners';
 
+import { api } from '../../../api';
 import { Status } from '../../../components/status/status.tsx';
 import { Submenu } from '../../../components/submenu/submenu.tsx';
+import { toastError, toastSuccess } from '../../../utils/toast.ts';
 import {
   Button,
   CenterContent,
@@ -12,6 +15,7 @@ import {
   SecondaryButton,
 } from '../../common-styles/common-styles';
 import { useSchoolYear } from '../../dashboard-page/hooks/use-fetch-school-year.ts';
+import { TdWithGap } from '../../project-user/user-view/user-view.tsx';
 import { useGetProjectAssociate } from '../manage-project-associate/hooks/use-get-project-associate.ts';
 
 const ProfileHeader = styled.h1`
@@ -84,6 +88,7 @@ export const Table = styled.table`
 
 const ProjectAssociateView = () => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const { projectAssociateId, startYear } = useParams();
   const { data: schoolYear } = useSchoolYear(parseInt(startYear ?? '0'));
   const { data: projectAssociate, isLoading, isError } = useGetProjectAssociate(projectAssociateId);
@@ -107,6 +112,17 @@ const ProjectAssociateView = () => {
   const filteredActivities = projectAssociate?.activity?.filter(
     (activity) => activity.schoolYearId === (schoolYear ? schoolYear[0]?.id : 0),
   );
+
+  const deleteAssociateActivity = async (activity) => {
+    try {
+      await api.deleteActivity(activity.id);
+      await queryClient.invalidateQueries(['getProjectAssociateById']);
+      toastSuccess('Uspjesno obrisana aktivnost');
+    } catch (e) {
+      toastError('Brisanje aktivnosti nije uspjesno');
+      console.log(e);
+    }
+  };
 
   return (
     projectAssociate !== undefined && (
@@ -180,7 +196,7 @@ const ProjectAssociateView = () => {
                           <td>
                             <Status status={activity.activityStatus} />
                           </td>
-                          <td>
+                          <TdWithGap>
                             <SecondaryButton
                               onClick={() =>
                                 navigate(
@@ -191,7 +207,14 @@ const ProjectAssociateView = () => {
                             >
                               Uredi
                             </SecondaryButton>
-                          </td>
+                            <Button
+                              backgroundColor="#d9534f"
+                              onClick={() => deleteAssociateActivity(activity)}
+                              disabled={projectAssociate.projectAssociateStatus === 'inactive'}
+                            >
+                              Izbrisi
+                            </Button>
+                          </TdWithGap>
                         </tr>
                       ))}
                     </tbody>
