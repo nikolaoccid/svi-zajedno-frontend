@@ -237,6 +237,7 @@ const UserView = () => {
                         <th>Aktivnost</th>
                         <th>Klub</th>
                         <th>Cijena</th>
+                        <th>Datum kreiranja</th>
                         <th>Status</th>
                         <th>Akcije</th>
                       </tr>
@@ -252,6 +253,7 @@ const UserView = () => {
                                 ? activity.activity.activityPrice + 'EUR'
                                 : 'Besplatno'}
                             </td>
+                            <td>{croatianDateFormat(activity.createdAt)}</td>
                             <td>
                               <Status status={activity?.activityStatus} />
                             </td>

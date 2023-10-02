@@ -747,6 +747,12 @@ export interface StudentOnActivity {
     'studentOnSchoolYearId': number;
     /**
      * 
+     * @type {string}
+     * @memberof StudentOnActivity
+     */
+    'createdAt': string;
+    /**
+     * 
      * @type {Activity}
      * @memberof StudentOnActivity
      */
