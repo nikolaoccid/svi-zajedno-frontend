@@ -1,3 +1,4 @@
+import './utils/fonts/AxiformaRegular.ttf';
 import './App.css';
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -9,6 +10,7 @@ import { RouteGuard } from './components/route-guard/route-guard.tsx';
 import { ManageActivity } from './pages/activity/manage-activity/manage-activity.tsx';
 import { CategoriesView } from './pages/category/categories-view/categories-view.tsx';
 import ManageCategory from './pages/category/manage-category/manage-category.tsx';
+import { Dashboard } from './pages/dashboard/dashboard.tsx';
 import { DashboardPage } from './pages/dashboard-page/dashboard-page.tsx';
 import LandingPage from './pages/landing-page/landing-page.tsx';
 import LoginPage from './pages/login-page/login-page.tsx';
@@ -41,6 +43,7 @@ function App() {
 
             {/*Dashboard*/}
             <Route path="/:startYear" element={<DashboardPage />} />
+            <Route path="/:startYear/dashboard" element={<Dashboard />} />
 
             {/*School year paths*/}
             <Route path="/school-year" element={<ChooseSchoolYear />} />
