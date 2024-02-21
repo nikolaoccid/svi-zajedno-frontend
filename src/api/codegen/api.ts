@@ -445,6 +445,12 @@ export interface CreateUserDto {
      * @memberof CreateUserDto
      */
     'password': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateUserDto
+     */
+    'name': string;
 }
 /**
  * 
@@ -1212,6 +1218,12 @@ export interface User {
      * @memberof User
      */
     'passwordHash': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof User
+     */
+    'name': string;
     /**
      * 
      * @type {string}

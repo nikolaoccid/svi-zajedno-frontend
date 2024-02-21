@@ -27,7 +27,7 @@ const Section = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
-  padding: 50px 20px 30px 20px;
+  padding: 20px 20px 10px 20px;
 `;
 const SectionTitle = styled.span`
   font-size: 12px;
@@ -42,7 +42,7 @@ const SectionItem = styled.div`
   &:hover {
     border-radius: 10px;
     border-style: solid;
-    border-width: 1px;
+    border-width: 0px;
     background-color: #ffffff;
     color: #252424;
   }
@@ -53,6 +53,7 @@ const SectionItemText = styled.span`
 const LogoSection = styled.div`
   display: flex;
   justify-content: center;
+  padding-bottom: 20px;
 `;
 const Logo = styled.span`
   font-family: 'Mr Dafoe', cursive;
