@@ -11,6 +11,7 @@ const Container = styled.div`
   height: 50px;
   padding: 25px;
   box-shadow: 0 1px 5px -1px gray;
+  border-top-right-radius: 15px;
 `;
 const HeaderText = styled.span`
   font-family: 'Axiforma';

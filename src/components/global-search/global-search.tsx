@@ -2,6 +2,9 @@ import styled from '@emotion/styled';
 import { useEffect, useState } from 'react';
 const SearchContainer = styled.div`
   width: 30%;
+  @media (max-width: 800px) {
+    display: none;
+  }
 `;
 const Input = styled.input`
   background-image: url('https://upload.wikimedia.org/wikipedia/commons/5/55/Magnifying_glass_icon.svg');
