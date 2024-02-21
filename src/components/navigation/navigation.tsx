@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import Hamburger from 'hamburger-react';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaCalendarAlt } from 'react-icons/fa';
 import { FaUsers } from 'react-icons/fa6';
 import { HiSquares2X2 } from 'react-icons/hi2';
@@ -41,7 +41,7 @@ const Section = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
-  padding: 20px 20px 10px 20px;
+  padding: 20px 20px 5px 20px;
 `;
 const SectionTitle = styled.span`
   font-size: 12px;
@@ -88,17 +88,32 @@ const Logo = styled.span`
   transform: rotate(-4deg);
   color: #ffffff;
 `;
+const menuItems = {
+  Manage: [
+    { name: 'Pocetna', icon: IoMdHome, link: 'pocetna' },
+    { name: 'Korisnici', icon: FaUsers, link: 'user' },
+    { name: 'Suradnici', icon: MdOutlineSportsSoccer, link: 'project-associate' },
+    { name: 'Kategorije', icon: HiSquares2X2, link: 'categor' },
+    { name: 'Skolske godine', icon: FaCalendarAlt, link: 'school-year' },
+  ],
+  Settings: [
+    { name: 'Postavke', icon: IoMdSettings, link: 'settings' },
+    { name: 'Sigurnost', icon: MdSecurity, link: 'security' },
+  ],
+  '': [{ name: 'Kraj rada', icon: IoLogOut, link: 'logout' }],
+};
 export function Navigation() {
   const [isOpen, setOpen] = useState(false);
   const [currentLink, setCurrentLink] = useState('pocetna');
   const location = useLocation();
-  const links = ['pocetna', 'user', 'project-associate', 'categor', 'school-year'];
 
   useEffect(() => {
-    links.map((link) => {
-      if (location.pathname.includes(link)) {
-        setCurrentLink(link);
-      }
+    Object.keys(menuItems).map((section) => {
+      menuItems[section].map((item) => {
+        if (location.pathname.includes(item.link)) {
+          setCurrentLink(item.link);
+        }
+      });
     });
   }, [location]);
 
@@ -112,48 +127,17 @@ export function Navigation() {
       </LogoSection>
 
       <SectionContainer isOpen={isOpen}>
-        <Section>
-          <SectionTitle>UPRAVLJANJE</SectionTitle>
-          <SectionItem active={currentLink === 'pocetna'}>
-            <IoMdHome />
-            <SectionItemText> Pocetna</SectionItemText>
-          </SectionItem>
-          <SectionItem active={currentLink === 'user'}>
-            <FaUsers />
-            <SectionItemText> Korisnici</SectionItemText>
-          </SectionItem>
-          <SectionItem active={currentLink === 'project-associate'}>
-            <MdOutlineSportsSoccer />
-            <SectionItemText> Suradnici</SectionItemText>
-          </SectionItem>
-          <SectionItem active={currentLink === 'categor'}>
-            <HiSquares2X2 />
-            <SectionItemText> Kategorije</SectionItemText>
-          </SectionItem>
-          <SectionItem active={currentLink === 'school-year'}>
-            <FaCalendarAlt />
-            <SectionItemText> Skolske godine</SectionItemText>
-          </SectionItem>
-        </Section>
-
-        <Section>
-          <SectionTitle>POSTAVKE</SectionTitle>
-          <SectionItem active={currentLink === 'settings'}>
-            <IoMdSettings />
-            <SectionItemText> Postavke</SectionItemText>
-          </SectionItem>
-          <SectionItem active={currentLink === 'security'}>
-            <MdSecurity />
-            <SectionItemText> Sigurnost</SectionItemText>
-          </SectionItem>
-        </Section>
-
-        <Section>
-          <SectionItem active={false}>
-            <IoLogOut />
-            <SectionItemText> Kraj rada</SectionItemText>
-          </SectionItem>
-        </Section>
+        {Object.keys(menuItems).map((section) => (
+          <Section key={section}>
+            <SectionTitle>{section}</SectionTitle>
+            {menuItems[section].map((item) => (
+              <SectionItem key={item.name} active={currentLink === item.link}>
+                {React.createElement(item.icon)}
+                <SectionItemText> {item.name}</SectionItemText>
+              </SectionItem>
+            ))}
+          </Section>
+        ))}
       </SectionContainer>
     </NavigationContainer>
   );

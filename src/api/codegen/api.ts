@@ -3329,7 +3329,7 @@ export const SchoolYearApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async schoolYearControllerFindOneByStartYear(startYear: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<SchoolYear>>> {
+        async schoolYearControllerFindOneByStartYear(startYear: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SchoolYear>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.schoolYearControllerFindOneByStartYear(startYear, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -3396,7 +3396,7 @@ export const SchoolYearApiFactory = function (configuration?: Configuration, bas
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        schoolYearControllerFindOneByStartYear(startYear: string, options?: any): AxiosPromise<Array<SchoolYear>> {
+        schoolYearControllerFindOneByStartYear(startYear: string, options?: any): AxiosPromise<SchoolYear> {
             return localVarFp.schoolYearControllerFindOneByStartYear(startYear, options).then((request) => request(axios, basePath));
         },
         /**

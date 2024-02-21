@@ -21,8 +21,8 @@ const RowCenteredWithGap = styled(Row)`
 export const Statistics = () => {
   const { startYear } = useParams();
   const { data: schoolYear } = useSchoolYear(parseInt(startYear ?? '0') ?? 0);
-  const { data: associateStatisticsAPI } = useAssociateStatistics(schoolYear ? schoolYear[0]?.id : 0);
-  const { data: projectUserStatisticsAPI } = useProjectUserStatistics(schoolYear ? schoolYear[0]?.id : 0);
+  const { data: associateStatisticsAPI } = useAssociateStatistics(schoolYear ? schoolYear?.id : 0);
+  const { data: projectUserStatisticsAPI } = useProjectUserStatistics(schoolYear ? schoolYear?.id : 0);
 
   const associateStatistics = associateStatisticsAPI as any;
   const projectUserStatistics = projectUserStatisticsAPI as any;

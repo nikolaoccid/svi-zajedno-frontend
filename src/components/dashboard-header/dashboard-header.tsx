@@ -1,5 +1,7 @@
 import styled from '@emotion/styled';
+import { useParams } from 'react-router-dom';
 
+import { useSchoolYear } from '../../pages/dashboard-page/hooks/use-fetch-school-year.ts';
 import { GlobalSearch } from '../global-search/global-search.tsx';
 import { UserBadge } from '../user-badge/user-badge.tsx';
 
@@ -12,17 +14,33 @@ const Container = styled.div`
   padding: 25px;
   box-shadow: 0 1px 5px -1px gray;
   border-top-right-radius: 15px;
+  font-family: Axiforma;
 `;
 const HeaderText = styled.span`
-  font-family: 'Axiforma';
   font-weight: bold;
   font-size: 24px;
 `;
+const HeaderSubtext = styled.span`
+  font-style: normal;
+  font-size: 12px;
+  color: #606060;
+`;
+const Column = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
 
 export function DashboardHeader({ text }: { text: string }) {
+  const { startYear } = useParams();
+  const { data: schoolYear } = useSchoolYear(parseInt(startYear ?? '0') ?? 0);
   return (
     <Container>
-      <HeaderText>{text}</HeaderText>
+      <Column>
+        <HeaderText>{text}</HeaderText>
+        <HeaderSubtext>
+          Skolska godina: {schoolYear?.startYear} / {schoolYear?.endYear}
+        </HeaderSubtext>
+      </Column>
       <GlobalSearch />
       <UserBadge />
     </Container>
