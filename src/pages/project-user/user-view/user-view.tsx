@@ -6,7 +6,6 @@ import { PuffLoader } from 'react-spinners';
 
 import { api } from '../../../api';
 import { Status } from '../../../components/status/status.tsx';
-import { Submenu } from '../../../components/submenu/submenu.tsx';
 import { croatianDateFormat } from '../../../utils/croatian-date-format.ts';
 import { toastError, toastSuccess } from '../../../utils/toast.ts';
 import {
@@ -70,23 +69,24 @@ const UserView = () => {
   const navigate = useNavigate();
   const { userId, startYear } = useParams();
   const { data: schoolYear, isLoading: isLoadingSchoolYear } = useSchoolYear(startYear ? parseInt(startYear) : 0);
-  const schoolYearId = (schoolYear && schoolYear[0].id) ?? 0;
-  const { data: projectUser, isLoading, isError } = useProjectUser(userId);
+  const schoolYearId = (schoolYear && schoolYear.id) ?? 0;
+  const { data: projectUser, isLoading } = useProjectUser(userId);
   const { data: studentOnSchoolYear } = useStudentOnSchoolYear(schoolYearId, projectUser?.id);
 
   const { updateStudentOnSchoolYear, isLoading: isLoadingUpdateStudentOnSchoolYear } = useUpdateStudentOnSchoolYear();
-  const { data: studentOnActivities } = useStudentOnActivities(
-    studentOnSchoolYear?.length === 1 ? studentOnSchoolYear[0]?.id : undefined,
-  );
+  const { data: studentOnActivities } = useStudentOnActivities((studentOnSchoolYear as any)?.id);
 
   const handleEnrollment = () => {
-    navigate(`/${schoolYear && schoolYear[0].startYear}/user/${projectUser?.id}/enroll`);
+    navigate(`/${schoolYear && schoolYear.startYear}/user/${projectUser?.id}/enroll`);
   };
 
   const handleUnenrollment = async () => {
-    const enrollment = studentOnSchoolYear?.[0];
-    if (enrollment && enrollment.status === 'active') {
-      await updateStudentOnSchoolYear(enrollment.id.toString(), { ...enrollment, status: 'inactive' });
+    const enrollment = studentOnSchoolYear;
+    if (enrollment && (enrollment as any).status === 'active') {
+      await updateStudentOnSchoolYear((enrollment as any).id.toString(), {
+        ...(enrollment as any),
+        status: 'inactive',
+      });
     }
   };
   const disenrollActivity = async (activity) => {
@@ -132,10 +132,6 @@ const UserView = () => {
     await queryClient.invalidateQueries(['getStudentOnActivities']);
   }, []);
 
-  if (isError || !userId || typeof parseInt(userId) !== 'number') {
-    navigate(`/${startYear}/users`);
-  }
-
   if (isLoading || isLoadingSchoolYear || isLoadingUpdateStudentOnSchoolYear) {
     return (
       <PageContainer>
@@ -149,14 +145,13 @@ const UserView = () => {
     projectUser !== undefined && (
       <PageContainer>
         <CenterContent>
-          <Submenu />
           <ProfileContainer>
             <ProfileHeader>
               {projectUser.childName} {projectUser.childSurname}
             </ProfileHeader>
             <ProfileSubmenu>
-              {studentOnSchoolYear?.length === 0 ||
-              (studentOnSchoolYear && studentOnSchoolYear[0].status === 'inactive') ? (
+              {(studentOnSchoolYear as any)?.length === 0 ||
+              (studentOnSchoolYear && (studentOnSchoolYear as any).status === 'inactive') ? (
                 <Button backgroundColor="#5cb85c" onClick={handleEnrollment}>
                   Upisi na skolsku godinu
                 </Button>
@@ -166,18 +161,15 @@ const UserView = () => {
                 </Button>
               )}
               <SecondaryButton
-                onClick={() => navigate(`/${schoolYear ? schoolYear[0].startYear : 0}/user/${projectUser?.id}/edit`)}
+                onClick={() => navigate(`/${schoolYear ? schoolYear.startYear : 0}/user/${projectUser?.id}/edit`)}
               >
                 Uredi korisnika
               </SecondaryButton>
               <Button
                 onClick={() =>
-                  navigate(`/${schoolYear ? schoolYear[0].startYear : 0}/user/${projectUser?.id}/activity/new`)
+                  navigate(`/${schoolYear ? schoolYear.startYear : 0}/user/${projectUser?.id}/activity/new`)
                 }
-                disabled={
-                  studentOnSchoolYear?.length === 0 ||
-                  (studentOnSchoolYear && studentOnSchoolYear[0]?.status === 'inactive')
-                }
+                disabled={(studentOnSchoolYear as any)?.status === 'inactive'}
               >
                 Upisi na aktivnost
               </Button>
@@ -221,16 +213,18 @@ const UserView = () => {
                 <ProfileItem>
                   <Label>Datum upisa na skolsku godinu:</Label>
                   <Value>
-                    {studentOnSchoolYear && studentOnSchoolYear[0].status === 'active'
-                      ? croatianDateFormat(studentOnSchoolYear[0].dateOfEnrollment)
+                    {studentOnSchoolYear && (studentOnSchoolYear as any).status === 'active'
+                      ? croatianDateFormat((studentOnSchoolYear as any).dateOfEnrollment)
                       : 'Nije upisan'}
                   </Value>
                 </ProfileItem>
                 <ProfileItem>
                   <Label>Osnova upisa</Label>
                   <Value>
-                    {studentOnSchoolYear && studentOnSchoolYear[0].status === 'active'
-                      ? studentOnSchoolYear[0].sourceSystem.toUpperCase() + ', ' + studentOnSchoolYear[0].protectionType
+                    {studentOnSchoolYear && (studentOnSchoolYear as any).status === 'active'
+                      ? (studentOnSchoolYear as any).sourceSystem.toUpperCase() +
+                        ', ' +
+                        (studentOnSchoolYear as any).protectionType
                       : 'Nije upisan'}
                   </Value>
                 </ProfileItem>
@@ -270,7 +264,9 @@ const UserView = () => {
                               {activity.activityStatus === 'active' && (
                                 <SecondaryButton
                                   onClick={() => disenrollActivity(activity)}
-                                  disabled={studentOnSchoolYear ? studentOnSchoolYear[0]?.status === 'inactive' : false}
+                                  disabled={
+                                    studentOnSchoolYear ? (studentOnSchoolYear as any)?.status === 'inactive' : false
+                                  }
                                 >
                                   Ispisi
                                 </SecondaryButton>
@@ -278,7 +274,9 @@ const UserView = () => {
                               {activity.activityStatus === 'inactive' && (
                                 <SecondaryButton
                                   onClick={() => enrollActivity(activity)}
-                                  disabled={studentOnSchoolYear ? studentOnSchoolYear[0]?.status === 'inactive' : false}
+                                  disabled={
+                                    studentOnSchoolYear ? (studentOnSchoolYear as any)?.status === 'inactive' : false
+                                  }
                                 >
                                   Upisi
                                 </SecondaryButton>
@@ -286,7 +284,9 @@ const UserView = () => {
                               <Button
                                 backgroundColor="#d9534f"
                                 onClick={() => deleteActivityEnrollment(activity)}
-                                disabled={studentOnSchoolYear ? studentOnSchoolYear[0]?.status === 'inactive' : false}
+                                disabled={
+                                  studentOnSchoolYear ? (studentOnSchoolYear as any)?.status === 'inactive' : false
+                                }
                               >
                                 Izbrisi
                               </Button>

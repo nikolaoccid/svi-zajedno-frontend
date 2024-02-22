@@ -22,8 +22,8 @@ export function Submenu() {
 
       {schoolYear && (
         <Column>
-          <DashboardNavLink to={`/${schoolYear[0].startYear}`}>
-            Skolska godina: {schoolYear[0].startYear}/{schoolYear[0].endYear}
+          <DashboardNavLink to={`/${schoolYear.startYear}`}>
+            Skolska godina: {schoolYear.startYear}/{schoolYear.endYear}
           </DashboardNavLink>
 
           <DashboardNavLink to="/school-year">PROMIJENI SKOLSKU GODINU</DashboardNavLink>

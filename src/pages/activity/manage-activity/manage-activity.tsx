@@ -33,7 +33,7 @@ export function ManageActivity() {
       activityPrice: activity?.activityPrice ?? 0,
       projectAssociateId: projectAssociate?.id ?? 0,
       activityStatus: activity?.activityStatus ?? 'active',
-      schoolYearId: schoolYear ? schoolYear[0].id : 0,
+      schoolYearId: schoolYear ? schoolYear.id : 0,
     },
     validationSchema: validationSchema,
     onSubmit: async (activityFormData) => {

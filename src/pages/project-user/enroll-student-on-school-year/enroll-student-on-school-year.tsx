@@ -21,7 +21,7 @@ export const EnrollStudentOnSchoolYear = () => {
   const navigate = useNavigate();
   const { userId, startYear } = useParams();
   const { data: schoolYear, isLoading: isLoadingSchoolYear } = useSchoolYear(startYear ? parseInt(startYear) : 0);
-  const schoolYearId = (schoolYear && schoolYear[0].id) ?? 0;
+  const schoolYearId = (schoolYear && schoolYear.id) ?? 0;
   const { data: projectUser, isLoading } = useProjectUser(userId);
   const { data: studentOnSchoolYear } = useStudentOnSchoolYear(schoolYearId, projectUser?.id);
   const { isLoading: isLoadingCreateStudentOnSchoolYear, createStudentOnSchoolYear } = useCreateStudentOnSchoolYear(
@@ -31,19 +31,20 @@ export const EnrollStudentOnSchoolYear = () => {
   const { updateStudentOnSchoolYear, isLoading: isLoadingUpdateStudentOnSchoolYear } = useUpdateStudentOnSchoolYear();
   const formik = useFormik({
     initialValues: {
-      sourceSystem: (studentOnSchoolYear && studentOnSchoolYear[0] && studentOnSchoolYear[0].sourceSystem) ?? 'czss',
-      protectionType: (studentOnSchoolYear && studentOnSchoolYear[0] && studentOnSchoolYear[0].protectionType) ?? 'zmn',
+      sourceSystem: (studentOnSchoolYear && studentOnSchoolYear && (studentOnSchoolYear as any).sourceSystem) ?? 'czss',
+      protectionType:
+        (studentOnSchoolYear && studentOnSchoolYear && (studentOnSchoolYear as any).protectionType) ?? 'zmn',
       dateOfEnrollment:
         studentOnSchoolYear &&
         studentOnSchoolYear[0] &&
-        frontendFormattedDate(studentOnSchoolYear[0].dateOfEnrollment || frontendFormattedDate()),
+        frontendFormattedDate((studentOnSchoolYear as any).dateOfEnrollment || frontendFormattedDate()),
     },
     enableReinitialize: true,
     validationSchema: validationSchema,
     onSubmit: async (formData) => {
       console.log('onsubmit', formData);
       console.log('studentOnSchoolYear', studentOnSchoolYear);
-      if (studentOnSchoolYear?.length === 0) {
+      if (!studentOnSchoolYear) {
         try {
           await createStudentOnSchoolYear(formData.sourceSystem, formData.protectionType, formData.dateOfEnrollment);
           navigate(-1);
@@ -51,10 +52,10 @@ export const EnrollStudentOnSchoolYear = () => {
           console.log(e);
         }
       }
-      const enrollment = studentOnSchoolYear?.[0];
+      const enrollment = studentOnSchoolYear;
       if (formData && enrollment) {
-        await updateStudentOnSchoolYear(enrollment.id.toString(), {
-          ...enrollment,
+        await updateStudentOnSchoolYear((enrollment as any).id.toString(), {
+          ...(enrollment as any),
           status: 'active',
           protectionType: formData.protectionType,
           sourceSystem: formData.sourceSystem,

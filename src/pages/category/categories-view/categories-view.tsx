@@ -56,9 +56,7 @@ export const CategoriesView = () => {
                     <AlignRight>
                       <Button
                         onClick={() =>
-                          navigate(
-                            `/${schoolYear ? schoolYear[0]?.startYear : 0}/category/${(category as any).id}/edit`,
-                          )
+                          navigate(`/${schoolYear ? schoolYear?.startYear : 0}/category/${(category as any).id}/edit`)
                         }
                       >
                         Uredi

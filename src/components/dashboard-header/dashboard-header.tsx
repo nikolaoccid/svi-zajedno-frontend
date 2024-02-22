@@ -2,7 +2,6 @@ import styled from '@emotion/styled';
 import { useParams } from 'react-router-dom';
 
 import { useSchoolYear } from '../../pages/dashboard-page/hooks/use-fetch-school-year.ts';
-import { GlobalSearch } from '../global-search/global-search.tsx';
 import { UserBadge } from '../user-badge/user-badge.tsx';
 
 const Container = styled.div`
@@ -10,7 +9,7 @@ const Container = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  height: 50px;
+  height: 65px;
   padding: 25px;
   box-shadow: 0 1px 5px -1px gray;
   border-top-right-radius: 15px;
@@ -41,7 +40,6 @@ export function DashboardHeader({ text }: { text: string }) {
           Skolska godina: {schoolYear?.startYear} / {schoolYear?.endYear}
         </HeaderSubtext>
       </Column>
-      <GlobalSearch />
       <UserBadge />
     </Container>
   );

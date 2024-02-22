@@ -21,11 +21,12 @@ const Input = styled.input`
   font-size: 16px;
   background-color: #f5f5f5;
 `;
-export function GlobalSearch() {
+export function GlobalSearch({ setSearchQuery }: { setSearchQuery: (query: string) => void }) {
   const [searchText, setSearchText] = useState('');
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
       console.log(searchText);
+      setSearchQuery(searchText);
     }, 1500);
 
     return () => clearTimeout(delayDebounceFn);

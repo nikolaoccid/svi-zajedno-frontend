@@ -116,7 +116,7 @@ const UserSearchView = () => {
         <Submenu />
         <h1>Korisnici</h1>
         <AlignRight>
-          <SecondaryButton onClick={() => navigate(`/${schoolYear ? schoolYear[0]?.startYear : 0}/user/new`)}>
+          <SecondaryButton onClick={() => navigate(`/${schoolYear ? schoolYear?.startYear : 0}/user/new`)}>
             Kreiraj novog korisnika
           </SecondaryButton>
         </AlignRight>

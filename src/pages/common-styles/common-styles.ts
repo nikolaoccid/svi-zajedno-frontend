@@ -11,14 +11,14 @@ export const PageContainer = styled.div`
 `;
 
 export const Select = styled.select`
-  font-family: 'Alegreya Sans', sans-serif;
+  font-family: Axiforma, sans-serif;
   width: 100%;
   font-size: 1em;
   padding: 15px 20px;
 `;
 
 export const Input = styled.input`
-  font-family: 'Alegreya Sans', sans-serif;
+  font-family: Axiforma, sans-serif;
   width: 100%;
   font-size: 1em;
   padding: 15px 20px;
@@ -31,12 +31,11 @@ export const AlignLeft = styled.div`
   justify-content: flex-start;
 `;
 export const Button = styled.button<{ backgroundColor?: string }>`
-  background-color: ${(props) => props.backgroundColor ?? '#2196f3'};
-  font-weight: 800;
-  font-family: 'Alegreya Sans', sans-serif;
-  text-transform: uppercase;
+  background-color: ${(props) => props.backgroundColor ?? '#1352f1'};
+  font-weight: normal;
+  font-family: Axiforma, sans-serif;
   border-radius: 4px;
-  padding: 20px 30px;
+  padding: 10px 30px;
   color: white;
   &:disabled {
     background-color: lightgray;
@@ -46,7 +45,7 @@ export const Button = styled.button<{ backgroundColor?: string }>`
 export const SecondaryButton = styled.button`
   background-color: #f39e21;
   font-weight: 800;
-  font-family: 'Alegreya Sans', sans-serif;
+  font-family: Axiforma, sans-serif;
   text-transform: uppercase;
   border-radius: 4px;
   padding: 20px 35px;
@@ -61,7 +60,7 @@ export const CenterContent = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-width: 800px;
+  min-width: 400px;
   gap: 15px;
 `;
 

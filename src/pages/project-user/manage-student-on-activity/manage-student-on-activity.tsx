@@ -58,7 +58,7 @@ export const ManageStudentOnActivity = () => {
   const { data: schoolYear, isLoading: isLoadingSchoolYear } = useSchoolYear(startYearInt);
   const { data: projectUser, isLoading: isLoadingProjectUser } = useProjectUser(userId);
   const { data: studentOnSchoolYear, isLoading: isLoadingStudentOnSchoolYear } = useStudentOnSchoolYear(
-    schoolYear ? schoolYear[0]?.id : 0,
+    schoolYear ? schoolYear?.id : 0,
     projectUser?.id,
   );
   const { execute: createStudentOnActivity, loading: isLoadingCreateStudentOnActivity } = useCreateStudentOnActivity();
@@ -70,8 +70,8 @@ export const ManageStudentOnActivity = () => {
     await getActivities(
       query,
       'active',
-      schoolYear ? schoolYear[0]?.id : 0,
-      studentOnSchoolYear ? studentOnSchoolYear[0]?.id : 0,
+      schoolYear ? schoolYear?.id : 0,
+      studentOnSchoolYear ? (studentOnSchoolYear as any).id : 0,
     );
   }, [schoolYear, projectUser, studentOnSchoolYear]);
 
@@ -86,8 +86,8 @@ export const ManageStudentOnActivity = () => {
       await getActivities(
         query,
         'active',
-        schoolYear ? schoolYear[0]?.id : 0,
-        studentOnSchoolYear ? studentOnSchoolYear[0]?.id : 0,
+        schoolYear ? schoolYear?.id : 0,
+        studentOnSchoolYear ? (studentOnSchoolYear as any).id : 0,
       );
     },
   });
@@ -95,7 +95,7 @@ export const ManageStudentOnActivity = () => {
     await createStudentOnActivity({
       activityId: item.id,
       activityStatus: 'active',
-      studentOnSchoolYearId: studentOnSchoolYear ? studentOnSchoolYear[0]?.id : 0,
+      studentOnSchoolYearId: studentOnSchoolYear ? (studentOnSchoolYear as any).id : 0,
     });
   };
 

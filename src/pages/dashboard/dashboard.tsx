@@ -8,7 +8,7 @@ import { BigBanner } from '../statistics/components/big-banner/big-banner.tsx';
 import { SmallBanner } from '../statistics/components/small-banner/small-banner.tsx';
 import { useAssociateStatistics } from '../statistics/hooks/use-associate-statistics.ts';
 import { useProjectUserStatistics } from '../statistics/hooks/use-project-user-statistics.ts';
-const DashboardContainer = styled.div`
+export const DashboardContainer = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
@@ -20,7 +20,7 @@ const DashboardContainer = styled.div`
     gap: 5px;
   }
 `;
-const ContentContainer = styled.div`
+export const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -28,8 +28,8 @@ const ContentContainer = styled.div`
 export function Dashboard() {
   const { startYear } = useParams();
   const { data: schoolYear } = useSchoolYear(parseInt(startYear ?? '0') ?? 0);
-  const { data: associateStatisticsAPI, isSuccess } = useAssociateStatistics(schoolYear ? schoolYear[0]?.id : 0);
-  const { data: projectUserStatisticsAPI } = useProjectUserStatistics(schoolYear ? schoolYear[0]?.id : 0);
+  const { data: associateStatisticsAPI, isSuccess } = useAssociateStatistics(schoolYear ? schoolYear?.id : 0);
+  const { data: projectUserStatisticsAPI } = useProjectUserStatistics(schoolYear ? schoolYear?.id : 0);
 
   const associateStatistics = associateStatisticsAPI as any;
   const projectUserStatistics = projectUserStatisticsAPI as any;

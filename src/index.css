@@ -37,27 +37,29 @@ body {
 }
 
 h1 {
-  font-family: 'Exo 2', sans-serif;
+  font-family: Axiforma;
   font-size: 2em;
   line-height: 1.1;
 }
 
 h2 {
-  font-family: 'Exo 2', sans-serif;
+  font-family: Axiforma;
   font-size: 1.5em;
   line-height: 1.1;
 }
 
 button {
   background-color: #2196f3;
-  font-weight: 800;
   text-transform: uppercase;
   border-radius: 4px;
-  padding: 20px 35px;
+  padding: 10px 30px;
   border: 0;
   cursor: pointer;
   color: white;
   transition: border-color 0.25s;
+  font-family: Axiforma, serif;
+  font-weight: normal;
+
 }
 button:hover {
   border-color: #0271ce;
@@ -68,15 +70,15 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 input, select {
-  font-family: 'Alegreya Sans', sans-serif;
+  font-family: Axiforma;
   line-height: 1.5;
-  font-weight: 500;
+  font-weight: 400;
   font-size: 1em;
   padding: 8px 15px;
   width: 100%;
 }
 label{
-  font-family: 'Alegreya Sans', sans-serif;
+  font-family: Axiforma;
+  font-weight: 400;
   line-height: 1.5;
-  font-weight: 500;
 }

@@ -34,7 +34,7 @@ export const Statistics = () => {
       <CenterContent>
         <Submenu />
         <h1>
-          Statistika korisnika {schoolYear ? schoolYear[0]?.startYear : ''} / {schoolYear ? schoolYear[0]?.endYear : ''}
+          Statistika korisnika {schoolYear ? schoolYear?.startYear : ''} / {schoolYear ? schoolYear?.endYear : ''}
         </h1>
         {projectUserStatistics && (
           <BigBanner
@@ -135,7 +135,7 @@ export const Statistics = () => {
           />
         )}
         <h1>
-          Statistika suradnika {schoolYear ? schoolYear[0]?.startYear : ''} / {schoolYear ? schoolYear[0]?.endYear : ''}
+          Statistika suradnika {schoolYear ? schoolYear?.startYear : ''} / {schoolYear ? schoolYear?.endYear : ''}
         </h1>
         <RowCenteredWithGap>
           {associateStatistics && (

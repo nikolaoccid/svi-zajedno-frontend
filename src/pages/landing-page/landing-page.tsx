@@ -46,6 +46,7 @@ const Center = styled.div`
   justify-content: center;
   align-items: center;
   height: 100%;
+  gap: 25px;
 `;
 const CenterContent = styled.div`
   display: flex;

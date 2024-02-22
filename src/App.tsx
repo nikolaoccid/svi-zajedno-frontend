@@ -5,7 +5,6 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 
-import Header from './components/header/header.tsx';
 import { RouteGuard } from './components/route-guard/route-guard.tsx';
 import { ManageActivity } from './pages/activity/manage-activity/manage-activity.tsx';
 import { CategoriesView } from './pages/category/categories-view/categories-view.tsx';
@@ -18,15 +17,12 @@ import { Logout } from './pages/logout/logout.tsx';
 import { ManageProjectAssociate } from './pages/project-associate/manage-project-associate/manage-project-associate.tsx';
 import ProjectAssociateSearchView from './pages/project-associate/project-associate-search-view/project-associate-search-view.tsx';
 import ProjectAssociateView from './pages/project-associate/project-associate-view/project-associate-view.tsx';
-import ManageProjectUserView from './pages/project-user/create-project-user/manage-project-user-view.tsx';
 import { EnrollStudentOnSchoolYear } from './pages/project-user/enroll-student-on-school-year/enroll-student-on-school-year.tsx';
 import { ManageStudentOnActivity } from './pages/project-user/manage-student-on-activity/manage-student-on-activity.tsx';
-import UserSearchView from './pages/project-user/user-search-view/user-search-view.tsx';
-import UserView from './pages/project-user/user-view/user-view.tsx';
+import { UserListContainer } from './pages/project-user/user-list/user-list-container.tsx';
 import { ChooseSchoolYear } from './pages/school-year/choose-school-year/choose-school-year.tsx';
 import { CreateSchoolYear } from './pages/school-year/create-school-year/create-school-year.tsx';
 import { SearchAssociate } from './pages/search/search-associate/search-associate.tsx';
-import { SearchUser } from './pages/search/search-user/search-user.tsx';
 import { Statistics } from './pages/statistics/statistics.tsx';
 
 const publicRoutes = ['/', '/login', '/logout'];
@@ -37,13 +33,12 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <RouteGuard publicRoutes={publicRoutes} redirectTo="/logout">
-          <Header />
+          {/*<Header />*/}
           <Routes>
             <Route path="/" element={<LandingPage />} />
 
             {/*Dashboard*/}
             <Route path="/:startYear" element={<DashboardPage />} />
-            <Route path="/:startYear/dashboard" element={<Dashboard />} />
 
             {/*School year paths*/}
             <Route path="/school-year" element={<ChooseSchoolYear />} />
@@ -53,13 +48,13 @@ function App() {
             <Route path="/:startYear/user/:userId/enroll" element={<EnrollStudentOnSchoolYear />} />
 
             {/*Project user*/}
-            <Route path="/:startYear/user/new" element={<ManageProjectUserView />} />
-            <Route path="/:startYear/user/:userId/edit" element={<ManageProjectUserView />} />
-            <Route path="/:startYear/user/:userId" element={<UserView />} />
+            {/*<Route path="/:startYear/user/new" element={<ManageProjectUserView />} />*/}
+            {/*<Route path="/:startYear/user/:userId/edit" element={<ManageProjectUserView />} />*/}
+            {/*<Route path="/:startYear/user/:userId" element={<UserView />} />*/}
             <Route path="/:startYear/user/:userId/activity/new" element={<ManageStudentOnActivity />} />
             <Route path="/:startYear/user/:userId/activity/:activityId/edit" element={<ManageStudentOnActivity />} />
-            <Route path="/:startYear/user/search" element={<SearchUser />} />
-            <Route path="/:startYear/users/" element={<UserSearchView />} />
+            {/*<Route path="/:startYear/user/search" element={<SearchUser />} />*/}
+            {/*<Route path="/:startYear/users/" element={<UserSearchView />} />*/}
 
             {/*Project associate*/}
             <Route path="/:startYear/project-associate/new" element={<ManageProjectAssociate />} />
@@ -85,6 +80,15 @@ function App() {
 
             {/*Statistics*/}
             <Route path="/:startYear/statistics" element={<Statistics />} />
+
+            {/* v2 routes */}
+
+            {/*Dashboard*/}
+            <Route path="/:startYear/dashboard" element={<Dashboard />} />
+            <Route path="/:startYear/users/" element={<UserListContainer />} />
+            <Route path="/:startYear/users/new" element={<UserListContainer />} />
+            <Route path="/:startYear/users/:userId/edit" element={<UserListContainer />} />
+            <Route path="/:startYear/users/:userId" element={<UserListContainer />} />
           </Routes>
           <ToastContainer />
         </RouteGuard>

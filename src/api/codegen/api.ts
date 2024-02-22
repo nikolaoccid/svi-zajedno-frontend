@@ -793,10 +793,10 @@ export interface StudentOnSchoolYear {
     'id': number;
     /**
      * 
-     * @type {User}
+     * @type {ProjectUser}
      * @memberof StudentOnSchoolYear
      */
-    'user': User;
+    'user': ProjectUser;
     /**
      * 
      * @type {number}
@@ -4180,6 +4180,58 @@ export const StudentOnSchoolYearApiAxiosParamCreator = function (configuration?:
         },
         /**
          * 
+         * @param {string} schoolYearId 
+         * @param {number} [limit] 
+         * @param {number} [page] 
+         * @param {string} [query] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        studentOnSchoolYearControllerFindUsersBySchoolYear: async (schoolYearId: string, limit?: number, page?: number, query?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'schoolYearId' is not null or undefined
+            assertParamExists('studentOnSchoolYearControllerFindUsersBySchoolYear', 'schoolYearId', schoolYearId)
+            const localVarPath = `/student-on-school-year/users/{schoolYearId}`
+                .replace(`{${"schoolYearId"}}`, encodeURIComponent(String(schoolYearId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (limit !== undefined) {
+                localVarQueryParameter['limit'] = limit;
+            }
+
+            if (page !== undefined) {
+                localVarQueryParameter['page'] = page;
+            }
+
+            if (query !== undefined) {
+                localVarQueryParameter['query'] = query;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @param {string} id 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -4285,7 +4337,7 @@ export const StudentOnSchoolYearApiFp = function(configuration?: Configuration) 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async studentOnSchoolYearControllerFindAll(schoolYearId?: number, userId?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<StudentOnSchoolYear>>> {
+        async studentOnSchoolYearControllerFindAll(schoolYearId?: number, userId?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.studentOnSchoolYearControllerFindAll(schoolYearId, userId, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -4297,6 +4349,19 @@ export const StudentOnSchoolYearApiFp = function(configuration?: Configuration) 
          */
         async studentOnSchoolYearControllerFindOne(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<StudentOnSchoolYear>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.studentOnSchoolYearControllerFindOne(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} schoolYearId 
+         * @param {number} [limit] 
+         * @param {number} [page] 
+         * @param {string} [query] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async studentOnSchoolYearControllerFindUsersBySchoolYear(schoolYearId: string, limit?: number, page?: number, query?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.studentOnSchoolYearControllerFindUsersBySchoolYear(schoolYearId, limit, page, query, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -4346,7 +4411,7 @@ export const StudentOnSchoolYearApiFactory = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        studentOnSchoolYearControllerFindAll(schoolYearId?: number, userId?: number, options?: any): AxiosPromise<Array<StudentOnSchoolYear>> {
+        studentOnSchoolYearControllerFindAll(schoolYearId?: number, userId?: number, options?: any): AxiosPromise<void> {
             return localVarFp.studentOnSchoolYearControllerFindAll(schoolYearId, userId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -4357,6 +4422,18 @@ export const StudentOnSchoolYearApiFactory = function (configuration?: Configura
          */
         studentOnSchoolYearControllerFindOne(id: string, options?: any): AxiosPromise<StudentOnSchoolYear> {
             return localVarFp.studentOnSchoolYearControllerFindOne(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} schoolYearId 
+         * @param {number} [limit] 
+         * @param {number} [page] 
+         * @param {string} [query] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        studentOnSchoolYearControllerFindUsersBySchoolYear(schoolYearId: string, limit?: number, page?: number, query?: string, options?: any): AxiosPromise<void> {
+            return localVarFp.studentOnSchoolYearControllerFindUsersBySchoolYear(schoolYearId, limit, page, query, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -4419,6 +4496,20 @@ export class StudentOnSchoolYearApi extends BaseAPI {
      */
     public studentOnSchoolYearControllerFindOne(id: string, options?: AxiosRequestConfig) {
         return StudentOnSchoolYearApiFp(this.configuration).studentOnSchoolYearControllerFindOne(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} schoolYearId 
+     * @param {number} [limit] 
+     * @param {number} [page] 
+     * @param {string} [query] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof StudentOnSchoolYearApi
+     */
+    public studentOnSchoolYearControllerFindUsersBySchoolYear(schoolYearId: string, limit?: number, page?: number, query?: string, options?: AxiosRequestConfig) {
+        return StudentOnSchoolYearApiFp(this.configuration).studentOnSchoolYearControllerFindUsersBySchoolYear(schoolYearId, limit, page, query, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

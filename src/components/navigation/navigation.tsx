@@ -7,12 +7,14 @@ import { HiSquares2X2 } from 'react-icons/hi2';
 import { IoMdHome, IoMdSettings } from 'react-icons/io';
 import { IoLogOut } from 'react-icons/io5';
 import { MdOutlineSportsSoccer, MdSecurity } from 'react-icons/md';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+
+import { useSchoolYear } from '../../pages/dashboard-page/hooks/use-fetch-school-year.ts';
 
 const NavigationContainer = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 20px;
+  padding: 20px 20px 0px;
 
   border-top-left-radius: 15px;
   border-bottom-left-radius: 15px;
@@ -68,6 +70,7 @@ const SectionItem = styled.div<{ active: boolean }>`
     border-width: 0px;
     background-color: #ffffff;
     color: #252424;
+    font-weight: 500;
   `}
 `;
 const SectionItemText = styled.span`
@@ -88,30 +91,34 @@ const Logo = styled.span`
   transform: rotate(-4deg);
   color: #ffffff;
 `;
-const menuItems = {
-  Manage: [
-    { name: 'Pocetna', icon: IoMdHome, link: 'pocetna' },
-    { name: 'Korisnici', icon: FaUsers, link: 'user' },
-    { name: 'Suradnici', icon: MdOutlineSportsSoccer, link: 'project-associate' },
-    { name: 'Kategorije', icon: HiSquares2X2, link: 'categor' },
-    { name: 'Skolske godine', icon: FaCalendarAlt, link: 'school-year' },
-  ],
-  Settings: [
-    { name: 'Postavke', icon: IoMdSettings, link: 'settings' },
-    { name: 'Sigurnost', icon: MdSecurity, link: 'security' },
-  ],
-  '': [{ name: 'Kraj rada', icon: IoLogOut, link: 'logout' }],
-};
+
 export function Navigation() {
   const [isOpen, setOpen] = useState(false);
+  const { startYear } = useParams();
+  const { data: schoolYear } = useSchoolYear(parseInt(startYear ?? '0') ?? 0);
   const [currentLink, setCurrentLink] = useState('pocetna');
   const location = useLocation();
+  const navigate = useNavigate();
+  const menuItems = {
+    [`${schoolYear?.startYear} / ${schoolYear?.endYear}`]: [
+      { name: 'Kontrolna ploca', icon: IoMdHome, innerName: 'pocetna', link: `/${startYear}/dashboard` },
+      { name: 'Korisnici', icon: FaUsers, innerName: 'user', link: `/${startYear}/users` },
+    ],
+    POSTAVKE: [
+      { name: 'Suradnici', icon: MdOutlineSportsSoccer, innerName: 'project-associate' },
+      { name: 'Kategorije', icon: HiSquares2X2, innerName: 'categor' },
+      { name: 'Skolske godine', icon: FaCalendarAlt, innerName: 'school-year' },
+      { name: 'Postavke', icon: IoMdSettings, innerName: 'settings' },
+      { name: 'Sigurnost', icon: MdSecurity, innerName: 'security' },
+    ],
+    '': [{ name: 'Kraj rada', icon: IoLogOut, innerName: 'logout', link: '/logout' }],
+  };
 
   useEffect(() => {
     Object.keys(menuItems).map((section) => {
       menuItems[section].map((item) => {
-        if (location.pathname.includes(item.link)) {
-          setCurrentLink(item.link);
+        if (location.pathname.includes(item.innerName)) {
+          setCurrentLink(item.innerName);
         }
       });
     });
@@ -131,7 +138,7 @@ export function Navigation() {
           <Section key={section}>
             <SectionTitle>{section}</SectionTitle>
             {menuItems[section].map((item) => (
-              <SectionItem key={item.name} active={currentLink === item.link}>
+              <SectionItem key={item.name} active={currentLink === item.innerName} onClick={() => navigate(item.link)}>
                 {React.createElement(item.icon)}
                 <SectionItemText> {item.name}</SectionItemText>
               </SectionItem>

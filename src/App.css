@@ -18,3 +18,9 @@
   src: url(./utils/fonts/Axiforma-SemiBold.ttf) format("truetype");
   font-weight: 500;
 }
+
+@font-face {
+  font-family: 'Axiforma';
+  src: url(./utils/fonts/Axiforma-Medium.ttf) format("truetype");
+  font-weight: 400;
+}

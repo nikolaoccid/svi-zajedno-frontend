@@ -110,7 +110,7 @@ const ProjectAssociateView = () => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   const filteredActivities = projectAssociate?.activity?.filter(
-    (activity) => activity.schoolYearId === (schoolYear ? schoolYear[0]?.id : 0),
+    (activity) => activity.schoolYearId === (schoolYear ? schoolYear?.id : 0),
   );
 
   const deleteAssociateActivity = async (activity) => {

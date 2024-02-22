@@ -110,6 +110,15 @@ export function getProjectUserByQuery(query: string) {
   return getData(projectUserApi.projectUserControllerFindAll(undefined, undefined, query));
 }
 
+export function getProjectUserByPageAndQuery(page: number, query: string) {
+  return getData(projectUserApi.projectUserControllerFindAll(undefined, page, query));
+}
+export function getProjectUsersBySchoolYear(schoolYearId: string, page: number, query: string) {
+  return getData(
+    studentOnSchoolYear.studentOnSchoolYearControllerFindUsersBySchoolYear(schoolYearId, undefined, page, query),
+  );
+}
+
 export function createProjetUserOnSchoolYear(
   userId: number,
   schoolYearId: number,

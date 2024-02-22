@@ -1,13 +1,15 @@
+import styled from '@emotion/styled';
 import { useQueryClient } from '@tanstack/react-query';
 import { ErrorMessage, Field, FormikProvider, useFormik } from 'formik';
+import { useState } from 'react';
+import { IoIosArrowDown } from 'react-icons/io';
 import { useNavigate, useParams } from 'react-router-dom';
 import { CircleLoader } from 'react-spinners';
 import * as Yup from 'yup';
 
 import { api } from '../../../api';
-import { Submenu } from '../../../components/submenu/submenu.tsx';
 import { toastError, toastSuccess } from '../../../utils/toast.ts';
-import { CenterContent, Form, FormError, FormField, PageContainer } from '../../common-styles/common-styles.ts';
+import { Button, CenterContent, Form, FormError, FormField, PageContainer } from '../../common-styles/common-styles.ts';
 import { useSchoolYear, useSchoolYearFromParams } from '../../dashboard-page/hooks/use-fetch-school-year.ts';
 import { useGetProjectUser } from './hooks/use-get-project-user.ts';
 const validationSchema = Yup.object({
@@ -26,14 +28,37 @@ const validationSchema = Yup.object({
   mobilePhone: Yup.string().required('Broj mobitela je obavezan'),
   email: Yup.string().email('Neispravna email adresa').notRequired(),
 });
+const Input = styled.input`
+  font-size: 14px;
+  font-weight: normal;
+  font-family: Axiforma;
+`;
+const Option = styled.option`
+  font-size: 14px;
+  font-weight: normal;
+  font-family: Axiforma;
+`;
+const Section = styled.div<{ show?: boolean }>`
+  display: ${(props) => (props.show ? 'flex' : 'none')};
+  flex-direction: column;
+  gap: 15px;
+`;
+const SectionTitle = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+`;
 //This component creates and updates project user
-export const ManageProjectUserView = () => {
+export const ManageProjectUserView = ({ onClose }: { onClose?: () => void }) => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { userId } = useParams();
   const schoolYearFromParams = useSchoolYearFromParams();
   const { data: projectUser } = useGetProjectUser(userId);
   const { data: currentSchoolYear } = useSchoolYear(schoolYearFromParams);
+  const [showSection, setShowSection] = useState({ child: true, guardian: true });
 
   const formik = useFormik({
     initialValues: {
@@ -60,6 +85,7 @@ export const ManageProjectUserView = () => {
           await api.updateProjectUser(userId, formData);
           await queryClient.invalidateQueries({ queryKey: ['getProjectUserById'] });
           toastSuccess('Korisnik azuriran');
+          onClose?.();
           navigate(-1);
         } catch (e) {
           toastError('Korisnik nije azuriran, pokusajte ponovno');
@@ -71,11 +97,12 @@ export const ManageProjectUserView = () => {
             currentSchoolYear &&
             (await api.createProjetUserOnSchoolYear(
               user.id,
-              currentSchoolYear[0].id,
+              currentSchoolYear.id,
               formData.protectionType,
               formData.sourceSystem,
             ));
           toastSuccess('Korisnik kreiran');
+          onClose?.();
           navigate(-1);
         } catch (e) {
           toastError('Korisnik nije kreiran, pokusajte ponovno');
@@ -97,119 +124,134 @@ export const ManageProjectUserView = () => {
   return (
     <PageContainer>
       <CenterContent>
-        <Submenu />
-        <h1>{projectUser ? 'Uredi korisnika' : 'Kreiraj novog korisnika'}</h1>
-
         <FormikProvider value={formik}>
           <Form onSubmit={formik.handleSubmit}>
-            <FormField>
-              <label htmlFor="guardianName">Ime skrbnika</label>
-              <input type="text" id="guardianName" {...formik.getFieldProps('guardianName')} />
-              {formik.touched.guardianName && formik.errors.guardianName ? (
-                <FormError>{formik.errors.guardianName}</FormError>
-              ) : null}
-            </FormField>
+            <SectionTitle onClick={() => setShowSection({ ...showSection, guardian: !showSection['guardian'] })}>
+              <h2>Podaci o skrbniku</h2>
+              <IoIosArrowDown />
+            </SectionTitle>
+            <Section show={showSection['guardian']}>
+              <FormField>
+                <label htmlFor="guardianName">Ime skrbnika</label>
+                <Input type="text" id="guardianName" {...formik.getFieldProps('guardianName')} />
+                {formik.touched.guardianName && formik.errors.guardianName ? (
+                  <FormError>{formik.errors.guardianName}</FormError>
+                ) : null}
+              </FormField>
 
-            <FormField>
-              <label htmlFor="guardianSurname">Prezime skrbnika</label>
-              <input type="text" id="guardianSurname" {...formik.getFieldProps('guardianSurname')} />
-              {formik.touched.guardianSurname && formik.errors.guardianSurname ? (
-                <FormError>{formik.errors.guardianSurname}</FormError>
-              ) : null}
-            </FormField>
+              <FormField>
+                <label htmlFor="guardianSurname">Prezime skrbnika</label>
+                <Input type="text" id="guardianSurname" {...formik.getFieldProps('guardianSurname')} />
+                {formik.touched.guardianSurname && formik.errors.guardianSurname ? (
+                  <FormError>{formik.errors.guardianSurname}</FormError>
+                ) : null}
+              </FormField>
 
-            <FormField>
-              <label htmlFor="gender">Spol</label>
-              <Field as="select" id="gender" {...formik.getFieldProps('gender')}>
-                <option value="male">Musko</option>
-                <option value="female">Zensko</option>
-              </Field>
-              <ErrorMessage name="gender" component="div" />
-            </FormField>
+              <FormField>
+                <label htmlFor="gender">Spol</label>
+                <Field as="select" id="gender" {...formik.getFieldProps('gender')}>
+                  <Option value="male">Musko</Option>
+                  <Option value="female">Zensko</Option>
+                </Field>
+                <ErrorMessage name="gender" component="div" />
+              </FormField>
 
-            <FormField>
-              <label htmlFor="sourceSystem">Izvorisni sustav </label>
-              <Field as="select" id="sourceSystem" {...formik.getFieldProps('sourceSystem')}>
-                <option value="czss">CZSS</option>
-                <option value="obiteljskicentar">Obiteljski centar</option>
-              </Field>
-              <ErrorMessage name="sourceSystem" component="div" />
-            </FormField>
+              <FormField>
+                <label htmlFor="sourceSystem">Izvorisni sustav </label>
+                <Field as="select" id="sourceSystem" {...formik.getFieldProps('sourceSystem')}>
+                  <Option value="czss">CZSS</Option>
+                  <Option value="obiteljskicentar">Obiteljski centar</Option>
+                </Field>
+                <ErrorMessage name="sourceSystem" component="div" />
+              </FormField>
 
-            <FormField>
-              <label htmlFor="protectionType">Osnova za prijam </label>
-              <Field as="select" id="protectionType" {...formik.getFieldProps('protectionType')}>
-                <option value="zmn">ZMN</option>
-                <option value="preporuka">Preporuka</option>
-                <option value="udomiteljstvo">Udomiteljstvo</option>
-              </Field>
-              <ErrorMessage name="protectionType" component="div" />
-            </FormField>
+              <FormField>
+                <label htmlFor="protectionType">Osnova za prijam </label>
+                <Field as="select" id="protectionType" {...formik.getFieldProps('protectionType')}>
+                  <Option value="zmn">ZMN</Option>
+                  <Option value="preporuka">Preporuka</Option>
+                  <Option value="udomiteljstvo">Udomiteljstvo</Option>
+                </Field>
+                <ErrorMessage name="protectionType" component="div" />
+              </FormField>
+            </Section>
+            <SectionTitle onClick={() => setShowSection({ ...showSection, child: !showSection['child'] })}>
+              <h2>Podaci o djetetu</h2>
+              <IoIosArrowDown />
+            </SectionTitle>
+            <Section show={showSection['child']}>
+              <FormField>
+                <label htmlFor="oib">OIB djeteta</label>
+                <Input
+                  type="text"
+                  id="oib"
+                  {...formik.getFieldProps('oib')}
+                  onFocus={() => setShowSection({ ...showSection, guardian: false })}
+                />
+                {formik.touched.oib && formik.errors.oib ? <FormError>{formik.errors.oib}</FormError> : null}
+              </FormField>
 
-            <FormField>
-              <label htmlFor="oib">OIB djeteta</label>
-              <input type="text" id="oib" {...formik.getFieldProps('oib')} />
-              {formik.touched.oib && formik.errors.oib ? <FormError>{formik.errors.oib}</FormError> : null}
-            </FormField>
+              <FormField>
+                <label htmlFor="childName">Ime djeteta</label>
+                <Input type="text" id="childName" {...formik.getFieldProps('childName')} />
+                {formik.touched.childName && formik.errors.childName ? (
+                  <FormError>{formik.errors.childName}</FormError>
+                ) : null}
+              </FormField>
 
-            <FormField>
-              <label htmlFor="childName">Ime djeteta</label>
-              <input type="text" id="childName" {...formik.getFieldProps('childName')} />
-              {formik.touched.childName && formik.errors.childName ? (
-                <FormError>{formik.errors.childName}</FormError>
-              ) : null}
-            </FormField>
+              <FormField>
+                <label htmlFor="childSurname">Prezime djeteta</label>
+                <Input type="text" id="childSurname" {...formik.getFieldProps('childSurname')} />
+                {formik.touched.childSurname && formik.errors.childSurname ? (
+                  <FormError>{formik.errors.childSurname}</FormError>
+                ) : null}
+              </FormField>
 
-            <FormField>
-              <label htmlFor="childSurname">Prezime djeteta</label>
-              <input type="text" id="childSurname" {...formik.getFieldProps('childSurname')} />
-              {formik.touched.childSurname && formik.errors.childSurname ? (
-                <FormError>{formik.errors.childSurname}</FormError>
-              ) : null}
-            </FormField>
+              <FormField>
+                <label htmlFor="dateOfBirth">Datum rođenja</label>
+                <Input type="text" id="dateOfBirth" {...formik.getFieldProps('dateOfBirth')} />
+                {formik.touched.dateOfBirth && formik.errors.dateOfBirth ? (
+                  <FormError>{formik.errors.dateOfBirth}</FormError>
+                ) : null}
+              </FormField>
 
-            <FormField>
-              <label htmlFor="dateOfBirth">Datum rođenja</label>
-              <input type="text" id="dateOfBirth" {...formik.getFieldProps('dateOfBirth')} />
-              {formik.touched.dateOfBirth && formik.errors.dateOfBirth ? (
-                <FormError>{formik.errors.dateOfBirth}</FormError>
-              ) : null}
-            </FormField>
+              <FormField>
+                <label htmlFor="mobilePhone">Broj mobitela</label>
+                <Input type="text" id="mobilePhone" {...formik.getFieldProps('mobilePhone')} />
+                {formik.touched.mobilePhone && formik.errors.mobilePhone ? (
+                  <FormError>{formik.errors.mobilePhone}</FormError>
+                ) : null}
+              </FormField>
 
-            <FormField>
-              <label htmlFor="mobilePhone">Broj mobitela</label>
-              <input type="text" id="mobilePhone" {...formik.getFieldProps('mobilePhone')} />
-              {formik.touched.mobilePhone && formik.errors.mobilePhone ? (
-                <FormError>{formik.errors.mobilePhone}</FormError>
-              ) : null}
-            </FormField>
+              <FormField>
+                <label htmlFor="email">Email</label>
+                <Input type="email" id="email" {...formik.getFieldProps('email')} />
+                {formik.touched.email && formik.errors.email ? <FormError>{formik.errors.email}</FormError> : null}
+              </FormField>
 
-            <FormField>
-              <label htmlFor="email">Email</label>
-              <input type="email" id="email" {...formik.getFieldProps('email')} />
-              {formik.touched.email && formik.errors.email ? <FormError>{formik.errors.email}</FormError> : null}
-            </FormField>
+              <FormField>
+                <label htmlFor="address">Adresa</label>
+                <Input type="text" id="address" {...formik.getFieldProps('address')} />
+                {formik.touched.address && formik.errors.address ? (
+                  <FormError>{formik.errors.address}</FormError>
+                ) : null}
+              </FormField>
 
-            <FormField>
-              <label htmlFor="address">Adresa</label>
-              <input type="text" id="address" {...formik.getFieldProps('address')} />
-              {formik.touched.address && formik.errors.address ? <FormError>{formik.errors.address}</FormError> : null}
-            </FormField>
+              <FormField>
+                <label htmlFor="city">Grad</label>
+                <Input type="text" id="city" {...formik.getFieldProps('city')} />
+                {formik.touched.city && formik.errors.city ? <FormError>{formik.errors.city}</FormError> : null}
+              </FormField>
 
-            <FormField>
-              <label htmlFor="city">Grad</label>
-              <input type="text" id="city" {...formik.getFieldProps('city')} />
-              {formik.touched.city && formik.errors.city ? <FormError>{formik.errors.city}</FormError> : null}
-            </FormField>
-
-            <FormField>
-              <label htmlFor="school">Škola</label>
-              <input type="text" id="school" {...formik.getFieldProps('school')} />
-              {formik.touched.school && formik.errors.school ? <FormError>{formik.errors.school}</FormError> : null}
-            </FormField>
+              <FormField>
+                <label htmlFor="school">Škola</label>
+                <Input type="text" id="school" {...formik.getFieldProps('school')} />
+                {formik.touched.school && formik.errors.school ? <FormError>{formik.errors.school}</FormError> : null}
+              </FormField>
+            </Section>
 
             <CenterContent>
-              <button type="submit">Pošalji</button>
+              <Button type="submit">Pošalji</Button>
             </CenterContent>
           </Form>
         </FormikProvider>
