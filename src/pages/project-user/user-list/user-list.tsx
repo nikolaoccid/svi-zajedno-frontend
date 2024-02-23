@@ -1,9 +1,11 @@
 import styled from '@emotion/styled';
+import { useNavigate } from 'react-router-dom';
 
 import { DashboardHeader } from '../../../components/dashboard-header/dashboard-header.tsx';
 import { GlobalSearch } from '../../../components/global-search/global-search.tsx';
 import { Navigation } from '../../../components/navigation/navigation.tsx';
 import { ContentContainer, DashboardContainer } from '../../dashboard/dashboard.tsx';
+import { useSelectedSchoolYear } from '../../dashboard-page/hooks/use-fetch-school-year.ts';
 import { AddNewButton } from './add-new-button.tsx';
 import { Pagination } from './pagination.tsx';
 import { UsersTable } from './user-table.tsx';
@@ -62,6 +64,8 @@ export function UserList({
   setSearchQuery: (type: string) => void;
   setCurrentPage: (page: number) => void;
 }) {
+  const { data: schoolYear } = useSelectedSchoolYear();
+  const navigate = useNavigate();
   const handleSelectChange = (event) => {
     setUserType(event.target.value);
   };
@@ -79,7 +83,7 @@ export function UserList({
               <option value="schoolYearUsers">Upisani korisnici na skolsku godinu</option>
             </Select>
             <GlobalSearch setSearchQuery={setSearchQuery} />
-            <AddNewButton />
+            <AddNewButton text={'Dodaj korisnika'} onClick={() => navigate(`/${schoolYear?.startYear}/users/new`)} />
           </RowContainer>
           <Records>{users.meta.totalItems} Records found</Records>
         </UsersHeader>

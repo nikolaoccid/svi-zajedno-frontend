@@ -109,6 +109,7 @@ export function UserListContainer() {
           navigate(-1);
           setShowUserFlyout(false);
         }}
+        width="650px"
       >
         <UserView onClose={() => setShowUserFlyout(false)} />
       </Flyout>

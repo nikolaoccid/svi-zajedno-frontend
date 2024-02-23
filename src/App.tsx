@@ -51,8 +51,8 @@ function App() {
             {/*<Route path="/:startYear/user/new" element={<ManageProjectUserView />} />*/}
             {/*<Route path="/:startYear/user/:userId/edit" element={<ManageProjectUserView />} />*/}
             {/*<Route path="/:startYear/user/:userId" element={<UserView />} />*/}
-            <Route path="/:startYear/user/:userId/activity/new" element={<ManageStudentOnActivity />} />
-            <Route path="/:startYear/user/:userId/activity/:activityId/edit" element={<ManageStudentOnActivity />} />
+            {/*<Route path="/:startYear/user/:userId/activity/new" element={<ManageStudentOnActivity />} />*/}
+            {/*<Route path="/:startYear/user/:userId/activity/:activityId/edit" element={<ManageStudentOnActivity />} />*/}
             {/*<Route path="/:startYear/user/search" element={<SearchUser />} />*/}
             {/*<Route path="/:startYear/users/" element={<UserSearchView />} />*/}
 
@@ -85,10 +85,15 @@ function App() {
 
             {/*Dashboard*/}
             <Route path="/:startYear/dashboard" element={<Dashboard />} />
+
+            {/*User*/}
             <Route path="/:startYear/users/" element={<UserListContainer />} />
             <Route path="/:startYear/users/new" element={<UserListContainer />} />
             <Route path="/:startYear/users/:userId/edit" element={<UserListContainer />} />
             <Route path="/:startYear/users/:userId" element={<UserListContainer />} />
+
+            <Route path="/:startYear/users/:userId/activities/new" element={<ManageStudentOnActivity />} />
+            <Route path="/:startYear/users/:userId/activities/:activityId/edit" element={<ManageStudentOnActivity />} />
           </Routes>
           <ToastContainer />
         </RouteGuard>

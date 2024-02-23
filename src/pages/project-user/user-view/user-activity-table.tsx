@@ -1,18 +1,21 @@
 import styled from '@emotion/styled';
 import { useQueryClient } from '@tanstack/react-query';
 import { GoDotFill } from 'react-icons/go';
-import { MdEdit } from 'react-icons/md';
-import { useNavigate, useParams } from 'react-router-dom';
+import { MdDelete } from 'react-icons/md';
+import { useParams } from 'react-router-dom';
+import { ClockLoader } from 'react-spinners';
 
 import { api } from '../../../api';
 import { toastError, toastSuccess } from '../../../utils/toast.ts';
+import { Button, CenterContent, PageContainer } from '../../common-styles/common-styles.ts';
 import { useSchoolYear } from '../../dashboard-page/hooks/use-fetch-school-year.ts';
-import { HeaderText } from '../user-list/user-list-container.tsx';
+import { useStudentOnSchoolYear } from '../../student-on-school-year/hooks/get-student-on-school-year.ts';
+import { useProjectUser } from './hooks/use-project-user.ts';
 
 const TableContainer = styled.div`
   height: 100%;
   width: 100%;
-  padding: 0px 25px 0 25px;
+  padding: 10px 25px 0 25px;
 `;
 const TableRow = styled.tr`
   &:hover {
@@ -35,12 +38,15 @@ const Icon = styled.td`
   padding-top: 10px;
   padding-right: 10px;
   white-space: nowrap;
+  gap: 12px;
 `;
 export function UserActivityTable({ activities }: { activities: any }) {
   const queryClient = useQueryClient();
-  const { startYear } = useParams();
-  const { data: schoolYear } = useSchoolYear(parseInt(startYear ?? '0') ?? 0);
-  const navigate = useNavigate();
+  const { startYear, userId } = useParams();
+  const { data: schoolYear, isLoading: isLoadingSchoolYear } = useSchoolYear(startYear ? parseInt(startYear) : 0);
+  const schoolYearId = (schoolYear && schoolYear.id) ?? 0;
+  const { data: projectUser, isLoading } = useProjectUser(userId);
+  const { data: studentOnSchoolYear } = useStudentOnSchoolYear(schoolYearId, projectUser?.id);
 
   const disenrollActivity = async (activity) => {
     try {
@@ -81,8 +87,22 @@ export function UserActivityTable({ activities }: { activities: any }) {
       console.log(e);
     }
   };
+  const onRowClick = (activity) => {
+    console.log('onRowClick', activity);
+  };
+
   if (!activities) {
     return null;
+  }
+
+  if (isLoading || isLoadingSchoolYear) {
+    return (
+      <PageContainer>
+        <CenterContent>
+          <ClockLoader color="#2196f3" />
+        </CenterContent>
+      </PageContainer>
+    );
   }
   return (
     <TableContainer>
@@ -92,7 +112,7 @@ export function UserActivityTable({ activities }: { activities: any }) {
             activities.map((activity) => (
               <TableRow key={activity.id}>
                 <Icon onClick={() => onRowClick(activity)}>
-                  <GoDotFill size={18} color={'#green'} />
+                  <GoDotFill size={18} color={activity.activityStatus === 'active' ? 'green' : 'red'} />
                 </Icon>
                 <TableData onClick={() => onRowClick(activity)}>{activity?.activity?.activityName}</TableData>
                 <TableData onClick={() => onRowClick(activity)}>
@@ -101,8 +121,34 @@ export function UserActivityTable({ activities }: { activities: any }) {
                 <TableData onClick={() => onRowClick(activity)}>
                   {activity?.activity?.activityPrice > 0 ? activity.activity.activityPrice + 'EUR' : 'Besplatno'}
                 </TableData>
+                <TableData>
+                  {activity.activityStatus === 'active' && (
+                    <Button
+                      backgroundColor={'#d9534f'}
+                      onClick={() => disenrollActivity(activity)}
+                      disabled={studentOnSchoolYear ? (studentOnSchoolYear as any)?.status === 'inactive' : false}
+                    >
+                      Ispisi
+                    </Button>
+                  )}
+                  {activity.activityStatus === 'inactive' && (
+                    <Button
+                      onClick={() => enrollActivity(activity)}
+                      disabled={studentOnSchoolYear ? (studentOnSchoolYear as any)?.status === 'inactive' : false}
+                    >
+                      Upisi
+                    </Button>
+                  )}
+                </TableData>
                 <Icon>
-                  <MdEdit size={18} color={'#00193f'} onClick={() => onEditClick(activity)} />
+                  <MdDelete
+                    size={18}
+                    color={'#00193f'}
+                    onClick={() =>
+                      (studentOnSchoolYear as any)?.status === 'active' ? deleteActivityEnrollment(activity) : undefined
+                    }
+                    style={{ margin: '10px' }}
+                  />
                 </Icon>
               </TableRow>
             ))}

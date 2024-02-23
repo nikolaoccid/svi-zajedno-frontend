@@ -11,7 +11,7 @@ import { croatianDateFormat } from '../../../utils/croatian-date-format.ts';
 import { Button, CenterContent, PageContainer } from '../../common-styles/common-styles.ts';
 import { useSchoolYear } from '../../dashboard-page/hooks/use-fetch-school-year.ts';
 import { useStudentOnSchoolYear } from '../../student-on-school-year/hooks/get-student-on-school-year.ts';
-import { Divider } from '../user-list/user-list.tsx';
+import { AddNewButton } from '../user-list/add-new-button.tsx';
 import { HeaderText } from '../user-list/user-list-container.tsx';
 import { useProjectUser } from './hooks/use-project-user.ts';
 import { useStudentOnActivities } from './hooks/use-student-on-activities.ts';
@@ -97,8 +97,25 @@ export const TdWithGap = styled.td`
   justify-content: center;
   gap: 20px;
 `;
-const EmptySpace = styled.div`
-  height: 20px;
+const HeaderWithShadow = styled.div`
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 50px;
+  background-color: white;
+  box-shadow: 0px 2px 5px -1px rgba(0, 0, 0, 0.2);
+`;
+const CenterContainer = styled.div`
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+`;
+const RightContainer = styled.div`
+  margin-left: auto;
+  padding: 10px;
 `;
 
 const UserView = ({ onClose }: { onClose?: () => void }) => {
@@ -158,6 +175,7 @@ const UserView = ({ onClose }: { onClose?: () => void }) => {
               navigate(`/${schoolYear ? schoolYear.startYear : 0}/users/${projectUser?.id}/edit`);
               onClose?.();
             }}
+            style={{ marginRight: '25px' }}
           />
         </Row>
 
@@ -244,9 +262,20 @@ const UserView = ({ onClose }: { onClose?: () => void }) => {
           </ProfileItem>
         </Section>
 
-        <Divider />
-        <EmptySpace />
-        <HeaderText>Aktivnosti</HeaderText>
+        <HeaderWithShadow>
+          <HeaderContainer>
+            <CenterContainer>
+              <HeaderText>Aktivnosti</HeaderText>
+            </CenterContainer>
+
+            <RightContainer>
+              <AddNewButton
+                text={'Dodaj'}
+                onClick={() => navigate(`/${schoolYear?.startYear}/users/${projectUser?.id}/activities/new`)}
+              />
+            </RightContainer>
+          </HeaderContainer>
+        </HeaderWithShadow>
 
         <UserActivityTable activities={studentOnActivities} />
         {/*<Row>*/}

@@ -1,8 +1,5 @@
 import styled from '@emotion/styled';
 import { IoPersonAdd } from 'react-icons/io5';
-import { useNavigate, useParams } from 'react-router-dom';
-
-import { useSchoolYear } from '../../dashboard-page/hooks/use-fetch-school-year.ts';
 
 const Button = styled.div`
   font-family: Axiforma;
@@ -19,14 +16,10 @@ const Button = styled.div`
   gap: 12px;
   padding: 10px 15px;
 `;
-export function AddNewButton() {
-  const { startYear } = useParams();
-  const { data: schoolYear } = useSchoolYear(parseInt(startYear ?? '0') ?? 0);
-  const navigate = useNavigate();
-
+export function AddNewButton({ text, onClick }: { text: string; onClick: () => void }) {
   return (
-    <Button onClick={() => navigate(`/${schoolYear?.startYear}/users/new`)}>
-      Dodaj korisnika <IoPersonAdd />
+    <Button onClick={() => onClick()}>
+      {text} <IoPersonAdd />
     </Button>
   );
 }
