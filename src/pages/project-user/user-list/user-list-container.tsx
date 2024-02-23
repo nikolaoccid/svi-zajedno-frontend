@@ -10,7 +10,7 @@ import ManageProjectUserView from '../create-project-user/manage-project-user-vi
 import UserView from '../user-view/user-view.tsx';
 import { UserList } from './user-list.tsx';
 
-const HeaderText = styled.span`
+export const HeaderText = styled.span`
   font-family: Axiforma;
   font-weight: bold;
   font-size: 24px;

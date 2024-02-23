@@ -34,8 +34,9 @@ export const Button = styled.button<{ backgroundColor?: string }>`
   background-color: ${(props) => props.backgroundColor ?? '#1352f1'};
   font-weight: normal;
   font-family: Axiforma, sans-serif;
-  border-radius: 4px;
-  padding: 10px 30px;
+  font-size: 12px;
+  border-radius: 5px;
+  padding: 5px 15px;
   color: white;
   &:disabled {
     background-color: lightgray;

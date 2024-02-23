@@ -38,7 +38,7 @@ const Select = styled.select`
   background-position: right 0.7rem top 50%;
   background-size: 0.65rem auto;
 `;
-const Divider = styled.hr`
+export const Divider = styled.hr`
   width: 100%;
   border: 1px solid #ececec;
   margin: 0;
