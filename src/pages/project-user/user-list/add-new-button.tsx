@@ -26,7 +26,7 @@ export function AddNewButton() {
 
   return (
     <Button onClick={() => navigate(`/${schoolYear?.startYear}/users/new`)}>
-      Add new <IoPersonAdd />
+      Dodaj korisnika <IoPersonAdd />
     </Button>
   );
 }

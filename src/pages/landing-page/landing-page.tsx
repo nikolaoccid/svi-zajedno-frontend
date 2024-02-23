@@ -28,8 +28,8 @@ const CTALink = styled(Link)`
   background-color: #2196f3;
   font-weight: 800;
   text-transform: uppercase;
-  border-radius: 4px;
-  padding: 20px 35px;
+  border-radius: 5px;
+  padding: 15px 30px;
   color: white;
 `;
 const Overlay = styled.div`

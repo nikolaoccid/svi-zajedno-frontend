@@ -106,11 +106,11 @@ export function UserListContainer() {
           </Column>
         }
         onHide={() => {
-          navigate(`/${startYear}/users`);
+          navigate(-1);
           setShowUserFlyout(false);
         }}
       >
-        <UserView />
+        <UserView onClose={() => setShowUserFlyout(false)} />
       </Flyout>
     </div>
   );
