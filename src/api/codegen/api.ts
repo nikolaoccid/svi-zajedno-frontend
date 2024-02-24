@@ -4183,11 +4183,12 @@ export const StudentOnSchoolYearApiAxiosParamCreator = function (configuration?:
          * @param {string} schoolYearId 
          * @param {number} [limit] 
          * @param {number} [page] 
+         * @param {'active' | 'inactive' | 'pending'} [status] 
          * @param {string} [query] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        studentOnSchoolYearControllerFindUsersBySchoolYear: async (schoolYearId: string, limit?: number, page?: number, query?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        studentOnSchoolYearControllerFindUsersBySchoolYear: async (schoolYearId: string, limit?: number, page?: number, status?: 'active' | 'inactive' | 'pending', query?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'schoolYearId' is not null or undefined
             assertParamExists('studentOnSchoolYearControllerFindUsersBySchoolYear', 'schoolYearId', schoolYearId)
             const localVarPath = `/student-on-school-year/users/{schoolYearId}`
@@ -4213,6 +4214,10 @@ export const StudentOnSchoolYearApiAxiosParamCreator = function (configuration?:
 
             if (page !== undefined) {
                 localVarQueryParameter['page'] = page;
+            }
+
+            if (status !== undefined) {
+                localVarQueryParameter['status'] = status;
             }
 
             if (query !== undefined) {
@@ -4356,12 +4361,13 @@ export const StudentOnSchoolYearApiFp = function(configuration?: Configuration) 
          * @param {string} schoolYearId 
          * @param {number} [limit] 
          * @param {number} [page] 
+         * @param {'active' | 'inactive' | 'pending'} [status] 
          * @param {string} [query] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async studentOnSchoolYearControllerFindUsersBySchoolYear(schoolYearId: string, limit?: number, page?: number, query?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.studentOnSchoolYearControllerFindUsersBySchoolYear(schoolYearId, limit, page, query, options);
+        async studentOnSchoolYearControllerFindUsersBySchoolYear(schoolYearId: string, limit?: number, page?: number, status?: 'active' | 'inactive' | 'pending', query?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.studentOnSchoolYearControllerFindUsersBySchoolYear(schoolYearId, limit, page, status, query, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -4428,12 +4434,13 @@ export const StudentOnSchoolYearApiFactory = function (configuration?: Configura
          * @param {string} schoolYearId 
          * @param {number} [limit] 
          * @param {number} [page] 
+         * @param {'active' | 'inactive' | 'pending'} [status] 
          * @param {string} [query] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        studentOnSchoolYearControllerFindUsersBySchoolYear(schoolYearId: string, limit?: number, page?: number, query?: string, options?: any): AxiosPromise<void> {
-            return localVarFp.studentOnSchoolYearControllerFindUsersBySchoolYear(schoolYearId, limit, page, query, options).then((request) => request(axios, basePath));
+        studentOnSchoolYearControllerFindUsersBySchoolYear(schoolYearId: string, limit?: number, page?: number, status?: 'active' | 'inactive' | 'pending', query?: string, options?: any): AxiosPromise<void> {
+            return localVarFp.studentOnSchoolYearControllerFindUsersBySchoolYear(schoolYearId, limit, page, status, query, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -4503,13 +4510,14 @@ export class StudentOnSchoolYearApi extends BaseAPI {
      * @param {string} schoolYearId 
      * @param {number} [limit] 
      * @param {number} [page] 
+     * @param {'active' | 'inactive' | 'pending'} [status] 
      * @param {string} [query] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof StudentOnSchoolYearApi
      */
-    public studentOnSchoolYearControllerFindUsersBySchoolYear(schoolYearId: string, limit?: number, page?: number, query?: string, options?: AxiosRequestConfig) {
-        return StudentOnSchoolYearApiFp(this.configuration).studentOnSchoolYearControllerFindUsersBySchoolYear(schoolYearId, limit, page, query, options).then((request) => request(this.axios, this.basePath));
+    public studentOnSchoolYearControllerFindUsersBySchoolYear(schoolYearId: string, limit?: number, page?: number, status?: 'active' | 'inactive' | 'pending', query?: string, options?: AxiosRequestConfig) {
+        return StudentOnSchoolYearApiFp(this.configuration).studentOnSchoolYearControllerFindUsersBySchoolYear(schoolYearId, limit, page, status, query, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

@@ -272,86 +272,13 @@ const UserView = ({ onClose }: { onClose?: () => void }) => {
               <AddNewButton
                 text={'Dodaj'}
                 onClick={() => navigate(`/${schoolYear?.startYear}/users/${projectUser?.id}/activities/new`)}
+                disabled={(studentOnSchoolYear as any)?.status === 'inactive'}
               />
             </RightContainer>
           </HeaderContainer>
         </HeaderWithShadow>
 
         <UserActivityTable activities={studentOnActivities} />
-        {/*<Row>*/}
-        {/*  <FullWidthSection>*/}
-        {/*    <Button*/}
-        {/*      onClick={() => navigate(`/${schoolYear ? schoolYear.startYear : 0}/user/${projectUser?.id}/activity/new`)}*/}
-        {/*      disabled={(studentOnSchoolYear as any)?.status === 'inactive'}*/}
-        {/*    >*/}
-        {/*      Upisi na aktivnost*/}
-        {/*    </Button>*/}
-        {/*    <h2>Aktivnosti</h2>*/}
-        {/*    {studentOnActivities !== undefined ? (*/}
-        {/*      <Table>*/}
-        {/*        <thead>*/}
-        {/*          <tr>*/}
-        {/*            <th>Aktivnost</th>*/}
-        {/*            <th>Klub</th>*/}
-        {/*            <th>Cijena</th>*/}
-        {/*            <th>Datum kreiranja</th>*/}
-        {/*            <th>Status</th>*/}
-        {/*            <th>Akcije</th>*/}
-        {/*          </tr>*/}
-        {/*        </thead>*/}
-        {/*        <tbody>*/}
-        {/*          {studentOnActivities &&*/}
-        {/*            studentOnActivities.map((activity) => (*/}
-        {/*              <tr key={activity.id}>*/}
-        {/*                <td>{activity?.activity?.activityName}</td>*/}
-        {/*                <td>{activity?.activity?.projectAssociate?.clubName}</td>*/}
-        {/*                <td>*/}
-        {/*                  {activity?.activity?.activityPrice > 0*/}
-        {/*                    ? activity.activity.activityPrice + 'EUR'*/}
-        {/*                    : 'Besplatno'}*/}
-        {/*                </td>*/}
-        {/*                <td>{croatianDateFormat(activity.createdAt)}</td>*/}
-        {/*                <td>*/}
-        {/*                  <Status status={activity?.activityStatus} />*/}
-        {/*                </td>*/}
-        {/*                <TdWithGap>*/}
-        {/*                  {activity.activityStatus === 'active' && (*/}
-        {/*                    <SecondaryButton*/}
-        {/*                      onClick={() => disenrollActivity(activity)}*/}
-        {/*                      disabled={*/}
-        {/*                        studentOnSchoolYear ? (studentOnSchoolYear as any)?.status === 'inactive' : false*/}
-        {/*                      }*/}
-        {/*                    >*/}
-        {/*                      Ispisi*/}
-        {/*                    </SecondaryButton>*/}
-        {/*                  )}*/}
-        {/*                  {activity.activityStatus === 'inactive' && (*/}
-        {/*                    <SecondaryButton*/}
-        {/*                      onClick={() => enrollActivity(activity)}*/}
-        {/*                      disabled={*/}
-        {/*                        studentOnSchoolYear ? (studentOnSchoolYear as any)?.status === 'inactive' : false*/}
-        {/*                      }*/}
-        {/*                    >*/}
-        {/*                      Upisi*/}
-        {/*                    </SecondaryButton>*/}
-        {/*                  )}*/}
-        {/*                  <Button*/}
-        {/*                    backgroundColor="#d9534f"*/}
-        {/*                    onClick={() => deleteActivityEnrollment(activity)}*/}
-        {/*                    disabled={studentOnSchoolYear ? (studentOnSchoolYear as any)?.status === 'inactive' : false}*/}
-        {/*                  >*/}
-        {/*                    Izbrisi*/}
-        {/*                  </Button>*/}
-        {/*                </TdWithGap>*/}
-        {/*              </tr>*/}
-        {/*            ))}*/}
-        {/*        </tbody>*/}
-        {/*      </Table>*/}
-        {/*    ) : (*/}
-        {/*      <div>Korisnik nema aktivnosti u ovoj skolskoj godini.</div>*/}
-        {/*    )}*/}
-        {/*  </FullWidthSection>*/}
-        {/*</Row>*/}
       </ProfileContainer>
     )
   );

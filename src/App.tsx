@@ -18,7 +18,6 @@ import { ManageProjectAssociate } from './pages/project-associate/manage-project
 import ProjectAssociateSearchView from './pages/project-associate/project-associate-search-view/project-associate-search-view.tsx';
 import ProjectAssociateView from './pages/project-associate/project-associate-view/project-associate-view.tsx';
 import { EnrollStudentOnSchoolYear } from './pages/project-user/enroll-student-on-school-year/enroll-student-on-school-year.tsx';
-import { ManageStudentOnActivity } from './pages/project-user/manage-student-on-activity/manage-student-on-activity.tsx';
 import { UserListContainer } from './pages/project-user/user-list/user-list-container.tsx';
 import { ChooseSchoolYear } from './pages/school-year/choose-school-year/choose-school-year.tsx';
 import { CreateSchoolYear } from './pages/school-year/create-school-year/create-school-year.tsx';
@@ -92,8 +91,7 @@ function App() {
             <Route path="/:startYear/users/:userId/edit" element={<UserListContainer />} />
             <Route path="/:startYear/users/:userId" element={<UserListContainer />} />
 
-            <Route path="/:startYear/users/:userId/activities/new" element={<ManageStudentOnActivity />} />
-            <Route path="/:startYear/users/:userId/activities/:activityId/edit" element={<ManageStudentOnActivity />} />
+            <Route path="/:startYear/users/:userId/activities/new" element={<UserListContainer />} />
           </Routes>
           <ToastContainer />
         </RouteGuard>

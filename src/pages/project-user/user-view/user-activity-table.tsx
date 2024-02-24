@@ -1,13 +1,15 @@
 import styled from '@emotion/styled';
 import { useQueryClient } from '@tanstack/react-query';
+import { useEffect } from 'react';
 import { GoDotFill } from 'react-icons/go';
 import { MdDelete } from 'react-icons/md';
 import { useParams } from 'react-router-dom';
 import { ClockLoader } from 'react-spinners';
 
 import { api } from '../../../api';
+import { croatianDateFormat } from '../../../utils/croatian-date-format.ts';
 import { toastError, toastSuccess } from '../../../utils/toast.ts';
-import { Button, CenterContent, PageContainer } from '../../common-styles/common-styles.ts';
+import { CenterContent, PageContainer } from '../../common-styles/common-styles.ts';
 import { useSchoolYear } from '../../dashboard-page/hooks/use-fetch-school-year.ts';
 import { useStudentOnSchoolYear } from '../../student-on-school-year/hooks/get-student-on-school-year.ts';
 import { useProjectUser } from './hooks/use-project-user.ts';
@@ -48,6 +50,10 @@ export function UserActivityTable({ activities }: { activities: any }) {
   const { data: projectUser, isLoading } = useProjectUser(userId);
   const { data: studentOnSchoolYear } = useStudentOnSchoolYear(schoolYearId, projectUser?.id);
 
+  useEffect(() => {
+    console.log('activities', activities);
+  }, [activities]);
+
   const disenrollActivity = async (activity) => {
     try {
       await api.updateStudentOnActivity(activity.id.toString(), {
@@ -87,9 +93,6 @@ export function UserActivityTable({ activities }: { activities: any }) {
       console.log(e);
     }
   };
-  const onRowClick = (activity) => {
-    console.log('onRowClick', activity);
-  };
 
   if (!activities) {
     return null;
@@ -110,36 +113,21 @@ export function UserActivityTable({ activities }: { activities: any }) {
         <tbody>
           {activities &&
             activities.map((activity) => (
-              <TableRow key={activity.id}>
-                <Icon onClick={() => onRowClick(activity)}>
+              <TableRow
+                key={activity.id}
+                onClick={() =>
+                  activity.activityStatus === 'active' ? disenrollActivity(activity) : enrollActivity(activity)
+                }
+              >
+                <Icon>
                   <GoDotFill size={18} color={activity.activityStatus === 'active' ? 'green' : 'red'} />
                 </Icon>
-                <TableData onClick={() => onRowClick(activity)}>{activity?.activity?.activityName}</TableData>
-                <TableData onClick={() => onRowClick(activity)}>
-                  {activity?.activity?.projectAssociate?.clubName}
-                </TableData>
-                <TableData onClick={() => onRowClick(activity)}>
+                <TableData>{activity?.activity?.activityName}</TableData>
+                <TableData>{activity?.activity?.projectAssociate?.clubName}</TableData>
+                <TableData>
                   {activity?.activity?.activityPrice > 0 ? activity.activity.activityPrice + 'EUR' : 'Besplatno'}
                 </TableData>
-                <TableData>
-                  {activity.activityStatus === 'active' && (
-                    <Button
-                      backgroundColor={'#d9534f'}
-                      onClick={() => disenrollActivity(activity)}
-                      disabled={studentOnSchoolYear ? (studentOnSchoolYear as any)?.status === 'inactive' : false}
-                    >
-                      Ispisi
-                    </Button>
-                  )}
-                  {activity.activityStatus === 'inactive' && (
-                    <Button
-                      onClick={() => enrollActivity(activity)}
-                      disabled={studentOnSchoolYear ? (studentOnSchoolYear as any)?.status === 'inactive' : false}
-                    >
-                      Upisi
-                    </Button>
-                  )}
-                </TableData>
+                <TableData>{croatianDateFormat(activity?.createdAt)}</TableData>
                 <Icon>
                   <MdDelete
                     size={18}

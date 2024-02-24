@@ -55,7 +55,7 @@ export function UsersTable({
           {users.items.map((user) => (
             <TableRow key={user.id}>
               <Icon onClick={() => onRowClick(user)}>
-                <GoDotFill size={18} color={'#green'} />
+                <GoDotFill size={18} color={'#00193f'} />
               </Icon>
               <TableData onClick={() => onRowClick(user)}>
                 {user.childName} {user.childSurname}

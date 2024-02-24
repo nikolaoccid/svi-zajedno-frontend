@@ -1,58 +1,49 @@
 import styled from '@emotion/styled';
-import { FormikProvider, useFormik } from 'formik';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAsync } from 'react-async-hook';
+import { GoDotFill } from 'react-icons/go';
 import { useParams } from 'react-router-dom';
 import { PuffLoader } from 'react-spinners';
-import * as Yup from 'yup';
 
-import { Submenu } from '../../../components/submenu/submenu.tsx';
-import { Button, CenterContent, FormError, FormField, PageContainer } from '../../common-styles/common-styles.ts';
+import { GlobalSearch } from '../../../components/global-search/global-search.tsx';
+import { CenterContent, PageContainer } from '../../common-styles/common-styles.ts';
 import { useSchoolYear } from '../../dashboard-page/hooks/use-fetch-school-year.ts';
-import { ColoredTableRow } from '../../project-associate/project-associate-search-view/project-associate-search-view.tsx';
 import { useStudentOnSchoolYear } from '../../student-on-school-year/hooks/get-student-on-school-year.ts';
 import { useProjectUser } from '../user-view/hooks/use-project-user.ts';
 import { useActivities } from './hooks/use-activities.ts';
 import { useCreateStudentOnActivity } from './hooks/use-create-student-on-activity.ts';
 
 const TableContainer = styled.div`
+  height: 100%;
   width: 100%;
-  overflow-x: auto;
+  padding: 10px 25px 0 25px;
 `;
-
+const TableRow = styled.tr`
+  &:hover {
+    background-color: #faf9f9;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+`;
+const TableData = styled.td`
+  padding-top: 10px;
+`;
 const Table = styled.table`
-  width: 100%;
-  border-collapse: collapse;
-`;
-
-const TableHeader = styled.th`
-  padding: 12px 8px;
-  background-color: #f5f5f5;
-  text-align: left;
-  font-weight: bold;
-`;
-
-const TableCell = styled.td`
-  padding: 12px 8px;
-`;
-
-const Form = styled.form`
-  display: flex;
-  flex-direction: row;
-  gap: 45px;
+  font-family: Axiforma;
+  font-size: 14px;
+  color: #696969;
+  font-weight: normal;
   width: 100%;
 `;
-
-const FormContent = styled.div`
-  display: flex;
-  flex-direction: row;
-  gap: 15px;
+const Icon = styled.td`
+  width: 2%;
+  padding-top: 10px;
+  padding-right: 10px;
+  white-space: nowrap;
+  gap: 12px;
 `;
 
-const validationSchema = Yup.object({
-  query: Yup.string(),
-});
-export const ManageStudentOnActivity = () => {
+export const ManageStudentOnActivity = ({ onClose }: { onClose?: () => void }) => {
   const { startYear, userId } = useParams();
   const startYearInt = parseInt(startYear ?? '0');
   const { data: schoolYear, isLoading: isLoadingSchoolYear } = useSchoolYear(startYearInt);
@@ -73,30 +64,19 @@ export const ManageStudentOnActivity = () => {
       schoolYear ? schoolYear?.id : 0,
       studentOnSchoolYear ? (studentOnSchoolYear as any).id : 0,
     );
-  }, [schoolYear, projectUser, studentOnSchoolYear]);
+  }, [schoolYear, projectUser, studentOnSchoolYear, query]);
 
-  const formik = useFormik({
-    initialValues: {
-      query: '',
-    },
-    validationSchema: validationSchema,
-    onSubmit: async (form) => {
-      const query = form.query === '' ? undefined : form.query;
-      setQuery(query);
-      await getActivities(
-        query,
-        'active',
-        schoolYear ? schoolYear?.id : 0,
-        studentOnSchoolYear ? (studentOnSchoolYear as any).id : 0,
-      );
-    },
-  });
+  useEffect(() => {
+    console.log('query', query);
+  }, [query]);
+
   const handleActivityClick = async (item) => {
     await createStudentOnActivity({
       activityId: item.id,
       activityStatus: 'active',
       studentOnSchoolYearId: studentOnSchoolYear ? (studentOnSchoolYear as any).id : 0,
     });
+    onClose?.();
   };
 
   if (
@@ -117,41 +97,24 @@ export const ManageStudentOnActivity = () => {
   return (
     <PageContainer>
       <CenterContent>
-        <Submenu />
-        <h1>Upisi korisnika na aktivnost</h1>
-        <FormikProvider value={formik}>
-          <Form onSubmit={formik.handleSubmit}>
-            <FormField>
-              <label htmlFor="query">Naziv aktivnosti</label>
-              <FormContent>
-                <input type="text" id="query" {...formik.getFieldProps('query')} />
-                <Button>&#x1F50E;</Button>
-              </FormContent>
-              {formik.touched.query && formik.errors.query ? <FormError>{formik.errors.query}</FormError> : null}
-            </FormField>
-          </Form>
-        </FormikProvider>
+        <GlobalSearch setSearchQuery={setQuery} />
         <TableContainer>
           <Table>
-            <thead>
-              <tr>
-                <TableHeader>Ime kluba</TableHeader>
-                <TableHeader>Aktivnost</TableHeader>
-                <TableHeader>Cijena(EUR)</TableHeader>
-              </tr>
-            </thead>
             <tbody>
               {activities && activities?.length !== 0 ? (
-                activities.map((item, index) => (
-                  <ColoredTableRow key={item.id} isEven={index % 2 === 0} onClick={() => handleActivityClick(item)}>
-                    <TableCell>{item.projectAssociate.clubName}</TableCell>
-                    <TableCell>{item.activityName}</TableCell>
-                    <TableCell>{item.activityPrice ? item.activityPrice + '€' : 'Besplatno'}</TableCell>
-                  </ColoredTableRow>
+                activities.map((item) => (
+                  <TableRow key={item.id} onClick={() => handleActivityClick(item)}>
+                    <Icon>
+                      <GoDotFill size={18} color={'#00193f'} />
+                    </Icon>
+                    <TableData>{item.projectAssociate.clubName}</TableData>
+                    <TableData>{item.activityName}</TableData>
+                    <TableData>{item.activityPrice ? item.activityPrice + '€' : 'Besplatno'}</TableData>
+                  </TableRow>
                 ))
               ) : (
                 <tr>
-                  <TableCell>Nema dostupnih aktivnosti.</TableCell>
+                  <TableData>Nema dostupnih aktivnosti.</TableData>
                 </tr>
               )}
             </tbody>
