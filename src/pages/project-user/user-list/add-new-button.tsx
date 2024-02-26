@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { IoPersonAdd } from 'react-icons/io5';
 
-const Button = styled.button`
+const Button = styled.button<{ maxWidth: string }>`
   font-family: Axiforma;
   font-weight: 400;
   font-size: 14px;
@@ -15,6 +15,7 @@ const Button = styled.button`
   align-items: center;
   gap: 12px;
   padding: 10px 15px;
+  max-width: ${(props) => props.maxWidth};
 
   &:disabled {
     background-color: #d3d3d3;
@@ -25,13 +26,15 @@ export function AddNewButton({
   text,
   onClick,
   disabled = false,
+  maxWidth = '380px',
 }: {
   text: string;
   onClick: () => void;
   disabled?: boolean;
+  maxWidth?: string;
 }) {
   return (
-    <Button onClick={() => onClick()} disabled={disabled}>
+    <Button onClick={() => onClick()} disabled={disabled} maxWidth={maxWidth}>
       {text} <IoPersonAdd />
     </Button>
   );

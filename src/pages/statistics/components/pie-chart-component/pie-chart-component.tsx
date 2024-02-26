@@ -25,7 +25,7 @@ export const PieChartComponent: React.FC<Props> = ({ data, color }) => {
   return (
     <ResponsiveContainer width="100%" height={300}>
       <PieChart>
-        <Pie dataKey="value" data={formattedData} cx="50%" cy="50%" outerRadius={80} fill={color} label />
+        <Pie dataKey="value" data={formattedData} cx="50%" cy="50%" outerRadius={100} fill={color} label />
         <Tooltip />
         <Legend />
       </PieChart>

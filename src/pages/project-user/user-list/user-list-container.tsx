@@ -7,6 +7,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { getProjectUserByPageAndQuery, getProjectUsersBySchoolYear } from '../../../api/api.ts';
 import { useSchoolYear } from '../../dashboard-page/hooks/use-fetch-school-year.ts';
 import ManageProjectUserView from '../create-project-user/manage-project-user-view.tsx';
+import { EnrollStudentOnSchoolYear } from '../enroll-student-on-school-year/enroll-student-on-school-year.tsx';
 import { ManageStudentOnActivity } from '../manage-student-on-activity/manage-student-on-activity.tsx';
 import UserView from '../user-view/user-view.tsx';
 import { UserList } from './user-list.tsx';
@@ -34,11 +35,13 @@ export function UserListContainer() {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const { pathname } = useLocation();
+
   const [userType, setUserType] = useState('all');
   const [showAddEditFlyout, setShowAddEditFlyout] = useState(false);
   const [showUserFlyout, setShowUserFlyout] = useState(false);
   const [showAddActivityFlyout, setShowAddActivityFlyout] = useState(false);
   const [flyoutTitle, setFlyoutTitle] = useState('Uredi korisnika');
+  const [showEnrollOnSchoolYear, setShowEnrollOnSchoolYear] = useState(false);
 
   const [users, setUsers] = useState({
     items: [],
@@ -69,31 +72,43 @@ export function UserListContainer() {
     const isEditUserPath = pathname === `/${schoolYear?.startYear}/users/${userId}/edit`;
     const isUserActivitiesNewPath = pathname === `/${schoolYear?.startYear}/users/${userId}/activities/new`;
     const isUserPath = pathname === `/${schoolYear?.startYear}/users/${userId}`;
+    const enrollUserOnSchoolYear = pathname === `/${schoolYear?.startYear}/users/${userId}/enroll`;
 
     if (isEditUserPath) {
       setFlyoutTitle('Uredi korisnika');
       setShowAddEditFlyout(true);
       setShowUserFlyout(false);
       setShowAddActivityFlyout(false);
+      setShowEnrollOnSchoolYear(false);
     } else if (isUserActivitiesNewPath) {
       setFlyoutTitle('Upisi korisnika na aktivnost');
       setShowAddActivityFlyout(true);
       setShowUserFlyout(false);
       setShowAddEditFlyout(false);
+      setShowEnrollOnSchoolYear(false);
     } else if (isNewUserPath) {
       setFlyoutTitle('Dodaj novog korisnika');
       setShowAddEditFlyout(true);
       setShowUserFlyout(false);
       setShowAddActivityFlyout(false);
+      setShowEnrollOnSchoolYear(false);
     } else if (isUserPath) {
       setFlyoutTitle('Pregled korisnika');
       setShowUserFlyout(true);
+      setShowAddEditFlyout(false);
+      setShowAddActivityFlyout(false);
+      setShowEnrollOnSchoolYear(false);
+    } else if (enrollUserOnSchoolYear) {
+      setFlyoutTitle('Upisi korisnika na skolsku godinu');
+      setShowEnrollOnSchoolYear(true);
+      setShowUserFlyout(false);
       setShowAddEditFlyout(false);
       setShowAddActivityFlyout(false);
     } else {
       setShowUserFlyout(false);
       setShowAddEditFlyout(false);
       setShowAddActivityFlyout(false);
+      setShowEnrollOnSchoolYear(false);
     }
   }, [pathname, setShowAddEditFlyout, setShowUserFlyout, setFlyoutTitle, setShowAddActivityFlyout]);
 
@@ -111,6 +126,9 @@ export function UserListContainer() {
         header={
           <Column>
             <HeaderText>{flyoutTitle}</HeaderText>
+            <HeaderSubtext>
+              Skolska godina: {schoolYear?.startYear} / {schoolYear?.endYear}
+            </HeaderSubtext>
           </Column>
         }
         onHide={() => {
@@ -153,6 +171,23 @@ export function UserListContainer() {
         }}
       >
         <ManageStudentOnActivity />
+      </Flyout>
+      <Flyout
+        animationDuration={100}
+        show={showEnrollOnSchoolYear}
+        header={
+          <Column>
+            <HeaderText>{flyoutTitle}</HeaderText>
+            <HeaderSubtext>
+              Skolska godina: {schoolYear?.startYear} / {schoolYear?.endYear}
+            </HeaderSubtext>
+          </Column>
+        }
+        onHide={() => {
+          navigate(-1);
+        }}
+      >
+        <EnrollStudentOnSchoolYear />
       </Flyout>
     </div>
   );

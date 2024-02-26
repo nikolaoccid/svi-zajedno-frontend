@@ -42,7 +42,7 @@ export function Pagination({
       const page = pathname.split('page=')[1];
       setCurrentPage(parseInt(page));
     }
-  }, [pathname]);
+  }, [pathname, setCurrentPage]);
   const onButtonClick = (page: number) => {
     setCurrentPage(page);
     navigate(pathname + `?page=${page}`);

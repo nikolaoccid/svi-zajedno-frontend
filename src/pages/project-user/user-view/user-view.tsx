@@ -132,7 +132,7 @@ const UserView = ({ onClose }: { onClose?: () => void }) => {
   const [menuState, setMenuState] = useState('schoolyear');
 
   const handleEnrollment = () => {
-    navigate(`/${schoolYear && schoolYear.startYear}/user/${projectUser?.id}/enroll`);
+    navigate(`/${schoolYear && schoolYear.startYear}/users/${projectUser?.id}/enroll`);
   };
 
   const handleUnenrollment = async () => {

@@ -10,7 +10,7 @@ import { AddNewButton } from './add-new-button.tsx';
 import { Pagination } from './pagination.tsx';
 import { UsersTable } from './user-table.tsx';
 
-const UsersHeader = styled.div`
+export const UsersHeader = styled.div`
   display: flex;
   flex-direction: column;
   padding: 25px 25px 10px;
@@ -20,8 +20,13 @@ const RowContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+
+  @media (max-width: 1100px) {
+    flex-direction: column;
+    gap: 20px;
+  }
 `;
-const HeaderTitle = styled.span`
+export const HeaderTitle = styled.span`
   font-family: Axiforma;
   font-weight: bold;
   font-style: 20px;
@@ -30,7 +35,7 @@ const Select = styled.select`
   font-family: Axiforma;
   font-size: 15px;
   font-weight: bold;
-  width: 380px;
+  max-width: 380px;
   border-radius: 8px;
   background-color: #e0e9ff;
 

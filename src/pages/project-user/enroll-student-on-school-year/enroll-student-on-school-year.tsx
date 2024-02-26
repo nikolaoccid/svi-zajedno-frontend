@@ -3,7 +3,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { PuffLoader } from 'react-spinners';
 import * as Yup from 'yup';
 
-import { Submenu } from '../../../components/submenu/submenu.tsx';
 import { frontendFormattedDate } from '../../../utils/frontend-formatted-date.ts';
 import { CenterContent, Form, FormField, PageContainer } from '../../common-styles/common-styles.ts';
 import { useSchoolYear } from '../../dashboard-page/hooks/use-fetch-school-year.ts';
@@ -31,19 +30,17 @@ export const EnrollStudentOnSchoolYear = () => {
   const { updateStudentOnSchoolYear, isLoading: isLoadingUpdateStudentOnSchoolYear } = useUpdateStudentOnSchoolYear();
   const formik = useFormik({
     initialValues: {
-      sourceSystem: (studentOnSchoolYear && studentOnSchoolYear && (studentOnSchoolYear as any).sourceSystem) ?? 'czss',
+      sourceSystem:
+        (studentOnSchoolYear && studentOnSchoolYear && (studentOnSchoolYear as any).sourceSystem) ?? 'odaberi',
       protectionType:
-        (studentOnSchoolYear && studentOnSchoolYear && (studentOnSchoolYear as any).protectionType) ?? 'zmn',
+        (studentOnSchoolYear && studentOnSchoolYear && (studentOnSchoolYear as any).protectionType) ?? 'odaberi',
       dateOfEnrollment:
-        studentOnSchoolYear &&
-        studentOnSchoolYear[0] &&
-        frontendFormattedDate((studentOnSchoolYear as any).dateOfEnrollment || frontendFormattedDate()),
+        (studentOnSchoolYear && frontendFormattedDate((studentOnSchoolYear as any).dateOfEnrollment)) ||
+        frontendFormattedDate(),
     },
     enableReinitialize: true,
     validationSchema: validationSchema,
     onSubmit: async (formData) => {
-      console.log('onsubmit', formData);
-      console.log('studentOnSchoolYear', studentOnSchoolYear);
       if (!studentOnSchoolYear) {
         try {
           await createStudentOnSchoolYear(formData.sourceSystem, formData.protectionType, formData.dateOfEnrollment);
@@ -85,14 +82,19 @@ export const EnrollStudentOnSchoolYear = () => {
   return (
     <PageContainer>
       <CenterContent>
-        <Submenu />
-        <h1>Upisi korisnika na skolsku godinu</h1>
-
         <FormikProvider value={formik}>
           <Form onSubmit={formik.handleSubmit}>
             <FormField>
+              <label>Ime i prezime djeteta</label>
+              <input type="text" value={`${projectUser?.childName} ${projectUser?.childSurname}`} disabled />
+            </FormField>
+
+            <FormField>
               <label htmlFor="sourceSystem">Izvorisni sustav </label>
               <Field as="select" id="sourceSystem" {...formik.getFieldProps('sourceSystem')}>
+                <option defaultChecked value="odaberi">
+                  Odaberi izvorisni sustav
+                </option>
                 <option value="czss">CZSS</option>
                 <option value="obiteljskicentar">Obiteljski centar</option>
               </Field>
@@ -102,6 +104,9 @@ export const EnrollStudentOnSchoolYear = () => {
             <FormField>
               <label htmlFor="protectionType">Osnova za prijam </label>
               <Field as="select" id="protectionType" {...formik.getFieldProps('protectionType')}>
+                <option defaultChecked value="odaberi">
+                  Odaberi osnovu za prijam
+                </option>
                 <option value="zmn">ZMN</option>
                 <option value="preporuka">Preporuka</option>
                 <option value="udomiteljstvo">Udomiteljstvo</option>

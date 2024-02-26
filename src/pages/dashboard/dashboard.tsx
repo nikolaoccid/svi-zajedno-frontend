@@ -1,13 +1,12 @@
 import styled from '@emotion/styled';
-import { useParams } from 'react-router-dom';
+import { useState } from 'react';
 
 import { DashboardHeader } from '../../components/dashboard-header/dashboard-header.tsx';
 import { Navigation } from '../../components/navigation/navigation.tsx';
-import { useSchoolYear } from '../dashboard-page/hooks/use-fetch-school-year.ts';
-import { BigBanner } from '../statistics/components/big-banner/big-banner.tsx';
-import { SmallBanner } from '../statistics/components/small-banner/small-banner.tsx';
-import { useAssociateStatistics } from '../statistics/hooks/use-associate-statistics.ts';
-import { useProjectUserStatistics } from '../statistics/hooks/use-project-user-statistics.ts';
+import { AssociatesDashboard } from './associates-dashboard.tsx';
+import { DashboardNavigation, navEnum } from './dashboard-navigation.tsx';
+import { Overview } from './overview.tsx';
+import { UsersDashboard } from './users-dashboard.tsx';
 export const DashboardContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -25,30 +24,25 @@ export const ContentContainer = styled.div`
   flex-direction: column;
   width: 100%;
 `;
+const InnerContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 25px;
+  gap: 40px;
+`;
 export function Dashboard() {
-  const { startYear } = useParams();
-  const { data: schoolYear } = useSchoolYear(parseInt(startYear ?? '0') ?? 0);
-  const { data: associateStatisticsAPI, isSuccess } = useAssociateStatistics(schoolYear ? schoolYear?.id : 0);
-  const { data: projectUserStatisticsAPI } = useProjectUserStatistics(schoolYear ? schoolYear?.id : 0);
-
-  const associateStatistics = associateStatisticsAPI as any;
-  const projectUserStatistics = projectUserStatisticsAPI as any;
+  const [nav, setNav] = useState('overview');
   return (
     <DashboardContainer>
       <Navigation />
       <ContentContainer>
         <DashboardHeader text="Kontrolna ploca" />
-        {isSuccess && (
-          <BigBanner
-            text="Procijenjena vrijednost projekta"
-            count={projectUserStatistics.totalProjectValue}
-            euro={true}
-          />
-        )}
-        {associateStatistics && <SmallBanner text="Ukupno suradnika" count={associateStatistics[0]?.totalAssociates} />}
-        {projectUserStatistics && (
-          <SmallBanner text="Ukupno aktivnosti" count={projectUserStatistics?.totalActivities} />
-        )}
+        <InnerContainer>
+          <DashboardNavigation setNav={setNav} nav={nav} />
+          <Overview show={nav === navEnum.overview} />
+          <UsersDashboard show={nav === navEnum.users} />
+          <AssociatesDashboard show={nav === navEnum.associates} />
+        </InnerContainer>
       </ContentContainer>
     </DashboardContainer>
   );

@@ -7,7 +7,7 @@ export const TinyBarChartsComponent = ({ data, color }) => {
       <XAxis dataKey="name" />
       <YAxis />
       <Tooltip />
-      <Bar dataKey="sustav" fill={color} />
+      <Bar dataKey="sustav" fill={color} barSize={100} />
     </BarChart>
   );
 };

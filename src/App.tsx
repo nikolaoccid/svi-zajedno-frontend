@@ -17,7 +17,6 @@ import { Logout } from './pages/logout/logout.tsx';
 import { ManageProjectAssociate } from './pages/project-associate/manage-project-associate/manage-project-associate.tsx';
 import ProjectAssociateSearchView from './pages/project-associate/project-associate-search-view/project-associate-search-view.tsx';
 import ProjectAssociateView from './pages/project-associate/project-associate-view/project-associate-view.tsx';
-import { EnrollStudentOnSchoolYear } from './pages/project-user/enroll-student-on-school-year/enroll-student-on-school-year.tsx';
 import { UserListContainer } from './pages/project-user/user-list/user-list-container.tsx';
 import { ChooseSchoolYear } from './pages/school-year/choose-school-year/choose-school-year.tsx';
 import { CreateSchoolYear } from './pages/school-year/create-school-year/create-school-year.tsx';
@@ -32,7 +31,6 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <RouteGuard publicRoutes={publicRoutes} redirectTo="/logout">
-          {/*<Header />*/}
           <Routes>
             <Route path="/" element={<LandingPage />} />
 
@@ -44,7 +42,7 @@ function App() {
             <Route path="/school-year/new" element={<CreateSchoolYear />} />
 
             {/*Student on school year */}
-            <Route path="/:startYear/user/:userId/enroll" element={<EnrollStudentOnSchoolYear />} />
+            {/*<Route path="/:startYear/user/:userId/enroll" element={<EnrollStudentOnSchoolYear />} />*/}
 
             {/*Project user*/}
             {/*<Route path="/:startYear/user/new" element={<ManageProjectUserView />} />*/}
@@ -90,6 +88,8 @@ function App() {
             <Route path="/:startYear/users/new" element={<UserListContainer />} />
             <Route path="/:startYear/users/:userId/edit" element={<UserListContainer />} />
             <Route path="/:startYear/users/:userId" element={<UserListContainer />} />
+
+            <Route path="/:startYear/users/:userId/enroll" element={<UserListContainer />} />
 
             <Route path="/:startYear/users/:userId/activities/new" element={<UserListContainer />} />
           </Routes>

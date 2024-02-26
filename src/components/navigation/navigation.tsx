@@ -122,7 +122,7 @@ export function Navigation() {
         }
       });
     });
-  }, [location]);
+  }, [location, menuItems]);
 
   return (
     <NavigationContainer>
