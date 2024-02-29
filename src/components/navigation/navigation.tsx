@@ -1,12 +1,12 @@
 import styled from '@emotion/styled';
 import Hamburger from 'hamburger-react';
 import React, { useEffect, useState } from 'react';
-import { FaCalendarAlt } from 'react-icons/fa';
+import { FaCalendarAlt, FaExchangeAlt } from 'react-icons/fa';
 import { FaUsers } from 'react-icons/fa6';
 import { HiSquares2X2 } from 'react-icons/hi2';
-import { IoMdHome, IoMdSettings } from 'react-icons/io';
+import { IoMdHome } from 'react-icons/io';
 import { IoLogOut } from 'react-icons/io5';
-import { MdOutlineSportsSoccer, MdSecurity } from 'react-icons/md';
+import { MdOutlineSportsSoccer } from 'react-icons/md';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 import { useSchoolYear } from '../../pages/dashboard-page/hooks/use-fetch-school-year.ts';
@@ -100,6 +100,14 @@ export function Navigation() {
   const location = useLocation();
   const navigate = useNavigate();
   const menuItems = {
+    Other: [
+      {
+        name: 'Promijeni skolsku godinu',
+        icon: FaExchangeAlt,
+        innerName: 'changeSchoolYear',
+        link: '/school-year',
+      },
+    ],
     [`${schoolYear?.startYear} / ${schoolYear?.endYear}`]: [
       { name: 'Kontrolna ploca', icon: IoMdHome, innerName: 'pocetna', link: `/${startYear}/dashboard` },
       { name: 'Korisnici', icon: FaUsers, innerName: 'user', link: `/${startYear}/users` },
@@ -108,10 +116,10 @@ export function Navigation() {
       { name: 'Suradnici', icon: MdOutlineSportsSoccer, innerName: 'project-associate' },
       { name: 'Kategorije', icon: HiSquares2X2, innerName: 'categor' },
       { name: 'Skolske godine', icon: FaCalendarAlt, innerName: 'school-year' },
-      { name: 'Postavke', icon: IoMdSettings, innerName: 'settings' },
-      { name: 'Sigurnost', icon: MdSecurity, innerName: 'security' },
+      // { name: 'Postavke', icon: IoMdSettings, innerName: 'settings' },
+      // { name: 'Sigurnost', icon: MdSecurity, innerName: 'security' },
     ],
-    '': [{ name: 'Kraj rada', icon: IoLogOut, innerName: 'logout', link: '/logout' }],
+    NoTitleSection: [{ name: 'Kraj rada', icon: IoLogOut, innerName: 'logout', link: '/logout' }],
   };
 
   useEffect(() => {
@@ -136,7 +144,7 @@ export function Navigation() {
       <SectionContainer isOpen={isOpen}>
         {Object.keys(menuItems).map((section) => (
           <Section key={section}>
-            <SectionTitle>{section}</SectionTitle>
+            <SectionTitle>{section !== 'NoTitleSection' && section !== 'Other' ? section : ''}</SectionTitle>
             {menuItems[section].map((item) => (
               <SectionItem key={item.name} active={currentLink === item.innerName} onClick={() => navigate(item.link)}>
                 {React.createElement(item.icon)}

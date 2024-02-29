@@ -1,28 +1,99 @@
-import { useState } from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
+import styled from '@emotion/styled';
+import { Navigate } from 'react-router-dom';
 import { ClockLoader } from 'react-spinners';
 
-import { SchoolYear } from '../../../api/codegen';
-import { BackButton } from '../../../components/back-button/back-button.tsx';
-import {
-  Button,
-  CenterContent,
-  PageContainer,
-  ProfileSubmenu,
-  SecondaryButton,
-  Select,
-} from '../../common-styles/common-styles.ts';
+import { CenterContent } from '../../common-styles/common-styles.ts';
+import { ChooserWidget } from './chooser-widget.tsx';
 import { useSchoolYears } from './hooks/use-fetch-school-years.ts';
 
-export function ChooseSchoolYear() {
-  const navigate = useNavigate();
-  const { data: schoolYears, isLoading } = useSchoolYears();
-  const [selectedYear, setSelectedYear] = useState('');
-  const handleClick = () => {
-    navigate(`/${selectedYear}`);
-  };
+const PageContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+const HeroContainer = styled.div`
+  background-image: url('/hero-school-year-chooser.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100%;
+  height: 100%;
+`;
+const HeroWrapper = styled.div`
+  display: flex;
 
-  const goToCreateSchoolYear = () => navigate('/school-year/new');
+  width: 40%;
+  height: 100vh;
+  background-color: #041643;
+  @media (max-width: 670px) {
+    width: 30%;
+  }
+`;
+const Logo = styled.span`
+  font-family: 'Mr Dafoe', cursive;
+  line-height: 1.5;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 2.5em;
+  transform: rotate(-4deg);
+  color: #ffffff;
+
+  @media (max-width: 670px) {
+    font-size: 1.5em;
+  }
+`;
+const CenterLogo = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  padding: 20px;
+`;
+export const HeaderText = styled.span`
+  font-family: Axiforma;
+  font-weight: bold;
+  font-size: 20px;
+`;
+const HeaderSubtext = styled.span`
+  font-style: normal;
+  font-size: 12px;
+  color: #606060;
+`;
+const HeaderContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const Content = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 15px;
+  width: 60%;
+  padding-left: 14px;
+  @media (max-width: 800px) {
+    width: 70%;
+  }
+`;
+const InnerContent = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 25px;
+  width: 100%;
+  padding: 20px;
+`;
+const Center = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  gap: 25px;
+`;
+export function ChooseSchoolYear() {
+  const { data: schoolYears, isLoading } = useSchoolYears();
 
   if (isLoading) {
     return (
@@ -39,24 +110,25 @@ export function ChooseSchoolYear() {
   }
   return (
     <PageContainer>
-      <CenterContent>
-        <ProfileSubmenu>
-          <BackButton />
-          <SecondaryButton onClick={goToCreateSchoolYear}>Kreiraj skolsku godinu</SecondaryButton>
-        </ProfileSubmenu>
-        <h2>Odaberi skolsku godinu</h2>
-        <Select onChange={(e) => setSelectedYear(e.target.value)}>
-          <option value="">Odaberi</option>
-          {schoolYears?.map((schoolYear: SchoolYear) => (
-            <option key={schoolYear.startYear} value={schoolYear.startYear}>
-              {schoolYear.startYear} / {schoolYear.endYear}
-            </option>
-          ))}
-        </Select>
-        <Button onClick={handleClick} disabled={!selectedYear}>
-          Potvrdi
-        </Button>
-      </CenterContent>
+      <HeroWrapper>
+        <HeroContainer>
+          <CenterLogo>
+            <Logo>Activity Tracker</Logo>
+          </CenterLogo>
+        </HeroContainer>
+      </HeroWrapper>
+
+      <Content>
+        <Center>
+          <HeaderContainer>
+            <HeaderText>Odaberi skolsku godinu</HeaderText>
+            <HeaderSubtext>Odaberite skolsku godinu koju zelite administrirati</HeaderSubtext>
+          </HeaderContainer>
+          <InnerContent>
+            {schoolYears && schoolYears.map((item, index) => <ChooserWidget item={item} index={index} />)}
+          </InnerContent>
+        </Center>
+      </Content>
     </PageContainer>
   );
 }

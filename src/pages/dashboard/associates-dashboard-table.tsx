@@ -52,22 +52,23 @@ export function AssociatesDashboardTable({ data }: { data: any[] }) {
           </tr>
         </thead>
         <tbody>
-          {data.map(
-            (category, i) =>
-              category.totalAssociatesPerCategory > 0 && (
-                <TableRow key={i}>
-                  <Icon>
-                    <GoDotFill size={18} color={'#00193f'} />
-                  </Icon>
-                  <TableDataLeft>{category.categoryName}</TableDataLeft>
-                  <TableData>{category.totalAssociatesPerCategory}</TableData>
-                  <TableData>{category.totalFreeActivities}</TableData>
-                  <TableData>{category.usersAttendingFreeActivities}</TableData>
-                  <TableData>{category.totalPaidActivities}</TableData>
-                  <TableData>{category.usersAttendingPaidActivities}</TableData>
-                </TableRow>
-              ),
-          )}
+          {data &&
+            data.map(
+              (category, i) =>
+                category.totalAssociatesPerCategory > 0 && (
+                  <TableRow key={i}>
+                    <Icon>
+                      <GoDotFill size={18} color={'#00193f'} />
+                    </Icon>
+                    <TableDataLeft>{category.categoryName}</TableDataLeft>
+                    <TableData>{category.totalAssociatesPerCategory}</TableData>
+                    <TableData>{category.totalFreeActivities}</TableData>
+                    <TableData>{category.usersAttendingFreeActivities}</TableData>
+                    <TableData>{category.totalPaidActivities}</TableData>
+                    <TableData>{category.usersAttendingPaidActivities}</TableData>
+                  </TableRow>
+                ),
+            )}
         </tbody>
       </Table>
     </TableContainer>

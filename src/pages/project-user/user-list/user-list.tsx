@@ -59,6 +59,7 @@ export function UserList({
   users,
   setUserType,
   setSearchQuery,
+  searchQuery,
   setCurrentPage,
 }: {
   users: {
@@ -68,11 +69,13 @@ export function UserList({
   setUserType: (type: string) => void;
   setSearchQuery: (type: string) => void;
   setCurrentPage: (page: number) => void;
+  searchQuery: string;
 }) {
   const { data: schoolYear } = useSelectedSchoolYear();
   const navigate = useNavigate();
   const handleSelectChange = (event) => {
     setUserType(event.target.value);
+    setSearchQuery('');
   };
 
   return (
@@ -87,7 +90,7 @@ export function UserList({
               <option value="all">Svi korisnici</option>
               <option value="schoolYearUsers">Upisani korisnici na skolsku godinu</option>
             </Select>
-            <GlobalSearch setSearchQuery={setSearchQuery} />
+            <GlobalSearch setSearchQuery={setSearchQuery} clearSearch={searchQuery === ''} />
             <AddNewButton text={'Dodaj korisnika'} onClick={() => navigate(`/${schoolYear?.startYear}/users/new`)} />
           </RowContainer>
           <Records>{users.meta.totalItems} Records found</Records>

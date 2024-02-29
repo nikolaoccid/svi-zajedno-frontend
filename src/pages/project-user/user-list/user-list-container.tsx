@@ -118,6 +118,7 @@ export function UserListContainer() {
         users={users}
         setUserType={setUserType}
         setSearchQuery={setSearchQuery}
+        searchQuery={searchQuery}
         setCurrentPage={setCurrentPage}
       />
       <Flyout

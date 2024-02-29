@@ -39,8 +39,19 @@ const ClearButton = styled.button`
   height: 20px;
 `;
 
-export function GlobalSearch({ setSearchQuery }: { setSearchQuery: (query: string) => void }) {
+export function GlobalSearch({
+  setSearchQuery,
+  clearSearch = false,
+}: {
+  setSearchQuery: (query: string) => void;
+  clearSearch?: boolean;
+}) {
   const [searchText, setSearchText] = useState('');
+  useEffect(() => {
+    if (clearSearch) {
+      setSearchText('');
+    }
+  }, [clearSearch]);
 
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {

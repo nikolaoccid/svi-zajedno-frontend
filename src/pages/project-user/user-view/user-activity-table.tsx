@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
 import { useQueryClient } from '@tanstack/react-query';
-import { useEffect } from 'react';
 import { GoDotFill } from 'react-icons/go';
 import { MdDelete } from 'react-icons/md';
 import { useParams } from 'react-router-dom';
@@ -50,10 +49,6 @@ export function UserActivityTable({ activities }: { activities: any }) {
   const { data: projectUser, isLoading } = useProjectUser(userId);
   const { data: studentOnSchoolYear } = useStudentOnSchoolYear(schoolYearId, projectUser?.id);
 
-  useEffect(() => {
-    console.log('activities', activities);
-  }, [activities]);
-
   const disenrollActivity = async (activity) => {
     try {
       await api.updateStudentOnActivity(activity.id.toString(), {
@@ -83,7 +78,6 @@ export function UserActivityTable({ activities }: { activities: any }) {
     }
   };
   const deleteActivityEnrollment = async (activity) => {
-    console.log('deleteActivityEnrollment', activity);
     try {
       await api.deleteStudentOnActivity(activity.id);
       await queryClient.invalidateQueries(['getStudentOnActivities']);
@@ -116,7 +110,11 @@ export function UserActivityTable({ activities }: { activities: any }) {
               <TableRow
                 key={activity.id}
                 onClick={() =>
-                  activity.activityStatus === 'active' ? disenrollActivity(activity) : enrollActivity(activity)
+                  studentOnSchoolYear && (studentOnSchoolYear as any).status === 'active'
+                    ? activity.activityStatus === 'active'
+                      ? disenrollActivity(activity)
+                      : enrollActivity(activity)
+                    : undefined
                 }
               >
                 <Icon>
