@@ -82,7 +82,6 @@ export function Overview({ show }: { show: boolean }) {
                   value: projectUserStatistics.sourceSystems.obiteljskicentar,
                 },
               ]}
-              color="#d77b28"
             />
           </Column>
         )}

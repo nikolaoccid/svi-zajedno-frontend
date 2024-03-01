@@ -15,7 +15,7 @@ import LandingPage from './pages/landing-page/landing-page.tsx';
 import LoginPage from './pages/login-page/login-page.tsx';
 import { Logout } from './pages/logout/logout.tsx';
 import { ManageProjectAssociate } from './pages/project-associate/manage-project-associate/manage-project-associate.tsx';
-import ProjectAssociateSearchView from './pages/project-associate/project-associate-search-view/project-associate-search-view.tsx';
+import { ProjectAssociateListViewWrapper } from './pages/project-associate/project-associate-list-view-wrapper/project-associate-list-view-wrapper.tsx';
 import ProjectAssociateView from './pages/project-associate/project-associate-view/project-associate-view.tsx';
 import { UserListContainer } from './pages/project-user/user-list/user-list-container.tsx';
 import { ChooseSchoolYear } from './pages/school-year/choose-school-year/choose-school-year.tsx';
@@ -58,7 +58,7 @@ function App() {
             <Route path="/:startYear/project-associate/:projectAssociateId/edit" element={<ManageProjectAssociate />} />
             <Route path="/:startYear/project-associate/:projectAssociateId" element={<ProjectAssociateView />} />
             <Route path=":startYear/project-associate/search" element={<SearchAssociate />} />
-            <Route path=":startYear/project-associates" element={<ProjectAssociateSearchView />} />
+            {/*<Route path=":startYear/project-associates" element={<ProjectAssociateSearchView />} />*/}
 
             {/*Activity*/}
             <Route path="/:startYear/project-associate/:projectAssociateId/activity/new" element={<ManageActivity />} />
@@ -72,9 +72,6 @@ function App() {
             <Route path=":startYear/categories" element={<CategoriesView />} />
             <Route path=":startYear/category/:categoryId/edit" element={<ManageCategory />} />
 
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/logout" element={<Logout />} />
-
             {/*Statistics*/}
             <Route path="/:startYear/statistics" element={<Statistics />} />
 
@@ -82,6 +79,9 @@ function App() {
 
             {/*Dashboard*/}
             <Route path="/:startYear/dashboard" element={<Dashboard />} />
+
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/logout" element={<Logout />} />
 
             {/*User*/}
             <Route path="/:startYear/users/" element={<UserListContainer />} />
@@ -92,6 +92,8 @@ function App() {
             <Route path="/:startYear/users/:userId/enroll" element={<UserListContainer />} />
 
             <Route path="/:startYear/users/:userId/activities/new" element={<UserListContainer />} />
+
+            <Route path="/:startYear/project-associates" element={<ProjectAssociateListViewWrapper />} />
           </Routes>
           <ToastContainer />
         </RouteGuard>

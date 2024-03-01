@@ -125,7 +125,12 @@ export function ChooseSchoolYear() {
             <HeaderSubtext>Odaberite skolsku godinu koju zelite administrirati</HeaderSubtext>
           </HeaderContainer>
           <InnerContent>
-            {schoolYears && schoolYears.map((item, index) => <ChooserWidget item={item} index={index} />)}
+            {schoolYears &&
+              schoolYears.map((item, index) => (
+                <div key={index}>
+                  <ChooserWidget item={item} index={index} />
+                </div>
+              ))}
           </InnerContent>
         </Center>
       </Content>

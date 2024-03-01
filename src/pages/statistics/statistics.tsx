@@ -58,7 +58,6 @@ export const Statistics = () => {
                 { name: 'zensko', value: projectUserStatistics.femaleUsers },
                 { name: 'musko', value: projectUserStatistics.maleUsers },
               ]}
-              color="#8884d8"
             />
           )}
 
@@ -70,7 +69,6 @@ export const Statistics = () => {
                 { name: '13 - 18', value: projectUserStatistics.ageGroups.age13to18 },
                 { name: '19 - 24', value: projectUserStatistics.ageGroups.under6 },
               ]}
-              color="#004279"
             />
           )}
         </RowCenteredWithGap>

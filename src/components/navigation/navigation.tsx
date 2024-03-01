@@ -113,7 +113,12 @@ export function Navigation() {
       { name: 'Korisnici', icon: FaUsers, innerName: 'user', link: `/${startYear}/users` },
     ],
     POSTAVKE: [
-      { name: 'Suradnici', icon: MdOutlineSportsSoccer, innerName: 'project-associate' },
+      {
+        name: 'Suradnici',
+        icon: MdOutlineSportsSoccer,
+        innerName: 'project-associate',
+        link: `/${startYear}/project-associates`,
+      },
       { name: 'Kategorije', icon: HiSquares2X2, innerName: 'categor' },
       { name: 'Skolske godine', icon: FaCalendarAlt, innerName: 'school-year' },
       // { name: 'Postavke', icon: IoMdSettings, innerName: 'settings' },
@@ -146,7 +151,11 @@ export function Navigation() {
           <Section key={section}>
             <SectionTitle>{section !== 'NoTitleSection' && section !== 'Other' ? section : ''}</SectionTitle>
             {menuItems[section].map((item) => (
-              <SectionItem key={item.name} active={currentLink === item.innerName} onClick={() => navigate(item.link)}>
+              <SectionItem
+                key={item.name}
+                active={currentLink === item.innerName}
+                onClick={() => item.link && navigate(item.link)}
+              >
                 {React.createElement(item.icon)}
                 <SectionItemText> {item.name}</SectionItemText>
               </SectionItem>

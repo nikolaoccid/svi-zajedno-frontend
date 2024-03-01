@@ -71,7 +71,6 @@ export function UsersDashboard({ show }: { show: boolean }) {
                   value: projectUserStatistics.sourceSystems.obiteljskicentar,
                 },
               ]}
-              color="#d77b28"
             />
           </Column>
         )}
@@ -84,7 +83,6 @@ export function UsersDashboard({ show }: { show: boolean }) {
                 { name: 'Preporuka', value: projectUserStatistics.protectionTypes.preporuka },
                 { name: 'Udomitelji', value: projectUserStatistics.protectionTypes.udomiteljstvo },
               ]}
-              color="#004279"
             />
           )}
         </Column>
@@ -98,7 +96,6 @@ export function UsersDashboard({ show }: { show: boolean }) {
                 { name: 'zensko', value: projectUserStatistics.femaleUsers },
                 { name: 'musko', value: projectUserStatistics.maleUsers },
               ]}
-              color="#8884d8"
             />
           )}
         </Column>
@@ -112,7 +109,6 @@ export function UsersDashboard({ show }: { show: boolean }) {
                 { name: '13 - 18', value: projectUserStatistics.ageGroups.age13to18 },
                 { name: '19 - 24', value: projectUserStatistics.ageGroups.under6 },
               ]}
-              color="#56a97a"
             />
           )}
         </Column>
