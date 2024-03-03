@@ -48,6 +48,29 @@ export function UsersTable({
   const onRowClick = (user) => {
     navigate(`/${schoolYear?.startYear}/users/${user.id}`);
   };
+  const userStatusOnSchoolYear = (user) => {
+    if (user?.schoolYearStatus) {
+      return user.schoolYearStatus;
+    } else {
+      const currentSchoolYear = user.studentOnSchoolYear.find((sy) => {
+        return schoolYear?.id === sy.schoolYearId;
+      });
+      return currentSchoolYear ? currentSchoolYear.status : null;
+    }
+  };
+  const getIconColor = (status) => {
+    if (status === 'active') {
+      return 'green';
+    } else if (status === 'inactive') {
+      return 'red';
+    } else {
+      return '#00193f';
+    }
+  };
+  const getStatusColorForUser = (user) => {
+    const statusColor = userStatusOnSchoolYear(user);
+    return getIconColor(statusColor);
+  };
   return (
     <TableContainer>
       <Table>
@@ -55,7 +78,7 @@ export function UsersTable({
           {users.items.map((user) => (
             <TableRow key={user.id}>
               <Icon onClick={() => onRowClick(user)}>
-                <GoDotFill size={18} color={'#00193f'} />
+                <GoDotFill size={18} color={getStatusColorForUser(user)} />
               </Icon>
               <TableData onClick={() => onRowClick(user)}>
                 {user.childName} {user.childSurname}

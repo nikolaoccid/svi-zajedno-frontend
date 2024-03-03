@@ -27,7 +27,7 @@ import {
   UsersApi,
 } from './codegen';
 
-const basePath = import.meta.env.VITE_API_URL ?? 'http://192.168.1.99:3001';
+const basePath = import.meta.env.VITE_API_URL ?? 'http://localhost:3001';
 
 const configuration = new Configuration({
   basePath,
@@ -118,14 +118,17 @@ export function getProjectUsersBySchoolYear(
   page: number,
   query: string,
   status: 'active' | 'inactive' | 'pending' | undefined,
+  sortBy: 'dateOfEnrollment' | undefined,
 ) {
   return getData(
     studentOnSchoolYear.studentOnSchoolYearControllerFindUsersBySchoolYear(
       schoolYearId,
+      sortBy,
       undefined,
       page,
       status,
       query,
+      undefined,
     ),
   );
 }
@@ -184,8 +187,8 @@ export function createProjectAssociate(associate: CreateProjectAssociateDto) {
   return getData(projectAssociate.projectAssociateControllerCreate(associate));
 }
 
-export function getProjectAssociates(page: number) {
-  return getData(projectAssociate.projectAssociateControllerFindAll(undefined, page));
+export function getProjectAssociates(page: number, query?: string) {
+  return getData(projectAssociate.projectAssociateControllerFindAll(undefined, page, query));
 }
 
 export function updateProjectAssociate(associateId: number, associate: UpdateProjectAssociateDto) {

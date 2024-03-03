@@ -56,12 +56,21 @@ export function UserListContainer() {
     let res;
     if (userType === 'all') {
       res = await getProjectUserByPageAndQuery(users.meta.currentPage, searchQuery);
+      // const usersWithSchoolYearStatus = res.items.map((user: any) => {
+      //   return {
+      //     ...user,
+      //     schoolYearStatus:
+      //       user.studentOnSchoolYear.id === schoolYear?.id ? user.studentOnSchoolYear.status : undefined,
+      //   };
+      // });
+      // res.items = usersWithSchoolYearStatus;
     } else {
       res = await getProjectUsersBySchoolYear(
         schoolYear?.id.toString() ?? '0',
         users.meta.currentPage,
         searchQuery,
         'active',
+        'dateOfEnrollment',
       );
     }
     setUsers(res);
