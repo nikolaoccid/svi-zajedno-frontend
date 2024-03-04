@@ -21,18 +21,7 @@ const shuffleArray = (array: any[]) => {
 };
 
 export const PieChartComponent: React.FC<Props> = ({ data, colors }) => {
-  const defaultColors = [
-    '#8884d8',
-    '#82ca9d',
-    '#ffc658',
-    '#ff7300',
-    '#00C49F',
-    '#FF8042',
-    '#0088FE',
-    '#00C49F',
-    '#FFBB28',
-    '#FF8042',
-  ];
+  const defaultColors = ['#8884d8', '#82ca9d', '#ffc658', '#0088FE', '#ff63e3', '#FF8042'];
 
   const mergedColors = colors ? colors.concat(defaultColors.slice(colors.length)) : shuffleArray([...defaultColors]);
 

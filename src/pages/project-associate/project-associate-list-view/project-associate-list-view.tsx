@@ -8,6 +8,7 @@ import { ContentContainer, DashboardContainer } from '../../dashboard/dashboard.
 import { useSelectedSchoolYear } from '../../dashboard-page/hooks/use-fetch-school-year.ts';
 import { AddNewButton } from '../../project-user/user-list/add-new-button.tsx';
 import { Pagination } from '../../project-user/user-list/pagination.tsx';
+import { ProjectAssociateTable } from './project-associate-table.tsx';
 
 export const UsersHeader = styled.div`
   display: flex;
@@ -68,10 +69,11 @@ export function ProjectAssociateListView({
             <GlobalSearch setSearchQuery={setSearchQuery} clearSearch={searchQuery === ''} />
             <AddNewButton text={'Dodaj suradnika'} onClick={() => navigate(`/${schoolYear?.startYear}/users/new`)} />
           </RowContainer>
+
           <Records>{associates.meta.totalItems} Records found</Records>
         </UsersHeader>
         <Divider />
-        {/*<UsersTable associates={associates} />*/}
+        <ProjectAssociateTable data={associates} />
         <Pagination
           totalPages={associates.meta.totalPages}
           currentPage={associates.meta.currentPage}

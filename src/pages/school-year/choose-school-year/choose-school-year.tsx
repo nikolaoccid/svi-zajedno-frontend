@@ -20,7 +20,7 @@ const HeroContainer = styled.div`
 const HeroWrapper = styled.div`
   display: flex;
 
-  width: 40%;
+  width: 50%;
   height: 100vh;
   background-color: #041643;
   @media (max-width: 670px) {
@@ -76,12 +76,19 @@ const Content = styled.div`
 const InnerContent = styled.div`
   display: flex;
   flex-wrap: wrap;
-  flex-direction: row;
-  align-items: center;
   justify-content: center;
   gap: 25px;
   width: 100%;
   padding: 20px;
+
+  @media (max-width: 670px) {
+    gap: 10px;
+  }
+
+  @media (max-width: 480px) {
+    flex-direction: column;
+    align-items: center;
+  }
 `;
 const Center = styled.div`
   display: flex;

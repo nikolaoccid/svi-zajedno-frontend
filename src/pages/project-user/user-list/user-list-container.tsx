@@ -8,7 +8,7 @@ import { getProjectUserByPageAndQuery, getProjectUsersBySchoolYear } from '../..
 import { useSchoolYear } from '../../dashboard-page/hooks/use-fetch-school-year.ts';
 import ManageProjectUserView from '../create-project-user/manage-project-user-view.tsx';
 import { EnrollStudentOnSchoolYear } from '../enroll-student-on-school-year/enroll-student-on-school-year.tsx';
-import { ManageStudentOnActivity } from '../manage-student-on-activity/manage-student-on-activity.tsx';
+import { ManageStudentOnActivityContainer } from '../manage-student-on-activity/manage-student-on-activity-container.tsx';
 import UserView from '../user-view/user-view.tsx';
 import { UserList } from './user-list.tsx';
 
@@ -56,14 +56,6 @@ export function UserListContainer() {
     let res;
     if (userType === 'all') {
       res = await getProjectUserByPageAndQuery(users.meta.currentPage, searchQuery);
-      // const usersWithSchoolYearStatus = res.items.map((user: any) => {
-      //   return {
-      //     ...user,
-      //     schoolYearStatus:
-      //       user.studentOnSchoolYear.id === schoolYear?.id ? user.studentOnSchoolYear.status : undefined,
-      //   };
-      // });
-      // res.items = usersWithSchoolYearStatus;
     } else {
       res = await getProjectUsersBySchoolYear(
         schoolYear?.id.toString() ?? '0',
@@ -119,7 +111,7 @@ export function UserListContainer() {
       setShowAddActivityFlyout(false);
       setShowEnrollOnSchoolYear(false);
     }
-  }, [pathname, setShowAddEditFlyout, setShowUserFlyout, setFlyoutTitle, setShowAddActivityFlyout]);
+  }, [pathname]);
 
   return (
     <div>
@@ -180,7 +172,7 @@ export function UserListContainer() {
           navigate(-1);
         }}
       >
-        <ManageStudentOnActivity />
+        <ManageStudentOnActivityContainer />
       </Flyout>
       <Flyout
         animationDuration={100}

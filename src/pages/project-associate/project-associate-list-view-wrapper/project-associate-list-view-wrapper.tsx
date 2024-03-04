@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useAsync } from 'react-async-hook';
 
 import { ProjectAssociateListView } from '../project-associate-list-view/project-associate-list-view.tsx';
@@ -7,7 +7,7 @@ import { useProjectAssociates } from '../project-associate-search-view/hooks/use
 export function ProjectAssociateListViewWrapper() {
   const [associates, setAssociates] = useState({
     items: [],
-    meta: { totalItems: 0, itemCount: 0, itemsPerPage: 0, totalPages: 0, currentPage: 2 },
+    meta: { totalItems: 0, itemCount: 0, itemsPerPage: 0, totalPages: 0, currentPage: 1 },
   });
 
   const {
@@ -22,11 +22,8 @@ export function ProjectAssociateListViewWrapper() {
   useAsync(async () => {
     const response = await getProjectAssociates(searchQuery);
     setAssociates(response as any);
-  }, [searchQuery]);
+  }, [searchQuery, associates.meta.currentPage]);
 
-  useEffect(() => {
-    console.log('associates', associates);
-  }, [associates]);
   if (isError || isLoading) return <>Loading</>;
   return (
     <ProjectAssociateListView
