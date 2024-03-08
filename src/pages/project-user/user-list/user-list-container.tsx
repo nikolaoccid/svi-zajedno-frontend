@@ -68,12 +68,16 @@ export function UserListContainer() {
     setUsers(res);
   }, [userType, searchQuery, users.meta.currentPage, schoolYear]);
 
+  const onSearch = (query: string) => {
+    setCurrentPage(1);
+    setSearchQuery(query);
+  };
   useEffect(() => {
-    const isNewUserPath = pathname === `/${schoolYear?.startYear}/users/new`;
-    const isEditUserPath = pathname === `/${schoolYear?.startYear}/users/${userId}/edit`;
-    const isUserActivitiesNewPath = pathname === `/${schoolYear?.startYear}/users/${userId}/activities/new`;
-    const isUserPath = pathname === `/${schoolYear?.startYear}/users/${userId}`;
-    const enrollUserOnSchoolYear = pathname === `/${schoolYear?.startYear}/users/${userId}/enroll`;
+    const isNewUserPath = pathname.includes(`/${startYear}/users/new`);
+    const isEditUserPath = pathname.includes(`/${startYear}/users/${userId}/edit`);
+    const isUserActivitiesNewPath = pathname.includes(`/${startYear}/users/${userId}/activities/new`);
+    const isUserPath = pathname.includes(`/${startYear}/users/${userId}`);
+    const enrollUserOnSchoolYear = pathname.includes(`/${startYear}/users/${userId}/enroll`);
 
     if (isEditUserPath) {
       setFlyoutTitle('Uredi korisnika');
@@ -118,7 +122,7 @@ export function UserListContainer() {
       <UserList
         users={users}
         setUserType={setUserType}
-        setSearchQuery={setSearchQuery}
+        setSearchQuery={onSearch}
         searchQuery={searchQuery}
         setCurrentPage={setCurrentPage}
       />

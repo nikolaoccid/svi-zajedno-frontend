@@ -38,11 +38,8 @@ export function Pagination({
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (pathname.includes('page')) {
-      const page = pathname.split('page=')[1];
-      setCurrentPage(parseInt(page));
-    }
-  }, [pathname, setCurrentPage]);
+    navigate(pathname + `?page=${currentPage}`);
+  }, [currentPage]);
   const onButtonClick = (page: number) => {
     setCurrentPage(page);
     navigate(pathname + `?page=${page}`);

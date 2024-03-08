@@ -8,6 +8,7 @@ export function useProjectAssociates(page) {
     try {
       return await api.getProjectAssociates(page, query);
     } catch (e) {
+      console.log('error', e);
       toastError('Pogreska pri dohvacanju korisnika');
     }
   });

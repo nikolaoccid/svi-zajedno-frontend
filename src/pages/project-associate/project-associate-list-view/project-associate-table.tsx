@@ -43,17 +43,18 @@ export function ProjectAssociateTable({
     <TableContainer>
       <Table>
         <tbody>
-          {data.items.map((club, i) => (
-            <TableRow key={i}>
-              <Icon>
-                <GoDotFill size={18} color={'#00193f'} />
-              </Icon>
-              <TableDataLeft>{club.clubName}</TableDataLeft>
-              <TableData>{club.contactPerson}</TableData>
-              <TableData>{club.email}</TableData>
-              <TableData>{club.mobilePhone}</TableData>
-            </TableRow>
-          ))}
+          {data &&
+            data.items.map((club, i) => (
+              <TableRow key={i}>
+                <Icon>
+                  <GoDotFill size={18} color={'#00193f'} />
+                </Icon>
+                <TableDataLeft>{club.clubName}</TableDataLeft>
+                <TableData>{club.contactPerson}</TableData>
+                <TableData>{club.email}</TableData>
+                <TableData>{club.mobilePhone}</TableData>
+              </TableRow>
+            ))}
         </tbody>
       </Table>
     </TableContainer>

@@ -67,7 +67,7 @@ export function UserList({
     meta: { totalItems: number; itemCount: number; itemsPerPage: number; totalPages: number; currentPage: number };
   };
   setUserType: (type: string) => void;
-  setSearchQuery: (type: string) => void;
+  setSearchQuery: (query: string) => void;
   setCurrentPage: (page: number) => void;
   searchQuery: string;
 }) {
