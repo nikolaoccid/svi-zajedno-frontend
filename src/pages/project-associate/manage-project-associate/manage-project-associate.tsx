@@ -5,9 +5,8 @@ import { CircleLoader } from 'react-spinners';
 import * as Yup from 'yup';
 
 import { api } from '../../../api';
-import { Submenu } from '../../../components/submenu/submenu.tsx';
 import { toastError, toastSuccess } from '../../../utils/toast.ts';
-import { CenterContent, Form, FormError, FormField, PageContainer } from '../../common-styles/common-styles.ts';
+import { Button, CenterContent, Form, FormError, FormField, PageContainer } from '../../common-styles/common-styles.ts';
 import { useGetCategories } from './hooks/use-get-categories.ts';
 import { useGetProjectAssociate } from './hooks/use-get-project-associate.ts';
 
@@ -76,9 +75,6 @@ export const ManageProjectAssociate = () => {
   return (
     <PageContainer>
       <CenterContent>
-        <Submenu />
-        <h1>{projectAssociate === null ? 'Uredi suradnika' : 'Kreiraj novog suradnika'}</h1>
-
         <Form onSubmit={formik.handleSubmit}>
           <FormField>
             <label htmlFor="clubName">Ime organizacije</label>
@@ -146,7 +142,7 @@ export const ManageProjectAssociate = () => {
           </FormikProvider>
 
           <CenterContent>
-            <button type="submit">Pošalji</button>
+            <Button type="submit">Pošalji</Button>
           </CenterContent>
         </Form>
       </CenterContent>

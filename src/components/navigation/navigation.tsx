@@ -119,7 +119,7 @@ export function Navigation() {
         innerName: 'project-associate',
         link: `/${startYear}/project-associates`,
       },
-      { name: 'Kategorije', icon: HiSquares2X2, innerName: 'categor' },
+      { name: 'Kategorije', icon: HiSquares2X2, innerName: 'categor', link: `/${startYear}/categories` },
       { name: 'Skolske godine', icon: FaCalendarAlt, innerName: 'school-year' },
       // { name: 'Postavke', icon: IoMdSettings, innerName: 'settings' },
       // { name: 'Sigurnost', icon: MdSecurity, innerName: 'security' },

@@ -1,35 +1,39 @@
 import styled from '@emotion/styled';
-import { useQueryClient } from '@tanstack/react-query';
+import { MdEdit } from 'react-icons/md';
 import { useNavigate, useParams } from 'react-router-dom';
 import { PropagateLoader } from 'react-spinners';
 
-import { api } from '../../../api';
 import { Status } from '../../../components/status/status.tsx';
-import { Submenu } from '../../../components/submenu/submenu.tsx';
-import { toastError, toastSuccess } from '../../../utils/toast.ts';
-import {
-  Button,
-  CenterContent,
-  PageContainer,
-  ProfileSubmenu,
-  SecondaryButton,
-} from '../../common-styles/common-styles';
+import { CenterContent, PageContainer } from '../../common-styles/common-styles';
 import { useSchoolYear } from '../../dashboard-page/hooks/use-fetch-school-year.ts';
-import { TdWithGap } from '../../project-user/user-view/user-view.tsx';
+import { AddNewButton } from '../../project-user/user-list/add-new-button.tsx';
+import { HeaderText } from '../../project-user/user-list/user-list-container.tsx';
 import { useGetProjectAssociate } from '../manage-project-associate/hooks/use-get-project-associate.ts';
+import { ProjectAssociateActivityTable } from './project-associate-activity-table.tsx';
 
-const ProfileHeader = styled.h1`
+const ProfileContainer = styled.div`
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  font-family: Axiforma;
+`;
+
+const ProfileHeader = styled.h2`
+  //margin-bottom: 10px;
+`;
+const Row = styled.div`
+  display: flex;
+  justify-content: space-between;
   align-items: center;
   width: 100%;
 `;
 
-const HeaderSection = styled.div`
+const HeaderContainer = styled.div`
+  flex: 1;
   display: flex;
-  flex-direction: row;
   justify-content: center;
-  width: 100%;
+  align-items: center;
+  gap: 10px;
 `;
 
 const ProfileItem = styled.div`
@@ -41,61 +45,53 @@ const ProfileItem = styled.div`
 const Label = styled.span`
   font-weight: bold;
   margin-right: 10px;
+  font-size: 14px;
 `;
 
 const Value = styled.span`
   font-weight: normal;
+  font-size: 14px;
 `;
-export const Content = styled.div`
+
+export const TdWithGap = styled.td`
   display: flex;
-  flex-direction: column;
-  gap: 50px;
-  width: 100%;
+  justify-content: center;
+  gap: 20px;
 `;
 const Section = styled.div`
-  width: 50%;
-`;
-export const FullWidthSection = styled.div`
-  width: 100%;
-`;
-export const Row = styled.div`
   display: flex;
-  width: 100%;
-  flex-direction: row;
-`;
-
-const Center = styled.div`
-  display: flex;
+  flex-direction: column;
   justify-content: flex-start;
   width: 100%;
+  padding: 20px;
+  height: 30vh;
 `;
-const Right = styled.div`
+const HeaderWithShadow = styled.div`
   display: flex;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 50px;
+  background-color: white;
+  box-shadow: 0px 2px 5px -1px rgba(0, 0, 0, 0.2);
+`;
+const CenterContainer = styled.div`
+  display: flex;
+  flex: 1;
+  justify-content: center;
   align-items: center;
 `;
-export const Table = styled.table`
-  width: 100%;
-  border-collapse: collapse;
-  th,
-  td {
-    padding: 10px;
-    text-align: center;
-  }
-  th {
-    background-color: #f2f2f2;
-  }
+const RightContainer = styled.div`
+  margin-left: auto;
+  padding: 10px;
 `;
 
-const ProjectAssociateView = () => {
+const ProjectAssociateView = ({ onClose }: { onClose?: () => void }) => {
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
   const { projectAssociateId, startYear } = useParams();
   const { data: schoolYear } = useSchoolYear(parseInt(startYear ?? '0'));
-  const { data: projectAssociate, isLoading, isError } = useGetProjectAssociate(projectAssociateId);
-
-  if (isError || !projectAssociateId || typeof parseInt(projectAssociateId) !== 'number') {
-    navigate(`${startYear}/project-associates`);
-  }
+  const { data: projectAssociate, isLoading } = useGetProjectAssociate(projectAssociateId);
 
   if (isLoading) {
     return (
@@ -107,126 +103,71 @@ const ProjectAssociateView = () => {
     );
   }
 
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
   const filteredActivities = projectAssociate?.activity?.filter(
     (activity) => activity.schoolYearId === (schoolYear ? schoolYear?.id : 0),
   );
 
-  const deleteAssociateActivity = async (activity) => {
-    try {
-      await api.deleteActivity(activity.id);
-      await queryClient.invalidateQueries(['getProjectAssociateById']);
-      toastSuccess('Uspjesno obrisana aktivnost');
-    } catch (e) {
-      toastError('Brisanje aktivnosti nije uspjesno');
-      console.log(e);
-    }
-  };
-
   return (
     projectAssociate !== undefined && (
-      <PageContainer>
-        <CenterContent>
-          <Submenu />
-          <HeaderSection>
-            <Center>
-              <ProfileHeader>
-                {projectAssociate.category?.categoryName} - {projectAssociate.clubName}
-              </ProfileHeader>
-            </Center>
-            <Right>
-              <Status status={projectAssociate.projectAssociateStatus} />
-            </Right>
-          </HeaderSection>
-          <ProfileSubmenu>
-            <Button
-              onClick={() => navigate(`/${startYear}/project-associate/${projectAssociateId}/activity/new`)}
-              disabled={projectAssociate.projectAssociateStatus === 'inactive'}
-            >
-              Dodaj aktivnost
-            </Button>
-            <SecondaryButton onClick={() => navigate(`/${startYear}/project-associate/${projectAssociateId}/edit`)}>
-              Uredi suradnika
-            </SecondaryButton>
-          </ProfileSubmenu>
-          <Content>
-            <Row>
-              <Section>
-                <ProfileItem>
-                  <Label>Email:</Label>
-                  <Value>{projectAssociate.email}</Value>
-                </ProfileItem>
-                <ProfileItem>
-                  <Label>Mobitel:</Label>
-                  <Value>{projectAssociate.mobilePhone}</Value>
-                </ProfileItem>
-                <ProfileItem>
-                  <Label>Kontakt osoba:</Label>
-                  <Value>{projectAssociate.contactPerson}</Value>
-                </ProfileItem>
-                <ProfileItem>
-                  <Label>Adresa:</Label>
-                  <Value>{projectAssociate.address}</Value>
-                </ProfileItem>
-                <ProfileItem>
-                  <Label>Grad:</Label>
-                  <Value>{projectAssociate.city}</Value>
-                </ProfileItem>
-              </Section>
-            </Row>
-            <Row>
-              <FullWidthSection>
-                <h2>Aktivnosti</h2>
-                {filteredActivities !== undefined && filteredActivities?.length > 0 ? (
-                  <Table>
-                    <thead>
-                      <tr>
-                        <th>Aktivnost</th>
-                        <th>Cijena</th>
-                        <th>Status</th>
-                        <th>Akcije</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {filteredActivities.map((activity) => (
-                        <tr key={activity.id}>
-                          <td>{activity.activityName}</td>
-                          <td>{activity.activityPrice > 0 ? activity.activityPrice + 'EUR' : 'Besplatno'}</td>
-                          <td>
-                            <Status status={activity.activityStatus} />
-                          </td>
-                          <TdWithGap>
-                            <SecondaryButton
-                              onClick={() =>
-                                navigate(
-                                  `/${startYear}/project-associate/${projectAssociateId}/activity/${activity.id}/edit`,
-                                )
-                              }
-                              disabled={projectAssociate.projectAssociateStatus === 'inactive'}
-                            >
-                              Uredi
-                            </SecondaryButton>
-                            <Button
-                              backgroundColor="#d9534f"
-                              onClick={() => deleteAssociateActivity(activity)}
-                              disabled={projectAssociate.projectAssociateStatus === 'inactive'}
-                            >
-                              Izbrisi
-                            </Button>
-                          </TdWithGap>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </Table>
-                ) : (
-                  <p>Suradnik nema aktivnosti u ovoj skolskoj godini.</p>
-                )}
-              </FullWidthSection>
-            </Row>
-          </Content>
-        </CenterContent>
-      </PageContainer>
+      <ProfileContainer>
+        <Row>
+          <HeaderContainer>
+            <ProfileHeader>{projectAssociate.clubName}</ProfileHeader>
+            <Status status={projectAssociate.projectAssociateStatus}></Status>
+          </HeaderContainer>
+          <MdEdit
+            size={18}
+            color={'#00193f'}
+            onClick={() => {
+              navigate(`/${schoolYear ? schoolYear.startYear : 0}/project-associates/${projectAssociate?.id}/edit`);
+              onClose?.();
+            }}
+            style={{ marginRight: '25px' }}
+          />
+        </Row>
+        <Section>
+          <ProfileItem>
+            <Label>Kategorija:</Label>
+            <Value>{projectAssociate?.category?.categoryName}</Value>
+          </ProfileItem>
+          <ProfileItem>
+            <Label>Email:</Label>
+            <Value>{projectAssociate?.email}</Value>
+          </ProfileItem>
+          <ProfileItem>
+            <Label>Kontakt:</Label>
+            <Value>
+              {projectAssociate?.mobilePhone} - {projectAssociate?.contactPerson}
+            </Value>
+          </ProfileItem>
+          <ProfileItem>
+            <Label>Adresa:</Label>
+            <Value>
+              {projectAssociate?.address}, {projectAssociate?.city}
+            </Value>
+          </ProfileItem>
+        </Section>
+
+        <HeaderWithShadow>
+          <HeaderContainer>
+            <CenterContainer>
+              <HeaderText>Aktivnosti</HeaderText>
+            </CenterContainer>
+
+            <RightContainer>
+              <AddNewButton
+                text={'Dodaj'}
+                onClick={() =>
+                  navigate(`/${schoolYear?.startYear}/project-associates/${projectAssociate?.id}/activities/new`)
+                }
+                disabled={(projectAssociate as any)?.projectAssociateStatus === 'inactive'}
+              />
+            </RightContainer>
+          </HeaderContainer>
+        </HeaderWithShadow>
+
+        <ProjectAssociateActivityTable activities={filteredActivities} />
+      </ProfileContainer>
     )
   );
 };

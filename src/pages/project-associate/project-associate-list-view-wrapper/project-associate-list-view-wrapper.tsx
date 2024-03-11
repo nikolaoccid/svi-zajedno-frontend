@@ -1,83 +1,122 @@
-import styled from '@emotion/styled';
-import { useState } from 'react';
-import { useAsync } from 'react-async-hook';
-import { useNavigate } from 'react-router-dom';
+import { Flyout } from 'pivotal-ui/react/flyout';
+import { useEffect, useState } from 'react';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
-import { api } from '../../../api';
-import { DashboardHeader } from '../../../components/dashboard-header/dashboard-header.tsx';
-import { GlobalSearch } from '../../../components/global-search/global-search.tsx';
-import { Navigation } from '../../../components/navigation/navigation.tsx';
-import { ContentContainer, DashboardContainer } from '../../dashboard/dashboard.tsx';
+import { ManageActivity } from '../../activity/manage-activity/manage-activity.tsx';
+import { Column } from '../../dashboard-page/dashboard-page.tsx';
 import { useSelectedSchoolYear } from '../../dashboard-page/hooks/use-fetch-school-year.ts';
-import { AddNewButton } from '../../project-user/user-list/add-new-button.tsx';
-import { Pagination } from '../../project-user/user-list/pagination.tsx';
-import { Divider, HeaderTitle, UsersHeader } from '../../project-user/user-list/user-list.tsx';
-import { ProjectAssociateTable } from '../project-associate-list-view/project-associate-table.tsx';
-const RowContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+import { HeaderSubtext, HeaderText } from '../../project-user/user-list/user-list-container.tsx';
+import ManageProjectAssociate from '../manage-project-associate/manage-project-associate.tsx';
+import { ProjectAssociateListView } from '../project-associate-list-view/project-associate-list-view.tsx';
+import ProjectAssociateView from '../project-associate-view/project-associate-view.tsx';
 
-  @media (max-width: 1100px) {
-    flex-direction: column;
-    gap: 20px;
-  }
-`;
-const Records = styled.span`
-  font-family: Axiforma;
-  font-size: 15px;
-  font-weight: 400;
-`;
 export function ProjectAssociateListViewWrapper() {
-  const [associates, setAssociates] = useState({
-    items: [],
-    meta: { totalItems: 0, itemCount: 0, itemsPerPage: 0, totalPages: 0, currentPage: 1 },
-  });
-
-  const [searchQuery, setSearchQuery] = useState('');
-  const setCurrentPage = (page: number) => {
-    setAssociates((prevState) => ({ ...prevState, meta: { ...prevState.meta, currentPage: page } }));
-  };
-
-  useAsync(async () => {
-    const response = await api.getProjectAssociates(associates.meta.currentPage, searchQuery);
-    console.log('response', response);
-    setAssociates(response as any);
-  }, [searchQuery, associates.meta.currentPage]);
-
+  const { pathname } = useLocation();
+  const { projectAssociateId, startYear, activityId } = useParams();
   const { data: schoolYear } = useSelectedSchoolYear();
   const navigate = useNavigate();
+  const [flyoutTitle, setFlyoutTitle] = useState('Uredi suradnika');
+  const [showProjectAssociateFlyout, setShowProjectAssociateFlyout] = useState(false);
+  const [showManageProjectAssociateActivityFlyout, setShowManageProjectAssociateActivityFlyout] = useState(false);
+  const [showManageProjectAssociateFlyout, setShowManageProjectAssociateFlyout] = useState(false);
 
-  const onSearch = (query) => {
-    setCurrentPage(1);
-    setSearchQuery(query);
-  };
+  useEffect(() => {
+    const manageActivityFlyout =
+      pathname.includes(`/${startYear}/project-associates/${projectAssociateId}/activities/new`) ||
+      pathname.includes(`/${startYear}/project-associates/${projectAssociateId}/activities/${activityId}/edit`);
+    const manageProjectAssociate =
+      pathname.includes(`/${startYear}/project-associates/new`) ||
+      pathname.includes(`/${startYear}/project-associates/${projectAssociateId}/edit`);
+    const projectAssociateFlyout = pathname.includes(`/${startYear}/project-associates/${projectAssociateId}`);
 
+    console.log(
+      'manageActivityFlyout',
+      manageActivityFlyout,
+      'manageProjectAssociate',
+      manageProjectAssociate,
+      'projectAssociateFlyout',
+      projectAssociateFlyout,
+    );
+
+    if (manageActivityFlyout) {
+      setFlyoutTitle('Uredi aktivnost');
+      setShowManageProjectAssociateActivityFlyout(true);
+      setShowProjectAssociateFlyout(false);
+      setShowManageProjectAssociateFlyout(false);
+    } else if (manageProjectAssociate) {
+      setFlyoutTitle('Uredi suradnika');
+      setShowProjectAssociateFlyout(false);
+      setShowManageProjectAssociateActivityFlyout(false);
+      setShowManageProjectAssociateFlyout(true);
+    } else if (projectAssociateFlyout) {
+      setFlyoutTitle('Uredi suradnika');
+      setShowProjectAssociateFlyout(true);
+      setShowManageProjectAssociateActivityFlyout(false);
+      setShowManageProjectAssociateFlyout(false);
+    } else {
+      setShowManageProjectAssociateActivityFlyout(false);
+      setShowProjectAssociateFlyout(false);
+      setShowManageProjectAssociateFlyout(false);
+    }
+  }, [pathname]);
   return (
-    <DashboardContainer>
-      <Navigation />
-      <ContentContainer>
-        <DashboardHeader text="Upravljanje suradnicima" />
-        <UsersHeader>
-          <HeaderTitle>Lista suradnika</HeaderTitle>
-          <RowContainer>
-            <GlobalSearch setSearchQuery={onSearch} />
-            <AddNewButton
-              text={'Dodaj suradnika'}
-              onClick={() => navigate(`/${schoolYear?.startYear}/project-associates/new`)}
-            />
-          </RowContainer>
+    <div>
+      <ProjectAssociateListView />
 
-          <Records>{associates.meta.totalItems} Records found</Records>
-        </UsersHeader>
-        <Divider />
-        <ProjectAssociateTable data={associates} />
-        <Pagination
-          totalPages={associates.meta.totalPages}
-          currentPage={associates.meta.currentPage}
-          setCurrentPage={setCurrentPage}
-        />
-      </ContentContainer>
-    </DashboardContainer>
+      <Flyout
+        animationDuration={100}
+        show={showProjectAssociateFlyout}
+        header={
+          <Column>
+            <HeaderText>{flyoutTitle}</HeaderText>
+            <HeaderSubtext>
+              Skolska godina: {schoolYear?.startYear} / {schoolYear?.endYear}
+            </HeaderSubtext>
+          </Column>
+        }
+        onHide={() => {
+          navigate(-1);
+        }}
+        width="600px"
+      >
+        <ProjectAssociateView />
+      </Flyout>
+
+      <Flyout
+        animationDuration={100}
+        show={showManageProjectAssociateActivityFlyout}
+        header={
+          <Column>
+            <HeaderText>{flyoutTitle}</HeaderText>
+            <HeaderSubtext>
+              Skolska godina: {schoolYear?.startYear} / {schoolYear?.endYear}
+            </HeaderSubtext>
+          </Column>
+        }
+        onHide={() => {
+          navigate(-1);
+        }}
+      >
+        <ManageActivity />
+      </Flyout>
+
+      <Flyout
+        animationDuration={100}
+        show={showManageProjectAssociateFlyout}
+        header={
+          <Column>
+            <HeaderText>{flyoutTitle}</HeaderText>
+            <HeaderSubtext>
+              Skolska godina: {schoolYear?.startYear} / {schoolYear?.endYear}
+            </HeaderSubtext>
+          </Column>
+        }
+        onHide={() => {
+          navigate(-1);
+        }}
+      >
+        <ManageProjectAssociate />
+      </Flyout>
+    </div>
   );
 }

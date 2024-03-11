@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { Submenu } from '../../components/submenu/submenu.tsx';
 import { CenterContent, PageContainer } from '../common-styles/common-styles.ts';
 import { useSchoolYear } from '../dashboard-page/hooks/use-fetch-school-year.ts';
-import { Row } from '../project-associate/project-associate-view/project-associate-view.tsx';
+import { RowContainer } from '../project-associate/project-associate-list-view/project-associate-list-view.tsx';
 import { BarChartComponent } from './components/bar-chart-component/bar-chart-component.tsx';
 import { BigBanner } from './components/big-banner/big-banner.tsx';
 import { PieChartComponent } from './components/pie-chart-component/pie-chart-component.tsx';
@@ -14,7 +14,7 @@ import { TinyBarChartsComponent } from './components/tiny-bar-chart-component/ti
 import { useAssociateStatistics } from './hooks/use-associate-statistics.ts';
 import { useProjectUserStatistics } from './hooks/use-project-user-statistics.ts';
 
-const RowCenteredWithGap = styled(Row)`
+const RowCenteredWithGap = styled(RowContainer)`
   justify-content: center;
   gap: 10px;
 `;

@@ -6,21 +6,18 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 
 import { RouteGuard } from './components/route-guard/route-guard.tsx';
-import { ManageActivity } from './pages/activity/manage-activity/manage-activity.tsx';
-import { CategoriesView } from './pages/category/categories-view/categories-view.tsx';
+import { CategoriesContainer } from './pages/category/categories-container/categories-container.tsx';
+// import { CategoriesContainer } from './pages/category/categories-container/categories-container.tsx';
 import ManageCategory from './pages/category/manage-category/manage-category.tsx';
 import { Dashboard } from './pages/dashboard/dashboard.tsx';
 import { DashboardPage } from './pages/dashboard-page/dashboard-page.tsx';
 import LandingPage from './pages/landing-page/landing-page.tsx';
 import LoginPage from './pages/login-page/login-page.tsx';
 import { Logout } from './pages/logout/logout.tsx';
-import { ManageProjectAssociate } from './pages/project-associate/manage-project-associate/manage-project-associate.tsx';
 import { ProjectAssociateListViewWrapper } from './pages/project-associate/project-associate-list-view-wrapper/project-associate-list-view-wrapper.tsx';
-import ProjectAssociateView from './pages/project-associate/project-associate-view/project-associate-view.tsx';
 import { UserListContainer } from './pages/project-user/user-list/user-list-container.tsx';
 import { ChooseSchoolYear } from './pages/school-year/choose-school-year/choose-school-year.tsx';
 import { CreateSchoolYear } from './pages/school-year/create-school-year/create-school-year.tsx';
-import { SearchAssociate } from './pages/search/search-associate/search-associate.tsx';
 import { Statistics } from './pages/statistics/statistics.tsx';
 
 const publicRoutes = ['/', '/login', '/logout'];
@@ -54,22 +51,22 @@ function App() {
             {/*<Route path="/:startYear/users/" element={<UserSearchView />} />*/}
 
             {/*Project associate*/}
-            <Route path="/:startYear/project-associate/new" element={<ManageProjectAssociate />} />
-            <Route path="/:startYear/project-associate/:projectAssociateId/edit" element={<ManageProjectAssociate />} />
-            <Route path="/:startYear/project-associate/:projectAssociateId" element={<ProjectAssociateView />} />
-            <Route path=":startYear/project-associate/search" element={<SearchAssociate />} />
+            {/*<Route path="/:startYear/project-associate/new" element={<ManageProjectAssociate />} />*/}
+            {/*<Route path="/:startYear/project-associate/:projectAssociateId/edit" element={<ManageProjectAssociate />} />*/}
+            {/*<Route path="/:startYear/project-associate/:projectAssociateId" element={<ProjectAssociateView />} />*/}
+            {/*<Route path=":startYear/project-associate/search" element={<SearchAssociate />} />*/}
             {/*<Route path=":startYear/project-associates" element={<ProjectAssociateSearchView />} />*/}
 
             {/*Activity*/}
-            <Route path="/:startYear/project-associate/:projectAssociateId/activity/new" element={<ManageActivity />} />
-            <Route
-              path="/:startYear/project-associate/:projectAssociateId/activity/:activityId/edit"
-              element={<ManageActivity />}
-            />
+            {/*<Route path="/:startYear/project-associate/:projectAssociateId/activity/new" element={<ManageActivity />} />*/}
+            {/*<Route*/}
+            {/*  path="/:startYear/project-associate/:projectAssociateId/activity/:activityId/edit"*/}
+            {/*  element={<ManageActivity />}*/}
+            {/*/>*/}
 
             {/*Category*/}
             <Route path=":startYear/category/new" element={<ManageCategory />} />
-            <Route path=":startYear/categories" element={<CategoriesView />} />
+            {/*<Route path=":startYear/categories" element={<CategoriesView />} />*/}
             <Route path=":startYear/category/:categoryId/edit" element={<ManageCategory />} />
 
             {/*Statistics*/}
@@ -80,6 +77,7 @@ function App() {
             {/*Dashboard*/}
             <Route path="/:startYear/dashboard" element={<Dashboard />} />
 
+            {/*Login / Logout*/}
             <Route path="/login" element={<LoginPage />} />
             <Route path="/logout" element={<Logout />} />
 
@@ -90,10 +88,30 @@ function App() {
             <Route path="/:startYear/users/:userId" element={<UserListContainer />} />
 
             <Route path="/:startYear/users/:userId/enroll" element={<UserListContainer />} />
-
             <Route path="/:startYear/users/:userId/activities/new" element={<UserListContainer />} />
 
+            {/*Project associates*/}
             <Route path="/:startYear/project-associates" element={<ProjectAssociateListViewWrapper />} />
+            <Route path="/:startYear/project-associates/new" element={<ProjectAssociateListViewWrapper />} />
+            <Route
+              path="/:startYear/project-associates/:projectAssociateId"
+              element={<ProjectAssociateListViewWrapper />}
+            />
+            <Route
+              path="/:startYear/project-associates/:projectAssociateId/edit"
+              element={<ProjectAssociateListViewWrapper />}
+            />
+            <Route
+              path="/:startYear/project-associates/:projectAssociateId/activities/new"
+              element={<ProjectAssociateListViewWrapper />}
+            />
+            <Route
+              path="/:startYear/project-associates/:projectAssociateId/activities/:activityId/edit"
+              element={<ProjectAssociateListViewWrapper />}
+            />
+
+            {/* Category*/}
+            <Route path="/:startYear/categories" element={<CategoriesContainer />} />
           </Routes>
           <ToastContainer />
         </RouteGuard>

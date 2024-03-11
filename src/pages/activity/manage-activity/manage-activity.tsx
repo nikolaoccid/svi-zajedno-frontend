@@ -1,13 +1,11 @@
-//TODO implement
 import { ErrorMessage, Field, FormikProvider, useFormik } from 'formik';
 import { useNavigate, useParams } from 'react-router-dom';
 import { RiseLoader } from 'react-spinners';
 import * as Yup from 'yup';
 
 import { api } from '../../../api';
-import { Submenu } from '../../../components/submenu/submenu.tsx';
 import { toastError, toastSuccess } from '../../../utils/toast.ts';
-import { CenterContent, Form, FormError, FormField, PageContainer } from '../../common-styles/common-styles.ts';
+import { Button, CenterContent, Form, FormError, FormField, PageContainer } from '../../common-styles/common-styles.ts';
 import { useSchoolYear } from '../../dashboard-page/hooks/use-fetch-school-year.ts';
 import { useGetProjectAssociate } from '../../project-associate/manage-project-associate/hooks/use-get-project-associate.ts';
 import { useActivity } from './hooks/use-activity.ts';
@@ -42,11 +40,11 @@ export function ManageActivity() {
         if (activity && activity.id) {
           await api.updateActivity(activity.id.toString(), activityFormData);
           toastSuccess('Aktivnost uspjesno azurirana.');
-          navigate(`/${startYear}/project-associate/${projectAssociateId}`);
+          navigate(`/${startYear}/project-associates/${projectAssociateId}`);
         } else {
           await api.createActivity(activityFormData);
           toastSuccess('Aktivnost uspjesno kreirana.');
-          navigate(`/${startYear}/project-associate/${projectAssociateId}`);
+          navigate(`/${startYear}/project-associates/${projectAssociateId}`);
         }
       } catch (e) {
         toastError('Dogodila se pogreska');
@@ -68,9 +66,6 @@ export function ManageActivity() {
   return (
     <PageContainer>
       <CenterContent>
-        <Submenu />
-        <h1>{activity !== null ? 'Uredi aktivnosti' : 'Kreiraj novu aktivnost'}</h1>
-
         <FormikProvider value={formik}>
           <Form onSubmit={formik.handleSubmit}>
             <FormField>
@@ -99,7 +94,7 @@ export function ManageActivity() {
             </FormField>
 
             <CenterContent>
-              <button type="submit">Pošalji</button>
+              <Button type="submit">Pošalji</Button>
             </CenterContent>
           </Form>
         </FormikProvider>
