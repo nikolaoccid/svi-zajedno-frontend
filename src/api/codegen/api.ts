@@ -1920,10 +1920,13 @@ export const CategoryApiAxiosParamCreator = function (configuration?: Configurat
         },
         /**
          * 
+         * @param {number} [limit] 
+         * @param {number} [page] 
+         * @param {string} [query] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        categoryControllerFindAll: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        categoryControllerFindAll: async (limit?: number, page?: number, query?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/category`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1939,6 +1942,18 @@ export const CategoryApiAxiosParamCreator = function (configuration?: Configurat
             // authentication bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (limit !== undefined) {
+                localVarQueryParameter['limit'] = limit;
+            }
+
+            if (page !== undefined) {
+                localVarQueryParameter['page'] = page;
+            }
+
+            if (query !== undefined) {
+                localVarQueryParameter['query'] = query;
+            }
 
 
     
@@ -2090,11 +2105,14 @@ export const CategoryApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @param {number} [limit] 
+         * @param {number} [page] 
+         * @param {string} [query] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async categoryControllerFindAll(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Category>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.categoryControllerFindAll(options);
+        async categoryControllerFindAll(limit?: number, page?: number, query?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.categoryControllerFindAll(limit, page, query, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -2149,11 +2167,14 @@ export const CategoryApiFactory = function (configuration?: Configuration, baseP
         },
         /**
          * 
+         * @param {number} [limit] 
+         * @param {number} [page] 
+         * @param {string} [query] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        categoryControllerFindAll(options?: any): AxiosPromise<Array<Category>> {
-            return localVarFp.categoryControllerFindAll(options).then((request) => request(axios, basePath));
+        categoryControllerFindAll(limit?: number, page?: number, query?: string, options?: any): AxiosPromise<void> {
+            return localVarFp.categoryControllerFindAll(limit, page, query, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -2206,12 +2227,15 @@ export class CategoryApi extends BaseAPI {
 
     /**
      * 
+     * @param {number} [limit] 
+     * @param {number} [page] 
+     * @param {string} [query] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof CategoryApi
      */
-    public categoryControllerFindAll(options?: AxiosRequestConfig) {
-        return CategoryApiFp(this.configuration).categoryControllerFindAll(options).then((request) => request(this.axios, this.basePath));
+    public categoryControllerFindAll(limit?: number, page?: number, query?: string, options?: AxiosRequestConfig) {
+        return CategoryApiFp(this.configuration).categoryControllerFindAll(limit, page, query, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

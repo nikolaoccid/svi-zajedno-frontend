@@ -167,8 +167,8 @@ export function getActivities(
   return getData(activities.activityControllerFindAll(activityStatus, query, studentOnSchoolYearId, schoolYearId));
 }
 
-export function getCategories() {
-  return getData(categories.categoryControllerFindAll());
+export function getCategories(page?: number, query?: string) {
+  return getData(categories.categoryControllerFindAll(undefined, page, query));
 }
 
 export function getCategory(categoryId: string) {

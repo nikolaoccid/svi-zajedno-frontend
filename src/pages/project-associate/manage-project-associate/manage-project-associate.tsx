@@ -25,7 +25,7 @@ export const ManageProjectAssociate = () => {
   const navigate = useNavigate();
   const { projectAssociateId } = useParams();
   const { data: projectAssociate } = useGetProjectAssociate(projectAssociateId);
-  const { data: categories } = useGetCategories();
+  const { data: categories } = useGetCategories('');
 
   const formik = useFormik({
     initialValues: {
@@ -131,7 +131,7 @@ export const ManageProjectAssociate = () => {
               <Field as="select" id="categoryId" {...formik.getFieldProps('categoryId')}>
                 <option value="">Odaberi kategoriju</option>
                 {categories &&
-                  categories.map((category) => (
+                  (categories as any).map((category) => (
                     <option key={category.id} value={category.id}>
                       {category.categoryName}
                     </option>

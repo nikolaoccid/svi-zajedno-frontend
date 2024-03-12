@@ -1,7 +1,9 @@
+import { CategoriesPage } from '../categories-page/categories-page.tsx';
+
 export function CategoriesContainer() {
   return (
     <div>
-      <h1>Categories</h1>
+      <CategoriesPage />
     </div>
   );
 }

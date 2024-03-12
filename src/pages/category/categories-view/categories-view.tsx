@@ -18,7 +18,7 @@ export const CategoriesView = () => {
   const navigate = useNavigate();
   const { startYear } = useParams();
   const { data: schoolYear } = useSchoolYear(startYear ? parseInt(startYear ?? '0') : 0);
-  const { data: categories, isLoading } = useGetCategories();
+  const { data: categories, isLoading } = useGetCategories('');
   if (isLoading) {
     return (
       <PageContainer>
@@ -47,7 +47,7 @@ export const CategoriesView = () => {
               </tr>
             </thead>
             <tbody>
-              {categories?.map((category, index) => (
+              {(categories as any)?.map((category, index) => (
                 <ColoredTableRow key={(category as any).id} isEven={index % 2 === 0}>
                   <td>
                     <b>{(category as any).categoryName}</b>
