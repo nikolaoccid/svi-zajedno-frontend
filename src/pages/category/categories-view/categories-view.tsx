@@ -18,7 +18,8 @@ export const CategoriesView = () => {
   const navigate = useNavigate();
   const { startYear } = useParams();
   const { data: schoolYear } = useSchoolYear(startYear ? parseInt(startYear ?? '0') : 0);
-  const { data: categories, isLoading } = useGetCategories('');
+  const { data: categories, isLoading } = useGetCategories();
+  console.log('categories', categories);
   if (isLoading) {
     return (
       <PageContainer>

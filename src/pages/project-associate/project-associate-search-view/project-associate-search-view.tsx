@@ -84,7 +84,7 @@ const ProjectAssociateSearchView = () => {
   const itemsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(1);
   const { execute: getProjectAssociates, error: isError, loading: isLoading } = useProjectAssociates(currentPage);
-  const { data: categories } = useGetCategories('');
+  const { data: categories } = useGetCategories();
   const [categoryMap, setCategoryMap] = useState({});
   const [queryResults, setQueryResults] = useState([]);
   const [projectAssociates, setProjectAssociates] = useState();

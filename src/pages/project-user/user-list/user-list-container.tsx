@@ -47,18 +47,18 @@ export function UserListContainer() {
     const isUserActivitiesNewPath = pathname.includes(`/${startYear}/users/${userId}/activities/new`);
     const isUserPath = pathname.includes(`/${startYear}/users/${userId}`);
     const enrollUserOnSchoolYear = pathname.includes(`/${startYear}/users/${userId}/enroll`);
-    console.log(
-      'isNewUserPath',
-      isNewUserPath,
-      'isEditUserPath',
-      isEditUserPath,
-      'isUserActivitiesNewPath',
-      isUserActivitiesNewPath,
-      'isUserPath',
-      isUserPath,
-      'enrollUserOnSchoolYear',
-      enrollUserOnSchoolYear,
-    );
+    // console.log(
+    //   'isNewUserPath',
+    //   isNewUserPath,
+    //   'isEditUserPath',
+    //   isEditUserPath,
+    //   'isUserActivitiesNewPath',
+    //   isUserActivitiesNewPath,
+    //   'isUserPath',
+    //   isUserPath,
+    //   'enrollUserOnSchoolYear',
+    //   enrollUserOnSchoolYear,
+    // );
 
     if (isEditUserPath) {
       setFlyoutTitle('Uredi korisnika');
