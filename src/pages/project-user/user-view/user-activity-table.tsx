@@ -88,6 +88,14 @@ export function UserActivityTable({ activities }: { activities: any }) {
     }
   };
 
+  const onRowClick = (activity) => {
+    studentOnSchoolYear && (studentOnSchoolYear as any).status === 'active'
+      ? activity.activityStatus === 'active'
+        ? disenrollActivity(activity)
+        : enrollActivity(activity)
+      : undefined;
+  };
+
   if (!activities) {
     return null;
   }
@@ -107,25 +115,18 @@ export function UserActivityTable({ activities }: { activities: any }) {
         <tbody>
           {activities &&
             activities.map((activity) => (
-              <TableRow
-                key={activity.id}
-                onClick={() =>
-                  studentOnSchoolYear && (studentOnSchoolYear as any).status === 'active'
-                    ? activity.activityStatus === 'active'
-                      ? disenrollActivity(activity)
-                      : enrollActivity(activity)
-                    : undefined
-                }
-              >
-                <Icon>
+              <TableRow key={activity.id}>
+                <Icon onClick={() => onRowClick(activity)}>
                   <GoDotFill size={18} color={activity.activityStatus === 'active' ? 'green' : 'red'} />
                 </Icon>
-                <TableData>{activity?.activity?.activityName}</TableData>
-                <TableData>{activity?.activity?.projectAssociate?.clubName}</TableData>
-                <TableData>
+                <TableData onClick={() => onRowClick(activity)}>{activity?.activity?.activityName}</TableData>
+                <TableData onClick={() => onRowClick(activity)}>
+                  {activity?.activity?.projectAssociate?.clubName}
+                </TableData>
+                <TableData onClick={() => onRowClick(activity)}>
                   {activity?.activity?.activityPrice > 0 ? activity.activity.activityPrice + 'EUR' : 'Besplatno'}
                 </TableData>
-                <TableData>{croatianDateFormat(activity?.createdAt)}</TableData>
+                <TableData onClick={() => onRowClick(activity)}>{croatianDateFormat(activity?.createdAt)}</TableData>
                 <Icon>
                   <MdDelete
                     size={18}

@@ -84,6 +84,8 @@ export const ManageProjectUserView = ({ onClose }: { onClose?: () => void }) => 
         try {
           await api.updateProjectUser(userId, formData);
           await queryClient.invalidateQueries({ queryKey: ['getProjectUserById'] });
+          await queryClient.invalidateQueries({ queryKey: ['getProjectUsers'] });
+          await queryClient.invalidateQueries({ queryKey: ['getProjectUsersBySchoolYear'] });
           toastSuccess('Korisnik azuriran');
           onClose?.();
           navigate(-1);

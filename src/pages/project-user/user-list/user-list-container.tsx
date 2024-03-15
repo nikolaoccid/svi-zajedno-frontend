@@ -4,13 +4,13 @@ import { useEffect, useState } from 'react';
 import { useAsync } from 'react-async-hook';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
-import { getProjectUserByPageAndQuery, getProjectUsersBySchoolYear } from '../../../api/api.ts';
 import { DashboardContainer } from '../../dashboard/dashboard.tsx';
 import { useSchoolYear } from '../../dashboard-page/hooks/use-fetch-school-year.ts';
 import ManageProjectUserView from '../create-project-user/manage-project-user-view.tsx';
 import { EnrollStudentOnSchoolYear } from '../enroll-student-on-school-year/enroll-student-on-school-year.tsx';
 import { ManageStudentOnActivityContainer } from '../manage-student-on-activity/manage-student-on-activity-container.tsx';
 import UserView from '../user-view/user-view.tsx';
+import { useGetProjectUserByPageAndQuery, useGetProjectUsersBySchoolYear } from './useGetProjectUserByPageAndQuery.ts';
 import { UserList } from './user-list.tsx';
 
 export const HeaderText = styled.span`
@@ -99,32 +99,25 @@ export function UserListContainer() {
     }
   }, [pathname]);
   const [searchQuery, setSearchQuery] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
   const [userType, setUserType] = useState('all');
 
-  const [users, setUsers] = useState({
-    items: [],
-    meta: { totalItems: 1, itemCount: 1, itemsPerPage: 1, totalPages: 1, currentPage: 1 },
-  } as any);
-
-  const setCurrentPage = (page: number) => {
-    setUsers((prevState) => ({ ...prevState, meta: { ...prevState.meta, currentPage: page } }));
-  };
+  const { data: apiUsers, refetch: refetchByPageAndQuery } = useGetProjectUserByPageAndQuery(currentPage, searchQuery);
+  const { data: apiUsersAll, refetch } = useGetProjectUsersBySchoolYear(
+    schoolYear?.id.toString() ?? '0',
+    currentPage,
+    searchQuery,
+    'active',
+    'dateOfEnrollment',
+  );
 
   useAsync(async () => {
-    let res;
     if (userType === 'all') {
-      res = await getProjectUserByPageAndQuery(users.meta.currentPage, searchQuery);
+      await refetchByPageAndQuery();
     } else {
-      res = await getProjectUsersBySchoolYear(
-        schoolYear?.id.toString() ?? '0',
-        users.meta.currentPage,
-        searchQuery,
-        'active',
-        'dateOfEnrollment',
-      );
+      await refetch();
     }
-    setUsers(res);
-  }, [userType, searchQuery, users.meta.currentPage, schoolYear]);
+  }, [userType, searchQuery, currentPage, schoolYear]);
 
   const onSearch = (query: string) => {
     setCurrentPage(1);
@@ -134,7 +127,7 @@ export function UserListContainer() {
   return (
     <DashboardContainer>
       <UserList
-        users={users}
+        users={userType === 'all' ? apiUsers : (apiUsersAll as any)}
         setUserType={setUserType}
         setSearchQuery={onSearch}
         searchQuery={searchQuery}

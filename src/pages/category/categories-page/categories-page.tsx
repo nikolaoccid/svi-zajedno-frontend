@@ -41,7 +41,9 @@ export function CategoriesPage() {
     setCategories((prevState) => ({ ...prevState, meta: { ...prevState.meta, currentPage: page } }));
   };
   useEffect(() => {
-    setCategories(apiCategories as any);
+    if (apiCategories) {
+      setCategories(apiCategories as any);
+    }
   }, [apiCategories]);
 
   useAsync(async () => {
