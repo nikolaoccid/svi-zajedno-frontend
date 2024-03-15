@@ -112,6 +112,8 @@ function App() {
 
             {/* Category*/}
             <Route path="/:startYear/categories" element={<CategoriesContainer />} />
+            <Route path=":startYear/categories/new" element={<CategoriesContainer />} />
+            <Route path=":startYear/categories/:categoryId/edit" element={<CategoriesContainer />} />
           </Routes>
           <ToastContainer />
         </RouteGuard>
