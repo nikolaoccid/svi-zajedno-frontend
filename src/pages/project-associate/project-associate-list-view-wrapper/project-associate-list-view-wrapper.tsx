@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 import { ManageActivity } from '../../activity/manage-activity/manage-activity.tsx';
+import { DashboardContainer } from '../../dashboard/dashboard.tsx';
 import { Column } from '../../dashboard-page/dashboard-page.tsx';
 import { useSelectedSchoolYear } from '../../dashboard-page/hooks/use-fetch-school-year.ts';
 import { HeaderSubtext, HeaderText } from '../../project-user/user-list/user-list-container.tsx';
@@ -29,14 +30,14 @@ export function ProjectAssociateListViewWrapper() {
       pathname.includes(`/${startYear}/project-associates/${projectAssociateId}/edit`);
     const projectAssociateFlyout = pathname.includes(`/${startYear}/project-associates/${projectAssociateId}`);
 
-    console.log(
-      'manageActivityFlyout',
-      manageActivityFlyout,
-      'manageProjectAssociate',
-      manageProjectAssociate,
-      'projectAssociateFlyout',
-      projectAssociateFlyout,
-    );
+    // console.log(
+    //   'manageActivityFlyout',
+    //   manageActivityFlyout,
+    //   'manageProjectAssociate',
+    //   manageProjectAssociate,
+    //   'projectAssociateFlyout',
+    //   projectAssociateFlyout,
+    // );
 
     if (manageActivityFlyout) {
       setFlyoutTitle('Uredi aktivnost');
@@ -60,7 +61,7 @@ export function ProjectAssociateListViewWrapper() {
     }
   }, [pathname]);
   return (
-    <div>
+    <DashboardContainer>
       <ProjectAssociateListView />
 
       <Flyout
@@ -117,6 +118,6 @@ export function ProjectAssociateListViewWrapper() {
       >
         <ManageProjectAssociate />
       </Flyout>
-    </div>
+    </DashboardContainer>
   );
 }

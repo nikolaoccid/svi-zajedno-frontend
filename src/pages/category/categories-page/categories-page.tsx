@@ -1,15 +1,15 @@
 import styled from '@emotion/styled';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAsync } from 'react-async-hook';
 import { BiSolidCategoryAlt } from 'react-icons/bi';
 import { useNavigate } from 'react-router-dom';
 
-import { api } from '../../../api';
 import { DashboardHeader } from '../../../components/dashboard-header/dashboard-header.tsx';
 import { GlobalSearch } from '../../../components/global-search/global-search.tsx';
 import { Navigation } from '../../../components/navigation/navigation.tsx';
 import { ContentContainer, DashboardContainer } from '../../dashboard/dashboard.tsx';
 import { useSelectedSchoolYear } from '../../dashboard-page/hooks/use-fetch-school-year.ts';
+import { useGetCategories } from '../../project-associate/manage-project-associate/hooks/use-get-categories.ts';
 import { AddNewButton } from '../../project-user/user-list/add-new-button.tsx';
 import { Pagination } from '../../project-user/user-list/pagination.tsx';
 import { Divider, HeaderTitle, UsersHeader } from '../../project-user/user-list/user-list.tsx';
@@ -35,14 +35,17 @@ export function CategoriesPage() {
     meta: { totalItems: 0, itemCount: 0, itemsPerPage: 0, totalPages: 0, currentPage: 1 },
   });
 
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const { data: apiCategories, refetch } = useGetCategories(categories.meta.currentPage, searchQuery);
   const setCurrentPage = (page: number) => {
     setCategories((prevState) => ({ ...prevState, meta: { ...prevState.meta, currentPage: page } }));
   };
+  useEffect(() => {
+    setCategories(apiCategories as any);
+  }, [apiCategories]);
 
   useAsync(async () => {
-    const response = await api.getCategories(categories.meta.currentPage, searchQuery);
-    setCategories(response as any);
+    await refetch();
   }, [searchQuery, categories.meta.currentPage]);
 
   const { data: schoolYear } = useSelectedSchoolYear();

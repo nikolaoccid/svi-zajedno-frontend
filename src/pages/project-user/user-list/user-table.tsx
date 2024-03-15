@@ -24,6 +24,7 @@ const Table = styled.table`
   font-size: 14px;
   color: #696969;
   font-weight: normal;
+  width: 100%;
 `;
 const Icon = styled.td`
   width: 2%;

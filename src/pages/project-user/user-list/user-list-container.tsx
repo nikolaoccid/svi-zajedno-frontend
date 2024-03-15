@@ -5,6 +5,7 @@ import { useAsync } from 'react-async-hook';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 import { getProjectUserByPageAndQuery, getProjectUsersBySchoolYear } from '../../../api/api.ts';
+import { DashboardContainer } from '../../dashboard/dashboard.tsx';
 import { useSchoolYear } from '../../dashboard-page/hooks/use-fetch-school-year.ts';
 import ManageProjectUserView from '../create-project-user/manage-project-user-view.tsx';
 import { EnrollStudentOnSchoolYear } from '../enroll-student-on-school-year/enroll-student-on-school-year.tsx';
@@ -131,7 +132,7 @@ export function UserListContainer() {
   };
 
   return (
-    <div>
+    <DashboardContainer>
       <UserList
         users={users}
         setUserType={setUserType}
@@ -208,6 +209,6 @@ export function UserListContainer() {
       >
         <EnrollStudentOnSchoolYear />
       </Flyout>
-    </div>
+    </DashboardContainer>
   );
 }

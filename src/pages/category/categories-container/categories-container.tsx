@@ -2,6 +2,7 @@ import { Flyout } from 'pivotal-ui/react/flyout';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
+import { DashboardContainer } from '../../dashboard/dashboard.tsx';
 import { Column } from '../../dashboard-page/dashboard-page.tsx';
 import { useSelectedSchoolYear } from '../../dashboard-page/hooks/use-fetch-school-year.ts';
 import { HeaderSubtext, HeaderText } from '../../project-user/user-list/user-list-container.tsx';
@@ -19,8 +20,6 @@ export function CategoriesContainer() {
     const isNewCategoryPath = pathname.includes(`${startYear}/categories/new`);
     const isEditCategoryPath = pathname.includes(`${startYear}/categories/${categoryId}/edit`);
 
-    console.log('isNewCategoryPath', isNewCategoryPath, 'isEditCategoryPath', isEditCategoryPath);
-
     if (isEditCategoryPath) {
       setFlyoutTitle('Uredi kategoriju');
       setShowManageCategoryFlyout(true);
@@ -33,7 +32,7 @@ export function CategoriesContainer() {
   }, [pathname]);
 
   return (
-    <div>
+    <DashboardContainer>
       <CategoriesPage />
       <Flyout
         animationDuration={100}
@@ -52,6 +51,6 @@ export function CategoriesContainer() {
       >
         <ManageCategory />
       </Flyout>
-    </div>
+    </DashboardContainer>
   );
 }
