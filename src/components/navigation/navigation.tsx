@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { FaCalendarAlt, FaExchangeAlt } from 'react-icons/fa';
 import { FaUsers } from 'react-icons/fa6';
 import { HiSquares2X2 } from 'react-icons/hi2';
-import { IoMdHome } from 'react-icons/io';
+import { IoMdHome, IoMdSettings } from 'react-icons/io';
 import { IoLogOut } from 'react-icons/io5';
 import { MdOutlineSportsSoccer } from 'react-icons/md';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
@@ -121,7 +121,7 @@ export function Navigation() {
       },
       { name: 'Kategorije', icon: HiSquares2X2, innerName: 'categor', link: `/${startYear}/categories` },
       { name: 'Skolske godine', icon: FaCalendarAlt, innerName: 'school-year' },
-      // { name: 'Postavke', icon: IoMdSettings, innerName: 'settings' },
+      { name: 'Postavke', icon: IoMdSettings, innerName: 'settings' },
       // { name: 'Sigurnost', icon: MdSecurity, innerName: 'security' },
     ],
     NoTitleSection: [{ name: 'Kraj rada', icon: IoLogOut, innerName: 'logout', link: '/logout' }],

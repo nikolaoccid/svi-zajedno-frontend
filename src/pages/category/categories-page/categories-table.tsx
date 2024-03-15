@@ -16,7 +16,7 @@ const TableRow = styled.tr`
   &:hover {
     background-color: #faf9f9;
     border-radius: 10px;
-    cursor: pointer;
+    cursor: default;
   }
 `;
 const TableDataLeft = styled.td`
@@ -33,6 +33,7 @@ const Icon = styled.td`
   padding-top: 10px;
   padding-right: 10px;
   white-space: nowrap;
+  cursor: pointer;
 `;
 export function CategoriesTable({
   data,

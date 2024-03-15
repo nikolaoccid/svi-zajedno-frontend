@@ -19,7 +19,6 @@ export const CategoriesView = () => {
   const { startYear } = useParams();
   const { data: schoolYear } = useSchoolYear(startYear ? parseInt(startYear ?? '0') : 0);
   const { data: categories, isLoading } = useGetCategories();
-  console.log('categories', categories);
   if (isLoading) {
     return (
       <PageContainer>
