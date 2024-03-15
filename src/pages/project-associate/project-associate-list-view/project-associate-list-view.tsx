@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { useAsync } from 'react-async-hook';
 import { useNavigate } from 'react-router-dom';
 
-import { api } from '../../../api';
 import { DashboardHeader } from '../../../components/dashboard-header/dashboard-header.tsx';
 import { GlobalSearch } from '../../../components/global-search/global-search.tsx';
 import { Navigation } from '../../../components/navigation/navigation.tsx';
@@ -13,6 +12,7 @@ import { AddNewButton } from '../../project-user/user-list/add-new-button.tsx';
 import { Pagination } from '../../project-user/user-list/pagination.tsx';
 import { Divider, HeaderTitle, UsersHeader } from '../../project-user/user-list/user-list.tsx';
 import { ProjectAssociateTable } from '../project-associate-list-view/project-associate-table.tsx';
+import { useGetProjectAssociates } from './useGetProjectAssociates.ts';
 export const RowContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -29,25 +29,18 @@ const Records = styled.span`
   font-weight: 400;
 `;
 export function ProjectAssociateListView() {
-  const [associates, setAssociates] = useState({
-    items: [],
-    meta: { totalItems: 0, itemCount: 0, itemsPerPage: 0, totalPages: 0, currentPage: 1 },
-  });
-
+  const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
-  const setCurrentPage = (page: number) => {
-    setAssociates((prevState) => ({ ...prevState, meta: { ...prevState.meta, currentPage: page } }));
-  };
+  const { data: associates, refetch: refetchAssociates } = useGetProjectAssociates(currentPage, searchQuery);
 
   useAsync(async () => {
-    const response = await api.getProjectAssociates(associates.meta.currentPage, searchQuery);
-    setAssociates(response as any);
-  }, [searchQuery, associates.meta.currentPage]);
+    await refetchAssociates();
+  }, [searchQuery, currentPage]);
 
   const { data: schoolYear } = useSelectedSchoolYear();
   const navigate = useNavigate();
 
-  const onSearch = (query) => {
+  const onSearch = (query: string) => {
     setCurrentPage(1);
     setSearchQuery(query);
   };
@@ -67,13 +60,13 @@ export function ProjectAssociateListView() {
             />
           </RowContainer>
 
-          <Records>{associates.meta.totalItems} Records found</Records>
+          <Records>{(associates as any)?.meta?.totalItems} Records found</Records>
         </UsersHeader>
         <Divider />
-        <ProjectAssociateTable data={associates} />
+        <ProjectAssociateTable data={associates as any} />
         <Pagination
-          totalPages={associates.meta.totalPages}
-          currentPage={associates.meta.currentPage}
+          totalPages={(associates as any)?.meta?.totalPages}
+          currentPage={(associates as any)?.meta?.currentPage}
           setCurrentPage={setCurrentPage}
         />
       </ContentContainer>

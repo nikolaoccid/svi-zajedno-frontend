@@ -8,7 +8,7 @@ export function useGetProjectUserByPageAndQuery(page: number = 1, query: string 
     queryFn: async () => {
       return await getProjectUserByPageAndQuery(page, query);
     },
-    enabled: page !== undefined && page > 0,
+    enabled: false,
   });
 }
 
@@ -24,6 +24,6 @@ export function useGetProjectUsersBySchoolYear(
     queryFn: async () => {
       return await getProjectUsersBySchoolYear(schoolYearId, page, query, status, sortBy);
     },
-    enabled: schoolYearId !== undefined && schoolYearId !== '0' && page > 0,
+    enabled: false,
   });
 }

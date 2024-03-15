@@ -103,6 +103,9 @@ export const ManageProjectUserView = ({ onClose }: { onClose?: () => void }) => 
               formData.protectionType,
               formData.sourceSystem,
             ));
+          await queryClient.invalidateQueries({ queryKey: ['getProjectUserById'] });
+          await queryClient.invalidateQueries({ queryKey: ['getProjectUsers'] });
+          await queryClient.invalidateQueries({ queryKey: ['getProjectUsersBySchoolYear'] });
           toastSuccess('Korisnik kreiran');
           onClose?.();
           navigate(-1);

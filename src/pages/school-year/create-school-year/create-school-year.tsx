@@ -15,7 +15,9 @@ const ErrorMessage = styled.p`
 export const CreateSchoolYear = () => {
   const { data: schoolYears, isLoading: schoolYearLoading } = useSchoolYears();
   const [selectedYear, setSelectedYear] = useState('');
-  const generatedSchoolYears = generateSchoolYears(schoolYears?.map((schoolYear) => schoolYear.startYear));
+  const generatedSchoolYears = generateSchoolYears(
+    (schoolYears as any)?.items?.map((schoolYear) => schoolYear.startYear),
+  );
   const { createSchoolYear, isLoading, errorMessages } = useCreateSchoolYear();
 
   const handleClick = () => {

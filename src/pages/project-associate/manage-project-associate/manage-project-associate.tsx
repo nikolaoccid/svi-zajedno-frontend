@@ -45,6 +45,7 @@ export const ManageProjectAssociate = () => {
         try {
           await api.updateProjectAssociate(projectAssociate.id, formAssociate);
           await queryClient.invalidateQueries({ queryKey: ['getProjectAssociateById'] });
+          await queryClient.invalidateQueries({ queryKey: ['getProjectAssociates'] });
           toastSuccess('Suradnik uspjesno azuriran.');
           navigate(-1);
         } catch (e) {
@@ -53,6 +54,8 @@ export const ManageProjectAssociate = () => {
       } else {
         try {
           await api.createProjectAssociate(formAssociate);
+          await queryClient.invalidateQueries({ queryKey: ['getProjectAssociateById'] });
+          await queryClient.invalidateQueries({ queryKey: ['getProjectAssociates'] });
           toastSuccess('Suradnik uspjesno kreiran.');
           navigate(-1);
         } catch (e) {

@@ -1,15 +1,14 @@
 import { useQuery } from '@tanstack/react-query';
 
 import { api } from '../../../../api';
-import { sortArrayAscending } from '../../../../utils/sort-array-ascending.ts';
 
-export function useSchoolYears() {
+export function useSchoolYears(page = 1, query = '') {
   return useQuery({
     queryKey: ['getAllSchoolYears'],
     queryFn: async () => {
       try {
-        const result = await api.getAllSchoolYears();
-        return sortArrayAscending(result);
+        const result = await api.getAllSchoolYears(page, query);
+        return result;
       } catch (e) {
         console.error('Could not fetch school years', e);
         throw e;

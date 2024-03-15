@@ -16,6 +16,7 @@ import { ProjectAssociateListViewWrapper } from './pages/project-associate/proje
 import { UserListContainer } from './pages/project-user/user-list/user-list-container.tsx';
 import { ChooseSchoolYear } from './pages/school-year/choose-school-year/choose-school-year.tsx';
 import { CreateSchoolYear } from './pages/school-year/create-school-year/create-school-year.tsx';
+import { SchoolYearsContainer } from './pages/school-year/school-years-container.tsx';
 import { Statistics } from './pages/statistics/statistics.tsx';
 
 const publicRoutes = ['/', '/login', '/logout'];
@@ -112,6 +113,9 @@ function App() {
             <Route path="/:startYear/categories" element={<CategoriesContainer />} />
             <Route path=":startYear/categories/new" element={<CategoriesContainer />} />
             <Route path=":startYear/categories/:categoryId/edit" element={<CategoriesContainer />} />
+
+            {/* School year */}
+            <Route path={':startYear/school-years'} element={<SchoolYearsContainer />} />
           </Routes>
           <ToastContainer />
         </RouteGuard>

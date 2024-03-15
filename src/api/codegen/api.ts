@@ -2275,6 +2275,104 @@ export class CategoryApi extends BaseAPI {
 
 
 /**
+ * ExportApi - axios parameter creator
+ * @export
+ */
+export const ExportApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        exportControllerProjectUsersExport: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/export/project-users`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * ExportApi - functional programming interface
+ * @export
+ */
+export const ExportApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = ExportApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async exportControllerProjectUsersExport(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.exportControllerProjectUsersExport(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * ExportApi - factory interface
+ * @export
+ */
+export const ExportApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = ExportApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        exportControllerProjectUsersExport(options?: any): AxiosPromise<void> {
+            return localVarFp.exportControllerProjectUsersExport(options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * ExportApi - object-oriented interface
+ * @export
+ * @class ExportApi
+ * @extends {BaseAPI}
+ */
+export class ExportApi extends BaseAPI {
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ExportApi
+     */
+    public exportControllerProjectUsersExport(options?: AxiosRequestConfig) {
+        return ExportApiFp(this.configuration).exportControllerProjectUsersExport(options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+/**
  * ProjectAssociateApi - axios parameter creator
  * @export
  */
@@ -3123,10 +3221,13 @@ export const SchoolYearApiAxiosParamCreator = function (configuration?: Configur
         },
         /**
          * 
+         * @param {number} [limit] 
+         * @param {number} [page] 
+         * @param {string} [query] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        schoolYearControllerFindAll: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        schoolYearControllerFindAll: async (limit?: number, page?: number, query?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/school-year`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -3142,6 +3243,18 @@ export const SchoolYearApiAxiosParamCreator = function (configuration?: Configur
             // authentication bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (limit !== undefined) {
+                localVarQueryParameter['limit'] = limit;
+            }
+
+            if (page !== undefined) {
+                localVarQueryParameter['page'] = page;
+            }
+
+            if (query !== undefined) {
+                localVarQueryParameter['query'] = query;
+            }
 
 
     
@@ -3330,11 +3443,14 @@ export const SchoolYearApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @param {number} [limit] 
+         * @param {number} [page] 
+         * @param {string} [query] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async schoolYearControllerFindAll(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<SchoolYear>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.schoolYearControllerFindAll(options);
+        async schoolYearControllerFindAll(limit?: number, page?: number, query?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.schoolYearControllerFindAll(limit, page, query, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -3399,11 +3515,14 @@ export const SchoolYearApiFactory = function (configuration?: Configuration, bas
         },
         /**
          * 
+         * @param {number} [limit] 
+         * @param {number} [page] 
+         * @param {string} [query] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        schoolYearControllerFindAll(options?: any): AxiosPromise<Array<SchoolYear>> {
-            return localVarFp.schoolYearControllerFindAll(options).then((request) => request(axios, basePath));
+        schoolYearControllerFindAll(limit?: number, page?: number, query?: string, options?: any): AxiosPromise<object> {
+            return localVarFp.schoolYearControllerFindAll(limit, page, query, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -3465,12 +3584,15 @@ export class SchoolYearApi extends BaseAPI {
 
     /**
      * 
+     * @param {number} [limit] 
+     * @param {number} [page] 
+     * @param {string} [query] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SchoolYearApi
      */
-    public schoolYearControllerFindAll(options?: AxiosRequestConfig) {
-        return SchoolYearApiFp(this.configuration).schoolYearControllerFindAll(options).then((request) => request(this.axios, this.basePath));
+    public schoolYearControllerFindAll(limit?: number, page?: number, query?: string, options?: AxiosRequestConfig) {
+        return SchoolYearApiFp(this.configuration).schoolYearControllerFindAll(limit, page, query, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

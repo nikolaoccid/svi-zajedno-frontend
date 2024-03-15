@@ -76,23 +76,24 @@ export function UsersTable({
     <TableContainer>
       <Table>
         <tbody>
-          {users.items.map((user) => (
-            <TableRow key={user.id}>
-              <Icon onClick={() => onRowClick(user)}>
-                <GoDotFill size={18} color={getStatusColorForUser(user)} />
-              </Icon>
-              <TableData onClick={() => onRowClick(user)}>
-                {user.childName} {user.childSurname}
-              </TableData>
-              <TableData onClick={() => onRowClick(user)}>
-                {user.guardianName} {user.guardianSurname}
-              </TableData>
-              <TableData onClick={() => onRowClick(user)}>{user.dateOfBirth}</TableData>
-              <Icon>
-                <MdEdit size={18} color={'#00193f'} onClick={() => onEditClick(user)} />
-              </Icon>
-            </TableRow>
-          ))}
+          {users &&
+            users.items.map((user) => (
+              <TableRow key={user.id}>
+                <Icon onClick={() => onRowClick(user)}>
+                  <GoDotFill size={18} color={getStatusColorForUser(user)} />
+                </Icon>
+                <TableData onClick={() => onRowClick(user)}>
+                  {user.childName} {user.childSurname}
+                </TableData>
+                <TableData onClick={() => onRowClick(user)}>
+                  {user.guardianName} {user.guardianSurname}
+                </TableData>
+                <TableData onClick={() => onRowClick(user)}>{user.dateOfBirth}</TableData>
+                <Icon>
+                  <MdEdit size={18} color={'#00193f'} onClick={() => onEditClick(user)} />
+                </Icon>
+              </TableRow>
+            ))}
         </tbody>
       </Table>
     </TableContainer>

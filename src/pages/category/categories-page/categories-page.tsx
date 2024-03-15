@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useAsync } from 'react-async-hook';
 import { BiSolidCategoryAlt } from 'react-icons/bi';
 import { useNavigate } from 'react-router-dom';
@@ -30,30 +30,19 @@ const Records = styled.span`
   font-weight: 400;
 `;
 export function CategoriesPage() {
-  const [categories, setCategories] = useState({
-    items: [],
-    meta: { totalItems: 0, itemCount: 0, itemsPerPage: 0, totalPages: 0, currentPage: 1 },
-  });
+  const [currentPage, setCurrentPage] = useState<number>(1);
 
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const { data: apiCategories, refetch } = useGetCategories(categories.meta.currentPage, searchQuery);
-  const setCurrentPage = (page: number) => {
-    setCategories((prevState) => ({ ...prevState, meta: { ...prevState.meta, currentPage: page } }));
-  };
-  useEffect(() => {
-    if (apiCategories) {
-      setCategories(apiCategories as any);
-    }
-  }, [apiCategories]);
+  const { data: categories, refetch } = useGetCategories(currentPage, searchQuery);
 
   useAsync(async () => {
     await refetch();
-  }, [searchQuery, categories.meta.currentPage]);
+  }, [searchQuery, currentPage]);
 
   const { data: schoolYear } = useSelectedSchoolYear();
   const navigate = useNavigate();
 
-  const onSearch = (query) => {
+  const onSearch = (query: string) => {
     setCurrentPage(1);
     setSearchQuery(query);
   };
@@ -74,13 +63,13 @@ export function CategoriesPage() {
             />
           </RowContainer>
 
-          <Records>{categories.meta.totalItems} Records found</Records>
+          <Records>{(categories as any)?.meta?.totalItems} Records found</Records>
         </UsersHeader>
         <Divider />
-        <CategoriesTable data={categories} />
+        <CategoriesTable data={categories as any} />
         <Pagination
-          totalPages={categories.meta.totalPages}
-          currentPage={categories.meta.currentPage}
+          totalPages={(categories as any)?.meta?.totalPages}
+          currentPage={(categories as any)?.meta?.currentPage}
           setCurrentPage={setCurrentPage}
         />
       </ContentContainer>

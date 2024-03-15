@@ -65,8 +65,8 @@ export async function getData<T>(response: Promise<AxiosResponse<T, any>>) {
   }
 }
 
-export function getAllSchoolYears() {
-  return getData(schoolYearApi.schoolYearControllerFindAll());
+export function getAllSchoolYears(page: number, query: string) {
+  return getData(schoolYearApi.schoolYearControllerFindAll(undefined, page, query));
 }
 
 export function createSchoolYear(startYear: number) {

@@ -93,13 +93,13 @@ export function UserList({
             <GlobalSearch setSearchQuery={setSearchQuery} clearSearch={searchQuery === ''} />
             <AddNewButton text={'Dodaj korisnika'} onClick={() => navigate(`/${schoolYear?.startYear}/users/new`)} />
           </RowContainer>
-          <Records>{users.meta.totalItems} Records found</Records>
+          <Records>{(users as any)?.meta?.totalItems} Records found</Records>
         </UsersHeader>
         <Divider />
-        <UsersTable users={users} />
+        <UsersTable users={users as any} />
         <Pagination
-          totalPages={users.meta.totalPages}
-          currentPage={users.meta.currentPage}
+          totalPages={(users as any)?.meta?.totalPages}
+          currentPage={(users as any)?.meta?.currentPage}
           setCurrentPage={setCurrentPage}
         />
       </ContentContainer>

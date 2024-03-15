@@ -112,7 +112,7 @@ export function ChooseSchoolYear() {
     );
   }
 
-  if (!schoolYears || schoolYears?.length === 0) {
+  if (!schoolYears || (schoolYears as any)?.items.length === 0) {
     return <Navigate to="/school-year/new" />;
   }
   return (
@@ -133,7 +133,7 @@ export function ChooseSchoolYear() {
           </HeaderContainer>
           <InnerContent>
             {schoolYears &&
-              schoolYears.map((item, index) => (
+              (schoolYears as any).items.map((item, index) => (
                 <div key={index}>
                   <ChooserWidget item={item} index={index} />
                 </div>
