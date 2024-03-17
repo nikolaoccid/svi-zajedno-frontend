@@ -2,12 +2,11 @@ import { useAsyncCallback } from 'react-async-hook';
 import { useNavigate } from 'react-router-dom';
 
 import { api } from '../../../../api';
-import { CreateStudentOnActivityDto } from '../../../../api/codegen';
 import { toastError, toastSuccess } from '../../../../utils/toast.ts';
 
 export function useCreateStudentOnActivity() {
   const navigate = useNavigate();
-  return useAsyncCallback(async (studentOnActivity: CreateStudentOnActivityDto) => {
+  return useAsyncCallback(async (studentOnActivity) => {
     try {
       await api.createStudentOnActivity(studentOnActivity);
       toastSuccess('Uspjesno upisan na aktivnost');

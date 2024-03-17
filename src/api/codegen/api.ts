@@ -83,6 +83,18 @@ export interface Activity {
      * @memberof Activity
      */
     'schoolYearId': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof Activity
+     */
+    'createdAt': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Activity
+     */
+    'updatedAt': string;
 }
 
 export const ActivityActivityStatusEnum = {
@@ -117,6 +129,18 @@ export interface Category {
      * @memberof Category
      */
     'projectAssociate': Array<ProjectAssociate>;
+    /**
+     * 
+     * @type {string}
+     * @memberof Category
+     */
+    'createdAt': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Category
+     */
+    'updatedAt': string;
 }
 /**
  * 
@@ -352,6 +376,18 @@ export interface CreateStudentOnActivityDto {
      * @memberof CreateStudentOnActivityDto
      */
     'activityStatus': CreateStudentOnActivityDtoActivityStatusEnum;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateStudentOnActivityDto
+     */
+    'enrollmentDate': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateStudentOnActivityDto
+     */
+    'unenrollmentDate': string;
 }
 
 export const CreateStudentOnActivityDtoActivityStatusEnum = {
@@ -556,6 +592,18 @@ export interface ProjectAssociate {
      * @memberof ProjectAssociate
      */
     'activity': Array<Activity>;
+    /**
+     * 
+     * @type {string}
+     * @memberof ProjectAssociate
+     */
+    'createdAt': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ProjectAssociate
+     */
+    'updatedAt': string;
 }
 
 export const ProjectAssociateProjectAssociateStatusEnum = {
@@ -656,6 +704,18 @@ export interface ProjectUser {
      * @memberof ProjectUser
      */
     'studentOnSchoolYear': Array<StudentOnSchoolYear>;
+    /**
+     * 
+     * @type {string}
+     * @memberof ProjectUser
+     */
+    'createdAt': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ProjectUser
+     */
+    'updatedAt': string;
 }
 
 export const ProjectUserGenderEnum = {
@@ -701,6 +761,18 @@ export interface SchoolYear {
      * @memberof SchoolYear
      */
     'activity': Array<Activity>;
+    /**
+     * 
+     * @type {string}
+     * @memberof SchoolYear
+     */
+    'createdAt': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SchoolYear
+     */
+    'updatedAt': string;
 }
 /**
  * 
@@ -756,7 +828,13 @@ export interface StudentOnActivity {
      * @type {string}
      * @memberof StudentOnActivity
      */
-    'createdAt': string;
+    'enrollmentDate': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof StudentOnActivity
+     */
+    'unenrollmentDate': string;
     /**
      * 
      * @type {Activity}
@@ -769,6 +847,18 @@ export interface StudentOnActivity {
      * @memberof StudentOnActivity
      */
     'activityId': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof StudentOnActivity
+     */
+    'createdAt': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof StudentOnActivity
+     */
+    'updatedAt': string;
 }
 
 export const StudentOnActivityActivityStatusEnum = {
@@ -845,6 +935,18 @@ export interface StudentOnSchoolYear {
      * @memberof StudentOnSchoolYear
      */
     'studentOnActivity': Array<StudentOnActivity>;
+    /**
+     * 
+     * @type {string}
+     * @memberof StudentOnSchoolYear
+     */
+    'createdAt': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof StudentOnSchoolYear
+     */
+    'updatedAt': string;
 }
 
 export const StudentOnSchoolYearStatusEnum = {
@@ -1113,6 +1215,18 @@ export interface UpdateStudentOnActivityDto {
      * @memberof UpdateStudentOnActivityDto
      */
     'activityStatus'?: UpdateStudentOnActivityDtoActivityStatusEnum;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateStudentOnActivityDto
+     */
+    'enrollmentDate'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateStudentOnActivityDto
+     */
+    'unenrollmentDate'?: string;
 }
 
 export const UpdateStudentOnActivityDtoActivityStatusEnum = {
@@ -1230,6 +1344,18 @@ export interface User {
      * @memberof User
      */
     'role': UserRoleEnum;
+    /**
+     * 
+     * @type {string}
+     * @memberof User
+     */
+    'createdAt': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof User
+     */
+    'updatedAt': string;
 }
 
 export const UserRoleEnum = {
