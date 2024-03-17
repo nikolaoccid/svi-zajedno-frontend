@@ -3,6 +3,7 @@ import { GoDotFill } from 'react-icons/go';
 import { MdEdit } from 'react-icons/md';
 import { useNavigate, useParams } from 'react-router-dom';
 
+import { croatianDateFormat } from '../../../utils/croatian-date-format.ts';
 import { useSchoolYear } from '../../dashboard-page/hooks/use-fetch-school-year.ts';
 
 const TableContainer = styled.div`
@@ -88,7 +89,7 @@ export function UsersTable({
                 <TableData onClick={() => onRowClick(user)}>
                   {user.guardianName} {user.guardianSurname}
                 </TableData>
-                <TableData onClick={() => onRowClick(user)}>{user.dateOfBirth}</TableData>
+                <TableData onClick={() => onRowClick(user)}>{croatianDateFormat(user.dateOfBirth)}</TableData>
                 <Icon>
                   <MdEdit size={18} color={'#00193f'} onClick={() => onEditClick(user)} />
                 </Icon>

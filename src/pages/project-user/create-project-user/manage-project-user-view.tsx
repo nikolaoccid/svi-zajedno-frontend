@@ -8,6 +8,8 @@ import { CircleLoader } from 'react-spinners';
 import * as Yup from 'yup';
 
 import { api } from '../../../api';
+import { backendFormattedDate } from '../../../utils/backend-formatted-date.ts';
+import { frontendFormattedDate } from '../../../utils/frontend-formatted-date.ts';
 import { toastError, toastSuccess } from '../../../utils/toast.ts';
 import { Button, CenterContent, Form, FormError, FormField, PageContainer } from '../../common-styles/common-styles.ts';
 import { useSchoolYear, useSchoolYearFromParams } from '../../dashboard-page/hooks/use-fetch-school-year.ts';
@@ -71,7 +73,7 @@ export const ManageProjectUserView = ({ onClose }: { onClose?: () => void }) => 
       guardianSurname: projectUser?.guardianSurname ?? '',
       childName: projectUser?.childName ?? '',
       childSurname: projectUser?.childSurname ?? '',
-      dateOfBirth: projectUser?.dateOfBirth ?? '',
+      dateOfBirth: frontendFormattedDate(projectUser?.dateOfBirth) ?? '',
       address: projectUser?.address ?? '',
       city: projectUser?.city ?? '',
       school: projectUser?.school ?? '',
@@ -80,6 +82,7 @@ export const ManageProjectUserView = ({ onClose }: { onClose?: () => void }) => 
     },
     validationSchema: validationSchema,
     onSubmit: async (formData) => {
+      formData = { ...formData, dateOfBirth: backendFormattedDate(formData.dateOfBirth).toISOString() };
       if (userId && projectUser && projectUser.oib) {
         try {
           await api.updateProjectUser(userId, formData);

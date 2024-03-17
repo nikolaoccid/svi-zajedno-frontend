@@ -35,7 +35,7 @@ export function EditUserOnActivity() {
       activityName: activity?.activity?.activityName ?? '',
       activityPrice: activity?.activity?.activityPrice ?? 0,
       activityStatus: activity?.activityStatus ?? 'active',
-      enrollmentDate: frontendFormattedDate(activity?.enrollmentDate),
+      enrollmentDate: frontendFormattedDate(activity?.enrollmentDate ?? activity?.createdAt),
       unenrollmentDate: frontendFormattedDate(activity?.unenrollmentDate),
     },
     validationSchema: validationSchema,

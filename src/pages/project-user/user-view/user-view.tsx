@@ -228,7 +228,7 @@ const UserView = ({ onClose }: { onClose?: () => void }) => {
         <Section current={menuState === 'child'}>
           <ProfileItem>
             <Label>Datum rodenja:</Label>
-            <Value>{projectUser.dateOfBirth}</Value>
+            <Value>{croatianDateFormat(projectUser.dateOfBirth)}</Value>
           </ProfileItem>
           <ProfileItem>
             <Label>OIB:</Label>
