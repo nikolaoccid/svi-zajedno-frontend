@@ -2,9 +2,8 @@ import styled from '@emotion/styled';
 import { useState } from 'react';
 import { GridLoader } from 'react-spinners';
 
-import { BackButton } from '../../../components/back-button/back-button.tsx';
 import { generateSchoolYears } from '../../../utils/generate-school-years.ts';
-import { AlignLeft, Button, CenterContent, PageContainer, Select } from '../../common-styles/common-styles.ts';
+import { Button, CenterContent, PageContainer, Select } from '../../common-styles/common-styles.ts';
 import { useSchoolYears } from '../choose-school-year/hooks/use-fetch-school-years.ts';
 import { useCreateSchoolYear } from './hooks/use-create-school-year.ts';
 
@@ -35,9 +34,6 @@ export const CreateSchoolYear = () => {
   return (
     <PageContainer>
       <CenterContent>
-        <AlignLeft>
-          <BackButton />
-        </AlignLeft>
         <h2>Kreiraj skolsku godinu</h2>
         <Select onChange={(e) => setSelectedYear(e.target.value)}>
           <option selected value="">
