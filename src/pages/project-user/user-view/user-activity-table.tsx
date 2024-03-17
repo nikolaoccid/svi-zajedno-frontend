@@ -2,14 +2,14 @@ import styled from '@emotion/styled';
 import { useQueryClient } from '@tanstack/react-query';
 import { GoDotFill } from 'react-icons/go';
 import { MdDelete } from 'react-icons/md';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { ClockLoader } from 'react-spinners';
 
 import { api } from '../../../api';
 import { croatianDateFormat } from '../../../utils/croatian-date-format.ts';
 import { toastError, toastSuccess } from '../../../utils/toast.ts';
 import { CenterContent, PageContainer } from '../../common-styles/common-styles.ts';
-import { useSchoolYear } from '../../dashboard-page/hooks/use-fetch-school-year.ts';
+import { useSelectedSchoolYear } from '../../dashboard-page/hooks/use-fetch-school-year.ts';
 import { useStudentOnSchoolYear } from '../../student-on-school-year/hooks/get-student-on-school-year.ts';
 import { useProjectUser } from './hooks/use-project-user.ts';
 
@@ -42,41 +42,13 @@ const Icon = styled.td`
   gap: 12px;
 `;
 export function UserActivityTable({ activities }: { activities: any }) {
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const { startYear, userId } = useParams();
-  const { data: schoolYear, isLoading: isLoadingSchoolYear } = useSchoolYear(startYear ? parseInt(startYear) : 0);
-  const schoolYearId = (schoolYear && schoolYear.id) ?? 0;
+  const { userId } = useParams();
+  const { data: schoolYear, isLoading: isLoadingSchoolYear } = useSelectedSchoolYear();
   const { data: projectUser, isLoading } = useProjectUser(userId);
-  const { data: studentOnSchoolYear } = useStudentOnSchoolYear(schoolYearId, projectUser?.id);
+  const { data: studentOnSchoolYear } = useStudentOnSchoolYear(schoolYear?.id, projectUser?.id);
 
-  const disenrollActivity = async (activity) => {
-    try {
-      await api.updateStudentOnActivity(activity.id.toString(), {
-        id: activity.id,
-        activityStatus: 'inactive',
-        studentOnSchoolYearId: activity.studentOnSchoolYearId,
-      });
-      await queryClient.invalidateQueries(['getStudentOnActivities']);
-      toastSuccess('Uspjesno ispisan s aktivnosti');
-    } catch (e) {
-      toastError('Neuspjesno ispisivanje s aktivnosti');
-      console.log(e);
-    }
-  };
-  const enrollActivity = async (activity) => {
-    try {
-      await api.updateStudentOnActivity(activity.id.toString(), {
-        id: activity.id,
-        activityStatus: 'active',
-        studentOnSchoolYearId: activity.studentOnSchoolYearId,
-      });
-      await queryClient.invalidateQueries(['getStudentOnActivities']);
-      toastSuccess('Uspjesno upisan na aktivnost');
-    } catch (e) {
-      toastError('Neuspjesno upisivanje na aktivnost');
-      console.log(e);
-    }
-  };
   const deleteActivityEnrollment = async (activity) => {
     try {
       await api.deleteStudentOnActivity(activity.id);
@@ -89,11 +61,7 @@ export function UserActivityTable({ activities }: { activities: any }) {
   };
 
   const onRowClick = (activity) => {
-    studentOnSchoolYear && (studentOnSchoolYear as any).status === 'active'
-      ? activity.activityStatus === 'active'
-        ? disenrollActivity(activity)
-        : enrollActivity(activity)
-      : undefined;
+    navigate(`/${schoolYear?.startYear}/users/${projectUser?.id}/activities/${activity.id}/edit`);
   };
 
   if (!activities) {
@@ -126,7 +94,10 @@ export function UserActivityTable({ activities }: { activities: any }) {
                 <TableData onClick={() => onRowClick(activity)}>
                   {activity?.activity?.activityPrice > 0 ? activity.activity.activityPrice + 'EUR' : 'Besplatno'}
                 </TableData>
-                <TableData onClick={() => onRowClick(activity)}>{croatianDateFormat(activity?.createdAt)}</TableData>
+                <TableData onClick={() => onRowClick(activity)}>
+                  {croatianDateFormat(activity?.enrollmentDate ?? activity?.createdAt)}
+                </TableData>
+                <TableData>{croatianDateFormat(activity?.unenrollmentDate, true)}</TableData>
                 <Icon>
                   <MdDelete
                     size={18}

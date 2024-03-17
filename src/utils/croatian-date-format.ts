@@ -1,4 +1,7 @@
-export function croatianDateFormat(date?: string) {
+export function croatianDateFormat(date?: string, shouldNotReturn = false) {
+  if (!date && shouldNotReturn) {
+    return;
+  }
   const today = date ? new Date(date) : new Date();
   const year = today.getFullYear();
   const month = String(today.getMonth() + 1).padStart(2, '0');

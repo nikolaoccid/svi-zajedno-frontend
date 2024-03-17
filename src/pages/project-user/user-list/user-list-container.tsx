@@ -9,6 +9,7 @@ import { useSchoolYear } from '../../dashboard-page/hooks/use-fetch-school-year.
 import ManageProjectUserView from '../create-project-user/manage-project-user-view.tsx';
 import { EnrollStudentOnSchoolYear } from '../enroll-student-on-school-year/enroll-student-on-school-year.tsx';
 import { ManageStudentOnActivityContainer } from '../manage-student-on-activity/manage-student-on-activity-container.tsx';
+import { EditUserOnActivity } from '../user-view/edit-user-on-activity.tsx';
 import UserView from '../user-view/user-view.tsx';
 import { useGetProjectUserByPageAndQuery, useGetProjectUsersBySchoolYear } from './useGetProjectUserByPageAndQuery.ts';
 import { UserList } from './user-list.tsx';
@@ -31,7 +32,7 @@ const Column = styled.div`
 `;
 
 export function UserListContainer() {
-  const { startYear, userId } = useParams();
+  const { startYear, userId, activityId } = useParams();
   const { data: schoolYear } = useSchoolYear(startYear ? parseInt(startYear ?? '0') : 0);
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -41,13 +42,16 @@ export function UserListContainer() {
   const [showAddActivityFlyout, setShowAddActivityFlyout] = useState(false);
   const [flyoutTitle, setFlyoutTitle] = useState('Uredi korisnika');
   const [showEnrollOnSchoolYear, setShowEnrollOnSchoolYear] = useState(false);
+  const [showUnenrollFlyout, setShowUnenrollFlyout] = useState(false);
 
   useEffect(() => {
-    const isNewUserPath = pathname.includes(`/${startYear}/users/new`);
-    const isEditUserPath = pathname.includes(`/${startYear}/users/${userId}/edit`);
-    const isUserActivitiesNewPath = pathname.includes(`/${startYear}/users/${userId}/activities/new`);
-    const isUserPath = pathname.includes(`/${startYear}/users/${userId}`);
-    const enrollUserOnSchoolYear = pathname.includes(`/${startYear}/users/${userId}/enroll`);
+    const pathWithoutParams = pathname.split('?')[0];
+    const isNewUserPath = pathWithoutParams === `/${startYear}/users/new`;
+    const isEditUserPath = pathWithoutParams === `/${startYear}/users/${userId}/edit`;
+    const isUserActivitiesNewPath = pathWithoutParams === `/${startYear}/users/${userId}/activities/new`;
+    const isUserPath = pathWithoutParams === `/${startYear}/users/${userId}`;
+    const enrollUserOnSchoolYear = pathWithoutParams === `/${startYear}/users/${userId}/enroll`;
+    const unenrollPath = pathWithoutParams === `/${startYear}/users/${userId}/activities/${activityId}/edit`;
     // console.log(
     //   'isNewUserPath',
     //   isNewUserPath,
@@ -59,43 +63,58 @@ export function UserListContainer() {
     //   isUserPath,
     //   'enrollUserOnSchoolYear',
     //   enrollUserOnSchoolYear,
+    //   'unenrollPath',
+    //   unenrollPath,
     // );
 
-    if (isEditUserPath) {
+    if (unenrollPath) {
+      setFlyoutTitle('Ispisi korisnika s aktivnosti');
+      setShowUnenrollFlyout(true);
+      setShowUserFlyout(false);
+      setShowAddEditFlyout(false);
+      setShowAddActivityFlyout(false);
+      setShowEnrollOnSchoolYear(false);
+    } else if (isEditUserPath) {
       setFlyoutTitle('Uredi korisnika');
       setShowAddEditFlyout(true);
       setShowUserFlyout(false);
       setShowAddActivityFlyout(false);
       setShowEnrollOnSchoolYear(false);
+      setShowUnenrollFlyout(false);
     } else if (isUserActivitiesNewPath) {
       setFlyoutTitle('Upisi korisnika na aktivnost');
       setShowAddActivityFlyout(true);
       setShowUserFlyout(false);
       setShowAddEditFlyout(false);
       setShowEnrollOnSchoolYear(false);
+      setShowUnenrollFlyout(false);
     } else if (isNewUserPath) {
       setFlyoutTitle('Dodaj novog korisnika');
       setShowAddEditFlyout(true);
       setShowUserFlyout(false);
       setShowAddActivityFlyout(false);
       setShowEnrollOnSchoolYear(false);
+      setShowUnenrollFlyout(false);
     } else if (enrollUserOnSchoolYear) {
       setFlyoutTitle('Upisi korisnika na skolsku godinu');
       setShowEnrollOnSchoolYear(true);
       setShowUserFlyout(false);
       setShowAddEditFlyout(false);
       setShowAddActivityFlyout(false);
+      setShowUnenrollFlyout(false);
     } else if (isUserPath) {
       setFlyoutTitle('Pregled korisnika');
       setShowUserFlyout(true);
       setShowAddEditFlyout(false);
       setShowAddActivityFlyout(false);
       setShowEnrollOnSchoolYear(false);
+      setShowUnenrollFlyout(false);
     } else {
       setShowUserFlyout(false);
       setShowAddEditFlyout(false);
       setShowAddActivityFlyout(false);
       setShowEnrollOnSchoolYear(false);
+      setShowUnenrollFlyout(false);
     }
   }, [pathname]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -164,7 +183,7 @@ export function UserListContainer() {
         onHide={() => {
           navigate(-1);
         }}
-        width="600px"
+        width="800px"
       >
         <UserView />
       </Flyout>
@@ -201,6 +220,23 @@ export function UserListContainer() {
         }}
       >
         <EnrollStudentOnSchoolYear />
+      </Flyout>
+      <Flyout
+        animationDuration={100}
+        show={showUnenrollFlyout}
+        header={
+          <Column>
+            <HeaderText>{flyoutTitle}</HeaderText>
+            <HeaderSubtext>
+              Skolska godina: {schoolYear?.startYear} / {schoolYear?.endYear}
+            </HeaderSubtext>
+          </Column>
+        }
+        onHide={() => {
+          navigate(-1);
+        }}
+      >
+        <EditUserOnActivity />
       </Flyout>
     </DashboardContainer>
   );

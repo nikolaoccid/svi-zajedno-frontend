@@ -88,6 +88,7 @@ function App() {
 
             <Route path="/:startYear/users/:userId/enroll" element={<UserListContainer />} />
             <Route path="/:startYear/users/:userId/activities/new" element={<UserListContainer />} />
+            <Route path="/:startYear/users/:userId/activities/:activityId/edit" element={<UserListContainer />} />
 
             {/*Project associates*/}
             <Route path="/:startYear/project-associates" element={<ProjectAssociateListViewWrapper />} />
