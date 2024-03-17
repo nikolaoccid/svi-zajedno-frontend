@@ -2005,6 +2005,39 @@ export const CategoryApiAxiosParamCreator = function (configuration?: Configurat
         },
         /**
          * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        categoryControllerGetAllCategories: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/category/all`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @param {string} id 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2127,6 +2160,15 @@ export const CategoryApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async categoryControllerGetAllCategories(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Category>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.categoryControllerGetAllCategories(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
          * @param {string} id 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2184,6 +2226,14 @@ export const CategoryApiFactory = function (configuration?: Configuration, baseP
          */
         categoryControllerFindOne(id: string, options?: any): AxiosPromise<Category> {
             return localVarFp.categoryControllerFindOne(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        categoryControllerGetAllCategories(options?: any): AxiosPromise<Array<Category>> {
+            return localVarFp.categoryControllerGetAllCategories(options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -2247,6 +2297,16 @@ export class CategoryApi extends BaseAPI {
      */
     public categoryControllerFindOne(id: string, options?: AxiosRequestConfig) {
         return CategoryApiFp(this.configuration).categoryControllerFindOne(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CategoryApi
+     */
+    public categoryControllerGetAllCategories(options?: AxiosRequestConfig) {
+        return CategoryApiFp(this.configuration).categoryControllerGetAllCategories(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -3449,7 +3509,7 @@ export const SchoolYearApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async schoolYearControllerFindAll(limit?: number, page?: number, query?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+        async schoolYearControllerFindAll(limit?: number, page?: number, query?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.schoolYearControllerFindAll(limit, page, query, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -3521,7 +3581,7 @@ export const SchoolYearApiFactory = function (configuration?: Configuration, bas
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        schoolYearControllerFindAll(limit?: number, page?: number, query?: string, options?: any): AxiosPromise<object> {
+        schoolYearControllerFindAll(limit?: number, page?: number, query?: string, options?: any): AxiosPromise<void> {
             return localVarFp.schoolYearControllerFindAll(limit, page, query, options).then((request) => request(axios, basePath));
         },
         /**

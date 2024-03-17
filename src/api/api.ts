@@ -171,6 +171,10 @@ export function getCategories(page?: number, query?: string) {
   return getData(categories.categoryControllerFindAll(undefined, page, query));
 }
 
+export function getDropdownCategories() {
+  return getData(categories.categoryControllerGetAllCategories());
+}
+
 export function getCategory(categoryId: string) {
   return getData(categories.categoryControllerFindOne(categoryId));
 }
@@ -243,4 +247,8 @@ export function getProjectUserStatistics(schoolYearId: string) {
 
 export function deleteSchoolYear(schoolYearId: string) {
   return getData(schoolYearApi.schoolYearControllerRemove(schoolYearId));
+}
+
+export function deleteCategory(categoryId: string) {
+  return getData(categories.categoryControllerRemove(categoryId));
 }

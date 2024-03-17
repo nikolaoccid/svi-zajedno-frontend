@@ -7,7 +7,7 @@ import * as Yup from 'yup';
 import { api } from '../../../api';
 import { toastError, toastSuccess } from '../../../utils/toast.ts';
 import { Button, CenterContent, Form, FormError, FormField, PageContainer } from '../../common-styles/common-styles.ts';
-import { useGetCategories } from './hooks/use-get-categories.ts';
+import { useGetDropdownCategories } from './hooks/use-get-dropdown-categories.ts';
 import { useGetProjectAssociate } from './hooks/use-get-project-associate.ts';
 
 const validationSchema = Yup.object().shape({
@@ -25,7 +25,7 @@ export const ManageProjectAssociate = () => {
   const navigate = useNavigate();
   const { projectAssociateId } = useParams();
   const { data: projectAssociate } = useGetProjectAssociate(projectAssociateId);
-  const { data: categories } = useGetCategories();
+  const { data: categorisDropdown } = useGetDropdownCategories();
 
   const formik = useFormik({
     initialValues: {
@@ -133,8 +133,8 @@ export const ManageProjectAssociate = () => {
               <label htmlFor="categoryId">Kategorija</label>
               <Field as="select" id="categoryId" {...formik.getFieldProps('categoryId')}>
                 <option value="">Odaberi kategoriju</option>
-                {categories &&
-                  (categories as any)?.items.map((category) => (
+                {categorisDropdown &&
+                  (categorisDropdown as any)?.map((category) => (
                     <option key={category.id} value={category.id}>
                       {category.categoryName}
                     </option>

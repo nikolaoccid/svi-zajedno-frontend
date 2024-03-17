@@ -1,9 +1,12 @@
 import styled from '@emotion/styled';
+import { useQueryClient } from '@tanstack/react-query';
 import { GoDotFill } from 'react-icons/go';
 import { MdDelete, MdEdit } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 import { GridLoader } from 'react-spinners';
 
+import { deleteCategory } from '../../../api/api.ts';
+import { toastError, toastSuccess } from '../../../utils/toast.ts';
 import { CenterContent, PageContainer } from '../../common-styles/common-styles.ts';
 import { useSelectedSchoolYear } from '../../dashboard-page/hooks/use-fetch-school-year.ts';
 
@@ -43,13 +46,20 @@ export function CategoriesTable({
     meta: { totalItems: number; itemCount: number; itemsPerPage: number; totalPages: number; currentPage: number };
   };
 }) {
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { data: schoolYear, isLoading } = useSelectedSchoolYear();
   const onEditClick = (category) => {
     navigate(`/${schoolYear?.startYear}/categories/${category.id}/edit`);
   };
-  const onDeleteClick = (category) => {
-    console.log('delete category click', category);
+  const onDeleteClick = async (category) => {
+    try {
+      await deleteCategory(category.id);
+      await queryClient.invalidateQueries(['getCategories']);
+      toastSuccess('Uspjesno obrisana kategorija');
+    } catch (e) {
+      toastError('Neuspjesno brisanje kategorij');
+    }
   };
 
   if (isLoading) {
