@@ -1,7 +1,7 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { ErrorMessage, Field, FormikProvider, useFormik } from 'formik';
 import { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import * as Yup from 'yup';
 
 import { api } from '../../../api';
@@ -17,6 +17,7 @@ const validationSchema = Yup.object({
   // activityPrice: Yup.number().required('Cijena je obavezna, ako je besplatno staviti 0'),
 });
 export function EditUserOnActivity() {
+  const navigate = useNavigate();
   const { activityId, userId } = useParams();
   const { data: schoolYear } = useSelectedSchoolYear();
   const { data: projectUser } = useProjectUser(userId);
@@ -50,6 +51,7 @@ export function EditUserOnActivity() {
         });
         await queryClient.invalidateQueries(['getStudentOnActivities']);
         toastSuccess('Uspjesno ispisan s aktivnosti');
+        navigate(-1);
       } catch (e) {
         toastError('Neuspjesno ispisivanje s aktivnosti');
         console.log(e);
