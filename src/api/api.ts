@@ -240,3 +240,7 @@ export function getAssociateStatistics(schoolYearId: string) {
 export function getProjectUserStatistics(schoolYearId: string) {
   return getData(statistics.statisticsControllerProjectUsersStatistics(schoolYearId));
 }
+
+export function deleteSchoolYear(schoolYearId: string) {
+  return getData(schoolYearApi.schoolYearControllerRemove(schoolYearId));
+}

@@ -1,11 +1,10 @@
 import styled from '@emotion/styled';
+import { useQueryClient } from '@tanstack/react-query';
 import { GoDotFill } from 'react-icons/go';
-import { MdDelete, MdEdit } from 'react-icons/md';
-import { useNavigate } from 'react-router-dom';
-import { GridLoader } from 'react-spinners';
+import { MdDelete } from 'react-icons/md';
 
-import { CenterContent, PageContainer } from '../common-styles/common-styles.ts';
-import { useSelectedSchoolYear } from '../dashboard-page/hooks/use-fetch-school-year.ts';
+import { deleteSchoolYear } from '../../api/api.ts';
+import { toastError, toastSuccess } from '../../utils/toast.ts';
 
 const TableContainer = styled.div`
   height: 100%;
@@ -43,24 +42,17 @@ export function SchoolYearsTable({
     meta: { totalItems: number; itemCount: number; itemsPerPage: number; totalPages: number; currentPage: number };
   };
 }) {
-  const navigate = useNavigate();
-  const { data: schoolYear, isLoading } = useSelectedSchoolYear();
-  const onEditClick = (category) => {
-    navigate(`/${schoolYear?.startYear}/categories/${category.id}/edit`);
-  };
-  const onDeleteClick = (category) => {
-    console.log('delete category click', category);
+  const queryClient = useQueryClient();
+  const onDeleteClick = async (schoolYear) => {
+    try {
+      await deleteSchoolYear(schoolYear.id);
+      await queryClient.invalidateQueries(['getAllSchoolYears']);
+      toastSuccess('Uspjeno obrisana skolska godina');
+    } catch (e) {
+      toastError('Greska pri brisanju skolske godine');
+    }
   };
 
-  if (isLoading) {
-    return (
-      <PageContainer>
-        <CenterContent>
-          <GridLoader color="#2196f3" />
-        </CenterContent>
-      </PageContainer>
-    );
-  }
   return (
     <TableContainer>
       <Table>
@@ -75,7 +67,6 @@ export function SchoolYearsTable({
                   {schoolYear.startYear} / {schoolYear.endYear}
                 </TableDataLeft>
                 <Icon>
-                  <MdEdit size={18} color={'#00193f'} onClick={() => onEditClick(schoolYear)} />
                   <MdDelete size={18} color={'#00193f'} onClick={() => onDeleteClick(schoolYear)} />
                 </Icon>
               </TableRow>
