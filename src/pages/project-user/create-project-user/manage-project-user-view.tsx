@@ -21,7 +21,7 @@ const validationSchema = Yup.object({
   guardianSurname: Yup.string().required('Prezime skrbnika je obavezno'),
   childName: Yup.string().required('Ime djeteta je obavezno'),
   childSurname: Yup.string().required('Prezime djeteta je obavezno'),
-  dateOfBirth: Yup.string().required('Datum rođenja je obavezan'),
+  dateOfBirth: Yup.date().required('Datum rođenja je obavezan'),
   address: Yup.string().required('Adresa je obavezna'),
   city: Yup.string().required('Grad je obavezan'),
   school: Yup.string().notRequired(), // Optional field
@@ -214,7 +214,7 @@ export const ManageProjectUserView = ({ onClose }: { onClose?: () => void }) => 
 
               <FormField>
                 <label htmlFor="dateOfBirth">Datum rođenja</label>
-                <Input type="text" id="dateOfBirth" {...formik.getFieldProps('dateOfBirth')} />
+                <Input type="date" id="dateOfBirth" {...formik.getFieldProps('dateOfBirth')} />
                 {formik.touched.dateOfBirth && formik.errors.dateOfBirth ? (
                   <FormError>{formik.errors.dateOfBirth}</FormError>
                 ) : null}
