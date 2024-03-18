@@ -117,6 +117,7 @@ function App() {
 
             {/* School year */}
             <Route path={':startYear/school-years'} element={<SchoolYearsContainer />} />
+            <Route path={':startYear/school-years/new'} element={<SchoolYearsContainer />} />
           </Routes>
           <ToastContainer />
         </RouteGuard>

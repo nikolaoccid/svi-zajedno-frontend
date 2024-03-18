@@ -13,7 +13,7 @@ const ErrorMessage = styled.p`
 `;
 export const CreateSchoolYear = () => {
   const { data: schoolYears, isLoading: schoolYearLoading } = useSchoolYears();
-  const [selectedYear, setSelectedYear] = useState('');
+  const [selectedYear, setSelectedYear] = useState('choose');
   const generatedSchoolYears = generateSchoolYears(
     (schoolYears as any)?.items?.map((schoolYear) => schoolYear.startYear),
   );
@@ -35,10 +35,8 @@ export const CreateSchoolYear = () => {
     <PageContainer>
       <CenterContent>
         <h2>Kreiraj skolsku godinu</h2>
-        <Select onChange={(e) => setSelectedYear(e.target.value)}>
-          <option selected value="">
-            Odaberite jedno
-          </option>
+        <Select onChange={(e) => setSelectedYear(e.target.value)} value={selectedYear}>
+          <option value="choose">Odaberite jedno</option>
           {generatedSchoolYears?.map((schoolYear) => (
             <option key={schoolYear} value={schoolYear}>
               {schoolYear} / {schoolYear + 1}

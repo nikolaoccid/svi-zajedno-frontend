@@ -1,3 +1,4 @@
+import { useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { useState } from 'react';
 import { useAsyncCallback } from 'react-async-hook';
@@ -7,6 +8,7 @@ import { api } from '../../../../api';
 import { toastError, toastSuccess } from '../../../../utils/toast.ts';
 
 export function useCreateSchoolYear() {
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
   const [errorMessages, setErrorMessages] = useState<string[]>(['']);
 
@@ -14,7 +16,8 @@ export function useCreateSchoolYear() {
     try {
       const { startYear: apiStartYear, endYear: apiEndYear } = await api.createSchoolYear(startYear);
       toastSuccess(`Successfully created school year ${apiStartYear}/${apiEndYear}`);
-      navigate(`/${apiStartYear}`);
+      await queryClient.invalidateQueries(['getAllSchoolYears']);
+      navigate('/school-year');
     } catch (e) {
       toastError('Could not create school year');
       console.error(e);

@@ -38,7 +38,6 @@ export function SchoolYearsPage() {
   const { data: schoolYear } = useSelectedSchoolYear();
   const navigate = useNavigate();
   const { data: schoolYears, refetch } = useSchoolYears(currentPage, searchQuery);
-  console.log('schoolYears', schoolYears);
 
   useAsync(async () => {
     await refetch();
