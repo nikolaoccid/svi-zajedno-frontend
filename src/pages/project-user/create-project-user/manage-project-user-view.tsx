@@ -156,15 +156,6 @@ export const ManageProjectUserView = ({ onClose }: { onClose?: () => void }) => 
               </FormField>
 
               <FormField>
-                <label htmlFor="gender">Spol</label>
-                <Field as="select" id="gender" {...formik.getFieldProps('gender')}>
-                  <Option value="male">Musko</Option>
-                  <Option value="female">Zensko</Option>
-                </Field>
-                <ErrorMessage name="gender" component="div" />
-              </FormField>
-
-              <FormField>
                 <label htmlFor="sourceSystem">Izvorisni sustav </label>
                 <Field as="select" id="sourceSystem" {...formik.getFieldProps('sourceSystem')}>
                   <Option value="czss">CZSS</Option>
@@ -213,6 +204,15 @@ export const ManageProjectUserView = ({ onClose }: { onClose?: () => void }) => 
                 {formik.touched.childSurname && formik.errors.childSurname ? (
                   <FormError>{formik.errors.childSurname}</FormError>
                 ) : null}
+              </FormField>
+
+              <FormField>
+                <label htmlFor="gender">Spol</label>
+                <Field as="select" id="gender" {...formik.getFieldProps('gender')}>
+                  <Option value="male">Musko</Option>
+                  <Option value="female">Zensko</Option>
+                </Field>
+                <ErrorMessage name="gender" component="div" />
               </FormField>
 
               <FormField>
