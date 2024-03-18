@@ -78,7 +78,6 @@ export function ProjectAssociateListViewWrapper() {
         onHide={() => {
           navigate(-1);
         }}
-        width="800px"
       >
         <ProjectAssociateView />
       </Flyout>

@@ -151,6 +151,9 @@ export function createProjetUserOnSchoolYear(
     }),
   );
 }
+export function updateProjectUserOnSchoolYear(id: string, updateStudentOnSchoolYear: any) {
+  return getData(studentOnSchoolYear.studentOnSchoolYearControllerUpdate(id, updateStudentOnSchoolYear));
+}
 export function getProjetUserOnSchoolYear(userId: number, schoolYearId: number) {
   return getData(studentOnSchoolYear.studentOnSchoolYearControllerFindAll(schoolYearId, userId));
 }

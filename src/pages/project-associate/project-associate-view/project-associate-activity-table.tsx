@@ -6,7 +6,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { ClockLoader } from 'react-spinners';
 
 import { api } from '../../../api';
-import { croatianDateFormat } from '../../../utils/croatian-date-format.ts';
 import { toastError, toastSuccess } from '../../../utils/toast.ts';
 import { CenterContent, PageContainer } from '../../common-styles/common-styles.ts';
 
@@ -89,7 +88,6 @@ export function ProjectAssociateActivityTable({ activities }: { activities: any 
                 <TableData onClick={() => onRowClick(activity)}>
                   {activity.activityPrice > 0 ? activity.activityPrice + 'EUR' : 'Besplatno'}
                 </TableData>
-                <TableData onClick={() => onRowClick(activity)}>{croatianDateFormat(activity?.createdAt)}</TableData>
                 <Icon>
                   <MdDelete
                     size={18}
