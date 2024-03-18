@@ -61,7 +61,9 @@ export function UserActivityTable({ activities }: { activities: any }) {
   };
 
   const onRowClick = (activity) => {
-    navigate(`/${schoolYear?.startYear}/users/${projectUser?.id}/activities/${activity.id}/edit`);
+    if (studentOnSchoolYear && (studentOnSchoolYear as any).status !== 'inactive') {
+      navigate(`/${schoolYear?.startYear}/users/${projectUser?.id}/activities/${activity.id}/edit`);
+    }
   };
 
   if (!activities) {
