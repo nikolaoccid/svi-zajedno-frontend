@@ -41,6 +41,7 @@ export const EnrollStudentOnSchoolYear = () => {
     enableReinitialize: true,
     validationSchema: validationSchema,
     onSubmit: async (formData) => {
+      console.log('enrollStudentOnSchoolYear formData', formData);
       if (!studentOnSchoolYear) {
         try {
           await createStudentOnSchoolYear(formData.sourceSystem, formData.protectionType, formData.dateOfEnrollment);

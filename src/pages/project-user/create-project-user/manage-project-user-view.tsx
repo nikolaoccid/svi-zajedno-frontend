@@ -13,7 +13,6 @@ import { frontendFormattedDate } from '../../../utils/frontend-formatted-date.ts
 import { toastError, toastSuccess } from '../../../utils/toast.ts';
 import { Button, CenterContent, Form, FormError, FormField, PageContainer } from '../../common-styles/common-styles.ts';
 import { useSchoolYear, useSchoolYearFromParams } from '../../dashboard-page/hooks/use-fetch-school-year.ts';
-import { useStudentOnSchoolYear } from '../../student-on-school-year/hooks/get-student-on-school-year.ts';
 import { useGetProjectUser } from './hooks/use-get-project-user.ts';
 const validationSchema = Yup.object({
   oib: Yup.string().required('OIB je obavezan').length(11, 'OIB mora imati točno 11 znakova'),
@@ -62,15 +61,12 @@ export const ManageProjectUserView = () => {
   const { data: projectUser } = useGetProjectUser(userId);
   const { data: currentSchoolYear } = useSchoolYear(schoolYearFromParams);
   const [showSection, setShowSection] = useState({ child: true, guardian: true });
-  const { data: studentOnSchoolYear } = useStudentOnSchoolYear(currentSchoolYear?.id, projectUser?.id);
 
   const formik = useFormik({
     initialValues: {
       id: projectUser?.id ?? 0,
       oib: projectUser?.oib ?? '',
       gender: projectUser?.gender ?? 'male',
-      sourceSystem: (studentOnSchoolYear as any)?.sourceSystem ?? 'czss',
-      protectionType: (studentOnSchoolYear as any)?.protectionType ?? 'zmn',
       guardianName: projectUser?.guardianName ?? '',
       guardianSurname: projectUser?.guardianSurname ?? '',
       childName: projectUser?.childName ?? '',
@@ -160,25 +156,6 @@ export const ManageProjectUserView = () => {
                 <Input type="email" id="email" {...formik.getFieldProps('email')} />
                 {formik.touched.email && formik.errors.email ? <FormError>{formik.errors.email}</FormError> : null}
               </FormField>
-
-              {/*<FormField>*/}
-              {/*  <label htmlFor="sourceSystem">Izvorisni sustav </label>*/}
-              {/*  <Field as="select" id="sourceSystem" {...formik.getFieldProps('sourceSystem')}>*/}
-              {/*    <Option value="czss">CZSS</Option>*/}
-              {/*    <Option value="obiteljskicentar">Obiteljski centar</Option>*/}
-              {/*  </Field>*/}
-              {/*  <ErrorMessage name="sourceSystem" component="div" />*/}
-              {/*</FormField>*/}
-
-              {/*<FormField>*/}
-              {/*  <label htmlFor="protectionType">Osnova za prijam </label>*/}
-              {/*  <Field as="select" id="protectionType" {...formik.getFieldProps('protectionType')}>*/}
-              {/*    <Option value="zmn">ZMN</Option>*/}
-              {/*    <Option value="preporuka">Preporuka</Option>*/}
-              {/*    <Option value="udomiteljstvo">Udomiteljstvo</Option>*/}
-              {/*  </Field>*/}
-              {/*  <ErrorMessage name="protectionType" component="div" />*/}
-              {/*</FormField>*/}
             </Section>
             <SectionTitle onClick={() => setShowSection({ ...showSection, child: !showSection['child'] })}>
               <h2>Podaci o djetetu</h2>
