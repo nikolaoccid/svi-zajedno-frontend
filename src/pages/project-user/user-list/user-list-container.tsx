@@ -198,6 +198,7 @@ export function UserListContainer() {
             </HeaderSubtext>
           </Column>
         }
+        width="650px"
         onHide={() => {
           navigate(-1);
         }}
