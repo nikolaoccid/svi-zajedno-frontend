@@ -231,6 +231,10 @@ const UserView = ({ onClose }: { onClose?: () => void }) => {
             <Value>{croatianDateFormat(projectUser.dateOfBirth)}</Value>
           </ProfileItem>
           <ProfileItem>
+            <Label>Spol:</Label>
+            <Value>{projectUser.gender === 'male' ? 'Musko' : 'Zensko'}</Value>
+          </ProfileItem>
+          <ProfileItem>
             <Label>OIB:</Label>
             <Value>{projectUser.oib}</Value>
           </ProfileItem>
