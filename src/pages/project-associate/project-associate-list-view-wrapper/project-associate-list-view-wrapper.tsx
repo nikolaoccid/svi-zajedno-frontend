@@ -76,7 +76,7 @@ export function ProjectAssociateListViewWrapper() {
           </Column>
         }
         onHide={() => {
-          navigate(-1);
+          navigate(`/${startYear}/project-associates`);
         }}
       >
         <ProjectAssociateView />
@@ -94,7 +94,7 @@ export function ProjectAssociateListViewWrapper() {
           </Column>
         }
         onHide={() => {
-          navigate(-1);
+          navigate(`/${startYear}/project-associates/${projectAssociateId}`);
         }}
       >
         <ManageActivity />
@@ -112,7 +112,7 @@ export function ProjectAssociateListViewWrapper() {
           </Column>
         }
         onHide={() => {
-          navigate(-1);
+          navigate(`/${startYear}/project-associates/${projectAssociateId}`);
         }}
       >
         <ManageProjectAssociate />

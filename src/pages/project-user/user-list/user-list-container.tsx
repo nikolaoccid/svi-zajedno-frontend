@@ -164,7 +164,7 @@ export function UserListContainer() {
           </Column>
         }
         onHide={() => {
-          navigate(-1);
+          navigate(`/${startYear}/users`);
         }}
       >
         <ManageProjectUserView />
@@ -181,7 +181,7 @@ export function UserListContainer() {
           </Column>
         }
         onHide={() => {
-          navigate(-1);
+          navigate(`/${startYear}/users`);
         }}
         width="800px"
       >
@@ -200,7 +200,7 @@ export function UserListContainer() {
         }
         width="650px"
         onHide={() => {
-          navigate(-1);
+          navigate(`/${startYear}/users/${userId}`);
         }}
       >
         <ManageStudentOnActivityContainer />
@@ -217,7 +217,7 @@ export function UserListContainer() {
           </Column>
         }
         onHide={() => {
-          navigate(-1);
+          navigate(`/${startYear}/users/${userId}`);
         }}
       >
         <EnrollStudentOnSchoolYear />
@@ -234,7 +234,7 @@ export function UserListContainer() {
           </Column>
         }
         onHide={() => {
-          navigate(-1);
+          navigate(`/${startYear}/users/${userId}`);
         }}
       >
         <EditUserOnActivity />
