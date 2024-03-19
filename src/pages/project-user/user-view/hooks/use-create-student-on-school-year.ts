@@ -10,7 +10,7 @@ export function useCreateStudentOnSchoolYear(userId: number, schoolYearId: numbe
   const { loading: isLoading, execute: createStudentOnSchoolYear } = useAsyncCallback(
     async (sourceSystem, protectionType, dateOfEnrollment?) => {
       try {
-        await api.createProjetUserOnSchoolYear(userId, schoolYearId, sourceSystem, protectionType, dateOfEnrollment);
+        await api.createProjetUserOnSchoolYear(userId, schoolYearId, protectionType, sourceSystem, dateOfEnrollment);
         await queryClient.invalidateQueries(['getStudentOnSchoolYear']);
         await queryClient.invalidateQueries(['getProjectUserById']);
         await queryClient.invalidateQueries(['getProjectUser']);

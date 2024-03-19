@@ -8,7 +8,6 @@ import { CircleLoader } from 'react-spinners';
 import * as Yup from 'yup';
 
 import { api } from '../../../api';
-import { backendFormattedDate } from '../../../utils/backend-formatted-date.ts';
 import { frontendFormattedDate } from '../../../utils/frontend-formatted-date.ts';
 import { toastError, toastSuccess } from '../../../utils/toast.ts';
 import { Button, CenterContent, Form, FormError, FormField, PageContainer } from '../../common-styles/common-styles.ts';
@@ -17,8 +16,6 @@ import { useGetProjectUser } from './hooks/use-get-project-user.ts';
 const validationSchema = Yup.object({
   oib: Yup.string().required('OIB je obavezan').length(11, 'OIB mora imati točno 11 znakova'),
   gender: Yup.string().required('Spol mora biti odabran'),
-  sourceSystem: Yup.string().required('Izvorisni sustav mora biti odabran'),
-  protectionType: Yup.string().required('Osnova mora biti odabrana'),
   guardianName: Yup.string().required('Ime skrbnika je obavezno'),
   guardianSurname: Yup.string().required('Prezime skrbnika je obavezno'),
   childName: Yup.string().required('Ime djeteta je obavezno'),
@@ -80,7 +77,7 @@ export const ManageProjectUserView = () => {
     },
     validationSchema: validationSchema,
     onSubmit: async (formData) => {
-      formData = { ...formData, dateOfBirth: backendFormattedDate(formData.dateOfBirth).toISOString() };
+      console.log('formData', formData);
       if (userId && projectUser && projectUser.oib) {
         try {
           await api.updateProjectUser(userId, formData);
