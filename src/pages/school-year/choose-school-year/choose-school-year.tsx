@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { useTranslation } from 'react-i18next';
 import { Navigate } from 'react-router-dom';
 import { ClockLoader } from 'react-spinners';
 
@@ -100,6 +101,7 @@ const Center = styled.div`
   gap: 25px;
 `;
 export function ChooseSchoolYear() {
+  const { t } = useTranslation();
   const { data: schoolYears, isLoading } = useSchoolYears();
 
   if (isLoading) {
@@ -120,7 +122,7 @@ export function ChooseSchoolYear() {
       <HeroWrapper>
         <HeroContainer>
           <CenterLogo>
-            <Logo>Activity Tracker</Logo>
+            <Logo>{t('applicationName')}</Logo>
           </CenterLogo>
         </HeroContainer>
       </HeroWrapper>
@@ -128,8 +130,8 @@ export function ChooseSchoolYear() {
       <Content>
         <Center>
           <HeaderContainer>
-            <HeaderText>Odaberi skolsku godinu</HeaderText>
-            <HeaderSubtext>Odaberite skolsku godinu koju zelite administrirati</HeaderSubtext>
+            <HeaderText>{t('Choose the school year')}</HeaderText>
+            <HeaderSubtext>{t('Select the school year you wish to administer')}</HeaderSubtext>
           </HeaderContainer>
           <InnerContent>
             {schoolYears &&

@@ -24,7 +24,7 @@ export function useCreateSchoolYear() {
       const err = e as AxiosError<any>;
 
       if (err && err.response && err.response.data && err.response.data.message) {
-        setErrorMessages([err.response.data.message]);
+        setErrorMessages([err.response.data.message].flat());
       }
     }
   });

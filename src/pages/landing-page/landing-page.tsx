@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
 import hero from '/hero.jpeg';
@@ -54,14 +55,17 @@ const CenterContent = styled.div`
   justify-content: center;
 `;
 function LandingPage() {
+  const { t } = useTranslation();
   const { data: user } = useAuthenticatedUser();
 
   return (
     <LandingPageContainer>
       <Overlay>
         <Center>
-          <Heading>Platforma Activity Tracker</Heading>
-          <SubHeading>Učinkovito pratite i upravljajte aktivnostima svojih korisnika</SubHeading>
+          <Heading>
+            {t('Platform')} {t('applicationName')}
+          </Heading>
+          <SubHeading>{t("Efficiently track and manage your users' activities")}</SubHeading>
           <CenterContent>
             <CTALink to={user ? '/school-year' : '/login'}>{user ? 'Admin portal' : 'Login'}</CTALink>
           </CenterContent>

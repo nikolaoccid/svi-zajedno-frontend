@@ -8,7 +8,6 @@ import { ToastContainer } from 'react-toastify';
 import { RouteGuard } from './components/route-guard/route-guard.tsx';
 import { CategoriesContainer } from './pages/category/categories-container/categories-container.tsx';
 import { Dashboard } from './pages/dashboard/dashboard.tsx';
-import { DashboardPage } from './pages/dashboard-page/dashboard-page.tsx';
 import LandingPage from './pages/landing-page/landing-page.tsx';
 import LoginPage from './pages/login-page/login-page.tsx';
 import { Logout } from './pages/logout/logout.tsx';
@@ -29,9 +28,6 @@ function App() {
         <RouteGuard publicRoutes={publicRoutes} redirectTo="/logout">
           <Routes>
             <Route path="/" element={<LandingPage />} />
-
-            {/*Dashboard*/}
-            <Route path="/:startYear" element={<DashboardPage />} />
 
             {/*School year paths*/}
             <Route path="/school-year" element={<ChooseSchoolYear />} />

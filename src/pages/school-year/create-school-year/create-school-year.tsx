@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { GridLoader } from 'react-spinners';
 
 import { generateSchoolYears } from '../../../utils/generate-school-years.ts';
@@ -9,9 +10,10 @@ import { useCreateSchoolYear } from './hooks/use-create-school-year.ts';
 
 const ErrorMessage = styled.p`
   color: red;
-  margin-top: 0.5rem;
+  margin-top: 0.1rem;
 `;
 export const CreateSchoolYear = () => {
+  const { t } = useTranslation();
   const { data: schoolYears, isLoading: schoolYearLoading } = useSchoolYears();
   const [selectedYear, setSelectedYear] = useState('choose');
   const generatedSchoolYears = generateSchoolYears(
@@ -34,9 +36,9 @@ export const CreateSchoolYear = () => {
   return (
     <PageContainer>
       <CenterContent>
-        <h2>Kreiraj skolsku godinu</h2>
+        <h2>{t('Create a school year')}</h2>
         <Select onChange={(e) => setSelectedYear(e.target.value)} value={selectedYear}>
-          <option value="choose">Odaberite jedno</option>
+          <option value="choose">{t('Choose a school year')}</option>
           {generatedSchoolYears?.map((schoolYear) => (
             <option key={schoolYear} value={schoolYear}>
               {schoolYear} / {schoolYear + 1}
@@ -44,9 +46,9 @@ export const CreateSchoolYear = () => {
           ))}
         </Select>
         <Button onClick={handleClick} disabled={selectedYear === ''}>
-          Potvrdi
+          {t('Confirm')}
         </Button>
-        {errorMessages.map((error, index) => (
+        {(errorMessages as any).map((error, index) => (
           <ErrorMessage key={index}>{error}</ErrorMessage>
         ))}
       </CenterContent>
