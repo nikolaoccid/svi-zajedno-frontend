@@ -10,6 +10,11 @@ export const PageContainer = styled.div`
   padding: 1em;
 `;
 
+export const FlexRowContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
 export const Select = styled.select`
   font-family: Axiforma, sans-serif;
   width: 100%;

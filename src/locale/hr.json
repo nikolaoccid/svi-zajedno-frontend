@@ -7,7 +7,16 @@
     "Select the school year you wish to administer": "Odaberite skolsku godinu koju zelite administrirati",
     "Create a school year": "Kreiraj školsku godinu",
     "Choose a school year": "Odaberite skolsku godinu",
-    "Confirm": "Potvrdi"
+    "Confirm": "Potvrdi",
+    "Choose a school year you would like to create": "Odaberite školsku godinu koju želite kreirati",
+    "Change the school year": "Promijeni školsku godinu",
+    "Dashboard": "Kontrolna ploča",
+    "Users": "Korisnici",
+    "Associates": "Suradnici",
+    "Categories": "Kategorije",
+    "School years": "Školske godine",
+    "Settings": "Postavke",
+    "Logout": "Kraj rada"
 
   }
 }

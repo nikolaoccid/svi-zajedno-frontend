@@ -13,6 +13,10 @@ export const HeaderTitle = styled.span<{ active: boolean }>`
   font-weight: bold;
   font-size: 14px;
   text-decoration: ${(props) => (props.active ? 'underline' : 'none')};
+
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 const Container = styled.div`
   display: flex;

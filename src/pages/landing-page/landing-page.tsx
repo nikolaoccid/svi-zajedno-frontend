@@ -17,11 +17,11 @@ const LandingPageContainer = styled.div`
 
 const Heading = styled.h1`
   color: white;
-  font-size: 2.5rem;
+  font-size: 2rem;
   text-align: center;
 `;
 const SubHeading = styled.h2`
-  font-size: 2rem;
+  font-size: 1.5rem;
   color: white;
   text-align: center;
 `;
@@ -48,6 +48,7 @@ const Center = styled.div`
   align-items: center;
   height: 100%;
   gap: 25px;
+  padding: 1em;
 `;
 const CenterContent = styled.div`
   display: flex;

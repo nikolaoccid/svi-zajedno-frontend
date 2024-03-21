@@ -27,7 +27,7 @@ import {
   UsersApi,
 } from './codegen';
 
-const basePath = import.meta.env.VITE_API_URL ?? 'http://localhost:3001';
+const basePath = import.meta.env.VITE_API_URL ?? 'http://192.168.1.107:3001';
 
 const configuration = new Configuration({
   basePath,

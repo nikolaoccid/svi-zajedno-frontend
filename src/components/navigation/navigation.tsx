@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import Hamburger from 'hamburger-react';
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { FaCalendarAlt, FaExchangeAlt } from 'react-icons/fa';
 import { FaUsers } from 'react-icons/fa6';
 import { HiSquares2X2 } from 'react-icons/hi2';
@@ -93,6 +94,7 @@ const Logo = styled.span`
 `;
 
 export function Navigation() {
+  const { t } = useTranslation();
   const [isOpen, setOpen] = useState(false);
   const { startYear } = useParams();
   const { data: schoolYear } = useSchoolYear(parseInt(startYear ?? '0') ?? 0);
@@ -102,29 +104,29 @@ export function Navigation() {
   const menuItems = {
     Other: [
       {
-        name: 'Promijeni skolsku godinu',
+        name: t('Change the school year'),
         icon: FaExchangeAlt,
         innerName: 'changeSchoolYear',
         link: '/school-year',
       },
     ],
     [`${schoolYear?.startYear} / ${schoolYear?.endYear}`]: [
-      { name: 'Kontrolna ploca', icon: IoMdHome, innerName: 'pocetna', link: `/${startYear}/dashboard` },
-      { name: 'Korisnici', icon: FaUsers, innerName: 'user', link: `/${startYear}/users` },
+      { name: t('Dashboard'), icon: IoMdHome, innerName: 'pocetna', link: `/${startYear}/dashboard` },
+      { name: t('Users'), icon: FaUsers, innerName: 'user', link: `/${startYear}/users` },
     ],
     POSTAVKE: [
       {
-        name: 'Suradnici',
+        name: t('Associates'),
         icon: MdOutlineSportsSoccer,
         innerName: 'project-associate',
         link: `/${startYear}/project-associates`,
       },
-      { name: 'Kategorije', icon: HiSquares2X2, innerName: 'categor', link: `/${startYear}/categories` },
-      { name: 'Školske godine', icon: FaCalendarAlt, innerName: 'school-year', link: `/${startYear}/school-years` },
-      { name: 'Postavke', icon: IoMdSettings, innerName: 'settings' },
+      { name: t('Categories'), icon: HiSquares2X2, innerName: 'categor', link: `/${startYear}/categories` },
+      { name: t('School years'), icon: FaCalendarAlt, innerName: 'school-year', link: `/${startYear}/school-years` },
+      { name: t('Settings'), icon: IoMdSettings, innerName: 'settings' },
       // { name: 'Sigurnost', icon: MdSecurity, innerName: 'security' },
     ],
-    NoTitleSection: [{ name: 'Kraj rada', icon: IoLogOut, innerName: 'logout', link: '/logout' }],
+    NoTitleSection: [{ name: t('Logout'), icon: IoLogOut, innerName: 'logout', link: '/logout' }],
   };
 
   useEffect(() => {
@@ -140,7 +142,7 @@ export function Navigation() {
   return (
     <NavigationContainer>
       <LogoSection>
-        <Logo>Activity Tracker</Logo>
+        <Logo>{t('applicationName')}</Logo>
         <HamburgerContainer>
           <Hamburger color="#ffffff" size={25} toggled={isOpen} toggle={setOpen} />
         </HamburgerContainer>
