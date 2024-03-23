@@ -106,12 +106,12 @@ export function updateProjectUser(userId: string, user: UpdateProjectUserDto) {
   return getData(projectUserApi.projectUserControllerUpdate(userId, user));
 }
 
-export function getProjectUserByQuery(query: string) {
-  return getData(projectUserApi.projectUserControllerFindAll(undefined, undefined, query));
+export function getProjectUserByQuery(query: string, schoolYearId: number | undefined) {
+  return getData(projectUserApi.projectUserControllerFindAll(schoolYearId, undefined, undefined, query));
 }
 
-export function getProjectUserByPageAndQuery(page: number, query: string) {
-  return getData(projectUserApi.projectUserControllerFindAll(undefined, page, query));
+export function getProjectUserByPageAndQuery(page: number, query: string, schoolYearId: number | undefined) {
+  return getData(projectUserApi.projectUserControllerFindAll(schoolYearId, undefined, page, query));
 }
 export function getProjectUsersBySchoolYear(
   schoolYearId: string,

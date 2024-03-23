@@ -3006,13 +3006,14 @@ export const ProjectUserApiAxiosParamCreator = function (configuration?: Configu
         },
         /**
          * 
+         * @param {number} [schoolYearId] 
          * @param {number} [limit] 
          * @param {number} [page] 
          * @param {string} [query] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        projectUserControllerFindAll: async (limit?: number, page?: number, query?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        projectUserControllerFindAll: async (schoolYearId?: number, limit?: number, page?: number, query?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/project-user`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -3028,6 +3029,10 @@ export const ProjectUserApiAxiosParamCreator = function (configuration?: Configu
             // authentication bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (schoolYearId !== undefined) {
+                localVarQueryParameter['schoolYearId'] = schoolYearId;
+            }
 
             if (limit !== undefined) {
                 localVarQueryParameter['limit'] = limit;
@@ -3191,14 +3196,15 @@ export const ProjectUserApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @param {number} [schoolYearId] 
          * @param {number} [limit] 
          * @param {number} [page] 
          * @param {string} [query] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async projectUserControllerFindAll(limit?: number, page?: number, query?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.projectUserControllerFindAll(limit, page, query, options);
+        async projectUserControllerFindAll(schoolYearId?: number, limit?: number, page?: number, query?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.projectUserControllerFindAll(schoolYearId, limit, page, query, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -3253,14 +3259,15 @@ export const ProjectUserApiFactory = function (configuration?: Configuration, ba
         },
         /**
          * 
+         * @param {number} [schoolYearId] 
          * @param {number} [limit] 
          * @param {number} [page] 
          * @param {string} [query] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        projectUserControllerFindAll(limit?: number, page?: number, query?: string, options?: any): AxiosPromise<void> {
-            return localVarFp.projectUserControllerFindAll(limit, page, query, options).then((request) => request(axios, basePath));
+        projectUserControllerFindAll(schoolYearId?: number, limit?: number, page?: number, query?: string, options?: any): AxiosPromise<void> {
+            return localVarFp.projectUserControllerFindAll(schoolYearId, limit, page, query, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -3313,6 +3320,7 @@ export class ProjectUserApi extends BaseAPI {
 
     /**
      * 
+     * @param {number} [schoolYearId] 
      * @param {number} [limit] 
      * @param {number} [page] 
      * @param {string} [query] 
@@ -3320,8 +3328,8 @@ export class ProjectUserApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof ProjectUserApi
      */
-    public projectUserControllerFindAll(limit?: number, page?: number, query?: string, options?: AxiosRequestConfig) {
-        return ProjectUserApiFp(this.configuration).projectUserControllerFindAll(limit, page, query, options).then((request) => request(this.axios, this.basePath));
+    public projectUserControllerFindAll(schoolYearId?: number, limit?: number, page?: number, query?: string, options?: AxiosRequestConfig) {
+        return ProjectUserApiFp(this.configuration).projectUserControllerFindAll(schoolYearId, limit, page, query, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -5012,7 +5020,7 @@ export const UsersApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async usersControllerCreate(createUserDto: CreateUserDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<User>> {
+        async usersControllerCreate(createUserDto: CreateUserDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.usersControllerCreate(createUserDto, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -5050,7 +5058,7 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        usersControllerCreate(createUserDto: CreateUserDto, options?: any): AxiosPromise<User> {
+        usersControllerCreate(createUserDto: CreateUserDto, options?: any): AxiosPromise<object> {
             return localVarFp.usersControllerCreate(createUserDto, options).then((request) => request(axios, basePath));
         },
         /**

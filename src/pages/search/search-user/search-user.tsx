@@ -7,6 +7,7 @@ import * as Yup from 'yup';
 
 import { api } from '../../../api';
 import { CenterContent, PageContainer } from '../../common-styles/common-styles.ts';
+import { useSelectedSchoolYear } from '../../dashboard-page/hooks/use-fetch-school-year.ts';
 
 const validationSchema = Yup.object().shape({
   search: Yup.string().required('Unos je obavezan'),
@@ -47,6 +48,7 @@ const TableLink = styled(Link)`
 `;
 export function SearchUser(): JSX.Element {
   const { startYear } = useParams();
+  const { data: schoolYear } = useSelectedSchoolYear();
   const [projectUser, setProjectUser] = useState<any>([]);
   const [fetched, setFetched] = useState(false);
   const formik = useFormik({
@@ -56,7 +58,7 @@ export function SearchUser(): JSX.Element {
     validationSchema: validationSchema,
     onSubmit: async (formCategory) => {
       console.log(formCategory);
-      const res = await api.getProjectUserByQuery(formCategory.search);
+      const res = await api.getProjectUserByQuery(formCategory.search, schoolYear?.id);
       setProjectUser(res);
       setFetched(true);
     },
