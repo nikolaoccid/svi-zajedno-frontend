@@ -84,7 +84,7 @@ const UserSearchView = () => {
     },
     validationSchema: validationSchema,
     onSubmit: async (formCategory) => {
-      const res = await api.getProjectUserByQuery(formCategory.search);
+      const res = await api.getProjectUserByQuery(formCategory.search, schoolYear?.id);
       setQueryResults(res);
       setFetched(true);
       setTotalPages(1);

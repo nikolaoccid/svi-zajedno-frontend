@@ -121,7 +121,11 @@ export function UserListContainer() {
   const [currentPage, setCurrentPage] = useState(1);
   const [userType, setUserType] = useState('all');
 
-  const { data: apiUsers, refetch: refetchByPageAndQuery } = useGetProjectUserByPageAndQuery(currentPage, searchQuery);
+  const { data: apiUsers, refetch: refetchByPageAndQuery } = useGetProjectUserByPageAndQuery(
+    currentPage,
+    searchQuery,
+    schoolYear?.id,
+  );
   const { data: apiUsersAll, refetch } = useGetProjectUsersBySchoolYear(
     schoolYear?.id.toString() ?? '0',
     currentPage,
