@@ -5,9 +5,11 @@ import { GoDotFill } from 'react-icons/go';
 const Container = styled.div`
   display: flex;
   flex-direction: row;
-  padding: 5vw;
-  border-bottom: 1px solid lightgray;
-
+  padding: 1vw;
+  border: 1px solid #e6e7ea;
+  border-radius: 1vw;
+  margin: 3vw;
+  box-shadow: 0 4px 4px rgba(18, 22, 39, 0.02);
   @media (max-width: 900px) {
     flex-direction: column;
   }
@@ -25,7 +27,7 @@ const LeftContent = styled.div`
 const RightContent = styled.div`
   display: flex;
   width: 60%;
-  padding: 0.8vw;
+  padding: 0.75vw;
   @media (max-width: 900px) {
     width: 100%;
   }
@@ -35,8 +37,7 @@ const RightContent = styled.div`
     url('/landing-page/section-background.jpeg') no-repeat;
 
   background-size: cover;
-  border-top-left-radius: 1vw;
-  border-bottom-left-radius: 1vw;
+  border-radius: 1vw;
 `;
 const Image = styled.img`
   width: 100%;
