@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 
 import { useSchoolYear } from '../dashboard-page/hooks/use-fetch-school-year.ts';
@@ -31,6 +32,7 @@ const Container = styled.div<{ show: boolean }>`
   gap: 30px;
 `;
 export function Overview({ show }: { show: boolean }) {
+  const { t } = useTranslation();
   const { startYear } = useParams();
   const { data: schoolYear } = useSchoolYear(parseInt(startYear ?? '0') ?? 0);
   const { data: associateStatisticsAPI } = useAssociateStatistics(schoolYear ? schoolYear?.id : 0);
@@ -44,7 +46,7 @@ export function Overview({ show }: { show: boolean }) {
         {projectUserStatistics && (
           <DashboardSingleWidget
             type={'Value'}
-            title={'Procijenjena vrijednost projekta'}
+            title={t('Estimated project value')}
             value={projectUserStatistics.totalProjectValue}
             euro={true}
           />
@@ -52,20 +54,20 @@ export function Overview({ show }: { show: boolean }) {
         {associateStatistics && (
           <DashboardSingleWidget
             type={'Associate'}
-            title="Ukupno suradnika"
+            title={t('Total project associates')}
             value={associateStatistics[0]?.totalAssociates}
           />
         )}
         {projectUserStatistics && (
           <DashboardSingleWidget
             type={'Activity'}
-            title={'Ukupno aktivnosti'}
+            title={t('Total activities')}
             value={projectUserStatistics?.associatesTotalActivities}
           />
         )}
         {projectUserStatistics && (
           <>
-            <DashboardSingleWidget type={'Users'} title={'Ukupno korisnika'} value={projectUserStatistics.totalUsers} />
+            <DashboardSingleWidget type={'Users'} title={t('Total users')} value={projectUserStatistics.totalUsers} />
           </>
         )}
       </Row>
@@ -73,12 +75,12 @@ export function Overview({ show }: { show: boolean }) {
       <Row>
         {projectUserStatistics && (
           <Column>
-            <HeaderTitle>Izvorisni sustav korisnika</HeaderTitle>
+            <HeaderTitle>{t('User source system')}</HeaderTitle>
             <PieChartComponent
               data={[
-                { name: 'Izvorisni sustav CZSS', value: projectUserStatistics.sourceSystems.czss },
+                { name: t('Social welfare'), value: projectUserStatistics.sourceSystems.czss },
                 {
-                  name: 'Izvorisni sustav Obiteljski centar',
+                  name: t('Family center'),
                   value: projectUserStatistics.sourceSystems.obiteljskicentar,
                 },
               ]}
@@ -86,7 +88,7 @@ export function Overview({ show }: { show: boolean }) {
           </Column>
         )}
         <Column>
-          <HeaderTitle>Suradnici po kategorijama</HeaderTitle>
+          <HeaderTitle>{t('Associates by categories')}</HeaderTitle>
           {associateStatistics && <OverviewActivityTable data={associateStatistics} />}
         </Column>
       </Row>

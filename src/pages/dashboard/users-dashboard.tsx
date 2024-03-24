@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 
 import { useSchoolYear } from '../dashboard-page/hooks/use-fetch-school-year.ts';
@@ -30,6 +31,7 @@ const Column = styled.div`
   width: 50%;
 `;
 export function UsersDashboard({ show }: { show: boolean }) {
+  const { t } = useTranslation();
   const { startYear } = useParams();
   const { data: schoolYear } = useSchoolYear(parseInt(startYear ?? '0') ?? 0);
   const { data: projectUserStatisticsAPI } = useProjectUserStatistics(schoolYear ? schoolYear?.id : 0);
@@ -40,20 +42,20 @@ export function UsersDashboard({ show }: { show: boolean }) {
       <Row>
         {projectUserStatistics && (
           <>
-            <DashboardSingleWidget type={'Users'} title={'Ukupno korisnika'} value={projectUserStatistics.totalUsers} />
+            <DashboardSingleWidget type={'Users'} title={t('Total users')} value={projectUserStatistics.totalUsers} />
             <DashboardSingleWidget
               type={'Activity'}
-              title={'Aktivni korisnici'}
+              title={t('Active users')}
               value={projectUserStatistics.activeUsers}
             />
             <DashboardSingleWidget
               type={'Value'}
-              title={'Ukupan broj korisnickih aktivnosti'}
+              title={t('User activites total')}
               value={projectUserStatistics.totalActivities}
             />
             <DashboardSingleWidget
               type={'Associate'}
-              title={'Broj upisanih aktivnosti'}
+              title={t('Enrolled activities')}
               value={projectUserStatistics.activeActivities}
             />
           </>
@@ -62,12 +64,12 @@ export function UsersDashboard({ show }: { show: boolean }) {
       <Row>
         {projectUserStatistics && (
           <Column>
-            <HeaderTitle>Izvorisni sustav korisnika</HeaderTitle>
+            <HeaderTitle>{t('User source system')}</HeaderTitle>
             <PieChartComponent
               data={[
-                { name: 'Izvorisni sustav CZSS', value: projectUserStatistics.sourceSystems.czss },
+                { name: t('Social welfare'), value: projectUserStatistics.sourceSystems.czss },
                 {
-                  name: 'Izvorisni sustav Obiteljski centar',
+                  name: t('Family center'),
                   value: projectUserStatistics.sourceSystems.obiteljskicentar,
                 },
               ]}
@@ -79,9 +81,9 @@ export function UsersDashboard({ show }: { show: boolean }) {
           {projectUserStatistics && (
             <PieChartComponent
               data={[
-                { name: 'Direktni upis', value: projectUserStatistics.protectionTypes.zmn },
-                { name: 'Preporuka', value: projectUserStatistics.protectionTypes.preporuka },
-                { name: 'Udomitelji', value: projectUserStatistics.protectionTypes.udomiteljstvo },
+                { name: t('Direct enrollment'), value: projectUserStatistics.protectionTypes.zmn },
+                { name: t('Recommendation'), value: projectUserStatistics.protectionTypes.preporuka },
+                { name: t('Foster parents'), value: projectUserStatistics.protectionTypes.udomiteljstvo },
               ]}
             />
           )}
@@ -89,18 +91,18 @@ export function UsersDashboard({ show }: { show: boolean }) {
       </Row>
       <Row>
         <Column>
-          <HeaderTitle>Korisnici po spolu</HeaderTitle>
+          <HeaderTitle>{t('Users by gender')}</HeaderTitle>
           {projectUserStatistics && (
             <PieChartComponent
               data={[
-                { name: 'zensko', value: projectUserStatistics.femaleUsers },
-                { name: 'musko', value: projectUserStatistics.maleUsers },
+                { name: t('Female'), value: projectUserStatistics.femaleUsers },
+                { name: t('Male'), value: projectUserStatistics.maleUsers },
               ]}
             />
           )}
         </Column>
         <Column>
-          <HeaderTitle>Korisnici po godinama</HeaderTitle>
+          <HeaderTitle>{t('Users by age group')}</HeaderTitle>
           {projectUserStatistics && projectUserStatistics.ageGroups && (
             <PieChartComponent
               data={[

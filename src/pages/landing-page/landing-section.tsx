@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { MutableRefObject } from 'react';
+import { useTranslation } from 'react-i18next';
 import { GoDotFill } from 'react-icons/go';
 
 const Container = styled.div`
@@ -67,14 +68,15 @@ interface LandingSectionProps {
   forwardRef?: MutableRefObject<HTMLDivElement | null>;
 }
 export function LandingSection({ title, subtext, picture, forwardRef }: LandingSectionProps) {
+  const { t } = useTranslation();
   return (
     <Container ref={forwardRef}>
       <LeftContent>
-        <HeaderTitle>{title}</HeaderTitle>
+        <HeaderTitle>{t(title)}</HeaderTitle>
         <SubtextContainer>
           {subtext.map((text) => (
             <Subtext key={text}>
-              <GoDotFill size={15} color={'#051033'} /> {text}
+              <GoDotFill size={15} color={'#051033'} /> {t(text)}
             </Subtext>
           ))}
         </SubtextContainer>

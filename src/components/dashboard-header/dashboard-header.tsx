@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 
 import { useSchoolYear } from '../../pages/dashboard-page/hooks/use-fetch-school-year.ts';
@@ -30,6 +31,7 @@ const Column = styled.div`
 `;
 
 export function DashboardHeader({ text }: { text: string }) {
+  const { t } = useTranslation();
   const { startYear } = useParams();
   const { data: schoolYear } = useSchoolYear(parseInt(startYear ?? '0') ?? 0);
   return (
@@ -37,7 +39,7 @@ export function DashboardHeader({ text }: { text: string }) {
       <Column>
         <HeaderText>{text}</HeaderText>
         <HeaderSubtext>
-          Skolska godina: {schoolYear?.startYear} / {schoolYear?.endYear}
+          {t('Academic year')}: {schoolYear?.startYear} / {schoolYear?.endYear}
         </HeaderSubtext>
       </Column>
       <UserBadge />

@@ -122,7 +122,7 @@ export function Navigation() {
         link: `/${startYear}/project-associates`,
       },
       { name: t('Categories'), icon: HiSquares2X2, innerName: 'categor', link: `/${startYear}/categories` },
-      { name: t('School years'), icon: FaCalendarAlt, innerName: 'school-year', link: `/${startYear}/school-years` },
+      { name: t('Academic years'), icon: FaCalendarAlt, innerName: 'school-year', link: `/${startYear}/school-years` },
       { name: t('Settings'), icon: IoMdSettings, innerName: 'settings' },
       // { name: 'Sigurnost', icon: MdSecurity, innerName: 'security' },
     ],

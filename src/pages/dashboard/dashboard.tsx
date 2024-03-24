@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { DashboardHeader } from '../../components/dashboard-header/dashboard-header.tsx';
 import { Navigation } from '../../components/navigation/navigation.tsx';
@@ -33,11 +34,12 @@ const InnerContainer = styled.div`
 `;
 export function Dashboard() {
   const [nav, setNav] = useState('overview');
+  const { t } = useTranslation();
   return (
     <DashboardContainer>
       <Navigation />
       <ContentContainer>
-        <DashboardHeader text="Kontrolna ploca" />
+        <DashboardHeader text={t('Dashboard')} />
         <InnerContainer>
           <DashboardNavigation setNav={setNav} nav={nav} />
           <Overview show={nav === navEnum.overview} />
