@@ -104,7 +104,7 @@ export function Navigation() {
   const menuItems = {
     Other: [
       {
-        name: t('Change the school year'),
+        name: t('Change the academic year'),
         icon: FaExchangeAlt,
         innerName: 'changeSchoolYear',
         link: '/school-year',

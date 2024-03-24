@@ -25,8 +25,8 @@ export function ChooseSchoolYear() {
       <ComponentContent
         header={
           <HeaderTextWithSubtext
-            title={'Choose the school year'}
-            subtext={'Select the school year you wish to administer'}
+            title={'Choose the academic year'}
+            subtext={'Select the academic year you wish to administer'}
           />
         }
         schoolYears={schoolYears}

@@ -1,9 +1,7 @@
 import styled from '@emotion/styled';
 import { useState } from 'react';
 
-import heroLoginImage from '/hero-login.jpeg';
-
-import { BackButton } from '../../components/back-button/back-button.tsx';
+import { HalfScreenHero } from '../../components/half-screen-hero/half-screen-hero.tsx';
 import { useLogin } from './hooks/use-login.ts';
 const PageContainer = styled.div`
   display: flex;
@@ -44,21 +42,6 @@ const ErrorMessage = styled.p`
   color: red;
   margin-top: 0.5rem;
 `;
-const LoginHero = styled.div`
-  width: 50%;
-  background-image: url(${heroLoginImage});
-  height: 100vh;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-
-  @media (max-width: 800px) {
-    display: none;
-  }
-`;
-const TopLeft = styled.div`
-  width: 100%;
-`;
 const Content = styled.div`
   display: flex;
   flex-direction: column;
@@ -79,11 +62,8 @@ function LoginPage() {
   return (
     <>
       <PageContainer>
-        <LoginHero />
+        <HalfScreenHero />
         <FormContainer>
-          <TopLeft>
-            <BackButton />
-          </TopLeft>
           <Content>
             <h1>Prijavi se u svoj racun</h1>
             <div>

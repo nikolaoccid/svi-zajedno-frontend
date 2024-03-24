@@ -15,11 +15,11 @@ export function useCreateSchoolYear() {
   const { loading: isLoading, execute: createSchoolYear } = useAsyncCallback(async (startYear: number) => {
     try {
       const { startYear: apiStartYear, endYear: apiEndYear } = await api.createSchoolYear(startYear);
-      toastSuccess(`Successfully created school year ${apiStartYear}/${apiEndYear}`);
+      toastSuccess(`Successfully created academic year ${apiStartYear}/${apiEndYear}`);
       await queryClient.invalidateQueries(['getAllSchoolYears']);
       navigate('/school-year');
     } catch (e) {
-      toastError('Could not create school year');
+      toastError('Could not create academic year');
       console.error(e);
       const err = e as AxiosError<any>;
 

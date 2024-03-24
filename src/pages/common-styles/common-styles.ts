@@ -66,7 +66,7 @@ export const CenterContent = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-width: 400px;
+  //min-width: 400px;
   gap: 15px;
 `;
 

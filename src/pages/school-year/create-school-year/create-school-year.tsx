@@ -38,9 +38,12 @@ export const CreateSchoolYear = () => {
     <FlexRowContainer>
       <HalfScreenHero />
       <Content>
-        <HeaderTextWithSubtext title={'Create a school year'} subtext="Choose a school year you would like to create" />
+        <HeaderTextWithSubtext
+          title={'Create a academic year'}
+          subtext="Choose a academic year you would like to create"
+        />
         <Select onChange={(e) => setSelectedYear(e.target.value)} value={selectedYear}>
-          <option value="choose">{t('Choose a school year')}</option>
+          <option value="choose">{t('Choose a academic year')}</option>
           {generatedSchoolYears?.map((schoolYear) => (
             <option key={schoolYear} value={schoolYear}>
               {schoolYear} / {schoolYear + 1}
