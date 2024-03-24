@@ -35,8 +35,11 @@
     "Associates statistics": "Statistika suradnika",
     "Estimated project value": "Procijenjena vrijednost projekta",
     "Total project associates": "Ukupno suradnika",
+    "Total associates activities": "Ukupno aktivnosti suradnika",
     "Total activities": "Ukupno aktivnosti",
     "Total users": "Ukupno korisnika",
+    "Active activities": "Aktivnosti koje se izvode",
+    "Inactive activities": "Aktivnosti koje se ne izvode",
     "User source system": "Izvorisni sustav korisnika",
     "Associates by categories": "Suradnici po kategorijama",
     "Active users": "Aktivni korisnici",
@@ -50,6 +53,11 @@
     "Users by gender": "Korisnici po spolu",
     "Male": "Musko",
     "Female": "Zensko",
-    "Users by age group": "Korisnici po godinama"
+    "Users by age group": "Korisnici po godinama",
+    "Associates in category": "Suradnika u kategoriji",
+    "Free activities": "Besplatne aktivnosti",
+    "Users on free activities": "Korisnici na besplatnim aktivnostima",
+    "Paid activities": "Placene aktivnosti",
+    "Users on paid activities": "Korisnici na placenim aktivnostima"
   }
 }

@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 
 import { useSchoolYear } from '../dashboard-page/hooks/use-fetch-school-year.ts';
@@ -25,6 +26,7 @@ const Row = styled.div`
   }
 `;
 export function AssociatesDashboard({ show }: { show: boolean }) {
+  const { t } = useTranslation();
   const { startYear } = useParams();
   const { data: schoolYear } = useSchoolYear(parseInt(startYear ?? '0') ?? 0);
   const { data: associateStatisticsAPI } = useAssociateStatistics(schoolYear ? schoolYear?.id : 0);
@@ -38,7 +40,7 @@ export function AssociatesDashboard({ show }: { show: boolean }) {
         {associateStatistics && (
           <DashboardSingleWidget
             type={'Value'}
-            title={'Ukupno suradnika'}
+            title={t('Total project associates')}
             value={associateStatistics[0]?.totalAssociates}
           />
         )}
@@ -46,17 +48,17 @@ export function AssociatesDashboard({ show }: { show: boolean }) {
           <>
             <DashboardSingleWidget
               type={'Activity'}
-              title={'Ukupno aktivnosti suradnika'}
+              title={t('Total associates activities')}
               value={projectUserStatistics?.associatesTotalActivities}
             />
             <DashboardSingleWidget
               type={'Users'}
-              title={'Aktivnosti koje se izvode'}
+              title={t('Active activities')}
               value={projectUserStatistics.associatesActiveActivities}
             />
             <DashboardSingleWidget
               type={'Associate'}
-              title={'Aktivnosti koje se ne izvode'}
+              title={t('Inactive activites')}
               value={projectUserStatistics.associatesInactiveActivities}
             />
           </>

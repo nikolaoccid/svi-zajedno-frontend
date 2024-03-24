@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { useTranslation } from 'react-i18next';
 import { GoDotFill } from 'react-icons/go';
 
 const TableContainer = styled.div`
@@ -37,6 +38,7 @@ const Icon = styled.td`
   white-space: nowrap;
 `;
 export function AssociatesDashboardTable({ data }: { data: any[] }) {
+  const { t } = useTranslation();
   return (
     <TableContainer>
       <Table>
@@ -44,11 +46,11 @@ export function AssociatesDashboardTable({ data }: { data: any[] }) {
           <tr>
             <td></td>
             <td></td>
-            <HeaderData>Suradnika u kategoriji</HeaderData>
-            <HeaderData>Besplatne aktivnosti</HeaderData>
-            <HeaderData>Korisnici na besplatnim aktivnostima</HeaderData>
-            <HeaderData>Placene aktivnosti</HeaderData>
-            <HeaderData>Korisnici na placenim aktivnostima</HeaderData>
+            <HeaderData>{t('Associates in category')}</HeaderData>
+            <HeaderData>{t('Free activities')}</HeaderData>
+            <HeaderData>{t('Users on free activities')}</HeaderData>
+            <HeaderData>{t('Paid activities')}</HeaderData>
+            <HeaderData>{t('Users on paid activities')}</HeaderData>
           </tr>
         </thead>
         <tbody>
