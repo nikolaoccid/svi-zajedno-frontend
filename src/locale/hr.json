@@ -58,6 +58,13 @@
     "Free activities": "Besplatne aktivnosti",
     "Users on free activities": "Korisnici na besplatnim aktivnostima",
     "Paid activities": "Placene aktivnosti",
-    "Users on paid activities": "Korisnici na placenim aktivnostima"
+    "Users on paid activities": "Korisnici na placenim aktivnostima",
+    "Login": "Prijavi se u svoj racun",
+    "Exclude user from activity": "Ispisi korisnika s aktivnosti",
+    "Edit user": "Uredi korisnika",
+    "Enroll user on activity": "Upisi korisnika na aktivnost",
+    "Add new user": "Dodaj novog korisnik",
+    "Enroll user on the academic year": "Upisi korisnika na skolsku godinu",
+    "User profile": "Pregled korisnika"
   }
 }

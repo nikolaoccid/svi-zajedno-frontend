@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { Flyout } from 'pivotal-ui/react/flyout';
 import { useEffect, useState } from 'react';
 import { useAsync } from 'react-async-hook';
+import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 import { DashboardContainer } from '../../dashboard/dashboard.tsx';
@@ -32,6 +33,7 @@ const Column = styled.div`
 `;
 
 export function UserListContainer() {
+  const { t } = useTranslation();
   const { startYear, userId, activityId } = useParams();
   const { data: schoolYear } = useSchoolYear(startYear ? parseInt(startYear ?? '0') : 0);
   const navigate = useNavigate();
@@ -52,58 +54,44 @@ export function UserListContainer() {
     const isUserPath = pathWithoutParams === `/${startYear}/users/${userId}`;
     const enrollUserOnSchoolYear = pathWithoutParams === `/${startYear}/users/${userId}/enroll`;
     const unenrollPath = pathWithoutParams === `/${startYear}/users/${userId}/activities/${activityId}/edit`;
-    // console.log(
-    //   'isNewUserPath',
-    //   isNewUserPath,
-    //   'isEditUserPath',
-    //   isEditUserPath,
-    //   'isUserActivitiesNewPath',
-    //   isUserActivitiesNewPath,
-    //   'isUserPath',
-    //   isUserPath,
-    //   'enrollUserOnSchoolYear',
-    //   enrollUserOnSchoolYear,
-    //   'unenrollPath',
-    //   unenrollPath,
-    // );
 
     if (unenrollPath) {
-      setFlyoutTitle('Ispisi korisnika s aktivnosti');
+      setFlyoutTitle(t('Exclude user from activity'));
       setShowUnenrollFlyout(true);
       setShowUserFlyout(false);
       setShowAddEditFlyout(false);
       setShowAddActivityFlyout(false);
       setShowEnrollOnSchoolYear(false);
     } else if (isEditUserPath) {
-      setFlyoutTitle('Uredi korisnika');
+      setFlyoutTitle(t('Edit user'));
       setShowAddEditFlyout(true);
       setShowUserFlyout(false);
       setShowAddActivityFlyout(false);
       setShowEnrollOnSchoolYear(false);
       setShowUnenrollFlyout(false);
     } else if (isUserActivitiesNewPath) {
-      setFlyoutTitle('Upisi korisnika na aktivnost');
+      setFlyoutTitle(t('Enroll user on activity'));
       setShowAddActivityFlyout(true);
       setShowUserFlyout(false);
       setShowAddEditFlyout(false);
       setShowEnrollOnSchoolYear(false);
       setShowUnenrollFlyout(false);
     } else if (isNewUserPath) {
-      setFlyoutTitle('Dodaj novog korisnika');
+      setFlyoutTitle(t('Add new user'));
       setShowAddEditFlyout(true);
       setShowUserFlyout(false);
       setShowAddActivityFlyout(false);
       setShowEnrollOnSchoolYear(false);
       setShowUnenrollFlyout(false);
     } else if (enrollUserOnSchoolYear) {
-      setFlyoutTitle('Upisi korisnika na skolsku godinu');
+      setFlyoutTitle(t('Enroll user on the academic year'));
       setShowEnrollOnSchoolYear(true);
       setShowUserFlyout(false);
       setShowAddEditFlyout(false);
       setShowAddActivityFlyout(false);
       setShowUnenrollFlyout(false);
     } else if (isUserPath) {
-      setFlyoutTitle('Pregled korisnika');
+      setFlyoutTitle(t('User profile'));
       setShowUserFlyout(true);
       setShowAddEditFlyout(false);
       setShowAddActivityFlyout(false);
@@ -163,7 +151,7 @@ export function UserListContainer() {
           <Column>
             <HeaderText>{flyoutTitle}</HeaderText>
             <HeaderSubtext>
-              Skolska godina: {schoolYear?.startYear} / {schoolYear?.endYear}
+              {t('Academic year')}: {schoolYear?.startYear} / {schoolYear?.endYear}
             </HeaderSubtext>
           </Column>
         }
@@ -180,7 +168,7 @@ export function UserListContainer() {
           <Column>
             <HeaderText>{flyoutTitle}</HeaderText>
             <HeaderSubtext>
-              Skolska godina: {schoolYear?.startYear} / {schoolYear?.endYear}
+              {t('Academic year')}: {schoolYear?.startYear} / {schoolYear?.endYear}
             </HeaderSubtext>
           </Column>
         }
@@ -198,7 +186,7 @@ export function UserListContainer() {
           <Column>
             <HeaderText>{flyoutTitle}</HeaderText>
             <HeaderSubtext>
-              Skolska godina: {schoolYear?.startYear} / {schoolYear?.endYear}
+              {t('Academic year')}: {schoolYear?.startYear} / {schoolYear?.endYear}
             </HeaderSubtext>
           </Column>
         }
@@ -216,7 +204,7 @@ export function UserListContainer() {
           <Column>
             <HeaderText>{flyoutTitle}</HeaderText>
             <HeaderSubtext>
-              Skolska godina: {schoolYear?.startYear} / {schoolYear?.endYear}
+              {t('Academic year')}: {schoolYear?.startYear} / {schoolYear?.endYear}
             </HeaderSubtext>
           </Column>
         }
@@ -233,7 +221,7 @@ export function UserListContainer() {
           <Column>
             <HeaderText>{flyoutTitle}</HeaderText>
             <HeaderSubtext>
-              Skolska godina: {schoolYear?.startYear} / {schoolYear?.endYear}
+              {t('Academic year')}: {schoolYear?.startYear} / {schoolYear?.endYear}
             </HeaderSubtext>
           </Column>
         }

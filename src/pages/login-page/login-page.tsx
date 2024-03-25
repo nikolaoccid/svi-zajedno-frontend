@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { HalfScreenHero } from '../../components/half-screen-hero/half-screen-hero.tsx';
 import { useLogin } from './hooks/use-login.ts';
@@ -51,6 +52,7 @@ const Content = styled.div`
   height: 100vh;
 `;
 function LoginPage() {
+  const { t } = useTranslation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { login, isLoading, errorApiMessages: errorMessages } = useLogin({ email, password });
@@ -65,7 +67,7 @@ function LoginPage() {
         <HalfScreenHero />
         <FormContainer>
           <Content>
-            <h1>Prijavi se u svoj racun</h1>
+            <h1>{t('Login')}</h1>
             <div>
               <Input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
               <Input
