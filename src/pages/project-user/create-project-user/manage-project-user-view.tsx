@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { useQueryClient } from '@tanstack/react-query';
 import { ErrorMessage, Field, FormikProvider, useFormik } from 'formik';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { IoIosArrowDown } from 'react-icons/io';
 import { useNavigate, useParams } from 'react-router-dom';
 import { CircleLoader } from 'react-spinners';
@@ -51,6 +52,7 @@ const SectionTitle = styled.div`
 `;
 //This component creates and updates project user
 export const ManageProjectUserView = () => {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { userId } = useParams();
@@ -120,12 +122,12 @@ export const ManageProjectUserView = () => {
         <FormikProvider value={formik}>
           <Form onSubmit={formik.handleSubmit}>
             <SectionTitle onClick={() => setShowSection({ ...showSection, guardian: !showSection['guardian'] })}>
-              <h2>Podaci o skrbniku</h2>
+              <h2>{t("Guardian's details")}</h2>
               <IoIosArrowDown />
             </SectionTitle>
             <Section show={showSection['guardian']}>
               <FormField>
-                <label htmlFor="guardianName">Ime skrbnika</label>
+                <label htmlFor="guardianName">{t('Guardian name')}</label>
                 <Input type="text" id="guardianName" {...formik.getFieldProps('guardianName')} />
                 {formik.touched.guardianName && formik.errors.guardianName ? (
                   <FormError>{formik.errors.guardianName}</FormError>
@@ -133,7 +135,7 @@ export const ManageProjectUserView = () => {
               </FormField>
 
               <FormField>
-                <label htmlFor="guardianSurname">Prezime skrbnika</label>
+                <label htmlFor="guardianSurname">{t('Guardian surname')}</label>
                 <Input type="text" id="guardianSurname" {...formik.getFieldProps('guardianSurname')} />
                 {formik.touched.guardianSurname && formik.errors.guardianSurname ? (
                   <FormError>{formik.errors.guardianSurname}</FormError>
@@ -141,7 +143,7 @@ export const ManageProjectUserView = () => {
               </FormField>
 
               <FormField>
-                <label htmlFor="mobilePhone">Broj mobitela</label>
+                <label htmlFor="mobilePhone">{t('Phone number')}</label>
                 <Input type="text" id="mobilePhone" {...formik.getFieldProps('mobilePhone')} />
                 {formik.touched.mobilePhone && formik.errors.mobilePhone ? (
                   <FormError>{formik.errors.mobilePhone}</FormError>
@@ -155,12 +157,12 @@ export const ManageProjectUserView = () => {
               </FormField>
             </Section>
             <SectionTitle onClick={() => setShowSection({ ...showSection, child: !showSection['child'] })}>
-              <h2>Podaci o djetetu</h2>
+              <h2>{t("Child's details")}</h2>
               <IoIosArrowDown />
             </SectionTitle>
             <Section show={showSection['child']}>
               <FormField>
-                <label htmlFor="oib">OIB djeteta</label>
+                <label htmlFor="oib">{t("Child's personal identification number (PIN)")}</label>
                 <Input
                   type="text"
                   id="oib"
@@ -171,7 +173,7 @@ export const ManageProjectUserView = () => {
               </FormField>
 
               <FormField>
-                <label htmlFor="childName">Ime djeteta</label>
+                <label htmlFor="childName">{t("Child's name")}</label>
                 <Input type="text" id="childName" {...formik.getFieldProps('childName')} />
                 {formik.touched.childName && formik.errors.childName ? (
                   <FormError>{formik.errors.childName}</FormError>
@@ -179,7 +181,7 @@ export const ManageProjectUserView = () => {
               </FormField>
 
               <FormField>
-                <label htmlFor="childSurname">Prezime djeteta</label>
+                <label htmlFor="childSurname">{t("Child's surname")}</label>
                 <Input type="text" id="childSurname" {...formik.getFieldProps('childSurname')} />
                 {formik.touched.childSurname && formik.errors.childSurname ? (
                   <FormError>{formik.errors.childSurname}</FormError>
@@ -187,16 +189,16 @@ export const ManageProjectUserView = () => {
               </FormField>
 
               <FormField>
-                <label htmlFor="gender">Spol</label>
+                <label htmlFor="gender">{t('Gender')}</label>
                 <Field as="select" id="gender" {...formik.getFieldProps('gender')}>
-                  <Option value="male">Musko</Option>
-                  <Option value="female">Zensko</Option>
+                  <Option value="male">{t('Male')}</Option>
+                  <Option value="female">{t('Female')}</Option>
                 </Field>
                 <ErrorMessage name="gender" component="div" />
               </FormField>
 
               <FormField>
-                <label htmlFor="dateOfBirth">Datum rođenja</label>
+                <label htmlFor="dateOfBirth">{t('Date of birth')}</label>
                 <Input type="date" id="dateOfBirth" {...formik.getFieldProps('dateOfBirth')} />
                 {formik.touched.dateOfBirth && formik.errors.dateOfBirth ? (
                   <FormError>{formik.errors.dateOfBirth}</FormError>
@@ -204,7 +206,7 @@ export const ManageProjectUserView = () => {
               </FormField>
 
               <FormField>
-                <label htmlFor="address">Adresa</label>
+                <label htmlFor="address">{t('Address')}</label>
                 <Input type="text" id="address" {...formik.getFieldProps('address')} />
                 {formik.touched.address && formik.errors.address ? (
                   <FormError>{formik.errors.address}</FormError>
@@ -212,20 +214,20 @@ export const ManageProjectUserView = () => {
               </FormField>
 
               <FormField>
-                <label htmlFor="city">Grad</label>
+                <label htmlFor="city">{t('City')}</label>
                 <Input type="text" id="city" {...formik.getFieldProps('city')} />
                 {formik.touched.city && formik.errors.city ? <FormError>{formik.errors.city}</FormError> : null}
               </FormField>
 
               <FormField>
-                <label htmlFor="school">Škola</label>
+                <label htmlFor="school">{t('School')}</label>
                 <Input type="text" id="school" {...formik.getFieldProps('school')} />
                 {formik.touched.school && formik.errors.school ? <FormError>{formik.errors.school}</FormError> : null}
               </FormField>
             </Section>
 
             <CenterContent>
-              <Button type="submit">Pošalji</Button>
+              <Button type="submit">{t('Confirm')}</Button>
             </CenterContent>
           </Form>
         </FormikProvider>

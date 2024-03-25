@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
 import { DashboardHeader } from '../../../components/dashboard-header/dashboard-header.tsx';
@@ -71,6 +72,7 @@ export function UserList({
   setCurrentPage: (page: number) => void;
   searchQuery: string;
 }) {
+  const { t } = useTranslation();
   const { data: schoolYear } = useSelectedSchoolYear();
   const navigate = useNavigate();
   const handleSelectChange = (event) => {
@@ -82,18 +84,20 @@ export function UserList({
     <DashboardContainer>
       <Navigation />
       <ContentContainer>
-        <DashboardHeader text="Upravljanje korisnicima" />
+        <DashboardHeader text={t('Manage users')} />
         <UsersHeader>
-          <HeaderTitle>Lista korisnika</HeaderTitle>
+          <HeaderTitle>{t('Users list')}</HeaderTitle>
           <RowContainer>
             <Select name="users" id="user-select" onChange={handleSelectChange}>
-              <option value="all">Svi korisnici</option>
-              <option value="schoolYearUsers">Upisani korisnici na skolsku godinu</option>
+              <option value="all">{t('All users')}</option>
+              <option value="schoolYearUsers">{t('Users enrolled on the academic year')}</option>
             </Select>
             <GlobalSearch setSearchQuery={setSearchQuery} clearSearch={searchQuery === ''} />
-            <AddNewButton text={'Dodaj korisnika'} onClick={() => navigate(`/${schoolYear?.startYear}/users/new`)} />
+            <AddNewButton text={t('Add user')} onClick={() => navigate(`/${schoolYear?.startYear}/users/new`)} />
           </RowContainer>
-          <Records>{(users as any)?.meta?.totalItems} Records found</Records>
+          <Records>
+            {(users as any)?.meta?.totalItems} {t('records found')}
+          </Records>
         </UsersHeader>
         <Divider />
         <UsersTable users={users as any} />

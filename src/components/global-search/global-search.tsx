@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const SearchContainer = styled.div`
   display: flex;
@@ -46,6 +47,7 @@ export function GlobalSearch({
   setSearchQuery: (query: string) => void;
   clearSearch?: boolean;
 }) {
+  const { t } = useTranslation();
   const [searchText, setSearchText] = useState('');
   useEffect(() => {
     if (clearSearch) {
@@ -68,7 +70,12 @@ export function GlobalSearch({
 
   return (
     <SearchContainer>
-      <Input type="search" onChange={(e) => setSearchText(e.target.value)} placeholder="Pretraga" value={searchText} />
+      <Input
+        type="search"
+        onChange={(e) => setSearchText(e.target.value)}
+        placeholder={t('Search')}
+        value={searchText}
+      />
       {searchText && <ClearButton onClick={handleClear} />}
     </SearchContainer>
   );

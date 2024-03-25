@@ -65,6 +65,26 @@
     "Enroll user on activity": "Upisi korisnika na aktivnost",
     "Add new user": "Dodaj novog korisnik",
     "Enroll user on the academic year": "Upisi korisnika na skolsku godinu",
-    "User profile": "Pregled korisnika"
+    "User profile": "Pregled korisnika",
+    "Manage users": "Upravljanje korisnicima",
+    "Users list": "Lista korisnika",
+    "All users": "Svi korisnici",
+    "Users enrolled on the academic year": "Upisani korisnici na skolsku godinu",
+    "Add user": "Dodaj korisnika",
+    "records found": "zapisa pronadeno",
+    "Search": "Pretraga",
+    "Guardian name": "Ime skrbnika",
+    "Guardian surname": "Prezime skrbnika",
+    "Phone number": "Broj mobitela",
+    "Child's personal identification number (PIN)": "OIB djeteta",
+    "Child's name": "Ime djeteta",
+    "Child's surname": "Prezime djeteta",
+    "Gender": "Spol",
+    "Date of birth": "Datum rodjenja",
+    "Address": "Adresa",
+    "City": "Grad",
+    "School": "Skola",
+    "Guardian's details": "Podaci o skrbniku",
+    "Child's details": "Podaci o djetetu"
   }
 }
