@@ -2,13 +2,15 @@ import styled from '@emotion/styled';
 import { useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useAsync } from 'react-async-hook';
+import { useTranslation } from 'react-i18next';
 import { MdEdit } from 'react-icons/md';
 import { useNavigate, useParams } from 'react-router-dom';
 import { PuffLoader } from 'react-spinners';
 
+import { Spinner } from '../../../components/spinner/spinner.tsx';
 import { Status } from '../../../components/status/status.tsx';
 import { croatianDateFormat } from '../../../utils/croatian-date-format.ts';
-import { Button, CenterContent, PageContainer } from '../../common-styles/common-styles.ts';
+import { Button } from '../../common-styles/common-styles.ts';
 import { useSchoolYear } from '../../dashboard-page/hooks/use-fetch-school-year.ts';
 import { useStudentOnSchoolYear } from '../../student-on-school-year/hooks/get-student-on-school-year.ts';
 import { AddNewButton } from '../user-list/add-new-button.tsx';
@@ -119,6 +121,7 @@ const RightContainer = styled.div`
 `;
 
 const UserView = ({ onClose }: { onClose?: () => void }) => {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { userId, startYear } = useParams();
@@ -150,13 +153,7 @@ const UserView = ({ onClose }: { onClose?: () => void }) => {
   }, []);
 
   if (isLoading || isLoadingSchoolYear || isLoadingUpdateStudentOnSchoolYear) {
-    return (
-      <PageContainer>
-        <CenterContent>
-          <PuffLoader color="#2196f3" />
-        </CenterContent>
-      </PageContainer>
-    );
+    return <Spinner SpinnerComponent={PuffLoader} color={'#2196f3'} />;
   }
   return (
     projectUser !== undefined && (
@@ -181,13 +178,13 @@ const UserView = ({ onClose }: { onClose?: () => void }) => {
 
         <Navigation>
           <NavigationItem onClick={() => setMenuState('schoolyear')} current={menuState === 'schoolyear'}>
-            Podaci o skolskoj godini
+            {t('Data about the academic year')}
           </NavigationItem>
           <NavigationItem onClick={() => setMenuState('child')} current={menuState === 'child'}>
-            Podaci o djetetu
+            {t("Child's details")}
           </NavigationItem>
           <NavigationItem onClick={() => setMenuState('guardian')} current={menuState === 'guardian'}>
-            Podaci o skrbniku
+            {t("Guardian's details")}
           </NavigationItem>
         </Navigation>
 
