@@ -1,9 +1,11 @@
 import styled from '@emotion/styled';
 import { ChangeEventHandler, useState } from 'react';
 import { useAsync } from 'react-async-hook';
+import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { PuffLoader } from 'react-spinners';
 
+import { Spinner } from '../../../components/spinner/spinner.tsx';
 import { backendFormattedDate } from '../../../utils/backend-formatted-date.ts';
 import { frontendFormattedDate } from '../../../utils/frontend-formatted-date.ts';
 import { CenterContent, PageContainer } from '../../common-styles/common-styles.ts';
@@ -27,6 +29,7 @@ const Section = styled.div`
   padding: 10px 25px 0 25px;
 `;
 export const ManageStudentOnActivity = ({ onClose, query }: { onClose?: () => void; query: string }) => {
+  const { t } = useTranslation();
   const { startYear, userId } = useParams();
   const startYearInt = parseInt(startYear ?? '0');
   const { data: schoolYear, isLoading: isLoadingSchoolYear } = useSchoolYear(startYearInt);
@@ -68,19 +71,13 @@ export const ManageStudentOnActivity = ({ onClose, query }: { onClose?: () => vo
     isLoadingStudentOnSchoolYear ||
     isLoadingActivities
   ) {
-    return (
-      <PageContainer>
-        <CenterContent>
-          <PuffLoader color="#2196f3" />
-        </CenterContent>
-      </PageContainer>
-    );
+    return <Spinner SpinnerComponent={PuffLoader} color={'#2196f3'} />;
   }
   return (
     <PageContainer>
       <CenterContent>
         <Section>
-          <label> Datum upisa</label>
+          <label> {t('Enrollment date')}</label>
           <Input type="date" value={enrollmentDate} onChange={handleDateChange} />
         </Section>
 

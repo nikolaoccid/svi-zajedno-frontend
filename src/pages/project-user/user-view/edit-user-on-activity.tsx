@@ -1,6 +1,7 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { ErrorMessage, Field, FormikProvider, useFormik } from 'formik';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import * as Yup from 'yup';
 
@@ -17,6 +18,7 @@ const validationSchema = Yup.object({
   // activityPrice: Yup.number().required('Cijena je obavezna, ako je besplatno staviti 0'),
 });
 export function EditUserOnActivity() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { activityId, userId } = useParams();
   const { data: schoolYear } = useSelectedSchoolYear();
@@ -50,17 +52,17 @@ export function EditUserOnActivity() {
             activityFormData.activityStatus === 'inactive' ? activityFormData.unenrollmentDate : undefined,
         });
         await queryClient.invalidateQueries(['getStudentOnActivities']);
-        toastSuccess('Uspjesno ispisan s aktivnosti');
+        toastSuccess(t('Successfully withdrew from the activity'));
         navigate(-1);
       } catch (e) {
-        toastError('Neuspjesno ispisivanje s aktivnosti');
+        toastError(t('Could not withdrew from the activity'));
         console.log(e);
       }
     },
     enableReinitialize: true,
   });
   const associateInfo = `${activity?.activity?.activityName}, ${activity?.activity?.projectAssociate?.clubName}, ${
-    activity?.activity?.activityPrice !== 0 ? activity?.activity?.activityPrice + 'EUR' : 'besplatno'
+    activity?.activity?.activityPrice !== 0 ? activity?.activity?.activityPrice + 'EUR' : t('Free')
   }`;
   const projectUserInfo = `${projectUser?.childName} ${projectUser?.childSurname}`;
 
@@ -78,26 +80,26 @@ export function EditUserOnActivity() {
       <FormikProvider value={formik}>
         <Form onSubmit={formik.handleSubmit}>
           <FormField>
-            <label> Podaci o suradniku</label>
+            <label>{t("Guardian's details")}</label>
             <input value={associateInfo} disabled />
           </FormField>
           <FormField>
-            <label>Podaci o korisniku</label>
+            <label>{t("Child's details")}</label>
             <input type={'text'} value={projectUserInfo} disabled />
           </FormField>
 
           <FormField onChange={shouldDisableUnenrollmentDate}>
             <label htmlFor="activityStatus">Status</label>
             <Field as="select" id="activityStatus" {...formik.getFieldProps('activityStatus')}>
-              <option value="active">Aktivan</option>
-              <option value="pending">U obradi</option>
-              <option value="inactive">Neaktivan</option>
+              <option value="active">{t('Active')}</option>
+              <option value="pending">{t('Pending')}</option>
+              <option value="inactive">{t('Inactive')}</option>
             </Field>
             <ErrorMessage name="activityStatus" component="div" />
           </FormField>
 
           <FormField>
-            <label htmlFor="activityPrice">Datum upisa</label>
+            <label htmlFor="activityPrice">{t('Enrollment date')}</label>
             <input type="date" id="enrollmentDate" {...formik.getFieldProps('enrollmentDate')} />
             {formik.touched.enrollmentDate && formik.errors.enrollmentDate ? (
               <FormError>{formik.errors.enrollmentDate}</FormError>
@@ -105,7 +107,7 @@ export function EditUserOnActivity() {
           </FormField>
 
           <FormField>
-            <label htmlFor="activityPrice">Datum ispisa</label>
+            <label htmlFor="activityPrice">{t('Activity withdrawal date')}</label>
             <input
               type="date"
               id="unenrollmentDate"
@@ -118,7 +120,7 @@ export function EditUserOnActivity() {
           </FormField>
 
           <CenterContent>
-            <Button type="submit">Pošalji</Button>
+            <Button type="submit">{t('Confirm')}</Button>
           </CenterContent>
         </Form>
       </FormikProvider>
