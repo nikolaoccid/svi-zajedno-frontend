@@ -37,21 +37,20 @@ const Option = styled.div<{ isActive: boolean }>`
 `;
 
 export function LanguagePicker() {
-  const [isEnglish, setIsEnglish] = useState(true);
   const { i18n } = useTranslation();
-
+  const [isEnglish, setIsEnglish] = useState(true);
   const toggleLanguage = () => {
     setIsEnglish(!isEnglish);
-    const newLanguage = isEnglish ? 'en' : 'hr';
+    const newLanguage = isEnglish ? 'hr' : 'en';
     i18n.changeLanguage(newLanguage);
   };
 
   return (
     <Container onClick={toggleLanguage}>
       <Slider>
-        <Option isActive={isEnglish}>HR</Option>
+        <Option isActive={isEnglish}>EN</Option>
         <PiGlobeLight />
-        <Option isActive={!isEnglish}>EN</Option>
+        <Option isActive={!isEnglish}>HR</Option>
       </Slider>
     </Container>
   );
