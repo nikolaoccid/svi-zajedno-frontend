@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 
+import { LanguagePicker } from './components/language-picker/language-picker.tsx';
 import { RouteGuard } from './components/route-guard/route-guard.tsx';
 import { CategoriesContainer } from './pages/category/categories-container/categories-container.tsx';
 import { Dashboard } from './pages/dashboard/dashboard.tsx';
@@ -116,6 +117,7 @@ function App() {
             <Route path={':startYear/school-years/new'} element={<SchoolYearsContainer />} />
           </Routes>
           <ToastContainer />
+          <LanguagePicker />
         </RouteGuard>
       </BrowserRouter>
     </QueryClientProvider>

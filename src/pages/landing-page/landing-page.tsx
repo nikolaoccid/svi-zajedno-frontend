@@ -98,6 +98,7 @@ function LandingPage() {
       </LandingPageContainer>
       {landingSections.map((section, index) => (
         <LandingSection
+          key={index}
           title={section.title}
           subtext={section.subtext}
           picture={section.picture}
