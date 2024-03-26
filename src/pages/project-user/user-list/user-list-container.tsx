@@ -1,10 +1,10 @@
 import styled from '@emotion/styled';
-import { Flyout } from 'pivotal-ui/react/flyout';
 import { useEffect, useState } from 'react';
 import { useAsync } from 'react-async-hook';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
+import { FlyoutComponent } from '../../../components/flyout/flyout-component.tsx';
 import { DashboardContainer } from '../../dashboard/dashboard.tsx';
 import { useSchoolYear } from '../../dashboard-page/hooks/use-fetch-school-year.ts';
 import ManageProjectUserView from '../create-project-user/manage-project-user-view.tsx';
@@ -24,12 +24,6 @@ export const HeaderSubtext = styled.span`
   font-style: normal;
   font-size: 12px;
   color: #606060;
-`;
-const Column = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
 `;
 
 export function UserListContainer() {
@@ -144,93 +138,42 @@ export function UserListContainer() {
         searchQuery={searchQuery}
         setCurrentPage={setCurrentPage}
       />
-      <Flyout
-        animationDuration={100}
-        show={showAddEditFlyout}
-        header={
-          <Column>
-            <HeaderText>{flyoutTitle}</HeaderText>
-            <HeaderSubtext>
-              {t('Academic year')}: {schoolYear?.startYear} / {schoolYear?.endYear}
-            </HeaderSubtext>
-          </Column>
-        }
-        onHide={() => {
-          navigate(`/${startYear}/users`);
-        }}
-      >
-        <ManageProjectUserView />
-      </Flyout>
-      <Flyout
-        animationDuration={100}
-        show={showUserFlyout}
-        header={
-          <Column>
-            <HeaderText>{flyoutTitle}</HeaderText>
-            <HeaderSubtext>
-              {t('Academic year')}: {schoolYear?.startYear} / {schoolYear?.endYear}
-            </HeaderSubtext>
-          </Column>
-        }
-        onHide={() => {
-          navigate(`/${startYear}/users`);
-        }}
-        width="800px"
-      >
-        <UserView />
-      </Flyout>
-      <Flyout
-        animationDuration={100}
-        show={showAddActivityFlyout}
-        header={
-          <Column>
-            <HeaderText>{flyoutTitle}</HeaderText>
-            <HeaderSubtext>
-              {t('Academic year')}: {schoolYear?.startYear} / {schoolYear?.endYear}
-            </HeaderSubtext>
-          </Column>
-        }
-        width="650px"
-        onHide={() => {
-          navigate(`/${startYear}/users/${userId}`);
-        }}
-      >
-        <ManageStudentOnActivityContainer />
-      </Flyout>
-      <Flyout
-        animationDuration={100}
-        show={showEnrollOnSchoolYear}
-        header={
-          <Column>
-            <HeaderText>{flyoutTitle}</HeaderText>
-            <HeaderSubtext>
-              {t('Academic year')}: {schoolYear?.startYear} / {schoolYear?.endYear}
-            </HeaderSubtext>
-          </Column>
-        }
-        onHide={() => {
-          navigate(`/${startYear}/users/${userId}`);
-        }}
-      >
-        <EnrollStudentOnSchoolYear />
-      </Flyout>
-      <Flyout
-        animationDuration={100}
-        show={showUnenrollFlyout}
-        header={
-          <Column>
-            <HeaderText>{flyoutTitle}</HeaderText>
-            <HeaderSubtext>
-              {t('Academic year')}: {schoolYear?.startYear} / {schoolYear?.endYear}
-            </HeaderSubtext>
-          </Column>
-        }
-        onHide={() => {
-          navigate(`/${startYear}/users/${userId}`);
-        }}
-      >
-        <EditUserOnActivity />
-      </Flyout>
+
+      <FlyoutComponent
+        shouldShow={showAddEditFlyout}
+        flyoutTitle={flyoutTitle}
+        onHide={() => navigate(`/${startYear}/users`)}
+        RenderComponent={ManageProjectUserView}
+      />
+
+      <FlyoutComponent
+        shouldShow={showUserFlyout}
+        flyoutTitle={flyoutTitle}
+        onHide={() => navigate(`/${startYear}/users`)}
+        RenderComponent={UserView}
+        flyoutWidth={'800px'}
+      />
+
+      <FlyoutComponent
+        shouldShow={showAddActivityFlyout}
+        flyoutTitle={flyoutTitle}
+        onHide={() => navigate(`/${startYear}/users/${userId}`)}
+        RenderComponent={ManageStudentOnActivityContainer}
+      />
+
+      <FlyoutComponent
+        shouldShow={showEnrollOnSchoolYear}
+        flyoutTitle={flyoutTitle}
+        onHide={() => navigate(`/${startYear}/users/${userId}`)}
+        RenderComponent={EnrollStudentOnSchoolYear}
+      />
+
+      <FlyoutComponent
+        shouldShow={showUnenrollFlyout}
+        flyoutTitle={flyoutTitle}
+        onHide={() => navigate(`/${startYear}/users/${userId}`)}
+        RenderComponent={EditUserOnActivity}
+      />
     </DashboardContainer>
   );
 }
