@@ -48,12 +48,12 @@ const Image = styled.img`
 const HeaderTitle = styled.p`
   font-family: Axiforma;
   font-weight: bold;
-  font-size: 2vw;
+  font-size: 1.5em;
 `;
 const Subtext = styled.span`
   font-family: Axiforma;
   font-style: normal;
-  font-size: 1.3vw;
+  font-size: 1.1em;
   color: #606060;
 `;
 const SubtextContainer = styled.div`
