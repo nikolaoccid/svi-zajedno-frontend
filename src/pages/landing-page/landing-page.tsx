@@ -88,7 +88,7 @@ function LandingPage() {
             </Heading>
             <SubHeading>{t("Efficiently track and manage your users' activities")}</SubHeading>
             <CenterContent>
-              <CTALink to={user ? '/school-year' : '/login'}>{user ? 'Admin portal' : 'Try for free'}</CTALink>
+              <CTALink to={user ? '/school-year' : '/login'}>{user ? 'Admin portal' : t('Try for free')}</CTALink>
             </CenterContent>
             <ArrowContainer onClick={handleArrowClick}>
               <IoIosArrowDropdownCircle color="white" size={50} />
