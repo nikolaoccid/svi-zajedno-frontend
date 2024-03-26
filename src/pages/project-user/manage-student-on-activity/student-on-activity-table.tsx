@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { useTranslation } from 'react-i18next';
 import { GoDotFill } from 'react-icons/go';
 const TableContainer = styled.div`
   height: 100%;
@@ -36,6 +37,7 @@ export function StudentOnActivityTable({
   activities: any;
   onActivityClick: (activity: any) => void;
 }) {
+  const { t } = useTranslation();
   return (
     <TableContainer>
       <Table>
@@ -48,12 +50,12 @@ export function StudentOnActivityTable({
                 </Icon>
                 <TableData>{item.projectAssociate.clubName}</TableData>
                 <TableData>{item.activityName}</TableData>
-                <TableData>{item.activityPrice ? item.activityPrice + '€' : 'Besplatno'}</TableData>
+                <TableData>{item.activityPrice ? item.activityPrice + '€' : t('Free')}</TableData>
               </TableRow>
             ))
           ) : (
             <tr>
-              <TableData>Nema dostupnih aktivnosti.</TableData>
+              <TableData>{t('No available activities')}</TableData>
             </tr>
           )}
         </tbody>

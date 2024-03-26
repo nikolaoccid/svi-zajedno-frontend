@@ -190,19 +190,19 @@ const UserView = ({ onClose }: { onClose?: () => void }) => {
 
         <Section current={menuState === 'schoolyear'}>
           <ProfileItem>
-            <Label>Osnova upisa</Label>
+            <Label>{t('Enrollment basis')}</Label>
             <Value>
               {studentOnSchoolYear && (studentOnSchoolYear as any).status === 'active'
                 ? ((studentOnSchoolYear as any).sourceSystem.toUpperCase() === 'OBITELJSKICENTAR'
-                    ? 'Obiteljski centar'
-                    : 'CZSS') +
+                    ? t('Family center')
+                    : t('Social welfare')) +
                   ', ' +
                   (studentOnSchoolYear as any).protectionType
-                : 'Nije upisan'}
+                : t('Not enrolled')}
             </Value>
           </ProfileItem>
           <ProfileItem>
-            <Label>Datum upisa na skolsku godinu:</Label>
+            <Label>{t('Enrollment date')}</Label>
             <Value>
               {studentOnSchoolYear && (studentOnSchoolYear as any).status === 'active'
                 ? croatianDateFormat((studentOnSchoolYear as any).dateOfEnrollment)
@@ -213,52 +213,52 @@ const UserView = ({ onClose }: { onClose?: () => void }) => {
             {(studentOnSchoolYear as any)?.length === 0 ||
             (studentOnSchoolYear && (studentOnSchoolYear as any).status === 'inactive') ? (
               <Button backgroundColor="#5cb85c" onClick={handleEnrollment}>
-                Upisi na skolsku godinu
+                {t('Enroll on the academic year')}
               </Button>
             ) : (
               <Button backgroundColor="#d9534f" onClick={handleUnenrollment}>
-                Ispisi sa skolske godine
+                {t('Withdraw enrollment on the academic year')}
               </Button>
             )}
           </ButtonContainer>
         </Section>
         <Section current={menuState === 'child'}>
           <ProfileItem>
-            <Label>Datum rodenja:</Label>
+            <Label>{t('Date of birth')}</Label>
             <Value>{croatianDateFormat(projectUser.dateOfBirth)}</Value>
           </ProfileItem>
           <ProfileItem>
-            <Label>Spol:</Label>
-            <Value>{projectUser.gender === 'male' ? 'Musko' : 'Zensko'}</Value>
+            <Label>{t('Gender')}</Label>
+            <Value>{projectUser.gender === 'male' ? t('Male') : t('Female')}</Value>
           </ProfileItem>
           <ProfileItem>
-            <Label>OIB:</Label>
+            <Label>{t("Child's personal identification number (PIN)")}</Label>
             <Value>{projectUser.oib}</Value>
           </ProfileItem>
           <ProfileItem>
-            <Label>Adresa:</Label>
+            <Label>{t('Address')}</Label>
             <Value>
               {projectUser.address}, {projectUser.city}
             </Value>
           </ProfileItem>
           <ProfileItem>
-            <Label>Skola:</Label>
+            <Label>{t('School')}</Label>
             <Value>{projectUser.school}</Value>
           </ProfileItem>
         </Section>
         <Section current={menuState === 'guardian'}>
           <ProfileItem>
-            <Label>Skrbnik:</Label>
+            <Label>{t('Guardian')}</Label>
             <Value>
               {projectUser.guardianName} {projectUser.guardianSurname}
             </Value>
           </ProfileItem>
           <ProfileItem>
-            <Label>Mobitel:</Label>
+            <Label>{t('Phone number')}</Label>
             <Value>{projectUser.mobilePhone}</Value>
           </ProfileItem>
           <ProfileItem>
-            <Label>Email:</Label>
+            <Label>Email</Label>
             <Value>{projectUser.email}</Value>
           </ProfileItem>
         </Section>
@@ -266,12 +266,12 @@ const UserView = ({ onClose }: { onClose?: () => void }) => {
         <HeaderWithShadow>
           <HeaderContainer>
             <CenterContainer>
-              <HeaderText>Aktivnosti</HeaderText>
+              <HeaderText>{t('Activities')}</HeaderText>
             </CenterContainer>
 
             <RightContainer>
               <AddNewButton
-                text={'Dodaj'}
+                text={t('Add')}
                 onClick={() => navigate(`/${schoolYear?.startYear}/users/${projectUser?.id}/activities/new`)}
                 disabled={(studentOnSchoolYear as any)?.status === 'inactive'}
               />

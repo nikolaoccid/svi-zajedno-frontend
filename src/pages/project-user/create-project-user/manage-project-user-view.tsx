@@ -9,6 +9,7 @@ import { CircleLoader } from 'react-spinners';
 import * as Yup from 'yup';
 
 import { api } from '../../../api';
+import { Spinner } from '../../../components/spinner/spinner.tsx';
 import { frontendFormattedDate } from '../../../utils/frontend-formatted-date.ts';
 import { toastError, toastSuccess } from '../../../utils/toast.ts';
 import { Button, CenterContent, Form, FormError, FormField, PageContainer } from '../../common-styles/common-styles.ts';
@@ -87,9 +88,9 @@ export const ManageProjectUserView = () => {
           await queryClient.invalidateQueries({ queryKey: ['getProjectUsers'] });
           await queryClient.invalidateQueries({ queryKey: ['getProjectUsersBySchoolYear'] });
           navigate(`/${currentSchoolYear?.startYear}/users/${projectUser.id}`);
-          toastSuccess('Korisnik azuriran');
+          toastSuccess(t("User's data updated"));
         } catch (e) {
-          toastError('Korisnik nije azuriran, pokusajte ponovno');
+          toastError(t("User's data not updated, try again"));
         }
       } else {
         try {
@@ -98,9 +99,9 @@ export const ManageProjectUserView = () => {
           await queryClient.invalidateQueries({ queryKey: ['getProjectUsers'] });
           await queryClient.invalidateQueries({ queryKey: ['getProjectUsersBySchoolYear'] });
           navigate(`/${currentSchoolYear?.startYear}/users/${user.id}`);
-          toastSuccess('Korisnik kreiran');
+          toastSuccess(t('User created succesfully'));
         } catch (e) {
-          toastError('Korisnik nije kreiran, pokusajte ponovno');
+          toastError(t('User not created succesfully, try again'));
         }
       }
     },
@@ -108,13 +109,7 @@ export const ManageProjectUserView = () => {
   });
 
   if (formik.isSubmitting) {
-    return (
-      <PageContainer>
-        <CenterContent>
-          <CircleLoader color="#2196f3" />
-        </CenterContent>
-      </PageContainer>
-    );
+    return <Spinner SpinnerComponent={CircleLoader} color={'#2196f3'} />;
   }
   return (
     <PageContainer>

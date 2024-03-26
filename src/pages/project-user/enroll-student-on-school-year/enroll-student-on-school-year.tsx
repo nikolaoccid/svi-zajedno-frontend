@@ -1,8 +1,10 @@
 import { ErrorMessage, Field, FormikProvider, useFormik } from 'formik';
+import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import { PuffLoader } from 'react-spinners';
 import * as Yup from 'yup';
 
+import { Spinner } from '../../../components/spinner/spinner.tsx';
 import { frontendFormattedDate } from '../../../utils/frontend-formatted-date.ts';
 import { CenterContent, Form, FormField, PageContainer } from '../../common-styles/common-styles.ts';
 import { useSchoolYear } from '../../dashboard-page/hooks/use-fetch-school-year.ts';
@@ -17,6 +19,7 @@ const validationSchema = Yup.object({
   dateOfEnrollment: Yup.date().required('Datum upisa je obavezan'),
 });
 export const EnrollStudentOnSchoolYear = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { userId, startYear } = useParams();
   const { data: schoolYear, isLoading: isLoadingSchoolYear } = useSchoolYear(startYear ? parseInt(startYear) : 0);
@@ -71,13 +74,7 @@ export const EnrollStudentOnSchoolYear = () => {
     isLoadingUpdateStudentOnSchoolYear ||
     formik.getFieldProps('sourceSystem') === undefined
   ) {
-    return (
-      <PageContainer>
-        <CenterContent>
-          <PuffLoader color="#2196f3" />
-        </CenterContent>
-      </PageContainer>
-    );
+    return <Spinner SpinnerComponent={PuffLoader} color={'#2196f3'} />;
   }
 
   return (
@@ -86,43 +83,43 @@ export const EnrollStudentOnSchoolYear = () => {
         <FormikProvider value={formik}>
           <Form onSubmit={formik.handleSubmit}>
             <FormField>
-              <label>Ime i prezime djeteta</label>
+              <label>{t("Child's full name")}</label>
               <input type="text" value={`${projectUser?.childName} ${projectUser?.childSurname}`} disabled />
             </FormField>
 
             <FormField>
-              <label htmlFor="sourceSystem">Izvorisni sustav </label>
+              <label htmlFor="sourceSystem">{t('User source system')} </label>
               <Field as="select" id="sourceSystem" {...formik.getFieldProps('sourceSystem')}>
                 <option defaultChecked value="odaberi">
-                  Odaberi izvorisni sustav
+                  {t('Choose source system')}
                 </option>
-                <option value="czss">CZSS</option>
-                <option value="obiteljskicentar">Obiteljski centar</option>
+                <option value="czss">{t('Social welfare')}</option>
+                <option value="obiteljskicentar">{t('Family center')}</option>
               </Field>
               <ErrorMessage name="sourceSystem" component="div" />
             </FormField>
 
             <FormField>
-              <label htmlFor="protectionType">Osnova za prijam </label>
+              <label htmlFor="protectionType">{t('Enrollment basis')} </label>
               <Field as="select" id="protectionType" {...formik.getFieldProps('protectionType')}>
                 <option defaultChecked value="odaberi">
-                  Odaberi osnovu za prijam
+                  {t('Choose enrollment basis')}
                 </option>
-                <option value="zmn">ZMN</option>
-                <option value="preporuka">Preporuka</option>
-                <option value="udomiteljstvo">Udomiteljstvo</option>
+                <option value="zmn">{t('ZMN')}</option>
+                <option value="preporuka">{t('Recommendation')}</option>
+                <option value="udomiteljstvo">{t('Foster parents')}</option>
               </Field>
               <ErrorMessage name="protectionType" component="div" />
             </FormField>
 
             <FormField>
-              <label htmlFor="dateOfEnrollment">Datum upisa </label>
+              <label htmlFor="dateOfEnrollment">{t('Enrollment date')} </label>
               <Field type="date" id="dateOfEnrollment" {...formik.getFieldProps('dateOfEnrollment')} />
               <ErrorMessage name="dateOfEnrollment" component="div" />
             </FormField>
 
             <CenterContent>
-              <button type="submit">Pošalji</button>
+              <button type="submit">{t('Confirm')}</button>
             </CenterContent>
           </Form>
         </FormikProvider>
