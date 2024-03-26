@@ -10,6 +10,7 @@ const HeroContainer = styled.div`
 `;
 const HeroWrapper = styled.div`
   display: flex;
+  height: 100%;
 
   width: 50%;
   height: 100vh;
