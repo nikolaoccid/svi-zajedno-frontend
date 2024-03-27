@@ -21,7 +21,7 @@ export function ProjectUserFlyouts() {
 
   const flyoutComponents = {
     manageProjectUser: {
-      onHide: () => navigate(`/${startYear}/users`),
+      onHide: () => navigate(`/${startYear}/users/${userId ?? ''}`),
       RenderComponent: ManageProjectUserView,
       flyoutTitle: t('User profile'),
     },
@@ -57,7 +57,7 @@ export function ProjectUserFlyouts() {
       [`/${startYear}/users/${userId}/activities/new`]: 'manageStudentOnActivity',
       [`/${startYear}/users/${userId}/enroll`]: 'enrollStudentOnSchoolYear',
       [`/${startYear}/users/${userId}`]: 'userView',
-      [`/${startYear}/users/${userId}/activities/${activityId}/edit`]: 'manageStudentOnActivity',
+      [`/${startYear}/users/${userId}/activities/${activityId}/edit`]: 'editUser',
     };
 
     const flyoutName = paths[pathWithoutParams];
