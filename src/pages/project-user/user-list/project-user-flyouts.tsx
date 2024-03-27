@@ -69,15 +69,13 @@ export function ProjectUserFlyouts() {
   }, [pathname, startYear, userId, activityId, flyoutComponents]);
 
   return (
-    <>
-      {flyoutData && (
-        <FlyoutComponent
-          shouldShow={true}
-          flyoutTitle={flyoutData.flyoutTitle}
-          onHide={flyoutData.onHide}
-          RenderComponent={flyoutData.RenderComponent}
-        />
-      )}
-    </>
+    flyoutData && (
+      <FlyoutComponent
+        shouldShow={true}
+        flyoutTitle={flyoutData.flyoutTitle}
+        onHide={flyoutData.onHide}
+        RenderComponent={flyoutData.RenderComponent}
+      />
+    )
   );
 }
