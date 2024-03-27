@@ -71,7 +71,6 @@ export function ProjectUserFlyouts() {
   return (
     flyoutData && (
       <FlyoutComponent
-        shouldShow={true}
         flyoutTitle={flyoutData.flyoutTitle}
         onHide={flyoutData.onHide}
         RenderComponent={flyoutData.RenderComponent}

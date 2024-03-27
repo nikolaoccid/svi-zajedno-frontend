@@ -11,26 +11,19 @@ const Column = styled.div`
   align-items: center;
 `;
 interface FlyoutComponentProps {
-  shouldShow: boolean;
   flyoutTitle: string;
   onHide: () => void;
   RenderComponent: any;
   flyoutWidth?: string;
 }
 
-export function FlyoutComponent({
-  flyoutWidth,
-  shouldShow,
-  flyoutTitle,
-  onHide,
-  RenderComponent,
-}: FlyoutComponentProps) {
+export function FlyoutComponent({ flyoutWidth, flyoutTitle, onHide, RenderComponent }: FlyoutComponentProps) {
   const { data: schoolYear } = useSelectedSchoolYear();
   const { t } = useTranslation();
   return (
     <Flyout
+      show={true}
       animationDuration={100}
-      show={shouldShow}
       width={flyoutWidth}
       header={
         <Column>
