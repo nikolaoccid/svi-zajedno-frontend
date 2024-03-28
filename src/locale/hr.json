@@ -111,6 +111,19 @@
     "Inactive": "Neaktivan",
     "Pending": "U obradi",
     "Activity withdrawal date": "Datum ispisa",
-    "Try for free": "Isprobaj besplatno"
+    "Try for free": "Isprobaj besplatno",
+    "SETTINGS": "POSTAVKE",
+    "Manage associates": "Upravljanje suradnicima",
+    "Associates list": "Lista suradnika",
+    "Add associate": "Dodaj suradnika",
+    "Manage activity": "Upravljanje aktivnostima",
+    "Edit associate": "Uredi suradnika",
+    "Activity successfully updated": "Aktivnost uspjesno azurirana",
+    "Activity successfully created": "Aktivnost uspjesno kreirana",
+    "Error, try again": "Dogodila se pogreska, pokusajte ponovno",
+    "Activity name": "Naziv aktivnosti",
+    "Activity price (EUR)": "Cijena za aktivnost (EUR)",
+    "Associate successfully updated": "Suradnik uspjesno azuriran",
+    "Associate successfully created": "Suradnik uspjesno kreiran"
   }
 }

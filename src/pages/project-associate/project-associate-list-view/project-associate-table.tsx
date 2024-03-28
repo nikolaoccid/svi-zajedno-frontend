@@ -4,7 +4,7 @@ import { MdEdit } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 import { GridLoader } from 'react-spinners';
 
-import { CenterContent, PageContainer } from '../../common-styles/common-styles.ts';
+import { Spinner } from '../../../components/spinner/spinner.tsx';
 import { useSelectedSchoolYear } from '../../dashboard-page/hooks/use-fetch-school-year.ts';
 
 const TableContainer = styled.div`
@@ -57,13 +57,7 @@ export function ProjectAssociateTable({
   };
 
   if (isLoading) {
-    return (
-      <PageContainer>
-        <CenterContent>
-          <GridLoader color="#2196f3" />
-        </CenterContent>
-      </PageContainer>
-    );
+    return <Spinner SpinnerComponent={GridLoader} color={'#2196f3'} />;
   }
   return (
     <TableContainer>

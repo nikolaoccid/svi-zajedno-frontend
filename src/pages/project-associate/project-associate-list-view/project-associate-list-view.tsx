@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { useState } from 'react';
 import { useAsync } from 'react-async-hook';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
 import { DashboardHeader } from '../../../components/dashboard-header/dashboard-header.tsx';
@@ -29,6 +30,7 @@ const Records = styled.span`
   font-weight: 400;
 `;
 export function ProjectAssociateListView() {
+  const { t } = useTranslation();
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
   const { data: associates, refetch: refetchAssociates } = useGetProjectAssociates(currentPage, searchQuery);
@@ -49,18 +51,20 @@ export function ProjectAssociateListView() {
     <DashboardContainer>
       <Navigation />
       <ContentContainer>
-        <DashboardHeader text="Upravljanje suradnicima" />
+        <DashboardHeader text={t('Manage associates')} />
         <UsersHeader>
-          <HeaderTitle>Lista suradnika</HeaderTitle>
+          <HeaderTitle>{t('Associates list')}</HeaderTitle>
           <RowContainer>
             <GlobalSearch setSearchQuery={onSearch} />
             <AddNewButton
-              text={'Dodaj suradnika'}
+              text={t('Add associate')}
               onClick={() => navigate(`/${schoolYear?.startYear}/project-associates/new`)}
             />
           </RowContainer>
 
-          <Records>{(associates as any)?.meta?.totalItems} Records found</Records>
+          <Records>
+            {(associates as any)?.meta?.totalItems} {t('records found')}
+          </Records>
         </UsersHeader>
         <Divider />
         <ProjectAssociateTable data={associates as any} />

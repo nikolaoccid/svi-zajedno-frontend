@@ -114,7 +114,7 @@ export function Navigation() {
       { name: t('Dashboard'), icon: IoMdHome, innerName: 'pocetna', link: `/${startYear}/dashboard` },
       { name: t('Users'), icon: FaUsers, innerName: 'user', link: `/${startYear}/users` },
     ],
-    POSTAVKE: [
+    [t('SETTINGS')]: [
       {
         name: t('Associates'),
         icon: MdOutlineSportsSoccer,

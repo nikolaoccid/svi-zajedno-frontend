@@ -1,10 +1,12 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { ErrorMessage, Field, FormikProvider, useFormik } from 'formik';
+import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import { CircleLoader } from 'react-spinners';
 import * as Yup from 'yup';
 
 import { api } from '../../../api';
+import { Spinner } from '../../../components/spinner/spinner.tsx';
 import { toastError, toastSuccess } from '../../../utils/toast.ts';
 import { Button, CenterContent, Form, FormError, FormField, PageContainer } from '../../common-styles/common-styles.ts';
 import { useGetDropdownCategories } from './hooks/use-get-dropdown-categories.ts';
@@ -21,6 +23,7 @@ const validationSchema = Yup.object().shape({
 
 //This component creates and updates project associate
 export const ManageProjectAssociate = () => {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { projectAssociateId } = useParams();
@@ -46,20 +49,20 @@ export const ManageProjectAssociate = () => {
           await api.updateProjectAssociate(projectAssociate.id, formAssociate);
           await queryClient.invalidateQueries({ queryKey: ['getProjectAssociateById'] });
           await queryClient.invalidateQueries({ queryKey: ['getProjectAssociates'] });
-          toastSuccess('Suradnik uspjesno azuriran.');
+          toastSuccess(t('Associate successfully updated'));
           navigate(-1);
         } catch (e) {
-          toastError('Dogodila se pogreska, suradnik nije azuriran');
+          toastError(t('Error, try again'));
         }
       } else {
         try {
           await api.createProjectAssociate(formAssociate);
           await queryClient.invalidateQueries({ queryKey: ['getProjectAssociateById'] });
           await queryClient.invalidateQueries({ queryKey: ['getProjectAssociates'] });
-          toastSuccess('Suradnik uspjesno kreiran.');
+          toastSuccess(t('Associate successfully created'));
           navigate(-1);
         } catch (e) {
-          toastError('Dogodila se pogreska, suradnik nije kreiran.');
+          toastError(t('Error, try again'));
         }
       }
     },
@@ -67,13 +70,7 @@ export const ManageProjectAssociate = () => {
   });
 
   if (formik.isSubmitting) {
-    return (
-      <PageContainer>
-        <CenterContent>
-          <CircleLoader color="#2196f3" />
-        </CenterContent>
-      </PageContainer>
-    );
+    return <Spinner SpinnerComponent={CircleLoader} color={'#2196f3'} />;
   }
   return (
     <PageContainer>

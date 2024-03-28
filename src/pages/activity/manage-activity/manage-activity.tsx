@@ -1,9 +1,11 @@
 import { ErrorMessage, Field, FormikProvider, useFormik } from 'formik';
+import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import { RiseLoader } from 'react-spinners';
 import * as Yup from 'yup';
 
 import { api } from '../../../api';
+import { Spinner } from '../../../components/spinner/spinner.tsx';
 import { toastError, toastSuccess } from '../../../utils/toast.ts';
 import { Button, CenterContent, Form, FormError, FormField, PageContainer } from '../../common-styles/common-styles.ts';
 import { useSchoolYear } from '../../dashboard-page/hooks/use-fetch-school-year.ts';
@@ -16,13 +18,13 @@ const validationSchema = Yup.object({
 });
 
 export function ManageActivity() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { projectAssociateId, activityId, startYear } = useParams();
   const startYearInt = startYear ? parseInt(startYear) : 0;
   const { data: activity } = useActivity(activityId);
   const { data: schoolYear } = useSchoolYear(startYearInt);
   const { data: projectAssociate, isLoading: isLoadingProjectAssociate } = useGetProjectAssociate(projectAssociateId);
-  // console.log('schoolYear', schoolYear, 'projectAssociate', projectAssociate, 'activity', activity);
 
   const formik = useFormik({
     initialValues: {
@@ -35,32 +37,25 @@ export function ManageActivity() {
     },
     validationSchema: validationSchema,
     onSubmit: async (activityFormData) => {
-      console.log('actityFormData', activityFormData);
       try {
         if (activity && activity.id) {
           await api.updateActivity(activity.id.toString(), activityFormData);
-          toastSuccess('Aktivnost uspjesno azurirana.');
+          toastSuccess(t('Activity successfully updated'));
           navigate(`/${startYear}/project-associates/${projectAssociateId}`);
         } else {
           await api.createActivity(activityFormData);
-          toastSuccess('Aktivnost uspjesno kreirana.');
+          toastSuccess(t('Activity successfully created'));
           navigate(`/${startYear}/project-associates/${projectAssociateId}`);
         }
       } catch (e) {
-        toastError('Dogodila se pogreska');
+        toastError(t('Error, try again'));
       }
     },
     enableReinitialize: true,
   });
 
   if (formik.isSubmitting || isLoadingProjectAssociate) {
-    return (
-      <PageContainer>
-        <CenterContent>
-          <RiseLoader color="#2196f3" />
-        </CenterContent>
-      </PageContainer>
-    );
+    return <Spinner SpinnerComponent={RiseLoader} color={'#2196f3'} />;
   }
 
   return (
@@ -69,14 +64,14 @@ export function ManageActivity() {
         <FormikProvider value={formik}>
           <Form onSubmit={formik.handleSubmit}>
             <FormField>
-              <label htmlFor="activityName">Naziv aktivnosti</label>
+              <label htmlFor="activityName">{t('Activity name')}</label>
               <input type="text" id="activityName" {...formik.getFieldProps('activityName')} />
               {formik.touched.activityName && formik.errors.activityName ? (
                 <FormError>{formik.errors.activityName}</FormError>
               ) : null}
             </FormField>
             <FormField>
-              <label htmlFor="activityPrice">Cijena za aktivnost (u EUR)</label>
+              <label htmlFor="activityPrice">{t('Activity price (EUR)')}</label>
               <input type="number" id="activityPrice" {...formik.getFieldProps('activityPrice')} />
               {formik.touched.activityPrice && formik.errors.activityPrice ? (
                 <FormError>{formik.errors.activityPrice}</FormError>
@@ -86,15 +81,15 @@ export function ManageActivity() {
             <FormField>
               <label htmlFor="activityStatus">Status</label>
               <Field as="select" id="activityStatus" {...formik.getFieldProps('activityStatus')}>
-                <option value="active">Aktivan</option>
-                <option value="pending">U obradi</option>
-                <option value="inactive">Neaktivan</option>
+                <option value="active">{t('Active')}</option>
+                <option value="pending">{t('Pending')}</option>
+                <option value="inactive">{t('Inactive')}</option>
               </Field>
               <ErrorMessage name="activityStatus" component="div" />
             </FormField>
 
             <CenterContent>
-              <Button type="submit">Pošalji</Button>
+              <Button type="submit">{t('Confirm')}</Button>
             </CenterContent>
           </Form>
         </FormikProvider>
