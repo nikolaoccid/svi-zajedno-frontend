@@ -1,5 +1,6 @@
 // Define the styled components
 import styled from '@emotion/styled';
+import { useTranslation } from 'react-i18next';
 
 const TableContainer = styled.div`
   width: 100%;
@@ -9,15 +10,6 @@ const TableContainer = styled.div`
 const ResponsiveTable = styled.table`
   width: 100%;
   border-collapse: collapse;
-`;
-
-const TableHead = styled.thead`
-  th {
-    background-color: #f2f2f2;
-    border: 1px solid #dddddd;
-    padding: 8px;
-    text-align: left;
-  }
 `;
 
 const TableRow = styled.tr`
@@ -35,21 +27,22 @@ const TableCell = styled.td`
   text-align: left;
   font-size: 20px;
 `;
-
+const HeaderData = styled.th`
+  font-weight: bold;
+  text-wrap: normal;
+  word-wrap: break-word;
+`;
 const ResponsiveTableComponent = ({ data }) => {
+  const { t } = useTranslation();
   return (
     <TableContainer>
       <ResponsiveTable>
-        <TableHead>
+        <thead>
           <tr>
-            <th>Kategorija</th>
-            <th>Broj suradnika u kategoriji</th>
-            <th>Ukupno besplatnih aktivnosti</th>
-            <th>Ukupno placenih aktivnosti</th>
-            <th>Ukupno korisnika na besplatnim aktivnostima</th>
-            <th>Ukupno korisnika na placenim aktivnostima</th>
+            <HeaderData>{t('Category')}</HeaderData>
+            <HeaderData>{t('Associates in category')}</HeaderData>
           </tr>
-        </TableHead>
+        </thead>
         <tbody>
           {data.map((item, index) => (
             <TableRow key={index}>

@@ -88,7 +88,7 @@ export function Overview({ show }: { show: boolean }) {
           </Column>
         )}
         <Column>
-          <HeaderTitle>{t('Associates by categories')}</HeaderTitle>
+          <HeaderTitle>{t('Associates and users by categories')}</HeaderTitle>
           {associateStatistics && <OverviewActivityTable data={associateStatistics} />}
         </Column>
       </Row>

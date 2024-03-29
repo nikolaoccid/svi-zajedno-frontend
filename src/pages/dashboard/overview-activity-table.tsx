@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { useTranslation } from 'react-i18next';
 import { GoDotFill } from 'react-icons/go';
 
 const TableContainer = styled.div`
@@ -13,6 +14,7 @@ const TableRow = styled.tr`
 `;
 const TableData = styled.td`
   padding-top: 10px;
+  text-align: center;
 `;
 const Table = styled.table`
   font-family: Axiforma;
@@ -26,10 +28,27 @@ const Icon = styled.td`
   padding-right: 10px;
   white-space: nowrap;
 `;
+const HeaderData = styled.th`
+  font-weight: bold;
+  text-wrap: normal;
+  word-wrap: break-word;
+`;
+const TableDataLeft = styled.td`
+  text-align: left;
+`;
 export function OverviewActivityTable({ data }: { data: any[] }) {
+  const { t } = useTranslation();
   return (
     <TableContainer>
       <Table>
+        <thead>
+          <tr>
+            <th></th>
+            <th></th>
+            <HeaderData>{t('Associates in category')}</HeaderData>
+            <HeaderData>{t('Users in category')}</HeaderData>
+          </tr>
+        </thead>
         <tbody>
           {data.map(
             (category, i) =>
@@ -38,8 +57,9 @@ export function OverviewActivityTable({ data }: { data: any[] }) {
                   <Icon>
                     <GoDotFill size={18} color={'#00193f'} />
                   </Icon>
-                  <TableData>{category.categoryName}</TableData>
+                  <TableDataLeft>{category.categoryName}</TableDataLeft>
                   <TableData>{category.totalAssociatesPerCategory}</TableData>
+                  <TableData>{category.totalUsersPerCategory}</TableData>
                 </TableRow>
               ),
           )}
