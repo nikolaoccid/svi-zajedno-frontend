@@ -12,6 +12,7 @@ interface FlyoutData {
   onHide: () => void;
   RenderComponent: any;
   flyoutTitle: string;
+  flyoutWidth?: string;
 }
 export function ProjectUserFlyouts() {
   const { t } = useTranslation();
@@ -29,6 +30,7 @@ export function ProjectUserFlyouts() {
       onHide: () => navigate(`/${startYear}/users`),
       RenderComponent: UserView,
       flyoutTitle: t('User profile'),
+      flyoutWidth: '800px',
     },
     manageStudentOnActivity: {
       onHide: () => navigate(`/${startYear}/users/${userId}`),
@@ -74,6 +76,7 @@ export function ProjectUserFlyouts() {
         flyoutTitle={flyoutData.flyoutTitle}
         onHide={flyoutData.onHide}
         RenderComponent={flyoutData.RenderComponent}
+        flyoutWidth={flyoutData.flyoutWidth}
       />
     )
   );

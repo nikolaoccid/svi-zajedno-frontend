@@ -29,7 +29,7 @@ export function ProjectAssociateFlyouts() {
     projectAssociateFlyout: {
       onHide: () => navigate(`/${startYear}/project-associates`),
       RenderComponent: ProjectAssociateView,
-      flyoutTitle: t('Edit associate'),
+      flyoutTitle: t('Associate profile'),
     },
   };
 
