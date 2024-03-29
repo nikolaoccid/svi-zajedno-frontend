@@ -3,8 +3,11 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PiGlobeLight } from 'react-icons/pi';
 
-const Container = styled.div<{ showPicker: boolean }>`
-  display: ${(props) => (props.showPicker ? 'block' : 'none')};
+const Container = styled.div<{ hidePicker: string }>`
+  display: ${(props) => {
+    console.log(props.hidePicker);
+    return props.hidePicker === 'true' ? 'none' : 'block';
+  }};
   position: fixed;
   bottom: 0;
   right: 0;
@@ -39,16 +42,26 @@ const Option = styled.div<{ isActive: boolean }>`
 
 export function LanguagePicker() {
   const { i18n } = useTranslation();
-  const [isEnglish, setIsEnglish] = useState(true);
-  const toggleLanguage = () => {
-    setIsEnglish(!isEnglish);
+  const defaultLanguage = import.meta.env.VITE_I18N_DEFAULT_LOCALE ?? 'en';
+  console.log('def lan', defaultLanguage);
+  const [isEnglish, setIsEnglish] = useState(defaultLanguage === 'en');
+  const toggleLanguage = async () => {
     const newLanguage = isEnglish ? 'hr' : 'en';
-    i18n.changeLanguage(newLanguage);
+    setIsEnglish(!isEnglish);
+    await i18n.changeLanguage(newLanguage);
   };
-  const showPicker = import.meta.env.VITE_SHOW_PICKER ?? true;
+
+  // const hidePickerBool = import.meta.env.HIDE_LANGUAGE_PICKER === 'true';
+  // console.log(
+  //   'hidePickerBool',
+  //   hidePickerBool,
+  //   'VITE_HIDE_PICKER',
+  //   import.meta.env.VITE_HIDE_LANGUAGE_PICKER,
+  //   typeof import.meta.env.VITE_HIDE_LANGUAGE_PICKER,
+  // );
 
   return (
-    <Container onClick={toggleLanguage} showPicker={showPicker}>
+    <Container onClick={toggleLanguage} hidePicker={import.meta.env.VITE_HIDE_LANGUAGE_PICKER}>
       <Slider>
         <Option isActive={isEnglish}>EN</Option>
         <PiGlobeLight />

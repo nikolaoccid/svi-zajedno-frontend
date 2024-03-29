@@ -45,7 +45,7 @@ export function HalfScreenHero({ shouldHide = false }) {
     <HeroWrapper shouldHide={shouldHide}>
       <HeroContainer>
         <CenterLogo>
-          <Logo>{t('applicationName')}</Logo>
+          <Logo>{t('Activity Tracker')}</Logo>
         </CenterLogo>
       </HeroContainer>
     </HeroWrapper>

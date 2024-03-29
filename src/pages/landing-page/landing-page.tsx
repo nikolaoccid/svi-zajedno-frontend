@@ -84,7 +84,7 @@ function LandingPage() {
         <Overlay>
           <Center>
             <Heading>
-              {t('Platform')} {t('applicationName')}
+              {t('Platform')} {t('Activity Tracker')}
             </Heading>
             <SubHeading>{t("Efficiently track and manage your users' activities")}</SubHeading>
             <CenterContent>

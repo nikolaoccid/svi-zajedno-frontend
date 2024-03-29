@@ -142,7 +142,7 @@ export function Navigation() {
   return (
     <NavigationContainer>
       <LogoSection>
-        <Logo>{t('applicationName')}</Logo>
+        <Logo>{t('Activity Tracker')}</Logo>
         <HamburgerContainer>
           <Hamburger color="#ffffff" size={25} toggled={isOpen} toggle={setOpen} />
         </HamburgerContainer>

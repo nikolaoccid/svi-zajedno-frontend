@@ -8,5 +8,5 @@ i18n.use(initReactI18next).init({
     hr: { ...hrJSON },
     en: { ...enJSON },
   },
-  lng: 'en',
+  lng: import.meta.env.VITE_I18N_DEFAULT_LOCALE ?? 'en',
 });
