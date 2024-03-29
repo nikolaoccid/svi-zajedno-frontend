@@ -3,7 +3,8 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PiGlobeLight } from 'react-icons/pi';
 
-const Container = styled.div`
+const Container = styled.div<{ showPicker: boolean }>`
+  display: ${(props) => (props.showPicker ? 'block' : 'none')};
   position: fixed;
   bottom: 0;
   right: 0;
@@ -44,9 +45,10 @@ export function LanguagePicker() {
     const newLanguage = isEnglish ? 'hr' : 'en';
     i18n.changeLanguage(newLanguage);
   };
+  const showPicker = import.meta.env.VITE_SHOW_PICKER ?? true;
 
   return (
-    <Container onClick={toggleLanguage}>
+    <Container onClick={toggleLanguage} showPicker={showPicker}>
       <Slider>
         <Option isActive={isEnglish}>EN</Option>
         <PiGlobeLight />
