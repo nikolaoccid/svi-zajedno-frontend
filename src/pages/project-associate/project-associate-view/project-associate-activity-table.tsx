@@ -1,13 +1,14 @@
 import styled from '@emotion/styled';
 import { useQueryClient } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
 import { GoDotFill } from 'react-icons/go';
 import { MdDelete } from 'react-icons/md';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ClockLoader } from 'react-spinners';
 
 import { api } from '../../../api';
+import { Spinner } from '../../../components/spinner/spinner.tsx';
 import { toastError, toastSuccess } from '../../../utils/toast.ts';
-import { CenterContent, PageContainer } from '../../common-styles/common-styles.ts';
 
 const TableContainer = styled.div`
   height: 100%;
@@ -38,6 +39,7 @@ const Icon = styled.td`
   gap: 12px;
 `;
 export function ProjectAssociateActivityTable({ activities }: { activities: any }) {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { startYear, projectAssociateId } = useParams();
   const queryClient = useQueryClient();
@@ -45,9 +47,9 @@ export function ProjectAssociateActivityTable({ activities }: { activities: any 
     try {
       await api.deleteActivity(activity.id);
       await queryClient.invalidateQueries(['getProjectAssociateById']);
-      toastSuccess('Uspjesno obrisana aktivnost');
+      toastSuccess(t('Successfully deleted the activity'));
     } catch (e) {
-      toastError('Brisanje aktivnosti nije uspjesno');
+      toastError(t('Error, try again'));
       console.log(e);
     }
   };
@@ -55,13 +57,7 @@ export function ProjectAssociateActivityTable({ activities }: { activities: any 
     navigate(`/${startYear}/project-associates/${projectAssociateId}/activities/${activity?.id}/edit`);
 
   if (!activities) {
-    return (
-      <PageContainer>
-        <CenterContent>
-          <ClockLoader color="#2196f3" />
-        </CenterContent>
-      </PageContainer>
-    );
+    return <Spinner SpinnerComponent={ClockLoader} color={'#2196f3'} />;
   }
 
   return (

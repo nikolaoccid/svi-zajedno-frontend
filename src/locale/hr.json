@@ -124,6 +124,21 @@
     "Activity name": "Naziv aktivnosti",
     "Activity price (EUR)": "Cijena za aktivnost (EUR)",
     "Associate successfully updated": "Suradnik uspjesno azuriran",
-    "Associate successfully created": "Suradnik uspjesno kreiran"
+    "Associate successfully created": "Suradnik uspjesno kreiran",
+    "Club name": "Ime kluba",
+    "Contact person": "Kontakt osoba",
+    "Category": "Kategorija",
+    "Categories": "Kategorije",
+    "Category name": "Ime kategorije",
+    "Choose the category": "Odaberite kategoriju",
+    "Successfully deleted the activity": "Uspjesno obrisana aktivnost",
+    "Edit category": "Uredi kategoriju",
+    "Add category": "Dodaj kategoriju",
+    "Manage categories": "Upravljanje kategorijama",
+    "Categories list": "Lista kategorija",
+    "Operation successful": "Operacija uspjesna",
+    "Add new academic year": "Dodaj novu skolsku godinu",
+    "Manage academic years": "Upravljanje skolskim godinama",
+    "Academic years list": "Lista skolskih godina"
   }
 }

@@ -8,8 +8,8 @@ const HeroContainer = styled.div`
   width: 100%;
   height: 100%;
 `;
-const HeroWrapper = styled.div`
-  display: flex;
+const HeroWrapper = styled.div<{ shouldHide: boolean }>`
+  display: ${(props) => (props.shouldHide ? 'none' : 'flex')};
   height: 100%;
 
   width: 50%;
@@ -39,10 +39,10 @@ const CenterLogo = styled.div`
   height: 100%;
   padding: 20px;
 `;
-export function HalfScreenHero() {
+export function HalfScreenHero({ shouldHide = false }) {
   const { t } = useTranslation();
   return (
-    <HeroWrapper>
+    <HeroWrapper shouldHide={shouldHide}>
       <HeroContainer>
         <CenterLogo>
           <Logo>{t('applicationName')}</Logo>

@@ -1,13 +1,14 @@
 import styled from '@emotion/styled';
 import { useQueryClient } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
 import { GoDotFill } from 'react-icons/go';
 import { MdDelete, MdEdit } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 import { GridLoader } from 'react-spinners';
 
 import { deleteCategory } from '../../../api/api.ts';
+import { Spinner } from '../../../components/spinner/spinner.tsx';
 import { toastError, toastSuccess } from '../../../utils/toast.ts';
-import { CenterContent, PageContainer } from '../../common-styles/common-styles.ts';
 import { useSelectedSchoolYear } from '../../dashboard-page/hooks/use-fetch-school-year.ts';
 
 const TableContainer = styled.div`
@@ -46,6 +47,7 @@ export function CategoriesTable({
     meta: { totalItems: number; itemCount: number; itemsPerPage: number; totalPages: number; currentPage: number };
   };
 }) {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { data: schoolYear, isLoading } = useSelectedSchoolYear();
@@ -56,20 +58,14 @@ export function CategoriesTable({
     try {
       await deleteCategory(category.id);
       await queryClient.invalidateQueries(['getCategories']);
-      toastSuccess('Uspjesno obrisana kategorija');
+      toastSuccess(t('Operation successfull'));
     } catch (e) {
-      toastError('Neuspjesno brisanje kategorij');
+      toastError(t('Error, try again'));
     }
   };
 
   if (isLoading) {
-    return (
-      <PageContainer>
-        <CenterContent>
-          <GridLoader color="#2196f3" />
-        </CenterContent>
-      </PageContainer>
-    );
+    return <Spinner SpinnerComponent={GridLoader} color={'#2196f3'} />;
   }
   return (
     <TableContainer>

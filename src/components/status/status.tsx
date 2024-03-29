@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { useTranslation } from 'react-i18next';
 
 const Container = styled.div<{ status }>`
   display: flex;
@@ -17,9 +18,16 @@ const Text = styled.span`
   color: white;
 `;
 export const Status = ({ status }: { status: 'active' | 'pending' | 'inactive' }) => {
+  const { t } = useTranslation();
   return (
     <Container status={status}>
-      <Text>{status === 'active' ? 'AKTIVAN' : status === 'pending' ? 'OBRADA' : 'NEAKTIVAN'}</Text>
+      <Text>
+        {status === 'active'
+          ? t('Active').toUpperCase()
+          : status === 'pending'
+          ? t('Pending').toUpperCase()
+          : t('Inactive').toUpperCase()}
+      </Text>
     </Container>
   );
 };

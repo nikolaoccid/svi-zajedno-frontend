@@ -1,10 +1,11 @@
 import styled from '@emotion/styled';
+import { useTranslation } from 'react-i18next';
 import { MdEdit } from 'react-icons/md';
 import { useNavigate, useParams } from 'react-router-dom';
 import { PropagateLoader } from 'react-spinners';
 
+import { Spinner } from '../../../components/spinner/spinner.tsx';
 import { Status } from '../../../components/status/status.tsx';
-import { CenterContent, PageContainer } from '../../common-styles/common-styles';
 import { useSchoolYear } from '../../dashboard-page/hooks/use-fetch-school-year.ts';
 import { AddNewButton } from '../../project-user/user-list/add-new-button.tsx';
 import { HeaderText } from '../../project-user/user-list/user-list-container.tsx';
@@ -88,19 +89,14 @@ const RightContainer = styled.div`
 `;
 
 const ProjectAssociateView = ({ onClose }: { onClose?: () => void }) => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { projectAssociateId, startYear } = useParams();
   const { data: schoolYear } = useSchoolYear(parseInt(startYear ?? '0'));
   const { data: projectAssociate, isLoading } = useGetProjectAssociate(projectAssociateId);
 
   if (isLoading) {
-    return (
-      <PageContainer>
-        <CenterContent>
-          <PropagateLoader color="#2196f3" />
-        </CenterContent>
-      </PageContainer>
-    );
+    return <Spinner SpinnerComponent={PropagateLoader} color={'#2196f3'} />;
   }
 
   const filteredActivities = projectAssociate?.activity?.filter(
@@ -127,7 +123,7 @@ const ProjectAssociateView = ({ onClose }: { onClose?: () => void }) => {
         </Row>
         <Section>
           <ProfileItem>
-            <Label>Kategorija:</Label>
+            <Label>{t('Category')}</Label>
             <Value>{projectAssociate?.category?.categoryName}</Value>
           </ProfileItem>
           <ProfileItem>
@@ -135,13 +131,13 @@ const ProjectAssociateView = ({ onClose }: { onClose?: () => void }) => {
             <Value>{projectAssociate?.email}</Value>
           </ProfileItem>
           <ProfileItem>
-            <Label>Kontakt:</Label>
+            <Label>{t('Contact person')}</Label>
             <Value>
               {projectAssociate?.mobilePhone} - {projectAssociate?.contactPerson}
             </Value>
           </ProfileItem>
           <ProfileItem>
-            <Label>Adresa:</Label>
+            <Label>{t('Address')}</Label>
             <Value>
               {projectAssociate?.address}, {projectAssociate?.city}
             </Value>
@@ -151,12 +147,12 @@ const ProjectAssociateView = ({ onClose }: { onClose?: () => void }) => {
         <HeaderWithShadow>
           <HeaderContainer>
             <CenterContainer>
-              <HeaderText>Aktivnosti</HeaderText>
+              <HeaderText>{t('Activities')}</HeaderText>
             </CenterContainer>
 
             <RightContainer>
               <AddNewButton
-                text={'Dodaj'}
+                text={t('Add')}
                 onClick={() =>
                   navigate(`/${schoolYear?.startYear}/project-associates/${projectAssociate?.id}/activities/new`)
                 }

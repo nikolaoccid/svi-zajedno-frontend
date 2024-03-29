@@ -22,19 +22,6 @@ export const Select = styled.select`
   padding: 15px 20px;
 `;
 
-export const Input = styled.input`
-  font-family: Axiforma, sans-serif;
-  width: 100%;
-  font-size: 1em;
-  padding: 15px 20px;
-`;
-
-export const AlignLeft = styled.div`
-  display: flex;
-  width: 100%;
-  align-items: center;
-  justify-content: flex-start;
-`;
 export const Button = styled.button<{ backgroundColor?: string }>`
   background-color: ${(props) => props.backgroundColor ?? '#1352f1'};
   font-weight: normal;

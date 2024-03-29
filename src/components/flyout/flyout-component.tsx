@@ -15,14 +15,21 @@ interface FlyoutComponentProps {
   onHide: () => void;
   RenderComponent: any;
   flyoutWidth?: string;
+  showFlyout?: boolean;
 }
 
-export function FlyoutComponent({ flyoutWidth, flyoutTitle, onHide, RenderComponent }: FlyoutComponentProps) {
+export function FlyoutComponent({
+  flyoutWidth,
+  flyoutTitle,
+  onHide,
+  RenderComponent,
+  showFlyout = true,
+}: FlyoutComponentProps) {
   const { data: schoolYear } = useSelectedSchoolYear();
   const { t } = useTranslation();
   return (
     <Flyout
-      show={true}
+      show={showFlyout}
       animationDuration={100}
       width={flyoutWidth}
       header={

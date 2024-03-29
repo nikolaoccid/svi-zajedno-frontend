@@ -15,11 +15,13 @@ const ErrorMessage = styled.p`
   color: red;
   margin-top: 0.1rem;
 `;
-const Content = styled(CenterContent)`
-  width: 50%;
-  padding: 4em;
+const Content = styled(CenterContent)<{ hideHero: boolean }>`
+  display: ${(props) => (props.hideHero ? 'flex' : '')};
+  align-items: ${(props) => (props.hideHero ? 'start' : 'center')};
+  width: ${(props) => (props.hideHero ? '100%' : '50%')};
+  padding: ${(props) => (props.hideHero ? '1em' : '4em')};
 `;
-export const CreateSchoolYear = () => {
+export const CreateSchoolYear = ({ hideHero = false }) => {
   const { t } = useTranslation();
   const { data: schoolYears, isLoading: schoolYearLoading } = useSchoolYears();
   const [selectedYear, setSelectedYear] = useState('choose');
@@ -36,12 +38,14 @@ export const CreateSchoolYear = () => {
   }
   return (
     <FlexRowContainer>
-      <HalfScreenHero />
-      <Content>
-        <HeaderTextWithSubtext
-          title={'Create a academic year'}
-          subtext="Choose a academic year you would like to create"
-        />
+      <HalfScreenHero shouldHide={hideHero} />
+      <Content hideHero={hideHero}>
+        {!hideHero && (
+          <HeaderTextWithSubtext
+            title={'Create a academic year'}
+            subtext="Choose a academic year you would like to create"
+          />
+        )}
         <Select onChange={(e) => setSelectedYear(e.target.value)} value={selectedYear}>
           <option value="choose">{t('Choose a academic year')}</option>
           {generatedSchoolYears?.map((schoolYear) => (
@@ -50,9 +54,11 @@ export const CreateSchoolYear = () => {
             </option>
           ))}
         </Select>
-        <Button onClick={handleClick} disabled={selectedYear === 'choose'}>
-          {t('Confirm')}
-        </Button>
+        <CenterContent>
+          <Button onClick={handleClick} disabled={selectedYear === 'choose'}>
+            {t('Confirm')}
+          </Button>
+        </CenterContent>
         {(errorMessages as any).map((error, index) => (
           <ErrorMessage key={index}>{error}</ErrorMessage>
         ))}

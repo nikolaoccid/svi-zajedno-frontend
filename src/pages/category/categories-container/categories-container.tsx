@@ -1,30 +1,28 @@
-import { Flyout } from 'pivotal-ui/react/flyout';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
+import { FlyoutComponent } from '../../../components/flyout/flyout-component.tsx';
 import { DashboardContainer } from '../../dashboard/dashboard.tsx';
-import { Column } from '../../dashboard-page/dashboard-page.tsx';
-import { useSelectedSchoolYear } from '../../dashboard-page/hooks/use-fetch-school-year.ts';
-import { HeaderSubtext, HeaderText } from '../../project-user/user-list/user-list-container.tsx';
 import { CategoriesPage } from '../categories-page/categories-page.tsx';
 import ManageCategory from '../manage-category/manage-category.tsx';
 
 export function CategoriesContainer() {
+  const { t } = useTranslation();
   const { startYear, categoryId } = useParams();
   const navigate = useNavigate();
-  const { data: schoolYear } = useSelectedSchoolYear();
   const [showManageCategoryFlyout, setShowManageCategoryFlyout] = useState(false);
   const { pathname } = useLocation();
-  const [flyoutTitle, setFlyoutTitle] = useState('Uredi kategoriju');
+  const [flyoutTitle, setFlyoutTitle] = useState(t('Edit category'));
   useEffect(() => {
     const isNewCategoryPath = pathname.includes(`${startYear}/categories/new`);
     const isEditCategoryPath = pathname.includes(`${startYear}/categories/${categoryId}/edit`);
 
     if (isEditCategoryPath) {
-      setFlyoutTitle('Uredi kategoriju');
+      setFlyoutTitle(t('Edit category'));
       setShowManageCategoryFlyout(true);
     } else if (isNewCategoryPath) {
-      setFlyoutTitle('Dodaj kategoriju');
+      setFlyoutTitle(t('Add category'));
       setShowManageCategoryFlyout(true);
     } else {
       setShowManageCategoryFlyout(false);
@@ -34,23 +32,12 @@ export function CategoriesContainer() {
   return (
     <DashboardContainer>
       <CategoriesPage />
-      <Flyout
-        animationDuration={100}
-        show={showManageCategoryFlyout}
-        header={
-          <Column>
-            <HeaderText>{flyoutTitle}</HeaderText>
-            <HeaderSubtext>
-              Skolska godina: {schoolYear?.startYear} / {schoolYear?.endYear}
-            </HeaderSubtext>
-          </Column>
-        }
-        onHide={() => {
-          navigate(-1);
-        }}
-      >
-        <ManageCategory />
-      </Flyout>
+      <FlyoutComponent
+        showFlyout={showManageCategoryFlyout}
+        flyoutTitle={flyoutTitle}
+        onHide={() => navigate(-1)}
+        RenderComponent={ManageCategory}
+      />
     </DashboardContainer>
   );
 }

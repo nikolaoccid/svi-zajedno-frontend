@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { useState } from 'react';
 import { useAsync } from 'react-async-hook';
+import { useTranslation } from 'react-i18next';
 import { BiSolidCategoryAlt } from 'react-icons/bi';
 import { useNavigate } from 'react-router-dom';
 
@@ -30,6 +31,7 @@ const Records = styled.span`
   font-weight: 400;
 `;
 export function CategoriesPage() {
+  const { t } = useTranslation();
   const [currentPage, setCurrentPage] = useState<number>(1);
 
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -51,19 +53,21 @@ export function CategoriesPage() {
     <DashboardContainer>
       <Navigation />
       <ContentContainer>
-        <DashboardHeader text="Upravljanje kategorijama" />
+        <DashboardHeader text={t('Manage categories')} />
         <UsersHeader>
-          <HeaderTitle>Lista kategorija</HeaderTitle>
+          <HeaderTitle>{t('Categories list')}</HeaderTitle>
           <RowContainer>
             <GlobalSearch setSearchQuery={onSearch} />
             <AddNewButton
-              text={'Dodaj kategoriju'}
+              text={t('Add category')}
               onClick={() => navigate(`/${schoolYear?.startYear}/categories/new`)}
               Icon={BiSolidCategoryAlt}
             />
           </RowContainer>
 
-          <Records>{(categories as any)?.meta?.totalItems} Records found</Records>
+          <Records>
+            {(categories as any)?.meta?.totalItems} {t('records found')}
+          </Records>
         </UsersHeader>
         <Divider />
         <CategoriesTable data={categories as any} />

@@ -1,11 +1,13 @@
 import styled from '@emotion/styled';
 import { useQueryClient } from '@tanstack/react-query';
 import { useFormik } from 'formik';
+import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import { CircleLoader } from 'react-spinners';
 import * as Yup from 'yup';
 
 import { api } from '../../../api';
+import { Spinner } from '../../../components/spinner/spinner.tsx';
 import { toastError, toastSuccess } from '../../../utils/toast.ts';
 import { CenterContent, PageContainer } from '../../common-styles/common-styles.ts';
 import { useGetCategory } from './hooks/use-get-category.ts';
@@ -34,6 +36,7 @@ const validationSchema = Yup.object().shape({
 
 //This component creates and updates category
 function ManageCategory() {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { categoryId } = useParams();
@@ -46,26 +49,25 @@ function ManageCategory() {
     },
     validationSchema: validationSchema,
     onSubmit: async (formCategory) => {
-      console.log('form data', formCategory);
       if (categoryId && category) {
         try {
           await api.updateCategory(category.id.toString(), formCategory);
           await queryClient.invalidateQueries(['getCategories']);
           await queryClient.invalidateQueries(['getCategory']);
-          toastSuccess('Kategorija uspjesno azurirana.');
+          toastSuccess(t('Operation successful'));
           navigate(-1);
         } catch (e) {
-          toastError('Dogodila se pogreska, kategorija nije azurirana.');
+          toastError(t('Error, try again'));
         }
       } else {
         try {
           await api.createCategory(formCategory);
           await queryClient.invalidateQueries(['getCategories']);
           await queryClient.invalidateQueries(['getCategory']);
-          toastSuccess('Kategorija uspjesno kreirana.');
+          toastSuccess(t('Operation successful'));
           navigate(-1);
         } catch (e) {
-          toastError('Dogodila se pogreska, kategorija nije kreirana.');
+          toastError(t('Error, try again'));
         }
       }
     },
@@ -73,20 +75,14 @@ function ManageCategory() {
   });
 
   if (formik.isSubmitting) {
-    return (
-      <PageContainer>
-        <CenterContent>
-          <CircleLoader color="#2196f3" />
-        </CenterContent>
-      </PageContainer>
-    );
+    return <Spinner SpinnerComponent={CircleLoader} color={'#2196f3'} />;
   }
   return (
     <PageContainer>
       <CenterContent>
         <Form onSubmit={formik.handleSubmit}>
           <FormField>
-            <label htmlFor="categoryName">Ime kategorije</label>
+            <label htmlFor="categoryName">{t('Category name')}</label>
             <input type="text" id="categoryName" {...formik.getFieldProps('categoryName')} />
             {formik.touched.categoryName && formik.errors.categoryName ? (
               <FormError>{formik.errors.categoryName}</FormError>
@@ -94,7 +90,7 @@ function ManageCategory() {
           </FormField>
 
           <CenterContent>
-            <button type="submit">Potvrdi</button>
+            <button type="submit">{t('Confirm')}</button>
           </CenterContent>
         </Form>
       </CenterContent>

@@ -1,19 +1,17 @@
-import { Flyout } from 'pivotal-ui/react/flyout';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
+import { FlyoutComponent } from '../../components/flyout/flyout-component.tsx';
 import { DashboardContainer } from '../dashboard/dashboard.tsx';
-import { Column } from '../dashboard-page/dashboard-page.tsx';
-import { useSelectedSchoolYear } from '../dashboard-page/hooks/use-fetch-school-year.ts';
-import { HeaderSubtext, HeaderText } from '../project-user/user-list/user-list-container.tsx';
 import { CreateSchoolYear } from './create-school-year/create-school-year.tsx';
 import { SchoolYearsPage } from './school-years-page.tsx';
 
 export function SchoolYearsContainer() {
+  const { t } = useTranslation();
   const { pathname } = useLocation();
   const { startYear } = useParams();
   const navigate = useNavigate();
-  const { data: schoolYear } = useSelectedSchoolYear();
   const [newSchoolYearFlyout, setNewSchoolYearFlyout] = useState(false);
 
   useEffect(() => {
@@ -29,23 +27,12 @@ export function SchoolYearsContainer() {
   return (
     <DashboardContainer>
       <SchoolYearsPage />
-      <Flyout
-        animationDuration={100}
-        show={newSchoolYearFlyout}
-        header={
-          <Column>
-            <HeaderText>Dodaj novu skolsku godinu</HeaderText>
-            <HeaderSubtext>
-              Skolska godina: {schoolYear?.startYear} / {schoolYear?.endYear}
-            </HeaderSubtext>
-          </Column>
-        }
-        onHide={() => {
-          navigate(-1);
-        }}
-      >
-        <CreateSchoolYear />
-      </Flyout>
+      <FlyoutComponent
+        flyoutTitle={t('Add new academic year')}
+        onHide={() => navigate(-1)}
+        RenderComponent={() => <CreateSchoolYear hideHero={true} />}
+        showFlyout={newSchoolYearFlyout}
+      />
     </DashboardContainer>
   );
 }

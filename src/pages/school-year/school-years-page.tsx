@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { useState } from 'react';
 import { useAsync } from 'react-async-hook';
+import { useTranslation } from 'react-i18next';
 import { BiSolidCategoryAlt } from 'react-icons/bi';
 import { useNavigate } from 'react-router-dom';
 
@@ -31,8 +32,8 @@ const Records = styled.span`
   font-weight: 400;
 `;
 export function SchoolYearsPage() {
+  const { t } = useTranslation();
   const [currentPage, setCurrentPage] = useState<number>(1);
-
   const [searchQuery, setSearchQuery] = useState<string>('');
 
   const { data: schoolYear } = useSelectedSchoolYear();
@@ -52,19 +53,21 @@ export function SchoolYearsPage() {
     <DashboardContainer>
       <Navigation />
       <ContentContainer>
-        <DashboardHeader text="Upravljanje školskim godinama" />
+        <DashboardHeader text={t('Manage academic years')} />
         <UsersHeader>
-          <HeaderTitle>Lista školskih godina</HeaderTitle>
+          <HeaderTitle>{t('Academic years list')}</HeaderTitle>
           <RowContainer>
             <GlobalSearch setSearchQuery={onSearch} />
             <AddNewButton
-              text={'Dodaj školsku godinu'}
+              text={t('Add new academic year')}
               onClick={() => navigate(`/${schoolYear?.startYear}/school-years/new`)}
               Icon={BiSolidCategoryAlt}
             />
           </RowContainer>
 
-          <Records>{(schoolYears as any)?.meta?.totalItems} Records found</Records>
+          <Records>
+            {(schoolYears as any)?.meta?.totalItems} {t('records found')}
+          </Records>
         </UsersHeader>
         <Divider />
         <SchoolYearsTable data={schoolYears as any} />

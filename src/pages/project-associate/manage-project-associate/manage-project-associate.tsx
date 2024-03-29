@@ -77,7 +77,7 @@ export const ManageProjectAssociate = () => {
       <CenterContent>
         <Form onSubmit={formik.handleSubmit}>
           <FormField>
-            <label htmlFor="clubName">Ime organizacije</label>
+            <label htmlFor="clubName">{t('Club name')}</label>
             <input type="text" id="clubName" {...formik.getFieldProps('clubName')} />
             {formik.touched.clubName && formik.errors.clubName ? <FormError>{formik.errors.clubName}</FormError> : null}
           </FormField>
@@ -88,7 +88,7 @@ export const ManageProjectAssociate = () => {
             {formik.touched.email && formik.errors.email ? <FormError>{formik.errors.email}</FormError> : null}
           </FormField>
           <FormField>
-            <label htmlFor="mobilePhone">Mobitel</label>
+            <label htmlFor="mobilePhone">{t('Phone number')}</label>
             <input type="tel" id="mobilePhone" {...formik.getFieldProps('mobilePhone')} />
             {formik.touched.mobilePhone && formik.errors.mobilePhone ? (
               <FormError>{formik.errors.mobilePhone}</FormError>
@@ -96,7 +96,7 @@ export const ManageProjectAssociate = () => {
           </FormField>
 
           <FormField>
-            <label htmlFor="contactPerson">Kontakt osoba</label>
+            <label htmlFor="contactPerson">{t('Contact person')}</label>
             <input type="text" id="contactPerson" {...formik.getFieldProps('contactPerson')} />
             {formik.touched.contactPerson && formik.errors.contactPerson ? (
               <FormError>{formik.errors.contactPerson}</FormError>
@@ -104,13 +104,13 @@ export const ManageProjectAssociate = () => {
           </FormField>
 
           <FormField>
-            <label htmlFor="childSurname">Adresa</label>
+            <label htmlFor="childSurname">{t('Address')}</label>
             <input type="text" id="address" {...formik.getFieldProps('address')} />
             {formik.touched.address && formik.errors.address ? <FormError>{formik.errors.address}</FormError> : null}
           </FormField>
 
           <FormField>
-            <label htmlFor="city">Grad</label>
+            <label htmlFor="city">{t('City')}</label>
             <input type="text" id="city" {...formik.getFieldProps('city')} />
             {formik.touched.city && formik.errors.city ? <FormError>{formik.errors.city}</FormError> : null}
           </FormField>
@@ -119,17 +119,17 @@ export const ManageProjectAssociate = () => {
             <FormField>
               <label htmlFor="projectAssociateStatus">Status</label>
               <Field as="select" id="projectAssociateStatus" {...formik.getFieldProps('projectAssociateStatus')}>
-                <option value="active">Aktivan</option>
-                <option value="pending">U obradi</option>
-                <option value="inactive">Neaktivan</option>
+                <option value="active">{t('Active')}</option>
+                <option value="pending">{t('Pending')}</option>
+                <option value="inactive">{t('Inactive')}</option>
               </Field>
               <ErrorMessage name="projectAssociateStatus" component="div" />
             </FormField>
 
             <FormField>
-              <label htmlFor="categoryId">Kategorija</label>
+              <label htmlFor="categoryId">{t('Category')}</label>
               <Field as="select" id="categoryId" {...formik.getFieldProps('categoryId')}>
-                <option value="">Odaberi kategoriju</option>
+                <option value="">{t('Choose the category')}</option>
                 {categorisDropdown &&
                   (categorisDropdown as any)?.map((category) => (
                     <option key={category.id} value={category.id}>
@@ -142,7 +142,7 @@ export const ManageProjectAssociate = () => {
           </FormikProvider>
 
           <CenterContent>
-            <Button type="submit">Pošalji</Button>
+            <Button type="submit">{t('Confirm')}</Button>
           </CenterContent>
         </Form>
       </CenterContent>
