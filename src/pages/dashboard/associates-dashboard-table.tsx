@@ -39,6 +39,7 @@ const Icon = styled.td`
 `;
 export function AssociatesDashboardTable({ data }: { data: any[] }) {
   const { t } = useTranslation();
+  console.log(data);
   return (
     <TableContainer>
       <Table>
@@ -47,9 +48,10 @@ export function AssociatesDashboardTable({ data }: { data: any[] }) {
             <td></td>
             <td></td>
             <HeaderData>{t('Associates in category')}</HeaderData>
+            <HeaderData>{t('Total users')}</HeaderData>
             <HeaderData>{t('Free activities')}</HeaderData>
-            <HeaderData>{t('Users on free activities')}</HeaderData>
             <HeaderData>{t('Paid activities')}</HeaderData>
+            <HeaderData>{t('Users on free activities')}</HeaderData>
             <HeaderData>{t('Users on paid activities')}</HeaderData>
           </tr>
         </thead>
@@ -64,9 +66,10 @@ export function AssociatesDashboardTable({ data }: { data: any[] }) {
                     </Icon>
                     <TableDataLeft>{category.categoryName}</TableDataLeft>
                     <TableData>{category.totalAssociatesPerCategory}</TableData>
+                    <TableData>{category.totalUsersPerCategory}</TableData>
                     <TableData>{category.totalFreeActivities}</TableData>
-                    <TableData>{category.usersAttendingFreeActivities}</TableData>
                     <TableData>{category.totalPaidActivities}</TableData>
+                    <TableData>{category.usersAttendingFreeActivities}</TableData>
                     <TableData>{category.usersAttendingPaidActivities}</TableData>
                   </TableRow>
                 ),

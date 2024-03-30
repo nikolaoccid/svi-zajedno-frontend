@@ -14,8 +14,8 @@ const SingleSetting = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2vh;
-  padding: 2vw 3vw 2vw 1vw;
-  width: 20vw;
+  padding: 1.5vw 0 1.5vw 1.7vw;
+  width: 17vw;
 `;
 const SettingsSelect = styled(Select)`
   padding: 1vw 1vw;
