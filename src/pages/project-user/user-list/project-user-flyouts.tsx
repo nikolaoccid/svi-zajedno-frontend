@@ -30,12 +30,13 @@ export function ProjectUserFlyouts() {
       onHide: () => navigate(`/${startYear}/users`),
       RenderComponent: UserView,
       flyoutTitle: t('User profile'),
-      flyoutWidth: '800px',
+      flyoutWidth: '65vw',
     },
     manageStudentOnActivity: {
       onHide: () => navigate(`/${startYear}/users/${userId}`),
       RenderComponent: ManageStudentOnActivityContainer,
       flyoutTitle: t('Enroll user on activity'),
+      flyoutWidth: '50vw',
     },
     enrollStudentOnSchoolYear: {
       onHide: () => navigate(`/${startYear}/users/${userId}`),
@@ -45,7 +46,7 @@ export function ProjectUserFlyouts() {
     editUser: {
       onHide: () => navigate(`/${startYear}/users/${userId}`),
       RenderComponent: EditUserOnActivity,
-      flyoutTitle: t('Edit user'),
+      flyoutTitle: t('Edit user on activity'),
     },
   };
 
@@ -68,7 +69,7 @@ export function ProjectUserFlyouts() {
     } else {
       setFlyoutData(null);
     }
-  }, [pathname, startYear, userId, activityId, flyoutComponents]);
+  }, [pathname]);
 
   return (
     flyoutData && (

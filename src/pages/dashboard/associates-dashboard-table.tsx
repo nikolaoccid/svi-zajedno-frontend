@@ -39,7 +39,6 @@ const Icon = styled.td`
 `;
 export function AssociatesDashboardTable({ data }: { data: any[] }) {
   const { t } = useTranslation();
-  console.log(data);
   return (
     <TableContainer>
       <Table>

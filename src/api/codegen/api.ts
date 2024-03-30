@@ -409,6 +409,12 @@ export interface CreateStudentOnActivityDto {
     'activityStatus': CreateStudentOnActivityDtoActivityStatusEnum;
     /**
      * 
+     * @type {number}
+     * @memberof CreateStudentOnActivityDto
+     */
+    'actualActivityCost': number;
+    /**
+     * 
      * @type {string}
      * @memberof CreateStudentOnActivityDto
      */
@@ -1088,6 +1094,12 @@ export interface StudentOnActivity {
     'activityId': number;
     /**
      * 
+     * @type {number}
+     * @memberof StudentOnActivity
+     */
+    'actualActivityCost': number;
+    /**
+     * 
      * @type {string}
      * @memberof StudentOnActivity
      */
@@ -1454,6 +1466,12 @@ export interface UpdateStudentOnActivityDto {
      * @memberof UpdateStudentOnActivityDto
      */
     'activityStatus'?: UpdateStudentOnActivityDtoActivityStatusEnum;
+    /**
+     * 
+     * @type {number}
+     * @memberof UpdateStudentOnActivityDto
+     */
+    'actualActivityCost'?: number;
     /**
      * 
      * @type {string}

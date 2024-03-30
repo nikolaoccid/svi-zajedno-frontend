@@ -128,7 +128,6 @@
     "Club name": "Ime kluba",
     "Contact person": "Kontakt osoba",
     "Category": "Kategorija",
-    "Categories": "Kategorije",
     "Category name": "Ime kategorije",
     "Choose the category": "Odaberite kategoriju",
     "Successfully deleted the activity": "Uspjesno obrisana aktivnost",
@@ -145,6 +144,7 @@
     "Associate profile": "Pregled suradnika",
     "Choose language": "Odaberite jezik",
     "English": "Engleski",
-    "Croatian": "Hrvatski"
+    "Croatian": "Hrvatski",
+    "Actual activity price (EUR)": "Ugovorena cijena aktivnosti (EUR)"
   }
 }

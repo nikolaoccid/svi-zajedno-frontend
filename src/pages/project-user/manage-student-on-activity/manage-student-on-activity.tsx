@@ -28,6 +28,9 @@ const Section = styled.div`
   gap: 5px;
   padding: 10px 25px 0 25px;
 `;
+const ContentContainer = styled(PageContainer)`
+  width: 100%;
+`;
 export const ManageStudentOnActivity = ({ onClose, query }: { onClose?: () => void; query: string }) => {
   const { t } = useTranslation();
   const { startYear, userId } = useParams();
@@ -41,6 +44,7 @@ export const ManageStudentOnActivity = ({ onClose, query }: { onClose?: () => vo
   const { execute: createStudentOnActivity, loading: isLoadingCreateStudentOnActivity } = useCreateStudentOnActivity();
   const { getActivities, activities, isLoading: isLoadingActivities } = useActivities();
   const [enrollmentDate, setEnrollmentDate] = useState(frontendFormattedDate());
+  const [actualActivityPrice, setActualActivityPrice] = useState(0);
 
   useAsync(async () => {
     await getActivities(
@@ -55,6 +59,7 @@ export const ManageStudentOnActivity = ({ onClose, query }: { onClose?: () => vo
     await createStudentOnActivity({
       activityId: item.id,
       activityStatus: 'active',
+      actualActivityCost: actualActivityPrice,
       studentOnSchoolYearId: studentOnSchoolYear ? (studentOnSchoolYear as any).id : 0,
       enrollmentDate: backendFormattedDate(enrollmentDate),
     });
@@ -74,15 +79,23 @@ export const ManageStudentOnActivity = ({ onClose, query }: { onClose?: () => vo
     return <Spinner SpinnerComponent={PuffLoader} color={'#2196f3'} />;
   }
   return (
-    <PageContainer>
+    <ContentContainer>
       <CenterContent>
         <Section>
           <label> {t('Enrollment date')}</label>
           <Input type="date" value={enrollmentDate} onChange={handleDateChange} />
         </Section>
+        <Section>
+          <label> {t('Actual activity price (EUR)')}</label>
+          <Input
+            type="number"
+            value={actualActivityPrice}
+            onChange={(e) => setActualActivityPrice(parseInt(e.target.value))}
+          />
+        </Section>
 
         <StudentOnActivityTable activities={activities} onActivityClick={handleActivityClick} />
       </CenterContent>
-    </PageContainer>
+    </ContentContainer>
   );
 };

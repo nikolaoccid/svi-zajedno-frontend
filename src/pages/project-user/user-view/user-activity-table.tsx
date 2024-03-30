@@ -1,14 +1,15 @@
 import styled from '@emotion/styled';
 import { useQueryClient } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
 import { GoDotFill } from 'react-icons/go';
 import { MdDelete } from 'react-icons/md';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ClockLoader } from 'react-spinners';
 
 import { api } from '../../../api';
+import { Spinner } from '../../../components/spinner/spinner.tsx';
 import { croatianDateFormat } from '../../../utils/croatian-date-format.ts';
 import { toastError, toastSuccess } from '../../../utils/toast.ts';
-import { CenterContent, PageContainer } from '../../common-styles/common-styles.ts';
 import { useSelectedSchoolYear } from '../../dashboard-page/hooks/use-fetch-school-year.ts';
 import { useStudentOnSchoolYear } from '../../student-on-school-year/hooks/get-student-on-school-year.ts';
 import { useProjectUser } from './hooks/use-project-user.ts';
@@ -42,6 +43,7 @@ const Icon = styled.td`
   gap: 12px;
 `;
 export function UserActivityTable({ activities }: { activities: any }) {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { userId } = useParams();
@@ -53,9 +55,9 @@ export function UserActivityTable({ activities }: { activities: any }) {
     try {
       await api.deleteStudentOnActivity(activity.id);
       await queryClient.invalidateQueries(['getStudentOnActivities']);
-      toastSuccess('Uspjesno obrisan korisnik na aktivnosti');
+      toastSuccess(t('Operation successful'));
     } catch (e) {
-      toastError('Neuspjesno brisanje korisnika na aktivnost');
+      toastError(t('Error, try again'));
       console.log(e);
     }
   };
@@ -71,13 +73,7 @@ export function UserActivityTable({ activities }: { activities: any }) {
   }
 
   if (isLoading || isLoadingSchoolYear) {
-    return (
-      <PageContainer>
-        <CenterContent>
-          <ClockLoader color="#2196f3" />
-        </CenterContent>
-      </PageContainer>
-    );
+    return <Spinner SpinnerComponent={ClockLoader} color="#2196f3" />;
   }
   return (
     <TableContainer>
@@ -94,7 +90,10 @@ export function UserActivityTable({ activities }: { activities: any }) {
                   {activity?.activity?.projectAssociate?.clubName}
                 </TableData>
                 <TableData onClick={() => onRowClick(activity)}>
-                  {activity?.activity?.activityPrice > 0 ? activity.activity.activityPrice + 'EUR' : 'Besplatno'}
+                  {activity?.activity.activityPrice > 0 ? activity?.activity.activityPrice + 'EUR' : 'Besplatno'}
+                </TableData>
+                <TableData onClick={() => onRowClick(activity)}>
+                  {activity?.actualActivityCost > 0 ? activity.actualActivityCost + 'EUR' : 'Besplatno'}
                 </TableData>
                 <TableData onClick={() => onRowClick(activity)}>
                   {croatianDateFormat(activity?.enrollmentDate ?? activity?.createdAt)}

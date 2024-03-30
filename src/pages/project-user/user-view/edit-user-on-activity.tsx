@@ -36,6 +36,7 @@ export function EditUserOnActivity() {
       id: activity?.activity?.id ?? 0,
       activityName: activity?.activity?.activityName ?? '',
       activityPrice: activity?.activity?.activityPrice ?? 0,
+      actualActivityCost: activity?.actualActivityCost ?? 0,
       activityStatus: activity?.activityStatus ?? 'active',
       enrollmentDate: frontendFormattedDate(activity?.enrollmentDate ?? activity?.createdAt),
       unenrollmentDate: frontendFormattedDate(activity?.unenrollmentDate),
@@ -47,15 +48,16 @@ export function EditUserOnActivity() {
           id: activity?.id ?? 0,
           activityStatus: activityFormData.activityStatus,
           studentOnSchoolYearId: activity?.studentOnSchoolYearId,
+          actualActivityCost: activityFormData.actualActivityCost,
           enrollmentDate: activityFormData.enrollmentDate,
           unenrollmentDate:
             activityFormData.activityStatus === 'inactive' ? activityFormData.unenrollmentDate : undefined,
         });
         await queryClient.invalidateQueries(['getStudentOnActivities']);
-        toastSuccess(t('Successfully withdrew from the activity'));
+        toastSuccess(t('Operation successful'));
         navigate(-1);
       } catch (e) {
-        toastError(t('Could not withdrew from the activity'));
+        toastError(t('Error, try again'));
         console.log(e);
       }
     },
@@ -99,7 +101,15 @@ export function EditUserOnActivity() {
           </FormField>
 
           <FormField>
-            <label htmlFor="activityPrice">{t('Enrollment date')}</label>
+            <label htmlFor="actualActivityCost">{t('Actual activity price (EUR)')}</label>
+            <input type="number" id="actualActivityCost" {...formik.getFieldProps('actualActivityCost')} />
+            {formik.touched.actualActivityCost && formik.errors.actualActivityCost ? (
+              <FormError>{formik.errors.actualActivityCost}</FormError>
+            ) : null}
+          </FormField>
+
+          <FormField>
+            <label htmlFor="enrollmentDate">{t('Enrollment date')}</label>
             <input type="date" id="enrollmentDate" {...formik.getFieldProps('enrollmentDate')} />
             {formik.touched.enrollmentDate && formik.errors.enrollmentDate ? (
               <FormError>{formik.errors.enrollmentDate}</FormError>
@@ -107,7 +117,7 @@ export function EditUserOnActivity() {
           </FormField>
 
           <FormField>
-            <label htmlFor="activityPrice">{t('Activity withdrawal date')}</label>
+            <label htmlFor="unenrollmentDate">{t('Activity withdrawal date')}</label>
             <input
               type="date"
               id="unenrollmentDate"
