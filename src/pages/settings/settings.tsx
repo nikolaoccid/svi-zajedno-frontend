@@ -15,6 +15,7 @@ const SingleSetting = styled.div`
   flex-direction: column;
   gap: 2vh;
   padding: 2vw 3vw 2vw 1vw;
+  width: 20vw;
 `;
 const SettingsSelect = styled(Select)`
   padding: 1vw 1vw;
@@ -23,7 +24,6 @@ const SettingsSelect = styled(Select)`
   border-radius: 1vw;
   border-width: 0;
   color: #424242;
-  width: 20vw;
 `;
 
 export function Settings() {
@@ -44,7 +44,7 @@ export function Settings() {
         <DashboardHeader text={t('Settings')} showSubtext={false} />
         <SingleSetting>
           <HeaderText>{t('Choose language')}</HeaderText>
-          <SettingsSelect onChange={onLanguageChange}>
+          <SettingsSelect onChange={onLanguageChange} value={i18n.language}>
             <option value="en">{t('English')}</option>
             <option value="hr"> {t('Croatian')}</option>
           </SettingsSelect>
