@@ -107,26 +107,26 @@ export function Navigation() {
         name: t('Change the academic year'),
         icon: FaExchangeAlt,
         innerName: 'changeSchoolYear',
-        link: '/school-year',
+        href: '/school-year',
       },
     ],
     [`${schoolYear?.startYear} / ${schoolYear?.endYear}`]: [
-      { name: t('Dashboard'), icon: IoMdHome, innerName: 'pocetna', link: `/${startYear}/dashboard` },
-      { name: t('Users'), icon: FaUsers, innerName: 'user', link: `/${startYear}/users` },
-    ],
-    [t('SETTINGS')]: [
+      { name: t('Dashboard'), icon: IoMdHome, innerName: 'pocetna', href: `/${startYear}/dashboard` },
+      { name: t('Users'), icon: FaUsers, innerName: 'user', href: `/${startYear}/users` },
       {
         name: t('Associates'),
         icon: MdOutlineSportsSoccer,
         innerName: 'project-associate',
-        link: `/${startYear}/project-associates`,
+        href: `/${startYear}/project-associates`,
       },
-      { name: t('Categories'), icon: HiSquares2X2, innerName: 'categor', link: `/${startYear}/categories` },
-      { name: t('Academic years'), icon: FaCalendarAlt, innerName: 'school-year', link: `/${startYear}/school-years` },
-      { name: t('Settings'), icon: IoMdSettings, innerName: 'settings' },
+    ],
+    [t('SETTINGS')]: [
+      { name: t('Categories'), icon: HiSquares2X2, innerName: 'categor', href: `/${startYear}/categories` },
+      { name: t('Academic years'), icon: FaCalendarAlt, innerName: 'school-year', href: `/${startYear}/school-years` },
+      { name: t('Settings'), icon: IoMdSettings, innerName: 'settings', href: `/${startYear}/settings` },
       // { name: 'Sigurnost', icon: MdSecurity, innerName: 'security' },
     ],
-    NoTitleSection: [{ name: t('Logout'), icon: IoLogOut, innerName: 'logout', link: '/logout' }],
+    NoTitleSection: [{ name: t('Logout'), icon: IoLogOut, innerName: 'logout', href: '/logout' }],
   };
 
   useEffect(() => {
@@ -156,7 +156,7 @@ export function Navigation() {
               <SectionItem
                 key={item.name}
                 active={currentLink === item.innerName}
-                onClick={() => item.link && navigate(item.link)}
+                onClick={() => item.href && navigate(item.href)}
               >
                 {React.createElement(item.icon)}
                 <SectionItemText> {item.name}</SectionItemText>

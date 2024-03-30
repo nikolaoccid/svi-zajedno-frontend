@@ -17,6 +17,7 @@ import { UserListContainer } from './pages/project-user/user-list/user-list-cont
 import { ChooseSchoolYear } from './pages/school-year/choose-school-year/choose-school-year.tsx';
 import { CreateSchoolYear } from './pages/school-year/create-school-year/create-school-year.tsx';
 import { SchoolYearsContainer } from './pages/school-year/school-years-container.tsx';
+import { Settings } from './pages/settings/settings.tsx';
 import { Statistics } from './pages/statistics/statistics.tsx';
 
 const publicRoutes = ['/', '/login', '/logout'];
@@ -76,6 +77,9 @@ function App() {
             {/*Login / Logout*/}
             <Route path="/login" element={<LoginPage />} />
             <Route path="/logout" element={<Logout />} />
+
+            {/*Settings*/}
+            <Route path="/:startYear/settings" element={<Settings />} />
 
             {/*User*/}
             <Route path="/:startYear/users/" element={<UserListContainer />} />

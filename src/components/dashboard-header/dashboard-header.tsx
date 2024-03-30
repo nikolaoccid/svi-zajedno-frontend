@@ -30,7 +30,7 @@ const Column = styled.div`
   flex-direction: column;
 `;
 
-export function DashboardHeader({ text }: { text: string }) {
+export function DashboardHeader({ text, showSubtext = true }: { text: string; showSubtext?: boolean }) {
   const { t } = useTranslation();
   const { startYear } = useParams();
   const { data: schoolYear } = useSchoolYear(parseInt(startYear ?? '0') ?? 0);
@@ -38,9 +38,11 @@ export function DashboardHeader({ text }: { text: string }) {
     <Container>
       <Column>
         <HeaderText>{text}</HeaderText>
-        <HeaderSubtext>
-          {t('Academic year')}: {schoolYear?.startYear} / {schoolYear?.endYear}
-        </HeaderSubtext>
+        {showSubtext && (
+          <HeaderSubtext>
+            {t('Academic year')}: {schoolYear?.startYear} / {schoolYear?.endYear}
+          </HeaderSubtext>
+        )}
       </Column>
       <UserBadge />
     </Container>

@@ -37,6 +37,8 @@ const TableDataLeft = styled.td`
   text-align: left;
 `;
 export function OverviewActivityTable({ data }: { data: any[] }) {
+  const numberOfRows = 10;
+  const filteredData = data.slice(0, numberOfRows);
   const { t } = useTranslation();
   return (
     <TableContainer>
@@ -50,7 +52,7 @@ export function OverviewActivityTable({ data }: { data: any[] }) {
           </tr>
         </thead>
         <tbody>
-          {data.map(
+          {filteredData.map(
             (category, i) =>
               category.totalAssociatesPerCategory > 0 && (
                 <TableRow key={i}>
