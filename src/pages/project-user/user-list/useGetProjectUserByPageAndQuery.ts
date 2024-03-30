@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { getProjectUserByPageAndQuery, getProjectUsersBySchoolYear } from '../../../api/api.ts';
+import { getProjectUserByPageAndQuery, getProjectUsersBySchoolYear } from '../../../api/api/api.ts';
 
 export function useGetProjectUserByPageAndQuery(page: number = 1, query: string = '', schoolYearId?: number) {
   return useQuery({

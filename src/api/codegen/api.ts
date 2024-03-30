@@ -108,6 +108,37 @@ export type ActivityActivityStatusEnum = typeof ActivityActivityStatusEnum[keyof
 /**
  * 
  * @export
+ * @interface AgeGroups
+ */
+export interface AgeGroups {
+    /**
+     * 
+     * @type {number}
+     * @memberof AgeGroups
+     */
+    'under6': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof AgeGroups
+     */
+    'age7to12': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof AgeGroups
+     */
+    'age13to18': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof AgeGroups
+     */
+    'age19to24': number;
+}
+/**
+ * 
+ * @export
  * @interface Category
  */
 export interface Category {
@@ -617,6 +648,61 @@ export type ProjectAssociateProjectAssociateStatusEnum = typeof ProjectAssociate
 /**
  * 
  * @export
+ * @interface ProjectAssociatesStatisticsResponse
+ */
+export interface ProjectAssociatesStatisticsResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof ProjectAssociatesStatisticsResponse
+     */
+    'totalAssociates': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ProjectAssociatesStatisticsResponse
+     */
+    'totalAssociatesPerCategory': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof ProjectAssociatesStatisticsResponse
+     */
+    'categoryName': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof ProjectAssociatesStatisticsResponse
+     */
+    'totalFreeActivities': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ProjectAssociatesStatisticsResponse
+     */
+    'totalPaidActivities': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ProjectAssociatesStatisticsResponse
+     */
+    'usersAttendingFreeActivities': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ProjectAssociatesStatisticsResponse
+     */
+    'usersAttendingPaidActivities': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ProjectAssociatesStatisticsResponse
+     */
+    'totalUsersPerCategory': number;
+}
+/**
+ * 
+ * @export
  * @interface ProjectUser
  */
 export interface ProjectUser {
@@ -728,6 +814,140 @@ export type ProjectUserGenderEnum = typeof ProjectUserGenderEnum[keyof typeof Pr
 /**
  * 
  * @export
+ * @interface ProjectUserStatisticsResponse
+ */
+export interface ProjectUserStatisticsResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof ProjectUserStatisticsResponse
+     */
+    'totalUsers': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ProjectUserStatisticsResponse
+     */
+    'maleUsers': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ProjectUserStatisticsResponse
+     */
+    'femaleUsers': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ProjectUserStatisticsResponse
+     */
+    'activeUsers': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ProjectUserStatisticsResponse
+     */
+    'inactiveUsers': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ProjectUserStatisticsResponse
+     */
+    'pendingUsers': number;
+    /**
+     * 
+     * @type {AgeGroups}
+     * @memberof ProjectUserStatisticsResponse
+     */
+    'ageGroups': AgeGroups;
+    /**
+     * 
+     * @type {SourceSystems}
+     * @memberof ProjectUserStatisticsResponse
+     */
+    'sourceSystems': SourceSystems;
+    /**
+     * 
+     * @type {ProtectionTypes}
+     * @memberof ProjectUserStatisticsResponse
+     */
+    'protectionTypes': ProtectionTypes;
+    /**
+     * 
+     * @type {number}
+     * @memberof ProjectUserStatisticsResponse
+     */
+    'activeActivities': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ProjectUserStatisticsResponse
+     */
+    'inactiveActivities': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ProjectUserStatisticsResponse
+     */
+    'pendingActivities': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ProjectUserStatisticsResponse
+     */
+    'totalActivities': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ProjectUserStatisticsResponse
+     */
+    'totalProjectValue': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ProjectUserStatisticsResponse
+     */
+    'associatesTotalActivities': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ProjectUserStatisticsResponse
+     */
+    'associatesActiveActivities': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ProjectUserStatisticsResponse
+     */
+    'associatesInactiveActivities': number;
+}
+/**
+ * 
+ * @export
+ * @interface ProtectionTypes
+ */
+export interface ProtectionTypes {
+    /**
+     * 
+     * @type {number}
+     * @memberof ProtectionTypes
+     */
+    'zmn': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ProtectionTypes
+     */
+    'preporuka': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ProtectionTypes
+     */
+    'udomiteljstvo': number;
+}
+/**
+ * 
+ * @export
  * @interface SchoolYear
  */
 export interface SchoolYear {
@@ -792,6 +1012,25 @@ export interface SchoolYearDto {
      * @memberof SchoolYearDto
      */
     'endYear': number;
+}
+/**
+ * 
+ * @export
+ * @interface SourceSystems
+ */
+export interface SourceSystems {
+    /**
+     * 
+     * @type {number}
+     * @memberof SourceSystems
+     */
+    'czss': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof SourceSystems
+     */
+    'obiteljskicentar': number;
 }
 /**
  * 
@@ -3932,7 +4171,7 @@ export const StatisticsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async statisticsControllerProjectAssociateStatistics(schoolYearId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<object>>> {
+        async statisticsControllerProjectAssociateStatistics(schoolYearId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ProjectAssociatesStatisticsResponse>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.statisticsControllerProjectAssociateStatistics(schoolYearId, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -3942,7 +4181,7 @@ export const StatisticsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async statisticsControllerProjectUsersStatistics(schoolYearId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async statisticsControllerProjectUsersStatistics(schoolYearId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ProjectUserStatisticsResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.statisticsControllerProjectUsersStatistics(schoolYearId, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -3962,7 +4201,7 @@ export const StatisticsApiFactory = function (configuration?: Configuration, bas
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        statisticsControllerProjectAssociateStatistics(schoolYearId: string, options?: any): AxiosPromise<Array<object>> {
+        statisticsControllerProjectAssociateStatistics(schoolYearId: string, options?: any): AxiosPromise<Array<ProjectAssociatesStatisticsResponse>> {
             return localVarFp.statisticsControllerProjectAssociateStatistics(schoolYearId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -3971,7 +4210,7 @@ export const StatisticsApiFactory = function (configuration?: Configuration, bas
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        statisticsControllerProjectUsersStatistics(schoolYearId: string, options?: any): AxiosPromise<void> {
+        statisticsControllerProjectUsersStatistics(schoolYearId: string, options?: any): AxiosPromise<ProjectUserStatisticsResponse> {
             return localVarFp.statisticsControllerProjectUsersStatistics(schoolYearId, options).then((request) => request(axios, basePath));
         },
     };

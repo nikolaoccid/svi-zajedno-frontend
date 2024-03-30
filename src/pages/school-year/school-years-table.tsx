@@ -3,7 +3,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { GoDotFill } from 'react-icons/go';
 import { MdDelete } from 'react-icons/md';
 
-import { deleteSchoolYear } from '../../api/api.ts';
+import { deleteSchoolYear } from '../../api/api/api.ts';
 import { toastError, toastSuccess } from '../../utils/toast.ts';
 
 const TableContainer = styled.div`

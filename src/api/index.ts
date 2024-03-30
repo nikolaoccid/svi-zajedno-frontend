@@ -1,3 +1,3 @@
-import * as api from './api.ts';
+import * as api from './api/api.ts';
 
 export { api };

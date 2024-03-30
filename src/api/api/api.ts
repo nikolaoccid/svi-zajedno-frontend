@@ -1,6 +1,6 @@
 import { AxiosResponse } from 'axios';
 
-import { frontendFormattedDate } from '../utils/frontend-formatted-date.ts';
+import { frontendFormattedDate } from '../../utils/frontend-formatted-date.ts';
 import {
   ActivityActivityStatusEnum,
   ActivityApi,
@@ -25,7 +25,8 @@ import {
   UpdateStudentOnActivityDto,
   UpdateStudentOnSchoolYearDto,
   UsersApi,
-} from './codegen';
+} from '../codegen';
+import { GetAssociatesStatisticsResponse } from './get-associates-statistics.ts';
 
 const basePath = import.meta.env.VITE_API_URL ?? 'http://localhost:3001';
 
@@ -240,7 +241,7 @@ export function deleteStudentOnActivity(studentOnActivityId: string) {
   return getData(studentOnActivity.studentOnActivityControllerRemove(studentOnActivityId));
 }
 
-export function getAssociateStatistics(schoolYearId: string) {
+export function getAssociateStatistics(schoolYearId: string): Promise<GetAssociatesStatisticsResponse[]> {
   return getData(statistics.statisticsControllerProjectAssociateStatistics(schoolYearId));
 }
 

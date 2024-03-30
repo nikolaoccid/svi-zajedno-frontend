@@ -21,10 +21,11 @@ const Row = styled.div`
     gap: 50px;
   }
 `;
-const Column = styled.div`
+const Column = styled.div<{ gap?: string }>`
   display: flex;
   flex-direction: column;
   width: 50%;
+  // gap: ${(props) => props.gap ?? ''};
 `;
 const Container = styled.div<{ show: boolean }>`
   display: ${(props) => (props.show ? 'flex' : 'none')};
@@ -35,11 +36,9 @@ export function Overview({ show }: { show: boolean }) {
   const { t } = useTranslation();
   const { startYear } = useParams();
   const { data: schoolYear } = useSchoolYear(parseInt(startYear ?? '0') ?? 0);
-  const { data: associateStatisticsAPI } = useAssociateStatistics(schoolYear ? schoolYear?.id : 0);
-  const { data: projectUserStatisticsAPI } = useProjectUserStatistics(schoolYear ? schoolYear?.id : 0);
+  const { data: associateStatistics } = useAssociateStatistics(schoolYear ? schoolYear?.id : 0);
+  const { data: projectUserStatistics } = useProjectUserStatistics(schoolYear ? schoolYear?.id : 0);
 
-  const associateStatistics = associateStatisticsAPI as any;
-  const projectUserStatistics = projectUserStatisticsAPI as any;
   return (
     <Container show={show}>
       <Row>
@@ -47,7 +46,7 @@ export function Overview({ show }: { show: boolean }) {
           <DashboardSingleWidget
             type={'Value'}
             title={t('Estimated project value')}
-            value={projectUserStatistics.totalProjectValue}
+            value={projectUserStatistics?.totalProjectValue}
             euro={true}
           />
         )}
@@ -87,7 +86,7 @@ export function Overview({ show }: { show: boolean }) {
             />
           </Column>
         )}
-        <Column>
+        <Column gap="1vw">
           <HeaderTitle>{t('Associates and users by categories')}</HeaderTitle>
           {associateStatistics && <OverviewActivityTable data={associateStatistics} />}
         </Column>

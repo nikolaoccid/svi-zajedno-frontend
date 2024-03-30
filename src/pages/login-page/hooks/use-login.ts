@@ -5,7 +5,7 @@ import { useAsyncCallback } from 'react-async-hook';
 import { useNavigate } from 'react-router-dom';
 
 import { api } from '../../../api';
-import { persistToken } from '../../../api/api.ts';
+import { persistToken } from '../../../api/api/api.ts';
 import { LoginDto } from '../../../api/codegen';
 
 export function useLogin({ email, password }: LoginDto) {

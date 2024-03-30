@@ -59,7 +59,7 @@ export function DashboardSingleWidget({
 }: {
   type: 'Users' | 'Associate' | 'Activity' | 'Value';
   title: string;
-  value: string;
+  value: number;
   euro?: boolean;
 }) {
   const Icon = widgetType[type].icon;

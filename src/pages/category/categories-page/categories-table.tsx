@@ -6,7 +6,7 @@ import { MdDelete, MdEdit } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 import { GridLoader } from 'react-spinners';
 
-import { deleteCategory } from '../../../api/api.ts';
+import { deleteCategory } from '../../../api/api/api.ts';
 import { Spinner } from '../../../components/spinner/spinner.tsx';
 import { toastError, toastSuccess } from '../../../utils/toast.ts';
 import { useSelectedSchoolYear } from '../../dashboard-page/hooks/use-fetch-school-year.ts';
