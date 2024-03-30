@@ -14,7 +14,7 @@ const HeaderContainer = styled.div`
 export const HeaderText = styled.span`
   font-family: Axiforma;
   font-weight: bold;
-  font-size: 1.5vw;
+  font-size: 1.2vw;
 `;
 interface HeaderProps {
   title: string;
