@@ -58,7 +58,7 @@ export function AssociatesDashboard({ show }: { show: boolean }) {
             />
             <DashboardSingleWidget
               type={'Associate'}
-              title={t('Inactive activites')}
+              title={t('Inactive activities')}
               value={projectUserStatistics.associatesInactiveActivities}
             />
           </>
