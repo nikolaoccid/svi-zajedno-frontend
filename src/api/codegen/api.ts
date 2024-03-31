@@ -906,7 +906,13 @@ export interface ProjectUserStatisticsResponse {
      * @type {number}
      * @memberof ProjectUserStatisticsResponse
      */
-    'totalProjectValue': number;
+    'estimatedProjectValue': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ProjectUserStatisticsResponse
+     */
+    'realProjectCosts': number;
     /**
      * 
      * @type {number}

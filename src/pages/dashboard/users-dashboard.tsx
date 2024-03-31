@@ -29,6 +29,9 @@ const Column = styled.div`
   display: flex;
   flex-direction: column;
   width: 50%;
+  @media (max-width: 900px) {
+    width: 100%;
+  }
 `;
 export function UsersDashboard({ show }: { show: boolean }) {
   const { t } = useTranslation();

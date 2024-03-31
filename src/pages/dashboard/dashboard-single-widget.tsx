@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { FaChartLine, FaUsers } from 'react-icons/fa';
-import { MdOutlineSportsMartialArts, MdOutlineSportsSoccer } from 'react-icons/md';
+import { MdOutlineSportsMartialArts, MdOutlineSportsSoccer, MdOutlineSsidChart } from 'react-icons/md';
 
 const Container = styled.div<{ backgroundColor: string }>`
   display: flex;
@@ -50,6 +50,7 @@ const widgetType = {
   Associate: { icon: MdOutlineSportsSoccer, backgroundColor: '#E4FFE0' },
   Activity: { icon: MdOutlineSportsMartialArts, backgroundColor: '#FFE0E0' },
   Value: { icon: FaChartLine, backgroundColor: '#fec949' },
+  Value2: { icon: MdOutlineSsidChart, backgroundColor: '#B4FFFF' },
 };
 export function DashboardSingleWidget({
   type,
@@ -57,7 +58,7 @@ export function DashboardSingleWidget({
   value,
   euro = false,
 }: {
-  type: 'Users' | 'Associate' | 'Activity' | 'Value';
+  type: 'Users' | 'Associate' | 'Activity' | 'Value' | 'Value2';
   title: string;
   value: number;
   euro?: boolean;

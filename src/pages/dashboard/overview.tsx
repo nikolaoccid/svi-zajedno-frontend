@@ -25,7 +25,10 @@ const Column = styled.div<{ gap?: string }>`
   display: flex;
   flex-direction: column;
   width: 50%;
-  // gap: ${(props) => props.gap ?? ''};
+  gap: ${(props) => props.gap ?? ''};
+  @media (max-width: 900px) {
+    width: 100%;
+  }
 `;
 const Container = styled.div<{ show: boolean }>`
   display: ${(props) => (props.show ? 'flex' : 'none')};
@@ -46,7 +49,15 @@ export function Overview({ show }: { show: boolean }) {
           <DashboardSingleWidget
             type={'Value'}
             title={t('Estimated project value')}
-            value={projectUserStatistics?.totalProjectValue}
+            value={projectUserStatistics?.estimatedProjectValue}
+            euro={true}
+          />
+        )}
+        {projectUserStatistics && (
+          <DashboardSingleWidget
+            type={'Value2'}
+            title={t('Real project costs')}
+            value={projectUserStatistics?.realProjectCosts}
             euro={true}
           />
         )}
@@ -86,7 +97,7 @@ export function Overview({ show }: { show: boolean }) {
             />
           </Column>
         )}
-        <Column gap="1vw">
+        <Column gap="2vw">
           <HeaderTitle>{t('Associates and users by categories')}</HeaderTitle>
           {associateStatistics && <OverviewActivityTable data={associateStatistics} />}
         </Column>
