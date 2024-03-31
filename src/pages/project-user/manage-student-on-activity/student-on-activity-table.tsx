@@ -5,6 +5,7 @@ const TableContainer = styled.div`
   height: 100%;
   width: 100%;
   padding: 10px 25px 0 25px;
+  overflow-x: auto;
 `;
 const TableRow = styled.tr`
   &:hover {
