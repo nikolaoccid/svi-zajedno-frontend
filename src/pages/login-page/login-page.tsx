@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { HalfScreenHero } from '../../components/half-screen-hero/half-screen-hero.tsx';
+import { DemoLogin } from './demo-login.tsx';
 import { useLogin } from './hooks/use-login.ts';
 const PageContainer = styled.div`
   display: flex;
@@ -50,6 +51,14 @@ const Content = styled.div`
   justify-content: center;
   align-items: center;
   height: 100vh;
+  width: 80%;
+`;
+const InputContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
 `;
 function LoginPage() {
   const { t } = useTranslation();
@@ -67,8 +76,9 @@ function LoginPage() {
         <HalfScreenHero />
         <FormContainer>
           <Content>
+            <DemoLogin />
             <h1>{t('Login')}</h1>
-            <div>
+            <InputContainer>
               <Input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
               <Input
                 type="password"
@@ -76,7 +86,7 @@ function LoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
-            </div>
+            </InputContainer>
             <Button onClick={handleLogin} disabled={email === '' || password === '' || isLoading}>
               Login
             </Button>
