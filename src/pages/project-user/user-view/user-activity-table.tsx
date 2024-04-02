@@ -14,30 +14,30 @@ import { useSelectedSchoolYear } from '../../dashboard-page/hooks/use-fetch-scho
 import { useStudentOnSchoolYear } from '../../student-on-school-year/hooks/get-student-on-school-year.ts';
 import { useProjectUser } from './hooks/use-project-user.ts';
 
-const TableContainer = styled.div`
+export const TableContainer = styled.div`
   height: 100%;
   width: 100%;
   padding: 10px 25px 0 25px;
   overflow-x: auto;
 `;
-const TableRow = styled.tr`
+export const TableRow = styled.tr`
   &:hover {
     background-color: #faf9f9;
     border-radius: 10px;
     cursor: pointer;
   }
 `;
-const TableData = styled.td`
+export const TableData = styled.td`
   padding-top: 10px;
   text-align: center;
 `;
-const Table = styled.table`
+export const Table = styled.table`
   font-family: Axiforma;
   font-size: 14px;
   color: #696969;
   font-weight: normal;
 `;
-const Icon = styled.td`
+export const Icon = styled.td`
   width: 2%;
   padding-top: 10px;
   padding-right: 10px;
@@ -71,7 +71,7 @@ export function UserActivityTable({ activities }: { activities: any }) {
 
   const onRowClick = (activity) => {
     if (studentOnSchoolYear && (studentOnSchoolYear as any).status !== 'inactive') {
-      navigate(`/${schoolYear?.startYear}/users/${projectUser?.id}/activities/${activity.id}/edit`);
+      navigate(`/${schoolYear?.startYear}/users/${projectUser?.id}/activities/${activity.id}`);
     }
   };
 
@@ -82,6 +82,7 @@ export function UserActivityTable({ activities }: { activities: any }) {
   if (isLoading || isLoadingSchoolYear) {
     return <Spinner SpinnerComponent={ClockLoader} color="#2196f3" />;
   }
+
   return (
     <TableContainer>
       <Table>
