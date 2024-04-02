@@ -6,6 +6,7 @@ import { FlyoutComponent } from '../../../components/flyout/flyout-component.tsx
 import ManageProjectUserView from '../create-project-user/manage-project-user-view.tsx';
 import { EnrollStudentOnSchoolYear } from '../enroll-student-on-school-year/enroll-student-on-school-year.tsx';
 import { ManageStudentOnActivityContainer } from '../manage-student-on-activity/manage-student-on-activity-container.tsx';
+import { ActivityView } from '../user-view/activity-view.tsx';
 import { EditUserOnActivity } from '../user-view/edit-user-on-activity.tsx';
 import UserView from '../user-view/user-view.tsx';
 interface FlyoutData {
@@ -44,9 +45,15 @@ export function ProjectUserFlyouts() {
       flyoutTitle: t('Enroll user on the academic year'),
     },
     editUser: {
-      onHide: () => navigate(`/${startYear}/users/${userId}`),
+      onHide: () => navigate(`/${startYear}/users/${userId}/activities/${activityId}`),
       RenderComponent: EditUserOnActivity,
       flyoutTitle: t('Edit user on activity'),
+    },
+    manageActivity: {
+      onHide: () => navigate(`/${startYear}/users/${userId}`),
+      RenderComponent: ActivityView,
+      flyoutTitle: t('Manage activity'),
+      flyoutWidth: '50vw',
     },
   };
 
@@ -61,6 +68,7 @@ export function ProjectUserFlyouts() {
       [`/${startYear}/users/${userId}/enroll`]: 'enrollStudentOnSchoolYear',
       [`/${startYear}/users/${userId}`]: 'userView',
       [`/${startYear}/users/${userId}/activities/${activityId}/edit`]: 'editUser',
+      [`/${startYear}/users/${userId}/activities/${activityId}`]: 'manageActivity',
     };
 
     const flyoutName = paths[pathWithoutParams];

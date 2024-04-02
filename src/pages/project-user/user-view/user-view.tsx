@@ -20,7 +20,7 @@ import { useStudentOnActivities } from './hooks/use-student-on-activities.ts';
 import { useUpdateStudentOnSchoolYear } from './hooks/use-update-student-on-school-year.ts';
 import { UserActivityTable } from './user-activity-table.tsx';
 
-const ProfileContainer = styled.div`
+export const ProfileContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -37,7 +37,7 @@ const Navigation = styled.div`
   font-weight: normal;
   padding: 5px 0;
 `;
-const Section = styled.div<{ current: boolean }>`
+export const Section = styled.div<{ current: boolean }>`
   display: ${(props) => (props.current ? 'flex' : 'none')};
   flex-direction: column;
   justify-content: flex-start;
@@ -56,14 +56,14 @@ const NavigationItem = styled.span<{ current: boolean }>`
 const ProfileHeader = styled.h2`
   //margin-bottom: 10px;
 `;
-const Row = styled.div`
+export const Row = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
 `;
 
-const HeaderContainer = styled.div`
+export const HeaderContainer = styled.div`
   flex: 1;
   display: flex;
   justify-content: center;
@@ -71,19 +71,19 @@ const HeaderContainer = styled.div`
   gap: 10px;
 `;
 
-const ProfileItem = styled.div`
+export const ProfileItem = styled.div`
   display: flex;
   align-items: center;
   margin: 5px 0;
 `;
 
-const Label = styled.span`
+export const Label = styled.span`
   font-weight: bold;
   margin-right: 10px;
   font-size: 14px;
 `;
 
-const Value = styled.span`
+export const Value = styled.span`
   font-weight: normal;
   font-size: 14px;
 `;
@@ -99,7 +99,7 @@ export const TdWithGap = styled.td`
   justify-content: center;
   gap: 20px;
 `;
-const HeaderWithShadow = styled.div`
+export const HeaderWithShadow = styled.div`
   display: flex;
   flex: 1;
   justify-content: center;
@@ -109,13 +109,13 @@ const HeaderWithShadow = styled.div`
   background-color: white;
   box-shadow: 0px 2px 5px -1px rgba(0, 0, 0, 0.2);
 `;
-const CenterContainer = styled.div`
+export const CenterContainer = styled.div`
   display: flex;
   flex: 1;
   justify-content: center;
   align-items: center;
 `;
-const RightContainer = styled.div`
+export const RightContainer = styled.div`
   margin-left: auto;
   padding: 10px;
 `;
@@ -206,7 +206,7 @@ const UserView = ({ onClose }: { onClose?: () => void }) => {
             <Value>
               {studentOnSchoolYear && (studentOnSchoolYear as any).status === 'active'
                 ? croatianDateFormat((studentOnSchoolYear as any).dateOfEnrollment)
-                : 'Nije upisan'}
+                : t('Not enrolles')}
             </Value>
           </ProfileItem>
           <ButtonContainer>

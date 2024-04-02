@@ -13,6 +13,7 @@
     "Dashboard": "Kontrolna ploča",
     "Users": "Korisnici",
     "Associates": "Suradnici",
+    "Associate": "Suradnik",
     "Categories": "Kategorije",
     "Academic years": "Školske godine",
     "Academic year": "Školska godina",
@@ -94,7 +95,7 @@
     "User's data not updated, try again": "Korisnicki podaci nisu azurirani, pokusajte ponovno",
     "User created succesfully": "Korisnik uspjesno kreiran",
     "User not created succesfully, try again": "Korisnik nije kreiran, pokusajte ponovno",
-    "Enrollment date": "Datum upisa na skolsku godinu",
+    "Enrollment date": "Datum upisa",
     "Enroll on the academic year": "Upisi na skolsku godinu",
     "Withdraw enrollment on the academic year": "Ispisi sa skolske godine",
     "Enrollment basis": "Osnova upisa",
@@ -116,7 +117,7 @@
     "Manage associates": "Upravljanje suradnicima",
     "Associates list": "Lista suradnika",
     "Add associate": "Dodaj suradnika",
-    "Manage activity": "Upravljanje aktivnostima",
+    "Manage activities": "Upravljanje aktivnostima",
     "Edit associate": "Uredi suradnika",
     "Activity successfully updated": "Aktivnost uspjesno azurirana",
     "Activity successfully created": "Aktivnost uspjesno kreirana",
@@ -146,6 +147,21 @@
     "English": "Engleski",
     "Croatian": "Hrvatski",
     "Actual activity price (EUR)": "Ugovorena cijena aktivnosti (EUR)",
-    "Real project costs": "Stvarni troskovi projekta"
+    "Real project costs": "Stvarni troskovi projekta",
+    "Manage activity": "Upravljenje aktivnoscu",
+    "Activity": "Aktivnost",
+    "Club": "Klub",
+    "Price": "Cijena",
+    "Activity cost": "Ugovorena cijena",
+    "Withdrawal date": "Datum ispisa",
+    "Full activity price": "Puna cijena aktivnosti",
+    "User": "Korisnik",
+    "Requests": "Zamolbe",
+    "Title": "Naslov",
+    "Store": "Trgovina",
+    "Description": "Opis",
+    "Quantity": "Kolicina",
+    "Price per unit": "Cijena po jedinici"
+
   }
 }
