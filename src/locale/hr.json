@@ -146,6 +146,7 @@
     "English": "Engleski",
     "Croatian": "Hrvatski",
     "Actual activity price (EUR)": "Ugovorena cijena aktivnosti (EUR)",
-    "Real project costs": "Stvarni troskovi projekta"
+    "Real project costs": "Stvarni troskovi projekta",
+    "Note: Database restores every 45 minutes": "Napomena: Baza podataka se resetira svakih 45 minuta"
   }
 }
