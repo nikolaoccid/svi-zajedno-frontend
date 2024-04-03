@@ -12,6 +12,7 @@ import {
   CreateProjectAssociateDto,
   CreateProjectUserDto,
   CreateStudentOnActivityDto,
+  CreateUserRequestDto,
   LoginDto,
   ProjectAssociateApi,
   ProjectUserApi,
@@ -24,6 +25,7 @@ import {
   UpdateProjectUserDto,
   UpdateStudentOnActivityDto,
   UpdateStudentOnSchoolYearDto,
+  UpdateUserRequestDto,
   UserRequestsApi,
   UsersApi,
 } from '../codegen';
@@ -260,4 +262,12 @@ export function deleteCategory(categoryId: string) {
 
 export function getUserRequests(studentOnSchoolYearId?: number, studentOnActivityId?: number) {
   return getData(requests.userRequestControllerFindAll(studentOnActivityId, studentOnSchoolYearId));
+}
+
+export function createUserRequests(userRequest: CreateUserRequestDto) {
+  return getData(requests.userRequestControllerCreate(userRequest));
+}
+
+export function updateUserRequests(id: string, userRequest: UpdateUserRequestDto) {
+  return getData(requests.userRequestControllerUpdate(id, userRequest));
 }

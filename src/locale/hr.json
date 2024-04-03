@@ -162,6 +162,8 @@
     "Store": "Trgovina",
     "Description": "Opis",
     "Quantity": "Kolicina",
-    "Price per unit": "Cijena po jedinici"
+    "Price per unit": "Cijena po jedinici",
+    "Sports equipment": "Sportska oprema",
+    "Other": "Ostalo"
   }
 }

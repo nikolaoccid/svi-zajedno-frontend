@@ -41,6 +41,8 @@ export function ActivityView() {
   const { activityRequests } = useUserAndActivityRequests((studentOnSchoolYear as any)?.id ?? 0);
   const studentOnActivity = studentOnActivities?.find((soa) => soa.id === parseInt(activityId ?? '0'));
 
+  const editRequest = (requestId) =>
+    navigate(`/${schoolYear?.startYear}/users/${projectUser?.id}/activities/${activityId}/request/${requestId}/edit`);
   return (
     projectUser !== undefined && (
       <ProfileContainer>
@@ -114,7 +116,9 @@ export function ActivityView() {
             <RightContainer>
               <AddNewButton
                 text={t('Add')}
-                onClick={() => navigate(`/${schoolYear?.startYear}/users/${projectUser?.id}/activities/new`)}
+                onClick={() =>
+                  navigate(`/${schoolYear?.startYear}/users/${projectUser?.id}/activities/${activityId}/request/new`)
+                }
                 disabled={(studentOnActivity as any)?.activityStatus === 'inactive'}
               />
             </RightContainer>
@@ -138,20 +142,20 @@ export function ActivityView() {
                 {activityRequests
                   .filter((request) => request.studentOnActivityId === parseInt(activityId ?? '0'))
                   .map((request) => (
-                    <TableRow key={request.id} onClick={() => console.log('request', request)}>
+                    <TableRow key={request.id} onClick={() => editRequest(request.id)}>
                       <Icon onClick={() => console.log(request)}>
                         <GoDotFill size={18} color={request.userRequestStatus === 'approved' ? 'green' : 'red'} />
                       </Icon>
-                      <TableData>{request.userRequestTitle}</TableData>
-                      <TableData>{request.userRequestStoreInfo}</TableData>
-                      <TableData>{request.userRequestDescription}</TableData>
-                      <TableData>{request.userRequestQuantity}</TableData>
-                      <TableData>{request.userRequestCostPerUnit}</TableData>
+                      <TableData onClick={() => editRequest(request.id)}>{request.userRequestTitle}</TableData>
+                      <TableData onClick={() => editRequest(request.id)}>{request.userRequestStoreInfo}</TableData>
+                      <TableData onClick={() => editRequest(request.id)}>{request.userRequestDescription}</TableData>
+                      <TableData onClick={() => editRequest(request.id)}>{request.userRequestQuantity}</TableData>
+                      <TableData onClick={() => editRequest(request.id)}>{request.userRequestCostPerUnit}</TableData>
                       <Icon>
                         <MdDelete
                           size={18}
                           color={'#00193f'}
-                          onClick={() => console.log('click!')}
+                          onClick={() => console.log('delete click')}
                           style={{ margin: '10px' }}
                         />
                       </Icon>

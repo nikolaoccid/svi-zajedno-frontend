@@ -7,6 +7,7 @@ import ManageProjectUserView from '../create-project-user/manage-project-user-vi
 import { EnrollStudentOnSchoolYear } from '../enroll-student-on-school-year/enroll-student-on-school-year.tsx';
 import { ManageStudentOnActivityContainer } from '../manage-student-on-activity/manage-student-on-activity-container.tsx';
 import { ActivityView } from '../user-view/activity-view.tsx';
+import { AddEditRequestView } from '../user-view/add-edit-request-view.tsx';
 import { EditUserOnActivity } from '../user-view/edit-user-on-activity.tsx';
 import UserView from '../user-view/user-view.tsx';
 interface FlyoutData {
@@ -17,7 +18,7 @@ interface FlyoutData {
 }
 export function ProjectUserFlyouts() {
   const { t } = useTranslation();
-  const { startYear, userId, activityId } = useParams();
+  const { startYear, userId, activityId, requestId } = useParams();
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
@@ -55,6 +56,11 @@ export function ProjectUserFlyouts() {
       flyoutTitle: t('Manage activity'),
       flyoutWidth: '50vw',
     },
+    editActivity: {
+      onHide: () => navigate(`/${startYear}/users/${userId}/activities/${activityId}`),
+      RenderComponent: AddEditRequestView,
+      flyoutTitle: t('Edit activity'),
+    },
   };
 
   const [flyoutData, setFlyoutData] = useState<FlyoutData | null>(null);
@@ -69,6 +75,8 @@ export function ProjectUserFlyouts() {
       [`/${startYear}/users/${userId}`]: 'userView',
       [`/${startYear}/users/${userId}/activities/${activityId}/edit`]: 'editUser',
       [`/${startYear}/users/${userId}/activities/${activityId}`]: 'manageActivity',
+      [`/${startYear}/users/${userId}/activities/${activityId}/request/${requestId}/edit`]: 'editActivity',
+      [`/${startYear}/users/${userId}/activities/${activityId}/request/new`]: 'editActivity',
     };
 
     const flyoutName = paths[pathWithoutParams];
