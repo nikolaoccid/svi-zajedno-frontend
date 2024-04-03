@@ -94,7 +94,7 @@
     "User's data not updated, try again": "Korisnicki podaci nisu azurirani, pokusajte ponovno",
     "User created succesfully": "Korisnik uspjesno kreiran",
     "User not created succesfully, try again": "Korisnik nije kreiran, pokusajte ponovno",
-    "Enrollment date": "Datum upisa na skolsku godinu",
+    "Enrollment date": "Datum upisa",
     "Enroll on the academic year": "Upisi na skolsku godinu",
     "Withdraw enrollment on the academic year": "Ispisi sa skolske godine",
     "Enrollment basis": "Osnova upisa",
@@ -147,6 +147,10 @@
     "Croatian": "Hrvatski",
     "Actual activity price (EUR)": "Ugovorena cijena aktivnosti (EUR)",
     "Real project costs": "Stvarni troskovi projekta",
-    "Note: Database restores every 45 minutes": "Napomena: Baza podataka se resetira svakih 45 minuta"
+    "Note: Database restores every 45 minutes": "Napomena: Baza podataka se resetira svakih 45 minuta",
+    "Club": "Klub",
+    "Activity cost": "Cijena aktivnosti",
+    "Withdrawal date": "Datum ispisa",
+    "Price": "Cijena"
   }
 }

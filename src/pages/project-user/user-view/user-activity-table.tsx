@@ -29,6 +29,7 @@ const TableRow = styled.tr`
 `;
 const TableData = styled.td`
   padding-top: 10px;
+  text-align: center;
 `;
 const Table = styled.table`
   font-family: Axiforma;
@@ -42,6 +43,11 @@ const Icon = styled.td`
   padding-right: 10px;
   white-space: nowrap;
   gap: 12px;
+`;
+export const HeaderData = styled.th`
+  font-weight: bold;
+  text-wrap: normal;
+  word-wrap: break-word;
 `;
 export function UserActivityTable({ activities }: { activities: any }) {
   const { t } = useTranslation();
@@ -79,6 +85,17 @@ export function UserActivityTable({ activities }: { activities: any }) {
   return (
     <TableContainer>
       <Table>
+        <thead>
+          <tr>
+            <td></td>
+            <HeaderData>{t('Activity')}</HeaderData>
+            <HeaderData>{t('Club')}</HeaderData>
+            <HeaderData>{t('Price')}</HeaderData>
+            <HeaderData>{t('Activity cost')}</HeaderData>
+            <HeaderData>{t('Enrollment date')}</HeaderData>
+            <HeaderData>{t('Withdrawal date')}</HeaderData>
+          </tr>
+        </thead>
         <tbody>
           {activities &&
             activities.map((activity) => (
