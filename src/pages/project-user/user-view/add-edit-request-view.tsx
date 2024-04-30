@@ -3,6 +3,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { ErrorMessage, Field, FormikProvider, useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
+import { RiseLoader } from 'react-spinners';
 import * as Yup from 'yup';
 
 import { api } from '../../../api';
@@ -10,15 +11,15 @@ import {
   CreateUserRequestDtoUserRequestCategoryEnum,
   CreateUserRequestDtoUserRequestStatusEnum,
 } from '../../../api/codegen';
+import { Spinner } from '../../../components/spinner/spinner.tsx';
 import { toastError, toastSuccess } from '../../../utils/toast.ts';
 import { Button, CenterContent, FormError, FormField } from '../../common-styles/common-styles.ts';
 import { useSchoolYear } from '../../dashboard-page/hooks/use-fetch-school-year.ts';
 import { useStudentOnSchoolYear } from '../../student-on-school-year/hooks/get-student-on-school-year.ts';
-import { useGetUserRequests } from './hooks/use-get-user-requests.ts';
+import { useGetUserRequest, useGetUserRequests } from './hooks/use-get-user-requests.ts';
 import { useProjectUser } from './hooks/use-project-user.ts';
 const validationSchema = Yup.object({
   userRequestTitle: Yup.string().required('Required'),
-  userRequestDescription: Yup.string().required('Required'),
   userRequestQuantity: Yup.number().required('Required'),
   userRequestCostPerUnit: Yup.number().required('Required'),
   userRequestStoreInfo: Yup.string().required('Required'),
@@ -40,18 +41,18 @@ export function AddEditRequestView() {
   const schoolYearId = (schoolYear && schoolYear.id) ?? 0;
   const { data: projectUser } = useProjectUser(userId);
   const { data: studentOnSchoolYear } = useStudentOnSchoolYear(schoolYearId, projectUser?.id);
-  const { data: userRequest } = useGetUserRequests((studentOnSchoolYear as any)?.id, parseInt(activityId ?? '0'));
+  const { data: userRequests } = useGetUserRequests((studentOnSchoolYear as any)?.id, parseInt(activityId ?? '0'));
+  const userRequest = useGetUserRequest(parseInt(requestId ?? '0'), userRequests);
 
-  console.log('userReq', userRequest);
   const formik = useFormik({
     initialValues: {
-      userRequestStatus: (requestId && userRequest?.[0]?.userRequestStatus) ?? 'approved',
-      userRequestCategory: (requestId && userRequest?.[0]?.userRequestCategory) ?? 'sportsequipment',
-      userRequestTitle: (requestId && userRequest?.[0]?.userRequestTitle) ?? '',
-      userRequestDescription: (requestId && userRequest?.[0]?.userRequestDescription) ?? '',
-      userRequestQuantity: (requestId && userRequest?.[0]?.userRequestQuantity) ?? 1,
-      userRequestCostPerUnit: (requestId && userRequest?.[0]?.userRequestCostPerUnit) ?? 0,
-      userRequestStoreInfo: (requestId && userRequest?.[0]?.userRequestStoreInfo) ?? '',
+      userRequestStatus: (requestId && userRequest?.userRequestStatus) ?? 'approved',
+      userRequestCategory: (requestId && userRequest?.userRequestCategory) ?? 'sportsequipment',
+      userRequestTitle: (requestId && userRequest?.userRequestTitle) ?? '',
+      userRequestDescription: (requestId && userRequest?.userRequestDescription) ?? '',
+      userRequestQuantity: (requestId && userRequest?.userRequestQuantity) ?? 1,
+      userRequestCostPerUnit: (requestId && userRequest?.userRequestCostPerUnit) ?? 0,
+      userRequestStoreInfo: (requestId && userRequest?.userRequestStoreInfo) ?? '',
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
@@ -61,6 +62,7 @@ export function AddEditRequestView() {
         userRequestStatus: values.userRequestStatus as CreateUserRequestDtoUserRequestStatusEnum,
         userRequestCategory: values.userRequestCategory as CreateUserRequestDtoUserRequestCategoryEnum,
         userRequestTitle: values.userRequestTitle,
+        userRequestDescription: values.userRequestDescription,
         userRequestQuantity: values.userRequestQuantity ? values.userRequestQuantity : undefined,
         userRequestCostPerUnit: values.userRequestCostPerUnit as number,
         userRequestStoreInfo: values.userRequestStoreInfo,
@@ -70,8 +72,8 @@ export function AddEditRequestView() {
           console.log('create');
           await api.createUserRequests(userRequest);
           await queryClient.invalidateQueries(['getUserRequests', (studentOnSchoolYear as any)?.id]);
-          navigate(-1);
           toastSuccess(t('Operation successful'));
+          navigate(`/${startYear}/users/${userId}/activities/${activityId}`);
         } catch (e) {
           toastError(t('Error, try again'));
         }
@@ -84,14 +86,20 @@ export function AddEditRequestView() {
           });
           console.log('res', res);
           await queryClient.invalidateQueries(['getUserRequests', (studentOnSchoolYear as any)?.id]);
-          navigate(-1);
+          toastSuccess(t('Operation successful'));
+          navigate(`/${startYear}/users/${userId}/activities/${activityId}`);
         } catch (e) {
+          console.log('error', e);
           toastError(t('Error, try again'));
         }
       }
     },
     enableReinitialize: true,
   });
+
+  if (formik.isSubmitting) {
+    return <Spinner SpinnerComponent={RiseLoader} color={'#2196f3'} />;
+  }
   return (
     <FormikProvider value={formik}>
       <Form onSubmit={formik.handleSubmit}>

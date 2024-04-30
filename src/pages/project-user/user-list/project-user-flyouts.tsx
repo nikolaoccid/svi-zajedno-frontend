@@ -59,7 +59,7 @@ export function ProjectUserFlyouts() {
     editActivity: {
       onHide: () => navigate(`/${startYear}/users/${userId}/activities/${activityId}`),
       RenderComponent: AddEditRequestView,
-      flyoutTitle: t('Edit activity'),
+      flyoutTitle: t('Edit request'),
     },
   };
 

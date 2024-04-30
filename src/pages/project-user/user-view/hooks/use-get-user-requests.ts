@@ -23,3 +23,8 @@ export const useUserAndActivityRequests = (
 
   return { userRequests, activityRequests };
 };
+
+export const useGetUserRequest = (requestId: number | undefined, userRequests: UserRequest[] | undefined) => {
+  if (!userRequests || !requestId) return undefined;
+  return userRequests.find((request) => request.id === requestId);
+};
