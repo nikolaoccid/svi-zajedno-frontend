@@ -271,3 +271,7 @@ export function createUserRequests(userRequest: CreateUserRequestDto) {
 export function updateUserRequests(id: string, userRequest: UpdateUserRequestDto) {
   return getData(requests.userRequestControllerUpdate(id, userRequest));
 }
+
+export function deleteUserRequests(id: string) {
+  return getData(requests.userRequestControllerRemove(id));
+}
