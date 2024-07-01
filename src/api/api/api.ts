@@ -12,6 +12,7 @@ import {
   CreateProjectAssociateDto,
   CreateProjectUserDto,
   CreateStudentOnActivityDto,
+  CreateUserRequestDto,
   LoginDto,
   ProjectAssociateApi,
   ProjectUserApi,
@@ -24,9 +25,10 @@ import {
   UpdateProjectUserDto,
   UpdateStudentOnActivityDto,
   UpdateStudentOnSchoolYearDto,
+  UpdateUserRequestDto,
+  UserRequestsApi,
   UsersApi,
 } from '../codegen';
-import { GetAssociatesStatisticsResponse } from './get-associates-statistics.ts';
 
 const basePath = import.meta.env.VITE_API_URL ?? 'http://localhost:3001';
 
@@ -48,6 +50,7 @@ const categories = new CategoryApi(configuration);
 const activities = new ActivityApi(configuration);
 const studentOnActivity = new StudentOnActivityApi(configuration);
 const statistics = new StatisticsApi(configuration);
+const requests = new UserRequestsApi(configuration);
 
 export function persistToken(token: string) {
   localStorage.setItem('token', token);
@@ -241,7 +244,7 @@ export function deleteStudentOnActivity(studentOnActivityId: string) {
   return getData(studentOnActivity.studentOnActivityControllerRemove(studentOnActivityId));
 }
 
-export function getAssociateStatistics(schoolYearId: string): Promise<GetAssociatesStatisticsResponse[]> {
+export function getAssociateStatistics(schoolYearId: string) {
   return getData(statistics.statisticsControllerProjectAssociateStatistics(schoolYearId));
 }
 
@@ -255,4 +258,20 @@ export function deleteSchoolYear(schoolYearId: string) {
 
 export function deleteCategory(categoryId: string) {
   return getData(categories.categoryControllerRemove(categoryId));
+}
+
+export function getUserRequests(studentOnSchoolYearId?: number, studentOnActivityId?: number) {
+  return getData(requests.userRequestControllerFindAll(studentOnActivityId, studentOnSchoolYearId));
+}
+
+export function createUserRequests(userRequest: CreateUserRequestDto) {
+  return getData(requests.userRequestControllerCreate(userRequest));
+}
+
+export function updateUserRequests(id: string, userRequest: UpdateUserRequestDto) {
+  return getData(requests.userRequestControllerUpdate(id, userRequest));
+}
+
+export function deleteUserRequests(id: string) {
+  return getData(requests.userRequestControllerRemove(id));
 }
