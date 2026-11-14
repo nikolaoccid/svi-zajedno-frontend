@@ -122,6 +122,15 @@ export const RightContainer = styled.div`
 
 const UserView = ({ onClose }: { onClose?: () => void }) => {
   const { t } = useTranslation();
+  // The API stores the enrollment basis as an enum value (zmn, preporuka, udomiteljstvo); show the translated label.
+  const protectionTypeLabel = (value: string) =>
+    (
+      {
+        zmn: t('Direct enrollment'),
+        preporuka: t('Recommendation'),
+        udomiteljstvo: t('Foster parents'),
+      } as Record<string, string>
+    )[value] ?? value;
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { userId, startYear } = useParams();
@@ -197,7 +206,7 @@ const UserView = ({ onClose }: { onClose?: () => void }) => {
                     ? t('Family center')
                     : t('Social welfare')) +
                   ', ' +
-                  (studentOnSchoolYear as any).protectionType
+                  protectionTypeLabel((studentOnSchoolYear as any).protectionType)
                 : t('Not enrolled')}
             </Value>
           </ProfileItem>
