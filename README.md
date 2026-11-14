@@ -6,7 +6,7 @@ The API is in [svi-zajedno-backend](https://github.com/nikolaoccid/svi-zajedno-b
 
 ## Live demo
 
-https://demo.nikola.technobabble.hr: click **DEMO** on the login page. The data is fictional and the database is restored from a seed every 45 minutes, so edits do not last. The demo is built with `VITE_DEMO_MODE` (see Configuration below).
+https://demo.occidentale.eu: click **DEMO** on the login page. The data is fictional and the database is restored from a seed every 45 minutes, so edits do not last. The demo is built with `VITE_DEMO_MODE` (see Configuration below).
 
 ## What it does
 
