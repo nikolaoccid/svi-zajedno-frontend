@@ -4,6 +4,10 @@ Web client for an activity and attendance tracker used by the Croatian NGO Svi Z
 
 The API is in [svi-zajedno-backend](https://github.com/nikolaoccid/svi-zajedno-backend).
 
+## Live demo
+
+https://demo.nikola.technobabble.hr: click **DEMO** on the login page. The data is fictional and the database is restored from a seed every 45 minutes, so edits do not last. The demo is built with `VITE_DEMO_MODE` (see Configuration below).
+
 ## What it does
 
 - Activities and categories, with the students attending each one
