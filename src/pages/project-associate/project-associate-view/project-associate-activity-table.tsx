@@ -83,7 +83,7 @@ export function ProjectAssociateActivityTable({ activities }: { activities: any 
                 <TableData onClick={() => onRowClick(activity)}>{activity?.activityName}</TableData>
                 <TableData onClick={() => onRowClick(activity)}>{activity?.projectAssociate?.clubName}</TableData>
                 <TableData onClick={() => onRowClick(activity)}>
-                  {activity.activityPrice > 0 ? activity.activityPrice + 'EUR' : 'Besplatno'}
+                  {activity.activityPrice > 0 ? activity.activityPrice + 'EUR' : t('Free')}
                 </TableData>
                 <Icon>
                   <MdDelete

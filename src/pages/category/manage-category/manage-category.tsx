@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { useQueryClient } from '@tanstack/react-query';
 import { useFormik } from 'formik';
+import i18n from 'i18next';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import { CircleLoader } from 'react-spinners';
@@ -31,7 +32,7 @@ const FormError = styled.div`
 `;
 
 const validationSchema = Yup.object().shape({
-  categoryName: Yup.string().required('Ime kategorije je obavezno'),
+  categoryName: Yup.string().required(() => i18n.t('Category name is required')),
 });
 
 //This component creates and updates category

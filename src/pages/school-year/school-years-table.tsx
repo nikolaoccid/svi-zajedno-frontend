@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { useQueryClient } from '@tanstack/react-query';
+import i18n from 'i18next';
 import { GoDotFill } from 'react-icons/go';
 import { MdDelete } from 'react-icons/md';
 
@@ -48,9 +49,9 @@ export function SchoolYearsTable({
     try {
       await deleteSchoolYear(schoolYear.id);
       await queryClient.invalidateQueries(['getAllSchoolYears']);
-      toastSuccess('Uspjeno obrisana skolska godina');
+      toastSuccess(i18n.t('The academic year was deleted successfully'));
     } catch (e) {
-      toastError('Greska pri brisanju skolske godine');
+      toastError(i18n.t('Error deleting the academic year'));
     }
   };
 

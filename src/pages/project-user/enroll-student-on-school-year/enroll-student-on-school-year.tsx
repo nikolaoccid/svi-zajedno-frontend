@@ -1,4 +1,5 @@
 import { ErrorMessage, Field, FormikProvider, useFormik } from 'formik';
+import i18n from 'i18next';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import { PuffLoader } from 'react-spinners';
@@ -14,9 +15,9 @@ import { useProjectUser } from '../user-view/hooks/use-project-user.ts';
 import { useUpdateStudentOnSchoolYear } from '../user-view/hooks/use-update-student-on-school-year.ts';
 
 const validationSchema = Yup.object({
-  sourceSystem: Yup.string().required('Izvorisni sustav mora biti odabran'),
-  protectionType: Yup.string().required('Osnova mora biti odabrana'),
-  dateOfEnrollment: Yup.date().required('Datum upisa je obavezan'),
+  sourceSystem: Yup.string().required(() => i18n.t('Source system must be selected')),
+  protectionType: Yup.string().required(() => i18n.t('Enrollment basis must be selected')),
+  dateOfEnrollment: Yup.date().required(() => i18n.t('Enrollment date is required')),
 });
 export const EnrollStudentOnSchoolYear = () => {
   const { t } = useTranslation();

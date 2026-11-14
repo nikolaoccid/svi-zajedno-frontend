@@ -1,3 +1,4 @@
+import i18n from 'i18next';
 import { useAsyncCallback } from 'react-async-hook';
 
 import { api } from '../../../../api';
@@ -8,7 +9,7 @@ export function useProjectUsers(page) {
     try {
       return await api.getProjectUsers(page);
     } catch (e) {
-      toastError('Pogreska pri dohvacanju korisnika');
+      toastError(i18n.t('Error fetching users'));
     }
   });
 }

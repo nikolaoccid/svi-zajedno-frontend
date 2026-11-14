@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { useQueryClient } from '@tanstack/react-query';
 import { ErrorMessage, Field, FormikProvider, useFormik } from 'formik';
+import i18n from 'i18next';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { IoIosArrowDown } from 'react-icons/io';
@@ -16,18 +17,18 @@ import { Button, CenterContent, Form, FormError, FormField, PageContainer } from
 import { useSchoolYear, useSchoolYearFromParams } from '../../dashboard-page/hooks/use-fetch-school-year.ts';
 import { useGetProjectUser } from './hooks/use-get-project-user.ts';
 const validationSchema = Yup.object({
-  oib: Yup.string().required('OIB je obavezan').length(11, 'OIB mora imati točno 11 znakova'),
-  gender: Yup.string().required('Spol mora biti odabran'),
-  guardianName: Yup.string().required('Ime skrbnika je obavezno'),
-  guardianSurname: Yup.string().required('Prezime skrbnika je obavezno'),
-  childName: Yup.string().required('Ime djeteta je obavezno'),
-  childSurname: Yup.string().required('Prezime djeteta je obavezno'),
-  dateOfBirth: Yup.date().required('Datum rođenja je obavezan'),
-  address: Yup.string().required('Adresa je obavezna'),
-  city: Yup.string().required('Grad je obavezan'),
+  oib: Yup.string().required(() => i18n.t('OIB is required')).length(11, () => i18n.t('OIB must have exactly 11 characters')),
+  gender: Yup.string().required(() => i18n.t('Gender must be selected')),
+  guardianName: Yup.string().required(() => i18n.t('Guardian name is required')),
+  guardianSurname: Yup.string().required(() => i18n.t('Guardian surname is required')),
+  childName: Yup.string().required(() => i18n.t('Child\'s name is required')),
+  childSurname: Yup.string().required(() => i18n.t('Child\'s surname is required')),
+  dateOfBirth: Yup.date().required(() => i18n.t('Date of birth is required')),
+  address: Yup.string().required(() => i18n.t('Address is required')),
+  city: Yup.string().required(() => i18n.t('City is required')),
   school: Yup.string().notRequired(), // Optional field
-  mobilePhone: Yup.string().required('Broj mobitela je obavezan'),
-  email: Yup.string().email('Neispravna email adresa').notRequired(),
+  mobilePhone: Yup.string().required(() => i18n.t('Mobile phone number is required')),
+  email: Yup.string().email(() => i18n.t('Invalid email address')).notRequired(),
 });
 const Input = styled.input`
   font-size: 14px;

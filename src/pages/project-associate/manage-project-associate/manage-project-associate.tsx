@@ -1,5 +1,6 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { ErrorMessage, Field, FormikProvider, useFormik } from 'formik';
+import i18n from 'i18next';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import { CircleLoader } from 'react-spinners';
@@ -13,12 +14,12 @@ import { useGetDropdownCategories } from './hooks/use-get-dropdown-categories.ts
 import { useGetProjectAssociate } from './hooks/use-get-project-associate.ts';
 
 const validationSchema = Yup.object().shape({
-  clubName: Yup.string().required('Ime kluba je obavezno'),
-  email: Yup.string().email('Invalid email').required('Email je obavezan'),
-  mobilePhone: Yup.string().required('Broj mobilnog telefona je obavezan'),
-  contactPerson: Yup.string().required('Kontakt osoba je obavezna'),
-  address: Yup.string().required('Adresa je obavezna'),
-  city: Yup.string().required('Grad je obavezan'),
+  clubName: Yup.string().required(() => i18n.t('Club name is required')),
+  email: Yup.string().email('Invalid email').required(() => i18n.t('Email is required')),
+  mobilePhone: Yup.string().required(() => i18n.t('Mobile phone number is required')),
+  contactPerson: Yup.string().required(() => i18n.t('Contact person is required')),
+  address: Yup.string().required(() => i18n.t('Address is required')),
+  city: Yup.string().required(() => i18n.t('City is required')),
 });
 
 //This component creates and updates project associate

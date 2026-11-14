@@ -1,4 +1,5 @@
 import { ErrorMessage, Field, FormikProvider, useFormik } from 'formik';
+import i18n from 'i18next';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import { RiseLoader } from 'react-spinners';
@@ -13,8 +14,8 @@ import { useGetProjectAssociate } from '../../project-associate/manage-project-a
 import { useActivity } from './hooks/use-activity.ts';
 
 const validationSchema = Yup.object({
-  activityName: Yup.string().required('Ime aktivnosti je obavezno'),
-  activityPrice: Yup.number().required('Cijena je obavezna, ako je besplatno staviti 0'),
+  activityName: Yup.string().required(() => i18n.t('Activity name is required')),
+  activityPrice: Yup.number().required(() => i18n.t('Price is required, enter 0 if the activity is free')),
 });
 
 export function ManageActivity() {

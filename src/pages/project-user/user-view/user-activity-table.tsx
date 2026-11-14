@@ -109,10 +109,10 @@ export function UserActivityTable({ activities }: { activities: any }) {
                   {activity?.activity?.projectAssociate?.clubName}
                 </TableData>
                 <TableData onClick={() => onRowClick(activity)}>
-                  {activity?.activity.activityPrice > 0 ? activity?.activity.activityPrice + 'EUR' : 'Besplatno'}
+                  {activity?.activity.activityPrice > 0 ? activity?.activity.activityPrice + 'EUR' : t('Free')}
                 </TableData>
                 <TableData onClick={() => onRowClick(activity)}>
-                  {activity?.actualActivityCost > 0 ? activity.actualActivityCost + 'EUR' : 'Besplatno'}
+                  {activity?.actualActivityCost > 0 ? activity.actualActivityCost + 'EUR' : t('Free')}
                 </TableData>
                 <TableData onClick={() => onRowClick(activity)}>
                   {croatianDateFormat(activity?.enrollmentDate ?? activity?.createdAt)}

@@ -1,3 +1,4 @@
+import i18n from 'i18next';
 import { useAsyncCallback } from 'react-async-hook';
 import { useNavigate } from 'react-router-dom';
 
@@ -9,10 +10,10 @@ export function useCreateStudentOnActivity() {
   return useAsyncCallback(async (studentOnActivity) => {
     try {
       await api.createStudentOnActivity(studentOnActivity);
-      toastSuccess('Uspjesno upisan na aktivnost');
+      toastSuccess(i18n.t('Successfully enrolled on the activity'));
       navigate(-1);
     } catch (e) {
-      toastError('Nije moguce upisati korisnika na aktivnost');
+      toastError(i18n.t('Could not enroll the user on the activity'));
     }
   });
 }

@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+import i18n from 'i18next';
 
 import { api } from '../../../../api';
 import { toastError } from '../../../../utils/toast.ts';
@@ -11,7 +12,7 @@ export const useStudentOnActivities = (studentOnSchoolYearId: number | undefined
       try {
         return await api.getStudentOnActivity(studentOnSchoolYearId);
       } catch (e) {
-        toastError('Greska u dohvacanju aktivnosti');
+        toastError(i18n.t('Error fetching activities'));
         return null;
       }
     },

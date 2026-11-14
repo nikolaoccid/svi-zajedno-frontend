@@ -1,3 +1,4 @@
+import i18n from 'i18next';
 import { useAsyncCallback } from 'react-async-hook';
 
 import { api } from '../../../../api';
@@ -14,7 +15,7 @@ export function useActivities() {
         const res = await api.getActivities(query, activityStatus, schoolYearId, studentOnSchoolYearId);
         return res;
       } catch (e) {
-        toastError('Nije moguce dohvatiti aktivnosti');
+        toastError(i18n.t('Could not fetch activities'));
       }
     },
   );

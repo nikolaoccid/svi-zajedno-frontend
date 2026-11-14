@@ -80,7 +80,7 @@ export function UsersDashboard({ show }: { show: boolean }) {
           </Column>
         )}
         <Column>
-          <HeaderTitle>Korisnici po pravu upisa</HeaderTitle>
+          <HeaderTitle>{t('Users by enrollment basis')}</HeaderTitle>
           {projectUserStatistics && (
             <PieChartComponent
               data={[

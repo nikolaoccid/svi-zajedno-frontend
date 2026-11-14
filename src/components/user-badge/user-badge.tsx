@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { useTranslation } from 'react-i18next';
 import { FaUserTie } from 'react-icons/fa6';
 
 import { useAuthenticatedUser } from '../../hooks/use-authenticated-user.ts';
@@ -34,12 +35,13 @@ const ProfileImage = styled.div`
   justify-content: center;
 `;
 export function UserBadge() {
+  const { t } = useTranslation();
   const { data: user } = useAuthenticatedUser();
   return (
     <BadgeContainer>
       <UserDetails>
         <UserText>{user?.name}</UserText>
-        <UserSubtext>{user?.role === 'admin' ? 'Administrator' : 'Korisnik'}</UserSubtext>
+        <UserSubtext>{user?.role === 'admin' ? 'Administrator' : t('User')}</UserSubtext>
       </UserDetails>
       <ProfileImage>
         <FaUserTie />

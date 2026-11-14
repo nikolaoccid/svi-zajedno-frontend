@@ -1,4 +1,5 @@
 import { useQueryClient } from '@tanstack/react-query';
+import i18n from 'i18next';
 import { useAsyncCallback } from 'react-async-hook';
 
 import { api } from '../../../../api';
@@ -15,9 +16,9 @@ export function useCreateStudentOnSchoolYear(userId: number, schoolYearId: numbe
         await queryClient.invalidateQueries(['getProjectUserById']);
         await queryClient.invalidateQueries(['getProjectUser']);
         await queryClient.invalidateQueries(['getStudentOnSchoolYear']);
-        toastSuccess('Uspjesno upisan na skolsku godinu.');
+        toastSuccess(i18n.t('Successfully enrolled on the academic year.'));
       } catch (e) {
-        toastError('Korisnik nije upisan na skolsku godinu');
+        toastError(i18n.t('The user was not enrolled on the academic year'));
       }
     },
   );

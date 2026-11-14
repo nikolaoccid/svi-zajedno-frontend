@@ -1,4 +1,5 @@
 import { useQueryClient } from '@tanstack/react-query';
+import i18n from 'i18next';
 import { useAsyncCallback } from 'react-async-hook';
 
 import { api } from '../../../../api';
@@ -15,9 +16,9 @@ export function useUpdateStudentOnSchoolYear() {
         await queryClient.invalidateQueries(['getProjectUserById']);
         await queryClient.invalidateQueries(['getStudentOnSchoolYear']);
         await queryClient.invalidateQueries(['getProjectUser']);
-        toastSuccess('Uspjesno azuriran korisnik na skolskoj godini.');
+        toastSuccess(i18n.t('The user was successfully updated for the academic year.'));
       } catch (e) {
-        toastError('Korisnik nije azuriran na skolsku godinu');
+        toastError(i18n.t('The user was not updated for the academic year'));
       }
     },
   );
