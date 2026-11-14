@@ -47,4 +47,4 @@ To refresh the generated client while the backend runs on port 3001: `npm run co
 
 ## Status
 
-Production code from a thesis project. It has no automated tests yet.
+Production code from a thesis project. `npm test` runs Vitest unit tests for the date and school-year helpers; CI runs lint, build and tests on every push. Component and page tests are still missing.
