@@ -9,7 +9,8 @@
     "codegen": "cd src/api/codegen && openapi-generator-cli generate -i \"http://localhost:3001/-json\" -o . -g typescript-axios",
     "lint": "eslint '*/**/*.{js,ts,tsx}'",
     "preview": "vite preview",
-    "start": "vite preview --host 0.0.0.0 --port $PORT"
+    "start": "vite preview --host 0.0.0.0 --port $PORT",
+    "test": "vitest run"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
@@ -52,7 +53,8 @@
     "husky": "^4.3.8",
     "lint-staged": "^13.2.3",
     "prettier": "^3.0.1",
-    "vite-plugin-node-polyfills": "^0.21.0"
+    "vite-plugin-node-polyfills": "^0.21.0",
+    "vitest": "^0.34.6"
   },
   "husky": {
     "hooks": {
